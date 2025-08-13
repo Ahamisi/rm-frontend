@@ -1,0 +1,129 @@
+<template>
+    <div class="fixed top-0 left-0 flex items-center justify-center w-full h-screen" v-if="loading">
+        <LoadingState />
+    </div>
+    <div class="bg-white erp_dashboard_wrapper">
+        <!-- Header -->
+        <PageTitle :title="getTitle" class="px-6" />
+
+        <div class="flex flex-wrap items-center gap-2 px-6 mb-3 md:justify-between create_grn_header_wrapper">
+            <a @click.prevent="$goBack()" href="" class="flex items-center p-1 rounded hover:bg-gray-100">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M9.0047 10.9951L13.5977 6.40205C13.6893 6.3086 13.7985 6.23422 13.919 6.18324C14.0395 6.13225 14.1689 6.10565 14.2998 6.10499C14.4306 6.10433 14.5603 6.12962 14.6813 6.17939C14.8023 6.22915 14.9123 6.30242 15.0048 6.39494C15.0973 6.48747 15.1706 6.59742 15.2204 6.71844C15.2701 6.83945 15.2954 6.96913 15.2948 7.09998C15.2941 7.23083 15.2675 7.36025 15.2165 7.48076C15.1655 7.60126 15.0912 7.71047 14.9977 7.80205L11.0977 11.7021L14.9977 15.6021C15.1803 15.7883 15.2819 16.0392 15.2806 16.3C15.2793 16.5608 15.1751 16.8106 14.9907 16.995C14.8062 17.1795 14.5565 17.2837 14.2956 17.285C14.0348 17.2863 13.784 17.1846 13.5977 17.0021L9.0047 12.4101C8.81723 12.2225 8.71191 11.9682 8.71191 11.7031C8.71191 11.4379 8.81723 11.1836 9.0047 10.9961V10.9951Z"
+                        fill="#44546F" />
+                </svg>
+                <span class="text-xs">Back</span>
+            </a>
+
+            <div class="flex items-center gap-2">
+                <h3>Product Dashboard</h3>
+                <svg width="11" height="10" viewBox="0 0 11 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_9016_22092)">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M5.1189 1.35178C5.33555 1.28225 5.56706 1.27318 5.78849 1.32553L5.88224 1.35178L8.60474 2.22511C8.6839 2.25136 8.75515 2.30053 8.80724 2.36928L8.8364 2.41303L9.98224 4.39095C10.0112 4.44091 10.0295 4.49635 10.0359 4.55375C10.0423 4.61116 10.0367 4.66927 10.0195 4.72439C10.0023 4.77952 9.97375 4.83046 9.93577 4.87398C9.8978 4.9175 9.85119 4.95265 9.7989 4.9772L9.7489 4.99678L8.89432 5.27095V7.07511C8.89426 7.24006 8.84525 7.40128 8.7535 7.53835C8.66174 7.67543 8.53138 7.78219 8.3789 7.84511L8.31557 7.86845L5.88224 8.64845C5.66559 8.71797 5.43408 8.72705 5.21265 8.6747L5.1189 8.64886L2.68557 7.86845C2.52847 7.818 2.38989 7.72205 2.28737 7.59276C2.18486 7.46347 2.12304 7.30666 2.10974 7.1422L2.10682 7.0747V5.27095L1.25224 4.99678C1.19728 4.97914 1.14658 4.95028 1.10337 4.91202C1.06015 4.87376 1.02535 4.82694 1.00118 4.77453C0.977013 4.72211 0.963996 4.66525 0.962958 4.60754C0.96192 4.54983 0.972883 4.49253 0.995153 4.43928L1.0189 4.39095L2.16474 2.41303C2.20769 2.33893 2.27243 2.27986 2.35015 2.24387L2.39599 2.22511L5.1189 1.35178ZM5.91724 5.1272V7.7622L8.06099 7.0747V5.53845L6.77349 5.95136C6.69092 5.97785 6.60215 5.97791 6.51954 5.95155C6.43693 5.92518 6.36461 5.8737 6.31265 5.80428L6.28599 5.76345L5.91724 5.1272ZM5.0839 5.1272L4.71515 5.76345C4.6675 5.84567 4.59318 5.90913 4.50452 5.94331C4.41585 5.97749 4.31816 5.98033 4.22765 5.95136L2.94015 5.53845V7.0747L5.0839 7.76261V5.1272ZM2.71724 3.12095L1.99932 4.36136L4.16224 5.05553L4.88099 3.81511L2.71724 3.12095ZM8.2839 3.12095L6.12015 3.81511L6.83849 5.05553L9.00182 4.36136L8.2839 3.12095ZM5.62765 2.14511C5.56169 2.12405 5.49152 2.11975 5.42349 2.13261L5.37349 2.14511L3.88807 2.62178L5.50057 3.13886L7.11307 2.62178L5.62765 2.14511Z"
+                            fill="#626F86" />
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_9016_22092">
+                            <rect width="10" height="10" fill="white" transform="translate(0.5)" />
+                        </clipPath>
+                    </defs>
+                </svg>
+                <span class="font-light upper">{{ product?.name }}</span>
+            </div>
+
+            <div></div>
+        </div>
+
+        <!-- tabs -->
+        <Tabs :tabs="tabs" @tab-changed="handleTabChange" :defaultTab="activeTab" />
+
+        <div class="">
+            <!-- Analytics -->
+            <div v-if="activeTab == 'Analytics'">
+                <Metric :productId="parseInt(route.params.id)" />
+            </div>
+            <div v-if="activeTab == 'Inventory Report'">
+                <InventoryReport />
+            </div>
+            <div v-else-if="activeTab == 'Batches'">
+                <Batches />
+            </div>
+            <div v-else-if="activeTab == 'Invoices'">
+                <Invoice />
+            </div>
+            <div v-else-if="activeTab == 'Returns'">
+                <ProductReturns />
+            </div>
+            <div v-else-if="activeTab == 'Suppliers Invoice'">
+                <ProductSupplierInvoices />
+            </div>
+            <div v-else-if="activeTab == 'Suppliers Returns'">
+                <ProductSupplierReturns />
+            </div>
+            <div v-else-if="activeTab == 'Damages'">
+                <ProductDamages />
+            </div>
+        </div>
+
+    </div>
+</template>
+<script setup lang="ts">
+import { ref, onMounted, computed } from 'vue';
+import { useRoute } from 'vue-router';
+import LoadingState from '@/views/Components/procurement/state/LoadingState.vue';
+import axios from 'axios';
+import { useToast } from 'vue-toastification';
+import Metric from './Metric.vue';
+import Batches from './Batches.vue';
+import Invoice from './Invoice.vue';
+import ProductReturns from './ProductReturns.vue';
+import ProductSupplierInvoices from './ProductSupplierInvoices.vue';
+import ProductSupplierReturns from './ProductSupplierReturns.vue';
+import ProductDamages from './ProductDamages.vue';
+import InventoryReport from './InventoryReport.vue'
+import PageTitle from '@/views/Components/header/PageTitle.vue';
+import Tabs from '@/views/Components/Tabs.vue';
+
+
+onMounted(() => {
+    fetchProduct();
+})
+
+const route = useRoute();
+const toast = useToast();
+const activeTab = ref('Analytics');
+const tabs = ref([
+    'Analytics',
+    'Inventory Report',
+    'Batches',
+    'Invoices',
+    'Returns',
+    'Suppliers Invoice',
+    'Suppliers Returns',
+    'Damages'
+]);
+const getTitle = computed(() => `Products Management / All Products / ${product.value?.name.toUpperCase()} / ${activeTab.value}`);
+const product = ref(null);
+const loading = ref(false);
+
+
+const fetchProduct = () => {
+    loading.value = true;
+    axios.get(import.meta.env.VITE_API_URL + `products/${route.params.id}`)
+        .then(res => {
+            product.value = res.data;
+        })
+        .catch(err => {
+            toast.error('Error fetching product!!')
+        })
+        .finally(() => loading.value = false);
+}
+
+const handleTabChange = (tab) => {
+    activeTab.value = tab
+}
+
+</script>
+<style></style>
