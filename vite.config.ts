@@ -5,25 +5,23 @@ import path from 'path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
-import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   plugins: [
     vue(),
     vueDevTools(),
-    tailwindcss(),
   ],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
-  css: {
-    preprocessorOptions: {
-      css: {
-        // Injects @reference globally so scoped CSS can @apply Tailwind utilities
-        additionalData: `@reference "${path.resolve(__dirname, 'src/styles/tailwind.css')}";`
-      }
-    }
-  }
+  // css: {
+  //   preprocessorOptions: {
+  //     css: {
+  //       // Injects @reference globally so scoped CSS can @apply Tailwind utilities
+  //       additionalData: `@reference "${path.resolve(__dirname, 'src/styles/tailwind.css')}";`
+  //     }
+  //   }
+  // }
 })

@@ -13,16 +13,16 @@
 
 <script setup lang="ts">
 import AppHeader from "@/views/Components/header/AppHeader.vue";
-import { useNotifications } from '@/views/Composables/useNotifications';
+// import { useNotifications } from '@/views/Composables/useNotifications';
 import Navigation from "@/views/Components/header/Navigation.vue";
 import { ref } from 'vue';
 import { useAuthStore } from "@/stores/auth";
 // color: black !important;
 
-let selectedDepartment: string = ref("");
+const selectedDepartment = ref("");
 const authStore = useAuthStore();
 
-const updateDepartment = (department) => {
+const updateDepartment = (department: any) => {
   selectedDepartment.value = department;
   authStore.setActiveDepartment(department)
 }
