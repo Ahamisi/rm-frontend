@@ -62,7 +62,7 @@ const props = defineProps<Props>();
 
 const route = useRoute();
 
-const navigation = {
+const navigation: Record<string, any[]> = {
   procurement: [
     { label: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
     { label: "All Suppliers", url: { name: 'procurements.suppliers.index' }, icon: Truck },
@@ -115,6 +115,15 @@ const navigation = {
         { title: "Delivered Order", route: { name: 'inbound.orders.delivered' } },
       ]
     },
+  ],
+  outbound: [
+    { label: "Dashboard", url: { name: "outbound.dashboard" }, icon: LayoutDashboard },
+    { label: "All Orders", url: { name: "outbound.orders" }, icon: FileText },
+    { label: "Delivered Orders", url: "/outbound/delivered", icon: Truck },
+    { label: "Log Book", url: "/outbound/logbook", icon: FileText },
+    { label: "Order Fulfillment", url: "/outbound/fulfillment", icon: PackageSearch },
+    { label: "Stock Count", url: "/outbound/stock-count", icon: RotateCcw },
+    { label: "HMO - Pharm", url: "/outbound/hmo-pharm", icon: CreditCard },
   ],
 }
 

@@ -2,7 +2,7 @@
 import type { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 // Enable/disable mocking
-export const MOCK_ENABLED = import.meta.env.VITE_MOCK_API === 'true' || import.meta.env.DEV;
+export const MOCK_ENABLED = true; // Temporarily force enable for debugging
 
 // Mock data generators
 const generateId = () => Math.floor(Math.random() * 1000) + 1;
@@ -562,6 +562,211 @@ export const mockHandlers: Record<string, (config: AxiosRequestConfig) => Promis
     });
   },
 
+  // Outbound orders
+'GET /outbound/orders': async (config) => {
+  const params = config.params || {};
+  console.log('🎭 Mock API: GET /outbound/orders - Received params:', params);
+  let mockOrders = [
+    {
+      id: 1,
+      order_no: 'RHPO-1651244214',
+      customer_name: 'Fidson Healthcare',
+      store_name: 'Emeka Pharmacy',
+      state: 'Lagos',
+      payment: 'Trade',
+      processing_date: '5/21/2024',
+      delivery_date: '5/21/2024',
+      total_amount: '₦2,055,043.00',
+      tags: ['Cash and Carry', 'Controlled', 'Hospital'],
+      assigned: 'Esther Joel',
+      assigned_avatar: '/avatarImage.png'
+    },
+    {
+      id: 2,
+      order_no: 'RHPO-1651244214',
+      customer_name: 'Fidson Healthcare',
+      store_name: 'Emeka Pharmacy',
+      state: 'Lagos',
+      payment: 'Trade',
+      processing_date: '5/21/2024',
+      delivery_date: '5/21/2024',
+      total_amount: '₦2,055,043.00',
+      tags: ['Controlled', 'Hospital'],
+      assigned: 'Unassigned',
+      assigned_avatar: ''
+    },
+    {
+      id: 3,
+      order_no: 'RHPO-1651244214',
+      customer_name: 'EVANS THERAPEUTICS LIMITED',
+      store_name: 'Emeka Pharmacy',
+      state: 'Lagos',
+      payment: 'Trade',
+      processing_date: '5/21/2024',
+      delivery_date: '5/21/2024',
+      total_amount: '₦2,055,043.00',
+      tags: ['Cash and Carry', 'Controlled'],
+      assigned: 'Esther Joel',
+      assigned_avatar: '/avatarImage.png'
+    },
+    {
+      id: 4,
+      order_no: 'RHPO-1651244217',
+      customer_name: 'Fidson Healthcare',
+      store_name: 'Xela Pharmacy',
+      state: 'Ogun',
+      payment: 'Cash',
+      order_date: '2024-05-18',
+      delivery_date: '2024-05-20',
+      total_amount: 980000.00,
+      tags: ['Cash and Carry', 'Controlled'],
+      assigned: 'Sarah Badmus'
+    },
+    {
+      id: 5,
+      order_no: 'RHPO-1651244218',
+      customer_name: 'May & Baker Nigeria',
+      store_name: 'MedPlus Pharmacy',
+      state: 'Rivers',
+      payment: 'Trade',
+      order_date: '2024-05-17',
+      delivery_date: '2024-05-19',
+      total_amount: 1750000.00,
+      tags: ['Cash and Carry', 'Hospital'],
+      assigned: 'Josh Michael'
+    },
+    {
+      id: 6,
+      order_no: 'RHPO-1651244219',
+      customer_name: 'GSK Consumer Nigeria',
+      store_name: 'HealthFirst Pharmacy',
+      state: 'Kano',
+      payment: 'Credit',
+      order_date: '2024-05-16',
+      delivery_date: '2024-05-18',
+      total_amount: 2800000.00,
+      tags: ['Cash and Carry'],
+      assigned: null
+    },
+    {
+      id: 7,
+      order_no: 'RHPO-1651244220',
+      customer_name: 'Pfizer Consumer Healthcare',
+      store_name: 'WellCare Pharmacy',
+      state: 'Kaduna',
+      payment: 'Trade',
+      order_date: '2024-05-15',
+      delivery_date: '2024-05-17',
+      total_amount: 1450000.00,
+      tags: ['Controlled', 'Hospital'],
+      assigned: 'Adebayo Ogundimu'
+    },
+    {
+      id: 8,
+      order_no: 'RHPO-1651244221',
+      customer_name: 'Chi Pharmaceuticals',
+      store_name: 'Alpha Pharmacy',
+      state: 'Anambra',
+      payment: 'Cash',
+      order_date: '2024-05-14',
+      delivery_date: '2024-05-16',
+      total_amount: 890000.00,
+      tags: ['Cash and Carry', 'Controlled'],
+      assigned: 'Funmi Adebayo'
+    },
+    {
+      id: 9,
+      order_no: 'RHPO-1651244222',
+      customer_name: 'Neimeth International',
+      store_name: 'CityMed Pharmacy',
+      state: 'Oyo',
+      payment: 'Trade',
+      order_date: '2024-05-13',
+      delivery_date: '2024-05-15',
+      total_amount: 2100000.00,
+      tags: ['Hospital'],
+      assigned: 'Kemi Olatunji'
+    },
+    {
+      id: 10,
+      order_no: 'RHPO-1651244223',
+      customer_name: 'Juhel Nigeria Limited',
+      store_name: 'Premier Pharmacy',
+      state: 'Delta',
+      payment: 'Credit',
+      order_date: '2024-05-12',
+      delivery_date: '2024-05-14',
+      total_amount: 1680000.00,
+      tags: ['Cash and Carry', 'Controlled', 'Hospital'],
+      assigned: null
+    }
+  ];
+
+  // Apply search filter
+  if (params.searchTerm || params.search) {
+    const searchTerm = (params.searchTerm || params.search).toLowerCase();
+    mockOrders = mockOrders.filter(order => 
+      order.order_no.toLowerCase().includes(searchTerm) ||
+      order.customer_name.toLowerCase().includes(searchTerm) ||
+      order.store_name.toLowerCase().includes(searchTerm) ||
+      order.state.toLowerCase().includes(searchTerm) ||
+      order.payment.toLowerCase().includes(searchTerm) ||
+      (order.assigned && order.assigned.toLowerCase().includes(searchTerm))
+    );
+  }
+
+  // Apply date filters
+  if (params.from_date) {
+    mockOrders = mockOrders.filter(order => order.order_date >= params.from_date);
+  }
+  if (params.to_date) {
+    mockOrders = mockOrders.filter(order => order.order_date <= params.to_date);
+  }
+
+  // Apply additional filters
+  if (params.filter) {
+    if (params.filter.state) {
+      mockOrders = mockOrders.filter(order => order.state === params.filter.state);
+    }
+    if (params.filter.payment) {
+      mockOrders = mockOrders.filter(order => order.payment === params.filter.payment);
+    }
+  }
+
+  // Apply sorting
+  if (params.sort_by || (params.sort && params.sort.field)) {
+    const sortField = params.sort_by || params.sort.field;
+    const sortOrder = params.sort_order || (params.sort && params.sort.type) || 'asc';
+    
+    mockOrders.sort((a, b) => {
+      let aVal = a[sortField];
+      let bVal = b[sortField];
+      
+      // Handle different data types
+      if (sortField === 'total_amount') {
+        aVal = parseFloat(aVal);
+        bVal = parseFloat(bVal);
+      } else if (sortField === 'order_date' || sortField === 'delivery_date') {
+        aVal = new Date(aVal);
+        bVal = new Date(bVal);
+      } else {
+        aVal = String(aVal).toLowerCase();
+        bVal = String(bVal).toLowerCase();
+      }
+      
+      if (sortOrder === 'desc') {
+        return aVal < bVal ? 1 : aVal > bVal ? -1 : 0;
+      } else {
+        return aVal > bVal ? 1 : aVal < bVal ? -1 : 0;
+      }
+    });
+  }
+
+  const result = paginate(mockOrders, params.page, params.perPage);
+  console.log('🎭 Mock API: GET /outbound/orders - Returning data:', result);
+  return createMockResponse(result);
+},
+
   // Generic fallback for unhandled routes
   'DEFAULT': async () => {
     return createMockResponse({ message: 'Mock endpoint not implemented' }, 404);
@@ -582,6 +787,10 @@ export const mockApiCall = async (config: AxiosRequestConfig): Promise<AxiosResp
   
   // Create handler key
   const handlerKey = `${method} ${cleanUrl}`;
+  
+  console.log(`🎭 Mock API Debug: Original URL: ${url}`);
+  console.log(`🎭 Mock API Debug: Clean URL: ${cleanUrl}`);
+  console.log(`🎭 Mock API Debug: Handler Key: ${handlerKey}`);
   
   // Try exact match first
   let handler = mockHandlers[handlerKey];

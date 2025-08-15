@@ -188,7 +188,29 @@ const routes = [
 		component: () => import("@/views/Pages/Inbound/Orders/DeliveredOrders.vue"),
 		meta: { layout: "default", requiresAuth: true },
 	},
-	/** inbound routes begins here */
+	/** inbound routes end here */
+
+	/** outbound routes begin here */
+	{
+		path: "/outbound/dashboard",
+		name: "outbound.dashboard",
+		component: () => import("@/views/Pages/Outbound/Dashboard.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/outbound/orders",
+		name: "outbound.orders",
+		component: () => import("@/views/Pages/Outbound/AllOrders.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/outbound/orders/:id/edit",
+		name: "outbound.orders.edit",
+		component: () => import("@/views/Pages/Outbound/EditOrder.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	/** outbound routes end here */
+
 	{
 		path: "/admin/products",
 		name: "admin.products",

@@ -1,6 +1,7 @@
 import { ref, type Ref } from 'vue';
 import type { ServerParams, FilterParams } from '@/types';
 import axios from 'axios';
+import api from '@/api';
 import { useAuthStore } from '@/stores/auth';
 
 export function useDatatable (url: string, pageName: string) {
@@ -33,7 +34,9 @@ export function useDatatable (url: string, pageName: string) {
   const loadItems = async () => {
     loading.value = true;
     try {
-      const response = await axios.get(url, {
+      // Use mock API only for outbound endpoints, real API for everything else
+      const apiClient = url.includes('/outbound/') ? api : axios;
+      const response = await apiClient.get(url, {
         params: {
           ...serverParams.value,
           page: currentPage.value,

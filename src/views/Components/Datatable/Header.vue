@@ -11,7 +11,7 @@
 
 			<!-- Filter Dropdown -->
 			<SearchDropdown :isOpen="modalTypeOpen == 'filter' && filterModalOpen" :toggle="() => toggleModal(`filter`)"
-				:alignLeft="true" v-if="isFilterable">
+				:alignLeft="false" v-if="isFilterable">
 				<template #trigger>
 					<div class="flex items-center px-4 py-2 border-l-2 border-gray-300 bg-gray-50" title="Filter">
 						<LucideListFilter class="w-4 h-4 text-gray-600" @click="filterModalOpen = true" />
@@ -19,12 +19,12 @@
 				</template>
 				<div class="" @click.stop>
 					<div @click.self="filterModalOpen = false" class="modal-container">
-						<div class="px-6 mt-2">
+						<div class="">
 							<h3 class="modal-title">Filter</h3>
 						</div>
 
 						<div class="border border-gray-200"></div>
-						<div class="px-6 pb-4 space-y-4">
+						<div class="px-6 py-4 space-y-4">
 							<template v-if="filterByDate">
 								<!-- Date Range Filters -->
 								<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -92,7 +92,7 @@
 
 
 							<!-- Buttons -->
-							<div class="flex flex-wrap justify-between mt-4">
+							<div class="flex justify-between items-center px-6 py-4 border-t border-gray-200 -mx-6 -mb-4 mt-4">
 								<button class="btn-reset" @click="resetFilters">Reset all</button>
 								<button class="btn-apply" @click="applyFilters">Apply</button>
 							</div>
@@ -409,45 +409,89 @@ const resetFilterValue = (key) => {
 }
 
 .modal-container {
-	/* @apply bg-white shadow-lg rounded-lg md:w-[427px] w-[76vw] space-y-4; */
+	background: white;
+	box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+	border-radius: 8px;
+	width: 24rem;
+	padding: 0;
 }
 
 .modal-title {
-	/* @apply font-semibold mb-4 text-gray-600; */
+	font-size: 18px;
+	font-weight: 600;
+	color: rgba(17, 24, 39, 1);
+	padding: 16px 24px;
+	border-bottom: 1px solid rgba(229, 231, 235, 1);
+	margin: 0;
 }
 
 .label {
-	/* @apply block mb-1; */
-	font-size: 12px;
-	font-style: normal;
+	display: block;
+	font-size: 14px;
 	font-weight: 500;
-	color: rgba(68, 84, 111, 1);
-	line-height: 16px;
+	color: rgba(55, 65, 81, 1);
+	margin-bottom: 8px;
 }
 
 .input {
-	/* @apply w-full px-3 py-2 border-[2px] border-gray-300 rounded-md; */
+	width: 100%;
+	padding: 8px 12px;
+	border: 2px solid #091E4224;
+	border-radius: 8px;
+	font-size: 14px;
+	color: rgba(55, 65, 81, 1);
+	background: white;
 }
 
 .input:focus {
 	border-color: rgba(12, 102, 228, 1);
-	color: rgba(23, 43, 77, 1)
+	outline: none;
+	box-shadow: 0 0 0 2px rgba(12, 102, 228, 0.1);
 }
 
 .input-container {
-	/* @apply relative; */
+	position: relative;
 }
 
 .icon {
-	/* @apply absolute top-2 right-2 text-gray-600 w-5 h-5; */
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	color: rgba(107, 114, 128, 1);
+	width: 20px;
+	height: 20px;
 }
 
 .btn-reset {
-	/* @apply bg-gray-200 px-4 py-2 rounded-md text-gray-600 text-xs; */
+	background-color: #091E420F;
+	padding: 8px 16px;
+	border-radius: 8px;
+	color: rgba(55, 65, 81, 1);
+	font-size: 14px;
+	font-weight: 500;
+	border: none;
+	cursor: pointer;
+	transition: background-color 0.2s;
+}
+
+.btn-reset:hover {
+	background-color: rgba(9, 30, 66, 0.1);
 }
 
 .btn-apply {
-	/* @apply bg-blue-600 px-4 py-2 rounded-md text-white text-xs; */
+	background-color: rgba(37, 99, 235, 1);
+	padding: 8px 16px;
+	border-radius: 8px;
+	color: white;
+	font-size: 14px;
+	font-weight: 500;
+	border: none;
+	cursor: pointer;
+	transition: background-color 0.2s;
+}
+
+.btn-apply:hover {
+	background-color: rgba(29, 78, 216, 1);
 }
 
 .fade-enter-active,
@@ -484,7 +528,9 @@ ul.sort-menu {
 	font-weight: 400;
 	line-height: 18px;
 	color: rgba(23, 43, 77, 1);
+	padding: 11px 0px;
 }
+
 
 .fade-enter-active,
 .fade-leave-active {
