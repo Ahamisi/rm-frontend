@@ -67,7 +67,7 @@ import { ref } from 'vue';
 import NewOrders from './components/NewOrders.vue';
 import ConfirmedOrders from './components/ConfirmedOrders.vue';
 import BeingProcessed from './components/BeingProcessedOrders.vue';
-import PickedPacked from './components/PickedPacked.vue';
+import PickedPacked from './components/PickedPackedOrders.vue';
 
 const activeTab = ref('New');
 
