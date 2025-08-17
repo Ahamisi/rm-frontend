@@ -209,6 +209,78 @@ const routes = [
 		component: () => import("@/views/Pages/Outbound/EditOrder.vue"),
 		meta: { layout: "default", requiresAuth: true },
 	},
+	{
+		path: "/outbound/delivered",
+		name: "outbound.delivered",
+		component: () => import("@/views/Pages/Outbound/DeliveredOrders.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/outbound/log-book",
+		name: "outbound.log-book",
+		component: () => import("@/views/Pages/Outbound/LogBook.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	        {
+            path: "/outbound/log-book/:id/edit",
+            name: "outbound.log-book.edit",
+            component: () => import("@/views/Pages/Outbound/LogBookEdit.vue"),
+            meta: { layout: "default", requiresAuth: true },
+        },
+        {
+            path: "/outbound/order-fulfillment",
+            name: "outbound.order-fulfillment",
+            component: () => import("@/views/Pages/Outbound/OrderFulfillment.vue"),
+            meta: { layout: "default", requiresAuth: true },
+        },
+        {
+            path: "/outbound/picking-list/:id",
+            name: "outbound.picking-list",
+            component: () => import("@/views/Pages/Outbound/PickingList.vue"),
+            meta: { layout: "default", requiresAuth: true },
+        },
+        {
+            path: "/outbound/stock-count",
+            name: "outbound.stock-count",
+            component: () => import("@/views/Pages/Outbound/StockCount.vue"),
+            meta: { layout: "default", requiresAuth: true },
+        },
+        {
+            path: "/outbound/stock-count/teams",
+            name: "outbound.stock-count.teams",
+            component: () => import("@/views/Pages/Outbound/StockCountTeams.vue"),
+            meta: { layout: "default", requiresAuth: true },
+        },
+        {
+            path: "/outbound/stock-count/product",
+            name: "outbound.stock-count.product",
+            component: () => import("@/views/Pages/Outbound/ProductStockCount.vue"),
+            meta: { layout: "default", requiresAuth: true },
+        },
+        {
+            path: "/outbound/hmo-products",
+            name: "outbound.hmo-products",
+            component: () => import("@/views/Pages/Outbound/AllHmoProducts.vue"),
+            meta: { layout: "default", requiresAuth: true },
+        },
+        {
+            path: "/outbound/hmo-products/damaged",
+            name: "outbound.hmo-products.damaged",
+            component: () => import("@/views/Pages/Outbound/DamagedHmoProducts.vue"),
+            meta: { layout: "default", requiresAuth: true },
+        },
+        {
+            path: "/outbound/hmo-products/returns",
+            name: "outbound.hmo-products.returns",
+            component: () => import("@/views/Pages/Outbound/HmoProductReturns.vue"),
+            meta: { layout: "default", requiresAuth: true },
+        },
+        {
+            path: "/outbound/rh-orders",
+            name: "outbound.rh-orders",
+            component: () => import("@/views/Pages/Outbound/RhOrders.vue"),
+            meta: { layout: "default", requiresAuth: true },
+        },
 	/** outbound routes end here */
 
 	{

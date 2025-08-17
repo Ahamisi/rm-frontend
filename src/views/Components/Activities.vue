@@ -4,7 +4,7 @@
       v-for="(activity, index) in activities" 
       :key="index" 
       class="flex items-start relative"
-      :style="{ marginBottom: index < activities.length - 1 ? '40px' : '0' }"
+      :style="{ marginBottom: index < activities.length - 1 ? '36px' : '0' }"
     >
       <!-- Vertical Line (except for last item) -->
       <div 
@@ -12,8 +12,8 @@
         class="absolute w-0.5 bg-gray-200 z-0"
         :style="{ 
           left: '15px', 
-          top: '40px', 
-          height: '32px'
+          top: '45px', 
+          height: '36px'
         }"
       ></div>
 

@@ -705,14 +705,25 @@ export const mockHandlers: Record<string, (config: AxiosRequestConfig) => Promis
   // Apply search filter
   if (params.searchTerm || params.search) {
     const searchTerm = (params.searchTerm || params.search).toLowerCase();
-    mockOrders = mockOrders.filter(order => 
-      order.order_no.toLowerCase().includes(searchTerm) ||
-      order.customer_name.toLowerCase().includes(searchTerm) ||
-      order.store_name.toLowerCase().includes(searchTerm) ||
-      order.state.toLowerCase().includes(searchTerm) ||
-      order.payment.toLowerCase().includes(searchTerm) ||
-      (order.assigned && order.assigned.toLowerCase().includes(searchTerm))
-    );
+    const searchBy = params.search_by;
+    
+    mockOrders = mockOrders.filter(order => {
+      if (searchBy === 'order') {
+        return order.order_no.toLowerCase().includes(searchTerm);
+      } else if (searchBy === 'customer') {
+        return order.customer_name.toLowerCase().includes(searchTerm);
+      } else if (searchBy === 'store') {
+        return order.store_name.toLowerCase().includes(searchTerm);
+      } else {
+        // Default search across all fields
+        return order.order_no.toLowerCase().includes(searchTerm) ||
+               order.customer_name.toLowerCase().includes(searchTerm) ||
+               order.store_name.toLowerCase().includes(searchTerm) ||
+               order.state.toLowerCase().includes(searchTerm) ||
+               order.payment.toLowerCase().includes(searchTerm) ||
+               (order.assigned && order.assigned.toLowerCase().includes(searchTerm));
+      }
+    });
   }
 
   // Apply date filters
@@ -767,6 +778,325 @@ export const mockHandlers: Record<string, (config: AxiosRequestConfig) => Promis
   return createMockResponse(result);
 },
 
+  // Outbound log books
+  'GET /outbound/log-books': async (config) => {
+    const params = config.params || {};
+    console.log('🎭 Mock API: GET /outbound/log-books - Received params:', params);
+    
+    let mockLogBooks = [
+      {
+        id: 15,
+        driver_name: 'Oluwatosin Adegboye',
+        order_count: 0,
+        state: 'Lagos',
+        delivery_timeline: '16/01/2025 - 16:34:54s'
+      },
+      {
+        id: 14,
+        driver_name: 'Janet Adeajayi',
+        order_count: 1,
+        state: 'Lagos',
+        delivery_timeline: '16/01/2025 - 16:34:54s'
+      },
+      {
+        id: 13,
+        driver_name: 'Henry Christopher',
+        order_count: 0,
+        state: 'Lagos',
+        delivery_timeline: '16/01/2025 - 16:34:54s'
+      },
+      {
+        id: 12,
+        driver_name: 'Oluwatosin Adegboye',
+        order_count: 0,
+        state: 'Lagos',
+        delivery_timeline: '16/01/2025 - 16:34:54s'
+      },
+      {
+        id: 11,
+        driver_name: 'Janet Adeajayi',
+        order_count: 0,
+        state: 'Lagos',
+        delivery_timeline: '16/01/2025 - 16:34:54s'
+      },
+      {
+        id: 10,
+        driver_name: 'Henry Christopher',
+        order_count: 0,
+        state: 'Lagos',
+        delivery_timeline: '16/01/2025 - 16:34:54s'
+      },
+      {
+        id: 9,
+        driver_name: 'Oluwatosin Adegboye',
+        order_count: 0,
+        state: 'Lagos',
+        delivery_timeline: '16/01/2025 - 16:34:54s'
+      },
+      {
+        id: 8,
+        driver_name: 'Janet Adeajayi',
+        order_count: 1,
+        state: 'Lagos',
+        delivery_timeline: '16/01/2025 - 16:34:54s'
+      },
+      {
+        id: 7,
+        driver_name: 'Henry Christopher',
+        order_count: 0,
+        state: 'Lagos',
+        delivery_timeline: '16/01/2025 - 16:34:54s'
+      },
+      {
+        id: 6,
+        driver_name: 'Oluwatosin Adegboye',
+        order_count: 1,
+        state: 'Lagos',
+        delivery_timeline: '16/01/2025 - 16:34:54s'
+      }
+    ];
+
+    // Apply filters
+    if (params.searchTerm || params.search) {
+      const searchTerm = (params.searchTerm || params.search).toLowerCase();
+      mockLogBooks = mockLogBooks.filter(logBook => 
+        logBook.driver_name.toLowerCase().includes(searchTerm) ||
+        logBook.state.toLowerCase().includes(searchTerm)
+      );
+    }
+
+    if (params.from_date && params.to_date) {
+      // Filter by date range if needed
+    }
+
+    if (params.filter) {
+      const filter = typeof params.filter === 'string' ? JSON.parse(params.filter) : params.filter;
+      if (filter.state) {
+        mockLogBooks = mockLogBooks.filter(logBook => logBook.state === filter.state);
+      }
+    }
+
+    // Apply sorting
+    if (params.sort_by) {
+      const sortField = params.sort_by;
+      const sortOrder = params.sort_order || 'asc';
+      mockLogBooks.sort((a, b) => {
+        const aVal = a[sortField];
+        const bVal = b[sortField];
+        if (sortOrder === 'desc') {
+          return bVal > aVal ? 1 : -1;
+        }
+        return aVal > bVal ? 1 : -1;
+      });
+    }
+
+    const result = paginate(mockLogBooks, params.page, params.perPage);
+    console.log('🎭 Mock API: GET /outbound/log-books - Returning data:', result);
+    return createMockResponse(result);
+  },
+
+  // Log book orders endpoint for edit page
+  'GET /outbound/log-books/:id/orders': async (config) => {
+    const params = config.params || {};
+    console.log('🎭 Mock API: GET /outbound/log-books/:id/orders - Received params:', params);
+    
+    const mockOrders = [
+      {
+        id: 1,
+        order_number: 'REF: 1656493689-254',
+        customer_name: 'Janet Adeajayi',
+        store_name: 'Emeka Pharmacy',
+        driver_name: 'Oluwatosin Adegboye',
+        package_type: 'None',
+        quantity: 71,
+        warehouse_rep_sign_off: '--',
+        logistics_rep_sign_off: '--',
+        vehicle_reg_no: '--'
+      },
+      {
+        id: 2,
+        order_number: 'REF: 1656493689-254',
+        customer_name: 'Janet Adeajayi',
+        store_name: 'Emeka Pharmacy',
+        driver_name: 'Oluwatosin Adegboye',
+        package_type: 'None',
+        quantity: 59,
+        warehouse_rep_sign_off: '--',
+        logistics_rep_sign_off: '--',
+        vehicle_reg_no: '--'
+      },
+      {
+        id: 3,
+        order_number: 'REF: 1656493689-254',
+        customer_name: 'Janet Adeajayi',
+        store_name: 'Emeka Pharmacy',
+        driver_name: 'No Driver Assigned',
+        package_type: 'None',
+        quantity: 70,
+        warehouse_rep_sign_off: '--',
+        logistics_rep_sign_off: '--',
+        vehicle_reg_no: '--'
+      }
+    ];
+
+    const result = {
+      data: mockOrders,
+      meta: {
+        current_page: 1,
+        per_page: 10,
+        total: mockOrders.length,
+        last_page: 1
+      }
+    };
+
+    console.log('🎭 Mock API: GET /outbound/log-books/:id/orders - Returning data:', result);
+    return createMockResponse(result);
+  },
+
+  // Stock Count Teams
+  'GET /outbound/stock-count/teams': async (config: AxiosRequestConfig) => {
+    console.log('🎭 Mock API: GET /outbound/stock-count/teams - CALLED!');
+    
+    const params = parseQueryParams(config.url || '');
+    
+    const mockTeams = [
+      {
+        id: 15,
+        name: 'Team A (Azeez)',
+        users: 0,
+        shelves: 0,
+        created_at: generateDate(),
+        updated_at: generateDate(),
+      },
+      {
+        id: 14,
+        name: 'Team B (David)',
+        users: 4,
+        shelves: 2,
+        created_at: generateDate(),
+        updated_at: generateDate(),
+      },
+      {
+        id: 13,
+        name: 'Team C (Sam)',
+        users: 0,
+        shelves: 0,
+        created_at: generateDate(),
+        updated_at: generateDate(),
+      },
+      {
+        id: 12,
+        name: 'Team D (Osas)',
+        users: 0,
+        shelves: 0,
+        created_at: generateDate(),
+        updated_at: generateDate(),
+      },
+      {
+        id: 11,
+        name: 'Team E (Bruno)',
+        users: 0,
+        shelves: 0,
+        created_at: generateDate(),
+        updated_at: generateDate(),
+      },
+      {
+        id: 10,
+        name: 'Team F (Ade)',
+        users: 0,
+        shelves: 0,
+        created_at: generateDate(),
+        updated_at: generateDate(),
+      },
+      {
+        id: 9,
+        name: 'Team E (Stella)',
+        users: 0,
+        shelves: 0,
+        created_at: generateDate(),
+        updated_at: generateDate(),
+      },
+      {
+        id: 8,
+        name: 'Team F (Tunji)',
+        users: 1,
+        shelves: 1,
+        created_at: generateDate(),
+        updated_at: generateDate(),
+      },
+      {
+        id: 7,
+        name: 'Team G (Mariam)',
+        users: 0,
+        shelves: 0,
+        created_at: generateDate(),
+        updated_at: generateDate(),
+      },
+      {
+        id: 6,
+        name: 'Team H (Dale)',
+        users: 1,
+        shelves: 1,
+        created_at: generateDate(),
+        updated_at: generateDate(),
+      },
+      {
+        id: 5,
+        name: 'Team I (Joseph)',
+        users: 0,
+        shelves: 0,
+        created_at: generateDate(),
+        updated_at: generateDate(),
+      },
+      {
+        id: 4,
+        name: 'Team J (Harrison)',
+        users: 1,
+        shelves: 1,
+        created_at: generateDate(),
+        updated_at: generateDate(),
+      },
+      {
+        id: 3,
+        name: 'Team K (Chukwudi)',
+        users: 0,
+        shelves: 0,
+        created_at: generateDate(),
+        updated_at: generateDate(),
+      },
+      {
+        id: 2,
+        name: 'Team L (Victor)',
+        users: 1,
+        shelves: 1,
+        created_at: generateDate(),
+        updated_at: generateDate(),
+      },
+      {
+        id: 1,
+        name: 'Team M (Emmanuel)',
+        users: 0,
+        shelves: 0,
+        created_at: generateDate(),
+        updated_at: generateDate(),
+      }
+    ];
+
+    const result = paginate(mockTeams, params.page, params.perPage);
+    
+    console.log('🎭 Mock API: GET /outbound/stock-count/teams - Returning data:', result);
+    return createMockResponse(result);
+  },
+
+  // Stock Count Teams with /v1 prefix
+  'GET /v1/outbound/stock-count/teams': async (config: AxiosRequestConfig) => {
+    console.log('🎭 Mock API: GET /v1/outbound/stock-count/teams - CALLED!');
+    // Redirect to main handler
+    return mockHandlers['GET /outbound/stock-count/teams'](config);
+  },
+
+
+
   // Generic fallback for unhandled routes
   'DEFAULT': async () => {
     return createMockResponse({ message: 'Mock endpoint not implemented' }, 404);
@@ -783,7 +1113,9 @@ export const mockApiCall = async (config: AxiosRequestConfig): Promise<AxiosResp
   const url = config.url || '';
   
   // Clean URL (remove query params and base URL)
-  const cleanUrl = url.replace(/\?.*$/, '').replace(/^.*\/api/, '');
+  let cleanUrl = url.replace(/\?.*$/, '').replace(/^.*\/api/, '');
+  // Also remove /v1 prefix if present
+  cleanUrl = cleanUrl.replace(/^\/v1/, '');
   
   // Create handler key
   const handlerKey = `${method} ${cleanUrl}`;
@@ -791,6 +1123,16 @@ export const mockApiCall = async (config: AxiosRequestConfig): Promise<AxiosResp
   console.log(`🎭 Mock API Debug: Original URL: ${url}`);
   console.log(`🎭 Mock API Debug: Clean URL: ${cleanUrl}`);
   console.log(`🎭 Mock API Debug: Handler Key: ${handlerKey}`);
+  
+  // Special debug for stock count teams
+  if (cleanUrl.includes('stock-count') || url.includes('stock-count')) {
+    console.log('🎯🎯🎯 STOCK COUNT TEAMS URL DETECTED! 🎯🎯🎯');
+    console.log('🎯 Original URL:', url);
+    console.log('🎯 Clean URL:', cleanUrl);
+    console.log('🎯 Handler Key:', handlerKey);
+  }
+  
+  console.log(`🎭 Mock API Debug: Available handlers:`, Object.keys(mockHandlers));
   
   // Try exact match first
   let handler = mockHandlers[handlerKey];

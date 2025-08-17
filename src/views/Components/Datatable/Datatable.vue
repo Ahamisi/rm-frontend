@@ -38,10 +38,11 @@
 </template>
 <script setup lang="ts">
 import DatatableHeader from "./Header.vue";
-import { ref, computed, PropType, onMounted, useId } from "vue";
+import { ref, computed, type PropType, onMounted, useId } from "vue";
 import type { TableColumn, FilterFields, FilterField } from "@/types";
 import { useToast } from "vue-toastification";
 import LoadingState from "@/views/Components/procurement/state/LoadingState.vue";
+// @ts-ignore
 import CustomPagination from "@/views/Components/procurement/customPagination.vue";
 import { useDatatable } from "@/views/Composables/useDatatable";
 import { useTableFilters } from "@/views/Composables/useTableFilters";
@@ -83,7 +84,11 @@ const props = defineProps({
 	},
 	url: {
 		type: String,
-		required: true
+		required: false
+	},
+	items: {
+		type: Array as PropType<Record<string, any>[]>,
+		default: () => []
 	}
 });
 
@@ -93,26 +98,69 @@ const childKey = ref(21111);
 const toast = useToast();
 const _uid = useId();
 
-// Use composables
-const {
-	loading,
-	items,
-	pagination,
-	currentPage,
-	serverParams,
-	currentFilters,
-	loadItems,
-	updateParams,
-	loadFromStorage,
-	navigate
-} = useDatatable(props.url, props.pageName);
+// Use composables conditionally
+const useApiMode = computed(() => !!props.url);
 
-const {
-	onSearch,
-	onFilterChange,
-	onSortChange,
-	sort
-} = useTableFilters(serverParams, updateParams, loadItems);
+// For API mode
+const apiComposable = useApiMode.value ? useDatatable(props.url!, props.pageName) : null;
+
+// For static mode
+const staticItems = ref(props.items);
+const staticLoading = ref(false);
+const staticPagination = ref({ total: 1, current_page: 1, per_page: 10 });
+const staticCurrentPage = ref(1);
+const staticServerParams = ref({
+	searchTerm: '',
+	sort: { field: '', type: 'asc' as 'asc' | 'desc' },
+	filters: {},
+	page: 1,
+	perPage: 10
+});
+const staticCurrentFilters = ref({});
+
+// Expose the right composable based on mode
+const loading = useApiMode.value ? apiComposable!.loading : staticLoading;
+const items = useApiMode.value ? apiComposable!.items : staticItems;
+const pagination = useApiMode.value ? apiComposable!.pagination : staticPagination;
+const currentPage = useApiMode.value ? apiComposable!.currentPage : staticCurrentPage;
+const serverParams = useApiMode.value ? apiComposable!.serverParams : staticServerParams;
+const currentFilters = useApiMode.value ? apiComposable!.currentFilters : staticCurrentFilters;
+
+const loadItems = useApiMode.value ? apiComposable!.loadItems : () => Promise.resolve();
+const updateParams = useApiMode.value ? apiComposable!.updateParams : () => {};
+const loadFromStorage = useApiMode.value ? apiComposable!.loadFromStorage : () => {};
+const navigate = useApiMode.value ? apiComposable!.navigate : () => {};
+
+// Table filters - only use for API mode
+const tableFilters = useApiMode.value ? useTableFilters(serverParams, updateParams, loadItems) : null;
+
+const onSearch = useApiMode.value ? tableFilters!.onSearch : (value: string) => {
+	staticServerParams.value.searchTerm = value;
+	// Filter static items based on search
+	if (value) {
+		staticItems.value = props.items.filter(item => 
+			Object.values(item).some(val => 
+				String(val).toLowerCase().includes(value.toLowerCase())
+			)
+		);
+	} else {
+		staticItems.value = props.items;
+	}
+};
+
+const onFilterChange = useApiMode.value ? tableFilters!.onFilterChange : (filters: any) => {
+	staticCurrentFilters.value = filters;
+	// Apply filters to static items if needed
+};
+
+const onSortChange = useApiMode.value ? tableFilters!.onSortChange : (sortParams: any) => {
+	staticServerParams.value.sort = sortParams;
+	// Sort static items if needed
+};
+
+const sort = useApiMode.value ? tableFilters!.sort : (column: any) => {
+	// Handle static sorting if needed
+};
 
 // Computed props for header
 const sortableColumns = computed(() => {
@@ -121,8 +169,8 @@ const sortableColumns = computed(() => {
 
 const headerProps = computed(() => ({
 	searchTerm: serverParams.value.searchTerm,
-	sortBy: serverParams.value.sort.field,
-	sortOrder: serverParams.value.sort.type,
+	sortBy: serverParams.value.sort?.field || '',
+	sortOrder: serverParams.value.sort?.type || 'asc',
 	sortableColumns: sortableColumns.value,
 	filterFields: props.filterFields,
 	filterByDate: props.filterByDate,
@@ -139,7 +187,9 @@ const handlePrint = () => {
 
 const handleDownload = async () => {
 	try {
-		await TableExporter.downloadData(props.url, serverParams.value, props.pageName);
+		if (props.url) {
+			await TableExporter.downloadData(props.url, serverParams.value, props.pageName);
+		}
 	} catch (error) {
 		toast.error("Error downloading data! " + TableExporter.onError(error));
 	}
@@ -157,9 +207,9 @@ const loadItemsWithEmit = async () => {
 };
 
 // Override the loadItems from composable to include emit
-const originalOnSearch = onSearch;
-const originalOnFilterChange = onFilterChange;
-const originalOnSortChange = onSortChange;
+const originalOnSearch = useApiMode.value ? onSearch : (value: string) => {};
+const originalOnFilterChange = useApiMode.value ? onFilterChange : (filters: any) => {};
+const originalOnSortChange = useApiMode.value ? onSortChange : (sortParams: any) => {};
 
 const onSearchWithEmit = (value: string) => {
 	originalOnSearch(value);
@@ -177,8 +227,13 @@ const onSortChangeWithEmit = (sortParams: any) => {
 };
 
 onMounted(() => {
-	loadFromStorage(props.filterFields, props.searchable, props.filterByDate);
-	loadItemsWithEmit();
+	if (useApiMode.value) {
+		loadFromStorage(props.filterFields, props.searchable, props.filterByDate);
+		loadItemsWithEmit();
+	} else {
+		// For static mode, just set the items
+		staticItems.value = props.items;
+	}
 });
 </script>
 <style>

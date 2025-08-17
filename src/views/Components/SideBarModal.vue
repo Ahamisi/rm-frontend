@@ -77,7 +77,13 @@ const widthClass = computed(() => {
 		lg: 'md:w-[28rem] w-[90vw]',
 		xl: 'md:w-[45rem] w-[90vw]'
 	}
-	return widthMap[props.width]
+	
+	// Check if it's a percentage or custom width
+	if (props.width.includes('%') || props.width.includes('px') || props.width.includes('rem')) {
+		return `w-[${props.width}]`
+	}
+	
+	return widthMap[props.width] || widthMap.xl
 })
 
 const preventBodyScroll = () => {

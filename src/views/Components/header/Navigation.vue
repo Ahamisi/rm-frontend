@@ -120,10 +120,26 @@ const navigation: Record<string, any[]> = {
     { label: "Dashboard", url: { name: "outbound.dashboard" }, icon: LayoutDashboard },
     { label: "All Orders", url: { name: "outbound.orders" }, icon: FileText },
     { label: "Delivered Orders", url: "/outbound/delivered", icon: Truck },
-    { label: "Log Book", url: "/outbound/logbook", icon: FileText },
-    { label: "Order Fulfillment", url: "/outbound/fulfillment", icon: PackageSearch },
-    { label: "Stock Count", url: "/outbound/stock-count", icon: RotateCcw },
-    { label: "HMO - Pharm", url: "/outbound/hmo-pharm", icon: CreditCard },
+    { label: "Log Book", url: { name: "outbound.log-book" }, icon: FileText },
+    { label: "Order Fulfillment", url: { name: "outbound.order-fulfillment" }, icon: PackageSearch },
+    { 
+      label: "Stock Count", 
+      icon: RotateCcw,
+      dropdown: [
+        { title: "Stock Count Teams", route: { name: "outbound.stock-count.teams" } },
+        { title: "Product Stock Count", route: { name: "outbound.stock-count.product" } }
+      ]
+    },
+    { 
+      label: "HMO - Pharm", 
+      icon: CreditCard,
+      dropdown: [
+        { title: "All HMO Products", route: { name: "outbound.hmo-products" } },
+        { title: "Damaged HMO Products", route: { name: "outbound.hmo-products.damaged" } },
+        { title: "HMO Product Returns", route: { name: "outbound.hmo-products.returns" } },
+        { title: "RH Orders", route: { name: "outbound.rh-orders" } }
+      ]
+    },
   ],
 }
 
