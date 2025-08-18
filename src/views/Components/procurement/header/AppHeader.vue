@@ -279,6 +279,7 @@ const department_base_routes = [
   { name: "procurement", route: "dashboard" },
   { name: "inventory", route: "admin.products" },
   { name: "sales", route: "customer-success" },
+  { name: "outbound", route: "outbound.dashboard" },
 ];
 
 const hasRoute = (name: string): boolean => {

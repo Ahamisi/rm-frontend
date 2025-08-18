@@ -280,7 +280,9 @@ const applications = authStore.departments;
 const department_base_routes = [
   { name: "inbound", route: "inbound.dashboard" },
   { name: "procurement", route: "dashboard" },
-  // inbound.dashboard
+  { name: "inventory", route: "admin.products" },
+  { name: "sales", route: "customer-success" },
+  { name: "outbound", route: "outbound.dashboard" },
 ];
 
 const hasRoute = (name: string): boolean => {
