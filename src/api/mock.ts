@@ -2,7 +2,7 @@
 import type { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 // Enable/disable mocking
-export const MOCK_ENABLED = true; // Temporarily force enable for debugging
+export const MOCK_ENABLED = false; // Disabled for production
 
 // Mock data generators
 const generateId = () => Math.floor(Math.random() * 1000) + 1;
