@@ -2,7 +2,7 @@
 import type { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 // Enable/disable mocking
-export const MOCK_ENABLED = false; // Disabled for production
+export const MOCK_ENABLED = true; // Temporarily enabled for demo data
 
 // Mock data generators
 const generateId = () => Math.floor(Math.random() * 1000) + 1;
@@ -231,6 +231,8 @@ export const mockHandlers: Record<string, (config: AxiosRequestConfig) => Promis
       { id: 1, name: 'Procurement', code: 'procurement' },
       { id: 2, name: 'Inventory', code: 'inventory' },
       { id: 3, name: 'Sales', code: 'sales' },
+      { id: 4, name: 'Inbound', code: 'inbound' },
+      { id: 5, name: 'Outbound', code: 'outbound' },
     ]);
   },
 
@@ -559,6 +561,169 @@ export const mockHandlers: Record<string, (config: AxiosRequestConfig) => Promis
           created_at: generateDate(),
         },
       ]
+    });
+  },
+
+  // Outbound Dashboard - Fulfillment Stats
+  'GET /outbound/fulfillment/stats': async (config) => {
+    const params = config.params || {};
+    console.log('🎭 Mock API: GET /outbound/fulfillment/stats - Received params:', params);
+    
+    const mockFulfillmentStats = [
+      {
+        id: 1,
+        agent_name: 'Esther Joel',
+        check_in_time: '08:30:00',
+        check_out_time: '17:00:00',
+        orders_count: 25,
+        items_count: 450,
+        productivity_score: 92,
+        status: 'Active',
+        shift_date: '2024-01-16',
+        department: 'Outbound',
+        location: 'Lagos Warehouse'
+      },
+      {
+        id: 2,
+        agent_name: 'Josh Michael',
+        check_in_time: '09:00:00',
+        check_out_time: '18:00:00',
+        orders_count: 30,
+        items_count: 520,
+        productivity_score: 93,
+        status: 'Active',
+        shift_date: '2024-01-16',
+        department: 'Outbound',
+        location: 'Lagos Warehouse'
+      },
+      {
+        id: 3,
+        agent_name: 'Sarah Badmus',
+        check_in_time: '08:00:00',
+        check_out_time: '16:30:00',
+        orders_count: 22,
+        items_count: 380,
+        productivity_score: 91,
+        status: 'Active',
+        shift_date: '2024-01-16',
+        department: 'Outbound',
+        location: 'Abuja Warehouse'
+      },
+      {
+        id: 4,
+        agent_name: 'Adebayo Ogundimu',
+        check_in_time: '07:30:00',
+        check_out_time: '16:00:00',
+        orders_count: 18,
+        items_count: 320,
+        productivity_score: 94,
+        status: 'Active',
+        shift_date: '2024-01-16',
+        department: 'Outbound',
+        location: 'Lagos Warehouse'
+      },
+      {
+        id: 5,
+        agent_name: 'Funmi Adebayo',
+        check_in_time: '09:30:00',
+        check_out_time: '18:30:00',
+        orders_count: 27,
+        items_count: 480,
+        productivity_score: 93,
+        status: 'Active',
+        shift_date: '2024-01-16',
+        department: 'Outbound',
+        location: 'Port Harcourt Warehouse'
+      },
+      {
+        id: 6,
+        agent_name: 'Kemi Olatunji',
+        check_in_time: '08:15:00',
+        check_out_time: '17:15:00',
+        orders_count: 24,
+        items_count: 410,
+        productivity_score: 92,
+        status: 'Active',
+        shift_date: '2024-01-16',
+        department: 'Outbound',
+        location: 'Lagos Warehouse'
+      },
+      {
+        id: 7,
+        agent_name: 'David Okoro',
+        check_in_time: '10:00:00',
+        check_out_time: '19:00:00',
+        orders_count: 20,
+        items_count: 350,
+        productivity_score: 95,
+        status: 'Active',
+        shift_date: '2024-01-16',
+        department: 'Outbound',
+        location: 'Abuja Warehouse'
+      },
+      {
+        id: 8,
+        agent_name: 'Grace Nwosu',
+        check_in_time: '08:45:00',
+        check_out_time: '17:45:00',
+        orders_count: 26,
+        items_count: 460,
+        productivity_score: 92,
+        status: 'Active',
+        shift_date: '2024-01-16',
+        department: 'Outbound',
+        location: 'Lagos Warehouse'
+      }
+    ];
+
+    // Apply search filter
+    let filteredStats = [...mockFulfillmentStats];
+    if (params.searchTerm || params.search) {
+      const searchTerm = (params.searchTerm || params.search).toLowerCase();
+      filteredStats = filteredStats.filter(stat => 
+        stat.agent_name.toLowerCase().includes(searchTerm) ||
+        stat.location.toLowerCase().includes(searchTerm) ||
+        stat.status.toLowerCase().includes(searchTerm)
+      );
+    }
+
+    // Apply date filters
+    if (params.from_date && params.to_date) {
+      filteredStats = filteredStats.filter(stat => 
+        stat.shift_date >= params.from_date && stat.shift_date <= params.to_date
+      );
+    }
+
+    // Apply additional filters
+    if (params.filter) {
+      const filter = typeof params.filter === 'string' ? JSON.parse(params.filter) : params.filter;
+      if (filter.location) {
+        filteredStats = filteredStats.filter(stat => stat.location === filter.location);
+      }
+      if (filter.status) {
+        filteredStats = filteredStats.filter(stat => stat.status === filter.status);
+      }
+    }
+
+    const result = paginate(filteredStats, params.page, params.perPage);
+    console.log('🎭 Mock API: GET /outbound/fulfillment/stats - Returning data:', result);
+    return createMockResponse(result);
+  },
+
+  // Outbound Dashboard Stats
+  'GET /outbound/dashboard/stats': async () => {
+    return createMockResponse({
+      total_orders: 1250,
+      pending_orders: 45,
+      completed_orders: 1180,
+      cancelled_orders: 25,
+      active_agents: 8,
+      total_items_processed: 3370,
+      average_efficiency: '92.8%',
+      warehouses_active: 3,
+      daily_target: 1500,
+      daily_completed: 1180,
+      completion_rate: '78.7%'
     });
   },
 

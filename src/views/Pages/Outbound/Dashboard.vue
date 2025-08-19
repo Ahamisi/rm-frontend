@@ -38,7 +38,7 @@
             >
               <template #column="col">
                 <span v-if="col.props.column.field === 'agent_name'">
-                  <div class="flex items-center justify-center gap-2">
+                  <div class="flex items-center gap-2">
                     <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
                       <span class="text-xs font-medium text-blue-600">{{ col.props.row.agent_name.charAt(0) }}</span>
                     </div>
@@ -52,10 +52,7 @@
                   {{ formatTime(col.props.row.check_out_time) }}
                 </span>
                 <span v-else-if="col.props.column.field === 'productivity_score'">
-                  <span class="px-2 py-1 rounded-md text-xs font-medium" 
-                        :class="getScoreClass(col.props.row.productivity_score)">
-                    {{ col.props.row.productivity_score }}
-                  </span>
+                  {{ col.props.row.productivity_score }}
                 </span>
               </template>
             </Datatable>
