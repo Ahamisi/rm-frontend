@@ -45,12 +45,27 @@
         :exportable="false"
         :filterFields="{}"
         pageName="RhOrders"
-        :key="childKey"
+        :key="`rhorders-${activeTab}-${childKey}`"
       >
         <template #column="col">
           <!-- Action Column -->
           <span v-if="col.props?.column?.field === 'action'">
-            <div class="relative action-dropdown-container">
+            <!-- Simple View Action for Delivered and Cancelled -->
+            <div v-if="activeTab === 'Delivered' || activeTab === 'Cancelled'">
+              <button 
+                @click="viewOrder(col.props?.formattedRow)"
+                class="text-gray-500 hover:text-[#172B4D]"
+                title="View Order"
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0013 16.9999C8.2213 16.9999 5.33547 13.4499 5.33547 11.9999C5.33547 10.3324 8.21797 6.99992 12.0021 6.99992C15.6488 6.99992 18.6671 10.3108 18.6671 11.9999C18.6671 13.4499 15.7821 16.9999 12.0021 16.9999H12.0013ZM12.0021 5.33325C7.4013 5.33325 3.66797 9.36742 3.66797 11.9999C3.66797 14.5716 7.4813 18.6666 12.0013 18.6666C16.5205 18.6666 20.3346 14.5716 20.3346 11.9999C20.3346 9.36742 16.6013 5.33325 12.0013 5.33325" fill="#44546F"/>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M11.9821 13.6533C11.063 13.6533 10.3155 12.9058 10.3155 11.9866C10.3155 11.0674 11.063 10.3199 11.9821 10.3199C12.9021 10.3199 13.6488 11.0674 13.6488 11.9866C13.6488 12.9058 12.9021 13.6533 11.9821 13.6533ZM11.9821 8.65325C10.1438 8.65325 8.6488 10.1483 8.6488 11.9866C8.6488 13.8249 10.1438 15.3199 11.9821 15.3199C13.8213 15.3199 15.3155 13.8249 15.3155 11.9866C15.3155 10.1483 13.8213 8.65325 11.9821 8.65325Z" fill="#44546F"/>
+                </svg>
+              </button>
+            </div>
+            
+            <!-- Full Action Dropdown for Other Tabs -->
+            <div v-else class="relative action-dropdown-container">
               <button 
                 @click="toggleActionMenu(col.props?.formattedRow, $event)"
                 class="text-gray-500 hover:text-[#172B4D]"
@@ -355,10 +370,11 @@ import SideBarModal from "@/views/Components/SideBarModal.vue";
 import UniversalCenteredModal from "@/views/Components/UniversalCenteredModal.vue";
 import Activities from "@/views/Components/Activities.vue";
 import SelectField from "@/views/Components/procurement/ui/SelectField.vue";
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue';
 import type { TableColumn } from '@/types';
 
 const activeTab = ref('New');
+const childKey = ref(0);
 
 const rhOrderTabs = ref([
   { name: 'New', count: 25 },
@@ -377,7 +393,6 @@ const toastMessage = ref('');
 // Action menu state
 const showActionMenu = ref(false);
 const selectedOrderForMenu = ref<any>(null);
-const childKey = ref(0);
 
 // Modal states
 const showOrderModal = ref(false);
@@ -469,8 +484,8 @@ const orderProducts = ref([
   }
 ]);
 
-// Column definitions
-const rhOrderColumns = ref<TableColumn[]>([
+// Base column definitions
+const baseColumns: TableColumn[] = [
   { label: 'Order No.', field: 'order_no', sortable: true },
   { label: 'HMO Name', field: 'hmo_name', sortable: true },
   { label: 'Store Name', field: 'store_name', sortable: true },
@@ -483,7 +498,20 @@ const rhOrderColumns = ref<TableColumn[]>([
   { label: 'Warehouse State', field: 'warehouse_state', sortable: true },
   { label: 'Warehouse LGA', field: 'warehouse_lga', sortable: true },
   { label: 'Action', field: 'action', sortable: false }
-]);
+];
+
+// Dynamic column definitions based on active tab
+const rhOrderColumns = computed<TableColumn[]>(() => {
+  const columns = [...baseColumns];
+  
+  // Add processing date column only for "Being Processed" tab
+  if (activeTab.value === 'Being Processed') {
+    // Insert processing date after order date (index 4) and before delivery type
+    columns.splice(5, 0, { label: 'Processing Date', field: 'processing_date', sortable: true });
+  }
+  
+  return columns;
+});
 
 // Mock RH orders data
 const rhOrders = ref([
@@ -674,6 +702,11 @@ const orderActivities = ref([
 const handleTabChange = (tab: string | { name: string; count: number }, index: number) => {
   // Handle tab change logic here
   activeTab.value = typeof tab === 'string' ? tab : tab.name;
+  
+  // Force reactivity update for columns
+  nextTick(() => {
+    childKey.value += 1;
+  });
 };
 
 // Download functions
