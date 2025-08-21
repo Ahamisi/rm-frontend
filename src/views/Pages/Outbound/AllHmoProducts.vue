@@ -47,7 +47,7 @@
             <button 
               @click="viewProduct(col.props?.formattedRow)"
               class="p-2 hover:bg-gray-50 rounded-md"
-              title="View Product"
+              title="Transfer to Inventory"
             >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0_10070_3912)">
@@ -84,7 +84,7 @@
       :title="`Transfer Information to Inventory - ${selectedProduct?.product_name || ''}`"
       @update:isOpen="showTransferModal = $event"
       @close="closeTransferModal"
-      :width="'70vw' as any"
+      :fullWidth="true"
     >
       <!-- Info Alert -->
       <div class="mb-6 p-3 bg-blue-50 border border-blue-200 rounded-lg">

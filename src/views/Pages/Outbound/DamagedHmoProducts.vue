@@ -11,7 +11,7 @@
         :items="damagedProducts"
         :columns="damagedProductColumns"
         :searchable="true"
-        :filterByDate="false"
+        :filterByDate="true"
         :printable="false"
         :exportable="false"
         :filterFields="{}"
@@ -23,9 +23,10 @@
             @click="openCreateModal"
             class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
           >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8 0C3.58 0 0 3.58 0 8C0 12.42 3.58 16 8 16C12.42 16 16 12.42 16 8C16 3.58 12.42 0 8 0ZM12 9H9V12C9 12.55 8.55 13 8 13C7.45 13 7 12.55 7 12V9H4C3.45 9 3 8.55 3 8C3 7.45 3.45 7 4 7H7V4C7 3.45 7.45 3 8 3C8.55 3 9 3.45 9 4V7H12C12.55 7 13 7.45 13 8C13 8.55 12.55 9 12 9Z" fill="white"/>
-            </svg>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+             <path fill-rule="evenodd" clip-rule="evenodd" d="M13 11V7C13 6.73478 12.8946 6.48043 12.7071 6.29289C12.5196 6.10536 12.2652 6 12 6C11.7348 6 11.4804 6.10536 11.2929 6.29289C11.1054 6.48043 11 6.73478 11 7V11H7C6.73478 11 6.48043 11.1054 6.29289 11.2929C6.10536 11.4804 6 11.7348 6 12C6 12.2652 6.10536 12.5196 6.29289 12.7071C6.48043 12.8946 6.73478 13 7 13H11V17C11 17.2652 11.1054 17.5196 11.2929 17.7071C11.4804 17.8946 11.7348 18 12 18C12.2652 18 12.5196 17.8946 12.7071 17.7071C12.8946 17.5196 13 17.2652 13 17V13H17C17.2652 13 17.5196 12.8946 17.7071 12.7071C17.8946 12.5196 18 12.2652 18 12C18 11.7348 17.8946 11.4804 17.7071 11.2929C17.5196 11.1054 17.2652 11 17 11H13Z" fill="white"/>
+          </svg>
+
             Create Damaged Product
           </button>
         </template>
@@ -79,23 +80,22 @@
       :title="showEditModal ? 'Edit Damaged HMO Products' : 'Create Damaged HMO Products'"
       @update:isOpen="closeModal"
       @close="closeModal"
+      width="45vw"
     >
       <div class="space-y-4">
-        <!-- Select Product -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Select Product</label>
-          <v-select
-            v-model="form.product"
-            :options="productOptions"
-            label="name"
-            placeholder="Type to search for product"
-            :searchable="true"
-            :clearable="true"
-          />
-        </div>
-
-        <!-- Quantity and Date Damaged (Row) -->
+        <!-- Select Product and Quantity (Row) -->
         <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Select Product</label>
+            <v-select
+              v-model="form.product"
+              :options="productOptions"
+              label="name"
+              placeholder="Type to search for product"
+              :searchable="true"
+              :clearable="true"
+            />
+          </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Quantity</label>
             <input
@@ -105,6 +105,10 @@
               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
+        </div>
+
+        <!-- Date Damaged and Product Batch Number (Row) -->
+        <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Date Damaged</label>
             <input
@@ -113,19 +117,17 @@
               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-        </div>
-
-        <!-- Product Batch Number -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Product Batch Number</label>
-          <v-select
-            v-model="form.batch_number"
-            :options="batchOptions"
-            label="name"
-            placeholder="Select a product batch no"
-            :searchable="true"
-            :clearable="true"
-          />
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Product Batch Number</label>
+            <v-select
+              v-model="form.batch_number"
+              :options="batchOptions"
+              label="name"
+              placeholder="Select a product batch no"
+              :searchable="true"
+              :clearable="true"
+            />
+          </div>
         </div>
 
         <!-- Cause of Damage -->

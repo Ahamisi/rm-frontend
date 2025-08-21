@@ -12,7 +12,8 @@
           v-if="isOpen"
           v-model="searchTerm"
           :placeholder="placeholder"
-          class="w-full appearance-none outline-none bg-transparent text-sm text-gray-700"
+          class="w-full appearance-none outline-none bg-transparent text-sm text-gray-700 border-none p-0 m-0"
+          style="box-shadow: none; border: none;"
           @blur="handleBlur"
           ref="searchInput"
         />
@@ -44,9 +45,7 @@
       </div>
       <div v-for="(option, index) in filteredOptions" :key="option.id">
         <div
-          class="px-2 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-50 flex items-center justify-between"
-          :class="{ 'border-b-2': index < filteredOptions.length - 1 }"
-          style="border-color: #091E4224; padding: 8px;"
+          class="px-3 py-3 text-sm text-gray-700 cursor-pointer hover:bg-gray-50 flex items-center justify-between"
           @click="selectOption(option)"
         >
           <span>{{ option[labelField] }}</span>

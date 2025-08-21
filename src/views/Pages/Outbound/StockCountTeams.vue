@@ -146,12 +146,12 @@
       </template>
     </SideBarModal>
 
-    <!-- Success Toast -->
-    <SuccessAlertToast 
-      :message="toastMessage" 
-      :duration="3000" 
-      :isVisible="showToast" 
-      @close="showToast = false" 
+    <!-- Team Creation/Update Success Modal -->
+    <SuccessModal
+      :show="showCreateSuccessModal"
+      :title="editingTeamId ? 'Stock Count Team Updated' : 'Stock Count Team Created'"
+      :message="createSuccessMessage"
+      @close="closeCreateSuccessModal"
     />
 
     <!-- Delete Confirmation Modal -->
@@ -179,8 +179,6 @@ import { useRouter } from 'vue-router'
 import Datatable from '@/views/Components/Datatable/Datatable.vue'
 import SideBarModal from '@/views/Components/SideBarModal.vue'
 import CustomMultiSelect from '@/views/Components/CustomMultiSelect.vue'
-// @ts-ignore
-import SuccessAlertToast from '@/views/Components/SuccessAlertToast.vue'
 import DeleteConfirmationModal from '@/views/Components/ui/DeleteConfirmationModal.vue';
 import SuccessModal from '@/views/Components/ui/SuccessModal.vue';
 
@@ -190,30 +188,157 @@ const router = useRouter()
 const showCreateModal = ref(false)
 const showDeleteModal = ref(false)
 const showSuccessModal = ref(false)
-const showToast = ref(false)
-const toastMessage = ref('')
+const showCreateSuccessModal = ref(false)
+const createSuccessMessage = ref('')
 const childKey = ref(0)
 const editingTeamId = ref(null)
 const teamToDelete = ref<any>(null)
 const deletedTeamName = ref('')
 
-// Teams data
+// Teams data with mock admin and shelf assignments
 const teams = ref([
-  { id: 15, name: 'Team A (Azeez)', users: 0, shelves: 0 },
-  { id: 14, name: 'Team B (David)', users: 4, shelves: 2 },
-  { id: 13, name: 'Team C (Sam)', users: 0, shelves: 0 },
-  { id: 12, name: 'Team D (Osas)', users: 0, shelves: 0 },
-  { id: 11, name: 'Team E (Bruno)', users: 0, shelves: 0 },
-  { id: 10, name: 'Team F (Ade)', users: 0, shelves: 0 },
-  { id: 9, name: 'Team E (Stella)', users: 0, shelves: 0 },
-  { id: 8, name: 'Team F (Tunji)', users: 1, shelves: 1 },
-  { id: 7, name: 'Team G (Mariam)', users: 0, shelves: 0 },
-  { id: 6, name: 'Team H (Dale)', users: 1, shelves: 1 },
-  { id: 5, name: 'Team I (Joseph)', users: 0, shelves: 0 },
-  { id: 4, name: 'Team J (Harrison)', users: 1, shelves: 1 },
-  { id: 3, name: 'Team K (Chukwudi)', users: 0, shelves: 0 },
-  { id: 2, name: 'Team L (Victor)', users: 1, shelves: 1 },
-  { id: 1, name: 'Team M (Emmanuel)', users: 0, shelves: 0 }
+  { 
+    id: 15, 
+    name: 'Team A (Azeez)', 
+    users: 0, 
+    shelves: 0,
+    admins: [],
+    assignedShelves: []
+  },
+  { 
+    id: 14, 
+    name: 'Team B (David)', 
+    users: 4, 
+    shelves: 2,
+    admins: [
+      { id: 1, name: 'John Doe' },
+      { id: 2, name: 'Jane Smith' }
+    ],
+    assignedShelves: [
+      { id: 1, name: 'Shelf A1' },
+      { id: 2, name: 'Shelf A2' }
+    ]
+  },
+  { 
+    id: 13, 
+    name: 'Team C (Sam)', 
+    users: 0, 
+    shelves: 0,
+    admins: [],
+    assignedShelves: []
+  },
+  { 
+    id: 12, 
+    name: 'Team D (Osas)', 
+    users: 0, 
+    shelves: 0,
+    admins: [],
+    assignedShelves: []
+  },
+  { 
+    id: 11, 
+    name: 'Team E (Bruno)', 
+    users: 0, 
+    shelves: 0,
+    admins: [],
+    assignedShelves: []
+  },
+  { 
+    id: 10, 
+    name: 'Team F (Ade)', 
+    users: 0, 
+    shelves: 0,
+    admins: [],
+    assignedShelves: []
+  },
+  { 
+    id: 9, 
+    name: 'Team E (Stella)', 
+    users: 0, 
+    shelves: 0,
+    admins: [],
+    assignedShelves: []
+  },
+  { 
+    id: 8, 
+    name: 'Team F (Tunji)', 
+    users: 1, 
+    shelves: 1,
+    admins: [
+      { id: 3, name: 'Mike Johnson' }
+    ],
+    assignedShelves: [
+      { id: 3, name: 'Shelf B1' }
+    ]
+  },
+  { 
+    id: 7, 
+    name: 'Team G (Mariam)', 
+    users: 0, 
+    shelves: 0,
+    admins: [],
+    assignedShelves: []
+  },
+  { 
+    id: 6, 
+    name: 'Team H (Dale)', 
+    users: 1, 
+    shelves: 1,
+    admins: [
+      { id: 4, name: 'Sarah Wilson' }
+    ],
+    assignedShelves: [
+      { id: 4, name: 'Shelf B2' }
+    ]
+  },
+  { 
+    id: 5, 
+    name: 'Team I (Joseph)', 
+    users: 0, 
+    shelves: 0,
+    admins: [],
+    assignedShelves: []
+  },
+  { 
+    id: 4, 
+    name: 'Team J (Harrison)', 
+    users: 1, 
+    shelves: 1,
+    admins: [
+      { id: 1, name: 'John Doe' }
+    ],
+    assignedShelves: [
+      { id: 5, name: 'Shelf C1' }
+    ]
+  },
+  { 
+    id: 3, 
+    name: 'Team K (Chukwudi)', 
+    users: 0, 
+    shelves: 0,
+    admins: [],
+    assignedShelves: []
+  },
+  { 
+    id: 2, 
+    name: 'Team L (Victor)', 
+    users: 1, 
+    shelves: 1,
+    admins: [
+      { id: 2, name: 'Jane Smith' }
+    ],
+    assignedShelves: [
+      { id: 1, name: 'Shelf A1' }
+    ]
+  },
+  { 
+    id: 1, 
+    name: 'Team M (Emmanuel)', 
+    users: 0, 
+    shelves: 0,
+    admins: [],
+    assignedShelves: []
+  }
 ])
 
 // New team form data
@@ -309,23 +434,31 @@ const createTeam = () => {
       teams.value[teamIndex] = {
         ...teams.value[teamIndex],
         name: newTeam.value.name,
-        // Keep existing users and shelves counts for now
+        admins: newTeam.value.admins,
+        assignedShelves: newTeam.value.shelves,
+        users: newTeam.value.admins.length,
+        shelves: newTeam.value.shelves.length
       }
     }
     console.log('Updating team:', editingTeamId.value, newTeam.value)
-    toastMessage.value = 'Team updated successfully!'
+    createSuccessMessage.value = `The stock count team "${newTeam.value.name}" has been successfully updated.`
   } else {
     // Create mode - create new team
     const newId = Math.max(...teams.value.map(t => t.id)) + 1
     teams.value.unshift({
       id: newId,
       name: newTeam.value.name,
-      users: 0,
-      shelves: 0
+      users: newTeam.value.admins.length,
+      shelves: newTeam.value.shelves.length,
+      admins: newTeam.value.admins,
+      assignedShelves: newTeam.value.shelves
     })
     console.log('Creating team:', newTeam.value)
-    toastMessage.value = 'Team created successfully!'
+    createSuccessMessage.value = `The stock count team "${newTeam.value.name}" has been successfully added to the system.`
   }
+  
+  // Store the team name for success message before resetting
+  const teamName = newTeam.value.name
   
   // Reset form and editing state
   newTeam.value = {
@@ -341,8 +474,11 @@ const createTeam = () => {
   // Refresh datatable
   childKey.value++
   
-  // Show success toast
-  showToast.value = true
+  // Show success modal with correct team name
+  createSuccessMessage.value = editingTeamId.value 
+    ? `The stock count team "${teamName}" has been successfully updated.`
+    : `The stock count team "${teamName}" has been successfully added to the system.`
+  showCreateSuccessModal.value = true
 }
 
 const editTeam = (team: any) => {
@@ -350,7 +486,7 @@ const editTeam = (team: any) => {
   newTeam.value = {
     name: team.name,
     admins: team.admins || [],
-    shelves: team.shelves || []
+    shelves: team.assignedShelves || []
   }
   
   // Set editing mode
@@ -358,6 +494,7 @@ const editTeam = (team: any) => {
   showCreateModal.value = true
   
   console.log('Edit team:', team)
+  console.log('Populated form data:', newTeam.value)
 }
 
 const deleteTeam = (team: any) => {
@@ -398,6 +535,11 @@ const cancelDelete = () => {
 const closeSuccessModal = () => {
   showSuccessModal.value = false
   deletedTeamName.value = ''
+}
+
+const closeCreateSuccessModal = () => {
+  showCreateSuccessModal.value = false
+  createSuccessMessage.value = ''
 }
 
 const deleteTeamFromModal = () => {

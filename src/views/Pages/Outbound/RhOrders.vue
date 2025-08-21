@@ -10,7 +10,7 @@
         <div class="flex items-center gap-3 ml-auto mb-1">
           <button 
             @click="downloadTimeTrackerReport"
-            class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-100"
+            class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-[#172B4D] bg-gray-200 rounded-md hover:bg-gray-100"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M10.687 17.292C10.5956 17.1997 10.4868 17.1264 10.3669 17.0764C10.247 17.0264 10.1184 17.0007 9.9885 17.0007C9.8586 17.0007 9.72998 17.0264 9.61009 17.0764C9.49019 17.1264 9.3814 17.1997 9.29 17.292C9.10466 17.4792 9.0007 17.732 9.0007 17.9955C9.0007 18.259 9.10466 18.5118 9.29 18.699L11.254 20.679C11.3546 20.7807 11.4744 20.8613 11.6064 20.9164C11.7384 20.9715 11.88 20.9998 12.023 20.9998C12.166 20.9998 12.3076 20.9715 12.4396 20.9164C12.5716 20.8613 12.6914 20.7807 12.792 20.679L14.711 18.746C14.8966 18.5587 15.0008 18.3057 15.0008 18.042C15.0008 17.7783 14.8966 17.5253 14.711 17.338C14.6196 17.2455 14.5107 17.1721 14.3907 17.122C14.2708 17.0719 14.142 17.0462 14.012 17.0462C13.882 17.0462 13.7532 17.0719 13.6333 17.122C13.5133 17.1721 13.4044 17.2455 13.313 17.338L12.023 18.638L10.687 17.292Z" fill="#44546F"/>
@@ -21,7 +21,7 @@
           </button>
           <button 
             @click="downloadReport"
-            class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-100"
+            class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-[#172B4D] bg-gray-200 rounded-md hover:bg-gray-100"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M10.687 17.292C10.5956 17.1997 10.4868 17.1264 10.3669 17.0764C10.247 17.0264 10.1184 17.0007 9.9885 17.0007C9.8586 17.0007 9.72998 17.0264 9.61009 17.0764C9.49019 17.1264 9.3814 17.1997 9.29 17.292C9.10466 17.4792 9.0007 17.732 9.0007 17.9955C9.0007 18.259 9.10466 18.5118 9.29 18.699L11.254 20.679C11.3546 20.7807 11.4744 20.8613 11.6064 20.9164C11.7384 20.9715 11.88 20.9998 12.023 20.9998C12.166 20.9998 12.3076 20.9715 12.4396 20.9164C12.5716 20.8613 12.6914 20.7807 12.792 20.679L14.711 18.746C14.8966 18.5587 15.0008 18.3057 15.0008 18.042C15.0008 17.7783 14.8966 17.5253 14.711 17.338C14.6196 17.2455 14.5107 17.1721 14.3907 17.122C14.2708 17.0719 14.142 17.0462 14.012 17.0462C13.882 17.0462 13.7532 17.0719 13.6333 17.122C13.5133 17.1721 13.4044 17.2455 13.313 17.338L12.023 18.638L10.687 17.292Z" fill="#44546F"/>
@@ -40,7 +40,7 @@
         :items="rhOrders"
         :columns="rhOrderColumns"
         :searchable="true"
-        :filterByDate="false"
+        :filterByDate="true"
         :printable="false"
         :exportable="false"
         :filterFields="{}"
@@ -50,10 +50,10 @@
         <template #column="col">
           <!-- Action Column -->
           <span v-if="col.props?.column?.field === 'action'">
-            <div class="relative">
+            <div class="relative action-dropdown-container">
               <button 
-                @click="toggleActionMenu(col.props?.formattedRow)"
-                class="text-gray-500 hover:text-gray-700"
+                @click="toggleActionMenu(col.props?.formattedRow, $event)"
+                class="text-gray-500 hover:text-[#172B4D]"
                 title="More actions"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -65,16 +65,21 @@
               
               <!-- Action Dropdown Menu -->
               <div v-if="showActionMenu && selectedOrderForMenu?.order_no === col.props?.formattedRow?.order_no" 
-                   class="absolute right-0 top-8 w-48 bg-white rounded-md shadow-lg border border-gray-200 z-10">
-                <div class="py-1">
-                  <button @click="viewOrder(selectedOrderForMenu)" class="flex items-center gap-2 w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                   :class="[
+                     'absolute right-0 bg-white rounded-lg shadow-xl border border-gray-200 py-1',
+                     selectedOrderForMenu?.positionAbove ? 'bottom-full mb-1' : 'top-full mt-1'
+                   ]"
+                   style="min-width: 180px; max-width: 220px; z-index: 99999;"
+                   >
+                <div>
+                  <button @click="viewOrder(selectedOrderForMenu)" class="flex items-center gap-3 w-full text-left px-4 py-3 text-sm text-[#172B4D] hover:bg-gray-50 transition-colors duration-150">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M12 18C7.464 18 4.001 13.74 4.001 12C4.001 9.999 7.46 6 12.001 6C16.377 6 19.999 9.973 19.999 12C19.999 13.74 16.537 18 12.001 18H12ZM12.001 4C6.48 4 2 8.841 2 12C2 15.086 6.576 20 12 20C17.423 20 22 15.086 22 12C22 8.841 17.52 4 12 4" fill="#626F86"/>
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M11.977 13.984C10.874 13.984 9.977 13.087 9.977 11.984C9.977 10.881 10.874 9.984 11.977 9.984C13.081 9.984 13.977 10.881 13.977 11.984C13.977 13.087 13.081 13.984 11.977 13.984ZM11.977 7.984C9.771 7.984 7.977 9.778 7.977 11.984C7.977 14.19 9.771 15.984 11.977 15.984C14.184 15.984 15.977 14.19 15.977 11.984C15.977 9.778 14.184 7.984 11.977 7.984Z" fill="#626F86"/>
                     </svg>
                     View Order
                   </button>
-                  <button @click="changeStatus(selectedOrderForMenu)" class="flex items-center gap-2 w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                  <button @click="changeStatus(selectedOrderForMenu)" class="flex items-center gap-3 w-full text-left px-4 py-3 text-sm text-[#172B4D] hover:bg-gray-50 transition-colors duration-150">
                     <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M8.0015 6.503V9.498C8.0015 9.76322 8.10686 10.0176 8.29439 10.2051C8.48193 10.3926 8.73628 10.498 9.0015 10.498C9.26672 10.498 9.52107 10.3926 9.70861 10.2051C9.89614 10.0176 10.0015 9.76322 10.0015 9.498V5.602C10.0015 4.994 9.5085 4.5 8.9015 4.5H5.0015C4.73589 4.5 4.48115 4.60551 4.29333 4.79333C4.10551 4.98115 4 5.23589 4 5.5015C4 5.76711 4.10551 6.02185 4.29333 6.20967C4.48115 6.39748 4.73589 6.503 5.0015 6.503H8.0015Z" fill="#626F86"/>
                       <path d="M9.4295 18.518C7.3525 17.489 6.0015 15.307 6.0015 12.87C6.0015 10.604 7.1685 8.551 9.0215 7.445C9.5015 7.159 9.6675 6.523 9.3925 6.024C9.33065 5.90677 9.24564 5.80331 9.14263 5.71991C9.03961 5.63651 8.92073 5.5749 8.79319 5.5388C8.66565 5.50271 8.53211 5.49289 8.40067 5.50994C8.26922 5.527 8.14261 5.57056 8.0285 5.638C5.5585 7.111 4.0015 9.85 4.0015 12.87C4.0015 16.118 5.8035 19.028 8.5715 20.399C9.0695 20.646 9.6665 20.425 9.9035 19.906C10.1405 19.386 9.9285 18.765 9.4295 18.518Z" fill="#626F86"/>
@@ -83,7 +88,7 @@
                     </svg>
                     Change Status
                   </button>
-                  <button @click="activityLog(selectedOrderForMenu)" class="flex items-center gap-2 w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                  <button @click="activityLog(selectedOrderForMenu)" class="flex items-center gap-3 w-full text-left px-4 py-3 text-sm text-[#172B4D] hover:bg-gray-50 transition-colors duration-150">
                     <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M17 10.505V19.5H7V5.5H12.99V7.99C12.99 8.38782 13.148 8.76936 13.4293 9.05066C13.7106 9.33196 14.0922 9.49 14.49 9.49H18.99V8.968C18.99 8.671 18.858 8.39 18.631 8.2L13.557 3.964C13.197 3.664 12.744 3.5 12.275 3.5H7C6.46957 3.5 5.96086 3.71071 5.58579 4.08579C5.21071 4.46086 5 4.96957 5 5.5V19.5C5 20.0304 5.21071 20.5391 5.58579 20.9142C5.96086 21.2893 6.46957 21.5 7 21.5H17C17.5304 21.5 18.0391 21.2893 18.4142 20.9142C18.7893 20.5391 19 20.0304 19 19.5V10.505H17Z" fill="#626F86"/>
                       <path d="M15 12.5H9C8.44772 12.5 8 12.9477 8 13.5C8 14.0523 8.44772 14.5 9 14.5H15C15.5523 14.5 16 14.0523 16 13.5C16 12.9477 15.5523 12.5 15 12.5Z" fill="#626F86"/>
@@ -107,69 +112,187 @@
     <!-- View Order Modal -->
     <SideBarModal
       :isOpen="showOrderModal"
-      title="Order Details"
+      :title="`Order Details - REF: ${selectedOrder?.order_no || ''}`"
       @update:isOpen="closeOrderModal"
       @close="closeOrderModal"
+      width="50vw"
     >
-      <div v-if="selectedOrder" class="space-y-4">
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Order No.</label>
-            <p class="text-sm text-gray-900">{{ selectedOrder.order_no }}</p>
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700">HMO Name</label>
-            <p class="text-sm text-gray-900">{{ selectedOrder.hmo_name }}</p>
-          </div>
+      <div v-if="selectedOrder">
+        <!-- Tabs -->
+        <div class="border-b border-gray-200 mb-6">
+          <nav class="-mb-px flex space-x-8">
+            <button
+              @click="activeOrderTab = 'Details'"
+              :class="[
+                'py-2 px-1 border-b-2 font-medium text-sm',
+                activeOrderTab === 'Details'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-[#172B4D] hover:border-gray-300'
+              ]"
+            >
+              Details
+            </button>
+            <button
+              @click="activeOrderTab = 'Activities'"
+              :class="[
+                'py-2 px-1 border-b-2 font-medium text-sm',
+                activeOrderTab === 'Activities'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-[#172B4D] hover:border-gray-300'
+              ]"
+            >
+              Activities
+            </button>
+          </nav>
         </div>
         
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Store Name</label>
-            <p class="text-sm text-gray-900">{{ selectedOrder.store_name }}</p>
+        <!-- Details Tab -->
+        <div v-if="activeOrderTab === 'Details'" class="space-y-6">
+          <!-- HMO Information -->
+          <div class="space-y-4">
+            <div class="flex justify-between items-center">
+              <span class="text-sm font-medium text-[#172B4D]">HMO Name</span>
+              <span class="text-sm text-[#44546F]">{{ selectedOrder.hmo_name }}</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-sm font-medium text-[#172B4D]">Customer Type</span>
+              <span class="text-sm text-[#44546F]">HMO</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-sm font-medium text-[#172B4D]">Phone</span>
+              <span class="text-sm text-[#44546F] flex items-center gap-2">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M5.83464 1.66663C4.91416 1.66663 4.16797 2.41282 4.16797 3.33329V16.6666C4.16797 17.5871 4.91416 18.3333 5.83464 18.3333H14.168C15.0884 18.3333 15.8346 17.5871 15.8346 16.6666V3.33329C15.8346 2.41282 15.0884 1.66663 14.168 1.66663H5.83464ZM14.168 3.33329H5.83464V14.1666H14.168V3.33329ZM11.668 15.8333H8.33464V16.6666H11.668V15.8333Z" fill="#091E42" fill-opacity="0.31"/>
+                </svg>
+                +234 809 123 4567
+              </span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-sm font-medium text-[#172B4D]">Store</span>
+              <span class="text-sm text-[#44546F] flex items-center gap-2">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M5.83464 1.66663C4.91416 1.66663 4.16797 2.41282 4.16797 3.33329V16.6666C4.16797 17.5871 4.91416 18.3333 5.83464 18.3333H14.168C15.0884 18.3333 15.8346 17.5871 15.8346 16.6666V3.33329C15.8346 2.41282 15.0884 1.66663 14.168 1.66663H5.83464ZM14.168 3.33329H5.83464V14.1666H14.168V3.33329ZM11.668 15.8333H8.33464V16.6666H11.668V15.8333Z" fill="#091E42" fill-opacity="0.31"/>
+                </svg>
+                {{ selectedOrder.store_name }}
+              </span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-sm font-medium text-[#172B4D]">Loan Limit</span>
+              <span class="text-sm text-[#44546F]">₦2,000,000.00</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-sm font-medium text-[#172B4D]">Amount to Reach Loan Limit</span>
+              <span class="text-sm text-[#44546F]">₦0.00</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-sm font-medium text-[#172B4D]">Outstanding Loan</span>
+              <span class="text-sm text-[#44546F]">₦0.00</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-sm font-medium text-[#172B4D]">Date</span>
+              <span class="text-sm text-[#44546F] flex items-center gap-2">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M4.1625 4.16667H15.8375C16.7558 4.16667 17.5 4.9125 17.5 5.82833V15.8383C17.5 16.0566 17.457 16.2728 17.3734 16.4744C17.2899 16.6761 17.1674 16.8593 17.013 17.0136C16.8586 17.1679 16.6753 17.2903 16.4736 17.3738C16.2719 17.4572 16.0558 17.5001 15.8375 17.5H4.1625C3.72172 17.5 3.29898 17.325 2.98723 17.0134C2.67547 16.7018 2.50022 16.2791 2.5 15.8383V5.82833C2.5 4.91083 3.24333 4.16667 4.1625 4.16667ZM4.16667 7.5V15C4.16667 15.221 4.25446 15.433 4.41074 15.5893C4.56702 15.7455 4.77899 15.8333 5 15.8333H15C15.221 15.8333 15.433 15.7455 15.5893 15.5893C15.7455 15.433 15.8333 15.221 15.8333 15V7.5H4.16667ZM5 3.33333C5 3.11232 5.0878 2.90036 5.24408 2.74408C5.40036 2.5878 5.61232 2.5 5.83333 2.5C6.05435 2.5 6.26631 2.5878 6.42259 2.74408C6.57887 2.90036 6.66667 3.11232 6.66667 3.33333V4.16667H5V3.33333ZM13.3333 3.33333C13.3333 3.11232 13.4211 2.90036 13.5774 2.74408C13.7337 2.5878 13.9457 2.5 14.1667 2.5C14.3877 2.5 14.5996 2.5878 14.7559 2.74408C14.9122 2.90036 15 3.11232 15 3.33333V4.16667H13.3333V3.33333ZM5.83333 10.8333V9.16583H7.5V10.8333H5.83333ZM12.5 10.8333V9.16583H14.1667V10.8333H12.5ZM9.16667 10.8333V9.16583H10.8342V10.8333H9.16667ZM5.83333 14.1667V12.5H7.5V14.1667H5.83333ZM9.16667 14.1667V12.5H10.8342V14.1667H9.16667ZM12.5 14.1667V12.5H14.1667V14.1667H12.5Z" fill="#091E42" fill-opacity="0.31"/>
+                </svg>
+                {{ selectedOrder.order_date }} - 11:13 AM
+              </span>
+            </div>
           </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700">State</label>
-            <p class="text-sm text-gray-900">{{ selectedOrder.state }}</p>
+
+          <!-- Delivery Details -->
+          <div class="border-t pt-6">
+            <h3 class="text-lg font-medium text-[#44546F] mb-4">Delivery Details</h3>
+            <div class="space-y-4">
+              <div class="flex justify-between items-center">
+                <span class="text-sm font-medium text-[#172B4D]">Patient's Name</span>
+                <span class="text-sm text-[#44546F]">Esther Kalu</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-sm font-medium text-[#172B4D]">Patient's Phone</span>
+                <span class="text-sm text-[#44546F] flex items-center gap-2">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.83464 1.66663C4.91416 1.66663 4.16797 2.41282 4.16797 3.33329V16.6666C4.16797 17.5871 4.91416 18.3333 5.83464 18.3333H14.168C15.0884 18.3333 15.8346 17.5871 15.8346 16.6666V3.33329C15.8346 2.41282 15.0884 1.66663 14.168 1.66663H5.83464ZM14.168 3.33329H5.83464V14.1666H14.168V3.33329ZM11.668 15.8333H8.33464V16.6666H11.668V15.8333Z" fill="#091E42" fill-opacity="0.31"/>
+                  </svg>
+                  +234 809 123 4567
+                </span>
+              </div>
+              <div class="flex justify-between items-start">
+                <span class="text-sm font-medium text-[#172B4D]">Patient's Address</span>
+                <span class="text-sm text-[#44546F] text-right flex items-start gap-2">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M10 17.5C8.1 17.5 5 10.2617 5 7.5C5 6.17392 5.52678 4.90215 6.46447 3.96447C7.40215 3.02678 8.67392 2.5 10 2.5C11.3261 2.5 12.5979 3.02678 13.5355 3.96447C14.4732 4.90215 15 6.17392 15 7.5C15 10.2617 11.9 17.5 10 17.5ZM10 10C10.3187 10 10.6342 9.93723 10.9286 9.81528C11.2231 9.69333 11.4906 9.51458 11.7159 9.28925C11.9412 9.06391 12.12 8.7964 12.2419 8.50198C12.3639 8.20756 12.4267 7.89201 12.4267 7.57333C12.4267 7.25466 12.3639 6.9391 12.2419 6.64469C12.12 6.35027 11.9412 6.08276 11.7159 5.85742C11.4906 5.63208 11.2231 5.45334 10.9286 5.33139C10.6342 5.20943 10.3187 5.14667 10 5.14667C9.35641 5.14667 8.73918 5.40233 8.28409 5.85742C7.829 6.31251 7.57333 6.92974 7.57333 7.57333C7.57333 8.21693 7.829 8.83416 8.28409 9.28925C8.73918 9.74433 9.35641 10 10 10Z" fill="#091E42" fill-opacity="0.31"/>
+                  </svg>
+
+                  302b Abisogun Leigh St. Ogba, Ikeja 101233, Lagos, Nigeria
+                </span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-sm font-medium text-[#172B4D]">State</span>
+                <span class="text-sm text-[#44546F]">Lagos State</span>
+          </div>
+        </div>
+          </div>
+
+          <!-- Order Summary -->
+          <div class="border-t pt-6">
+            <h3 class="text-lg font-medium text-[#44546F] mb-4">Order Summary</h3>
+            
+            <!-- Products Table -->
+            <div class="mb-6">
+              <Datatable
+                :items="orderProducts"
+                :columns="orderProductColumns"
+                :searchable="false"
+                :filterByDate="false"
+                :printable="false"
+                :exportable="false"
+                :showActions="false"
+                :showPagination="false"
+                class="order-summary-table"
+              >
+                <template #column="{ props }">
+                  <div v-if="props.column.field === 'tags'">
+                    <span v-if="props.row.tags" class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                      {{ props.row.tags }}
+                    </span>
+          </div>
+                  <span v-else>
+                    {{ props.row[props.column.field] }}
+                  </span>
+                </template>
+              </Datatable>
+        </div>
+
+            <!-- Totals -->
+            <div class="sticky-totals-section">
+              <div class="space-y-4 px-4 py-4">
+                <div class="flex justify-between items-center">
+                  <span class="text-sm font-medium text-[#172B4D]">Total Cost Price</span>
+                  <span class="text-sm text-[#44546F]">₦187,000.00</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-sm font-medium text-[#172B4D]">Total Selling Price</span>
+                  <span class="text-sm text-[#44546F]">₦187,000.00</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-sm font-medium text-[#172B4D]">Shipping Fee</span>
+                  <span class="text-sm text-[#44546F]">₦0.00</span>
+          </div>
+                <div class="flex justify-between items-center border-t pt-4" style="border-color: #091E4224;">
+                  <span class="text-lg font-semibold text-[#44546F]">Total</span>
+                  <span class="text-lg font-semibold text-[#44546F]">₦187,000.00</span>
+          </div>
+        </div>
+          </div>
           </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Order Date</label>
-            <p class="text-sm text-gray-900">{{ selectedOrder.order_date }}</p>
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Delivery Type</label>
-            <p class="text-sm text-gray-900">{{ selectedOrder.delivery_type }}</p>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Total Cost Price</label>
-            <p class="text-sm text-gray-900">{{ selectedOrder.total_cost_price }}</p>
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Total Selling Price</label>
-            <p class="text-sm text-gray-900">{{ selectedOrder.total_selling_price }}</p>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Warehouse</label>
-            <p class="text-sm text-gray-900">{{ selectedOrder.warehouse }}</p>
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Warehouse State</label>
-            <p class="text-sm text-gray-900">{{ selectedOrder.warehouse_state }}</p>
-          </div>
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium text-gray-700">Warehouse LGA</label>
-          <p class="text-sm text-gray-900">{{ selectedOrder.warehouse_lga }}</p>
+        <!-- Activities Tab -->
+        <div v-if="activeOrderTab === 'Activities'" class="space-y-4">
+          <Activities 
+            :activities="orderActivities"
+            :orderRef="selectedOrder?.order_no || ''"
+          />
         </div>
       </div>
 
@@ -186,63 +309,32 @@
       @close="closeStatusModal"
     >
       <template #header>
-        <h3 class="text-lg font-medium text-gray-900">Update Order Status</h3>
+        <h3 class="text-lg font-medium text-[#44546F]">Update Order Status</h3>
       </template>
 
       <template #body>
         <div class="space-y-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
-            <select
+            <label class="block text-sm font-medium text-[#172B4D] mb-2">Status</label>
+            <SelectField
               v-model="statusForm.status"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">Select a status</option>
-              <option value="new">New</option>
-              <option value="confirmed">Confirmed</option>
-              <option value="being_processed">Being Processed</option>
-              <option value="awaiting_shipment">Awaiting Shipment</option>
-              <option value="en_route">En Route</option>
-              <option value="delivered">Delivered</option>
-              <option value="cancelled">Cancelled</option>
-            </select>
+              :options="statusOptions"
+              labelField="name"
+              valueField="value"
+              placeholder="Select a status"
+            />
           </div>
         </div>
       </template>
 
       <template #footer>
-        <div class="flex justify-end space-x-3">
-          <button @click="closeStatusModal" class="cancel_btn">Cancel</button>
-          <button @click="updateStatus" class="create_btn">Update</button>
+        <div class="flex justify-end ">
+          <Button @click="updateStatus" class="create_btn text-white rounded-[16px] px-[8px] py-[6px] text-[12px]">Update</Button>
         </div>
       </template>
     </UniversalCenteredModal>
 
-    <!-- Activity Log Modal -->
-    <UniversalCenteredModal
-      :show="showActivities"
-      @close="showActivities = false"
-    >
-      <template #header>
-        <h3 class="text-lg font-medium text-gray-900">Order Activities</h3>
-        <p class="text-sm text-gray-500 mt-1">REF: {{ selectedOrder?.order_no || '' }}</p>
-      </template>
 
-      <template #body>
-        <div class="space-y-4">
-          <Activities 
-            :activities="orderActivities"
-            :orderRef="selectedOrder?.order_no || ''"
-          />
-        </div>
-      </template>
-
-      <template #footer>
-        <div class="flex justify-end">
-          <button @click="showActivities = false" class="cancel_btn">Close</button>
-        </div>
-      </template>
-    </UniversalCenteredModal>
 
     <!-- Success Toast -->
     <SuccessAlertToast 
@@ -262,7 +354,8 @@ import Datatable from "@/views/Components/Datatable/Datatable.vue";
 import SideBarModal from "@/views/Components/SideBarModal.vue";
 import UniversalCenteredModal from "@/views/Components/UniversalCenteredModal.vue";
 import Activities from "@/views/Components/Activities.vue";
-import { ref } from 'vue';
+import SelectField from "@/views/Components/procurement/ui/SelectField.vue";
+import { ref, onMounted, onUnmounted } from 'vue';
 import type { TableColumn } from '@/types';
 
 const activeTab = ref('New');
@@ -289,13 +382,92 @@ const childKey = ref(0);
 // Modal states
 const showOrderModal = ref(false);
 const showStatusModal = ref(false);
-const showActivities = ref(false);
 const selectedOrder = ref<any>(null);
+const activeOrderTab = ref('Details');
 
 // Form data
 const statusForm = ref({
-  status: ''
+  status: null
 });
+
+// Status options
+const statusOptions = ref([
+  { name: 'New', value: 'new' },
+  { name: 'Confirmed', value: 'confirmed' },
+  { name: 'Being Processed', value: 'being_processed' },
+  { name: 'Awaiting Shipment', value: 'awaiting_shipment' },
+  { name: 'En Route', value: 'en_route' },
+  { name: 'Delivered', value: 'delivered' },
+  { name: 'Cancelled', value: 'cancelled' }
+]);
+
+// Order products data and columns
+const orderProductColumns = ref([
+  { label: 'Product Name', field: 'product_name', sortable: false },
+  { label: 'Tags', field: 'tags', sortable: false },
+  { label: 'Quantity Delivered', field: 'quantity_delivered', sortable: false },
+  { label: 'Unit Price', field: 'unit_price', sortable: false },
+  { label: 'Price Total', field: 'price_total', sortable: false }
+]);
+
+const orderProducts = ref([
+  {
+    id: 1,
+    product_name: 'STREPSILS INTENSIVE HONEY & LEMON LOZENGES X 16',
+    tags: 'Controlled',
+    quantity_delivered: 20,
+    unit_price: '₦47,400.00',
+    price_total: '₦47,400.00'
+  },
+  {
+    id: 2,
+    product_name: 'STREPSILS INTENSIVE HONEY & LEMON LOZENGES X 16',
+    tags: 'Controlled',
+    quantity_delivered: 10,
+    unit_price: '₦47,400.00',
+    price_total: '₦47,400.00'
+  },
+  {
+    id: 3,
+    product_name: 'STREPSILS INTENSIVE HONEY & LEMON LOZENGES X 16',
+    tags: 'Controlled',
+    quantity_delivered: 1,
+    unit_price: '₦47,400.00',
+    price_total: '₦47,400.00'
+  },
+  {
+    id: 4,
+    product_name: 'LUMAREAL TABLET 20/120 X 12 ()',
+    tags: 'Controlled',
+    quantity_delivered: 1,
+    unit_price: '₦47,400.00',
+    price_total: '₦47,400.00'
+  },
+  {
+    id: 5,
+    product_name: 'LUMAREAL TABLET 20/120 X 12 ()',
+    tags: '',
+    quantity_delivered: 1,
+    unit_price: '₦47,400.00',
+    price_total: '₦47,400.00'
+  },
+  {
+    id: 6,
+    product_name: 'LUMAREAL TABLET 20/120 X 12 ()',
+    tags: '',
+    quantity_delivered: 1,
+    unit_price: '₦47,400.00',
+    price_total: '₦47,400.00'
+  },
+  {
+    id: 7,
+    product_name: 'LUMAREAL TABLET 20/120 X 12 ()',
+    tags: 'Controlled',
+    quantity_delivered: 1,
+    unit_price: '₦47,400.00',
+    price_total: '₦47,400.00'
+  }
+]);
 
 // Column definitions
 const rhOrderColumns = ref<TableColumn[]>([
@@ -321,6 +493,7 @@ const rhOrders = ref([
     store_name: 'Emeka Pharmacy',
     state: 'Lagos',
     order_date: '5/21/2024',
+    processing_date: '5/22/2024',
     delivery_type: 'Pick Up',
     total_cost_price: '₦2,055,043.00',
     total_selling_price: '₦2,055,043.00',
@@ -334,6 +507,7 @@ const rhOrders = ref([
     store_name: 'Emeka Pharmacy',
     state: 'Lagos',
     order_date: '5/21/2024',
+    processing_date: '5/22/2024',
     delivery_type: 'Pick Up',
     total_cost_price: '₦2,055,043.00',
     total_selling_price: '₦2,055,043.00',
@@ -345,6 +519,123 @@ const rhOrders = ref([
     order_no: 'RHPO-1651244216',
     hmo_name: 'NEM Health',
     store_name: 'Emeka Pharmacy',
+    state: 'Lagos',
+    order_date: '5/21/2024',
+    delivery_type: 'Pick Up',
+    total_cost_price: '₦2,055,043.00',
+    total_selling_price: '₦2,055,043.00',
+    warehouse: 'LOS-HMO',
+    warehouse_state: 'Lagos',
+    warehouse_lga: 'Ikeja'
+  },
+  {
+    order_no: 'RHPO-1651244217',
+    hmo_name: 'Oluwatosin Adegboye',
+    store_name: 'Emma Bros Pharmacy',
+    state: 'Lagos',
+    order_date: '5/21/2024',
+    delivery_type: 'Pick Up',
+    total_cost_price: '₦2,055,043.00',
+    total_selling_price: '₦2,055,043.00',
+    warehouse: 'LOS-HMO',
+    warehouse_state: 'Lagos',
+    warehouse_lga: 'Ikeja'
+  },
+  {
+    order_no: 'RHPO-1651244218',
+    hmo_name: 'NEM Health',
+    store_name: 'Emeka Pharmacy',
+    state: 'Lagos',
+    order_date: '5/21/2024',
+    delivery_type: 'Pick Up',
+    total_cost_price: '₦2,055,043.00',
+    total_selling_price: '₦2,055,043.00',
+    warehouse: 'LOS-HMO',
+    warehouse_state: 'Lagos',
+    warehouse_lga: 'Ikeja'
+  },
+  {
+    order_no: 'RHPO-1651244219',
+    hmo_name: 'Reliance Health',
+    store_name: 'Emma Bros Pharmacy',
+    state: 'Lagos',
+    order_date: '5/21/2024',
+    delivery_type: 'Pick Up',
+    total_cost_price: '₦2,055,043.00',
+    total_selling_price: '₦2,055,043.00',
+    warehouse: 'LOS-HMO',
+    warehouse_state: 'Lagos',
+    warehouse_lga: 'Ikeja'
+  },
+  {
+    order_no: 'RHPO-1651244220',
+    hmo_name: 'Oluwatosin Adegboye',
+    store_name: 'Xela pharmacy',
+    state: 'Lagos',
+    order_date: '5/21/2024',
+    delivery_type: 'Pick Up',
+    total_cost_price: '₦2,055,043.00',
+    total_selling_price: '₦2,055,043.00',
+    warehouse: 'LOS-HMO',
+    warehouse_state: 'Lagos',
+    warehouse_lga: 'Ikeja'
+  },
+  {
+    order_no: 'RHPO-1651244221',
+    hmo_name: 'NEM Health',
+    store_name: 'Emeka Pharmacy',
+    state: 'Lagos',
+    order_date: '5/21/2024',
+    delivery_type: 'Pick Up',
+    total_cost_price: '₦2,055,043.00',
+    total_selling_price: '₦2,055,043.00',
+    warehouse: 'LOS-HMO',
+    warehouse_state: 'Lagos',
+    warehouse_lga: 'Ikeja'
+  },
+  {
+    order_no: 'RHPO-1651244222',
+    hmo_name: 'Reliance Health',
+    store_name: 'Emma Bros Pharmacy',
+    state: 'Lagos',
+    order_date: '5/21/2024',
+    delivery_type: 'Pick Up',
+    total_cost_price: '₦2,055,043.00',
+    total_selling_price: '₦2,055,043.00',
+    warehouse: 'LOS-HMO',
+    warehouse_state: 'Lagos',
+    warehouse_lga: 'Ikeja'
+  },
+  {
+    order_no: 'RHPO-1651244223',
+    hmo_name: 'Oluwatosin Adegboye',
+    store_name: 'Emeka Pharmacy',
+    state: 'Lagos',
+    order_date: '5/21/2024',
+    delivery_type: 'Pick Up',
+    total_cost_price: '₦2,055,043.00',
+    total_selling_price: '₦2,055,043.00',
+    warehouse: 'LOS-HMO',
+    warehouse_state: 'Lagos',
+    warehouse_lga: 'Ikeja'
+  },
+  {
+    order_no: 'RHPO-1651244224',
+    hmo_name: 'NEM Health',
+    store_name: 'Emma Bros Pharmacy',
+    state: 'Lagos',
+    order_date: '5/21/2024',
+    delivery_type: 'Pick Up',
+    total_cost_price: '₦2,055,043.00',
+    total_selling_price: '₦2,055,043.00',
+    warehouse: 'LOS-HMO',
+    warehouse_state: 'Lagos',
+    warehouse_lga: 'Ikeja'
+  },
+  {
+    order_no: 'RHPO-1651244225',
+    hmo_name: 'Reliance Health',
+    store_name: 'Xela pharmacy',
     state: 'Lagos',
     order_date: '5/21/2024',
     delivery_type: 'Pick Up',
@@ -397,17 +688,28 @@ const downloadReport = () => {
 };
 
 // Action menu methods
-const toggleActionMenu = (order: any) => {
+const toggleActionMenu = (order: any, event?: Event) => {
   if (selectedOrderForMenu.value?.order_no === order.order_no) {
     showActionMenu.value = !showActionMenu.value;
   } else {
     selectedOrderForMenu.value = order;
     showActionMenu.value = true;
   }
+  
+  // Calculate position to determine if dropdown should appear above or below
+  if (event && showActionMenu.value) {
+    const target = event.target as HTMLElement;
+    const rect = target.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+    
+    // If there's not enough space below (less than 200px), position above
+    selectedOrderForMenu.value.positionAbove = (windowHeight - rect.bottom) < 200;
+  }
 };
 
 const viewOrder = (order: any) => {
   selectedOrder.value = order;
+  activeOrderTab.value = 'Details';
   showOrderModal.value = true;
   showActionMenu.value = false;
 };
@@ -420,7 +722,8 @@ const changeStatus = (order: any) => {
 
 const activityLog = (order: any) => {
   selectedOrder.value = order;
-  showActivities.value = true;
+  activeOrderTab.value = 'Activities';
+  showOrderModal.value = true;
   showActionMenu.value = false;
 };
 
@@ -428,11 +731,12 @@ const activityLog = (order: any) => {
 const closeOrderModal = () => {
   showOrderModal.value = false;
   selectedOrder.value = null;
+  activeOrderTab.value = 'Details';
 };
 
 const closeStatusModal = () => {
   showStatusModal.value = false;
-  statusForm.value.status = '';
+  statusForm.value.status = null;
 };
 
 const updateStatus = () => {
@@ -442,11 +746,29 @@ const updateStatus = () => {
     return;
   }
   
-  toastMessage.value = `Order status updated to ${statusForm.value.status}`;
+  // Find the status name for display
+  const selectedStatus = statusOptions.value.find(option => option.value === statusForm.value.status);
+  toastMessage.value = `Order status updated to ${selectedStatus?.name || statusForm.value.status}`;
   showToast.value = true;
   closeStatusModal();
   childKey.value++;
 };
+
+// Close dropdown when clicking outside
+const handleClickOutside = (event: Event) => {
+  const target = event.target as HTMLElement;
+  if (!target.closest('.action-dropdown-container')) {
+    showActionMenu.value = false;
+  }
+};
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside);
+});
 </script>
 
 <style>
@@ -461,5 +783,38 @@ const updateStatus = () => {
 
 .bg-gray-light {
   background-color: #091E420F;
+}
+
+/* Order Summary Table Styling */
+.order-summary-table {
+  font-size: 12px;
+  color: #172B4D;
+}
+
+.order-summary-table table {
+  font-size: 12px;
+}
+
+.order-summary-table th,
+.order-summary-table td {
+  font-size: 12px !important;
+  color: #172B4D !important;
+}
+
+.order-summary-table .bg-gray-100 {
+  background-color: #f8f9fa !important;
+}
+
+/* Sticky Totals Section */
+.sticky-totals-section {
+  position: sticky;
+  bottom: 0;
+  background-color: #F7F8F9;
+  border-top: 1px solid #091E4224;
+  border-bottom: 1px solid #091E4224;
+  margin-left: -24px;
+  margin-right: -24px;
+  margin-bottom: -24px;
+  z-index: 10;
 }
 </style>

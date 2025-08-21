@@ -36,9 +36,10 @@
               @click="openCreateModal"
               class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
             >
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M8 0C3.58 0 0 3.58 0 8C0 12.42 3.58 16 8 16C12.42 16 16 12.42 16 8C16 3.58 12.42 0 8 0ZM12 9H9V12C9 12.55 8.55 13 8 13C7.45 13 7 12.55 7 12V9H4C3.45 9 3 8.55 3 8C3 7.45 3.45 7 4 7H7V4C7 3.45 7.45 3 8 3C8.55 3 9 3.45 9 4V7H12C12.55 7 13 7.45 13 8C13 8.55 12.55 9 12 9Z" fill="white"/>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M13 11V7C13 6.73478 12.8946 6.48043 12.7071 6.29289C12.5196 6.10536 12.2652 6 12 6C11.7348 6 11.4804 6.10536 11.2929 6.29289C11.1054 6.48043 11 6.73478 11 7V11H7C6.73478 11 6.48043 11.1054 6.29289 11.2929C6.10536 11.4804 6 11.7348 6 12C6 12.2652 6.10536 12.5196 6.29289 12.7071C6.48043 12.8946 6.73478 13 7 13H11V17C11 17.2652 11.1054 17.5196 11.2929 17.7071C11.4804 17.8946 11.7348 18 12 18C12.2652 18 12.5196 17.8946 12.7071 17.7071C12.8946 17.5196 13 17.2652 13 17V13H17C17.2652 13 17.5196 12.8946 17.7071 12.7071C17.8946 12.5196 18 12.2652 18 12C18 11.7348 17.8946 11.4804 17.7071 11.2929C17.5196 11.1054 17.2652 11 17 11H13Z" fill="white"/>
               </svg>
+
               Create HMO Product Return
             </button>
           </div>
@@ -130,46 +131,39 @@
         <!-- Products Table -->
         <div class="space-y-3">
           <h3 class="text-sm font-medium text-gray-700">Products</h3>
-          <div class="border border-gray-200 rounded-lg overflow-hidden">
-            <table class="w-full">
-              <thead class="bg-gray-50">
-                <tr>
-                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    <input type="checkbox" @change="toggleAllProducts" class="rounded">
-                  </th>
-                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product Name</th>
-                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Batch No.</th>
-                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity Supplied</th>
-                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity to Return</th>
-                </tr>
-              </thead>
-              <tbody class="bg-white divide-y divide-gray-200">
-                <tr v-for="product in availableProducts" :key="product.id" class="hover:bg-gray-50">
-                  <td class="px-4 py-3">
-                    <input 
-                      type="checkbox" 
-                      v-model="product.selected" 
-                      class="rounded"
-                      @change="updateSelectedProducts"
-                    >
-                  </td>
-                  <td class="px-4 py-3 text-sm text-gray-900">{{ product.name }}</td>
-                  <td class="px-4 py-3 text-sm text-gray-500">{{ product.batch }}</td>
-                  <td class="px-4 py-3 text-sm text-gray-500">{{ product.supplied }}</td>
-                  <td class="px-4 py-3 text-sm text-gray-500">
-                    <input 
-                      type="number" 
-                      v-model="product.returnQuantity"
-                      :max="product.supplied"
-                      min="0"
-                      class="w-20 px-2 py-1 border border-gray-300 rounded text-center"
-                      :disabled="!product.selected"
-                    >
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <Datatable
+            :items="availableProducts"
+            :columns="availableProductsColumns"
+            :searchable="false"
+            :filterByDate="false"
+            :printable="false"
+            :exportable="false"
+            :showActions="false"
+          >
+            <template #column="{ props }">
+              <div v-if="props.column.field === 'select'">
+                <input 
+                  type="checkbox" 
+                  v-model="props.row.selected" 
+                  class="rounded"
+                  @change="updateSelectedProducts"
+                >
+              </div>
+              <!-- <div v-else-if="props.column.field === 'returnQuantity'">
+                <input 
+                  type="number" 
+                  v-model="props.row.returnQuantity"
+                  :max="props.row.supplied"
+                  min="0"
+                  class="w-20 px-2 py-1 border border-gray-300 rounded text-center"
+                  :disabled="!props.row.selected"
+                >
+              </div> -->
+              <span v-else>
+                {{ props.row[props.column.field] }}
+              </span>
+            </template>
+          </Datatable>
         </div>
       </div>
 
@@ -298,6 +292,15 @@ const returnsColumns = ref<TableColumn[]>([
   { label: 'Action', field: 'action', sortable: false }
 ]);
 
+// Available products table columns
+const availableProductsColumns = ref<TableColumn[]>([
+  { label: '', field: 'select', sortable: false },
+  { label: 'Product Name', field: 'name', sortable: false },
+  { label: 'Batch No.', field: 'batch', sortable: false },
+  { label: 'Quantity Supplied', field: 'supplied', sortable: false },
+  { label: 'Quantity to Return', field: 'returnQuantity', sortable: false }
+]);
+
 // Mock options
 const customerOptions = ref([
   { id: 1, name: 'Emeka Kalu' },
@@ -325,24 +328,24 @@ const availableProducts = ref([
     id: 1,
     name: 'STREPSILS INTENSIVE HONEY & LEMON LOZENGES X 16',
     batch: 'LW377 | 01/08/2024',
-    supplied: 'PA007',
-    returnQuantity: 189,
+    supplied: 189,
+    returnQuantity: 0,
     selected: false
   },
   {
     id: 2,
     name: 'STREPSILS INTENSIVE HONEY & LEMON LOZENGES X 16',
     batch: 'LW377 | 01/08/2024',
-    supplied: 'PA007',
-    returnQuantity: 1189,
+    supplied: 1189,
+    returnQuantity: 0,
     selected: false
   },
   {
     id: 3,
     name: 'STREPSILS INTENSIVE HONEY & LEMON LOZENGES X 16',
     batch: 'LW377 | 01/08/2024',
-    supplied: 'PA007',
-    returnQuantity: 11,
+    supplied: 11,
+    returnQuantity: 0,
     selected: false
   }
 ]);
@@ -434,12 +437,7 @@ const resetForm = () => {
   });
 };
 
-const toggleAllProducts = (event: Event) => {
-  const target = event.target as HTMLInputElement;
-  availableProducts.value.forEach(product => {
-    product.selected = target.checked;
-  });
-};
+
 
 const updateSelectedProducts = () => {
   // Update logic if needed

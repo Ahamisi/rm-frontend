@@ -8,7 +8,9 @@
 			:class="[
 				showModal ? 'translate-x-0' : 'translate-x-full',
 				widthClass
-			]" @click.stop>
+			]" 
+			:style="widthStyle"
+			@click.stop>
 			<!-- Header -->
 			<div class="flex items-center justify-between py-3 pl-6 pr-2 modal_header">
 				<h2 class="flex items-center gap-2 modal_title">{{ title }} <span v-html="extraHeader"></span></h2>
@@ -47,9 +49,10 @@ interface Props {
 	title: string;
 	isOpen: boolean;
 	showDiscardWarning?: boolean;
-	width?: 'sm' | 'md' | 'lg' | 'xl';
+	width?: 'sm' | 'md' | 'lg' | 'xl' | string;
 	initialFormData?: Record<string, any>;
-	extraHeader?: HTMLElement
+	extraHeader?: HTMLElement;
+	fullWidth?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -71,6 +74,11 @@ const internalFormData = ref({ ...props.initialFormData })
 const originalBodyStyle = ref('')
 
 const widthClass = computed(() => {
+	// If fullWidth is true, return full width class
+	if (props.fullWidth) {
+		return 'w-[80vw]'
+	}
+	
 	const widthMap = {
 		sm: 'md:w-80 w-[90vw]',
 		md: 'md:w-96 w-[90vw]',
@@ -78,12 +86,20 @@ const widthClass = computed(() => {
 		xl: 'md:w-[45rem] w-[90vw]'
 	}
 	
-	// Check if it's a percentage or custom width
-	if (props.width.includes('%') || props.width.includes('px') || props.width.includes('rem')) {
-		return `w-[${props.width}]`
+	// Check if it's a percentage or custom width - return empty string to use inline style
+	if (typeof props.width === 'string' && (props.width.includes('%') || props.width.includes('px') || props.width.includes('rem') || props.width.includes('vw'))) {
+		return ''
 	}
 	
 	return widthMap[props.width] || widthMap.xl
+})
+
+const widthStyle = computed(() => {
+	// If it's a custom width (%, px, rem, vw), use inline style
+	if (typeof props.width === 'string' && (props.width.includes('%') || props.width.includes('px') || props.width.includes('rem') || props.width.includes('vw'))) {
+		return { width: props.width }
+	}
+	return {}
 })
 
 const preventBodyScroll = () => {
