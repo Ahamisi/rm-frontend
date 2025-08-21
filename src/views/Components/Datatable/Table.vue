@@ -2,7 +2,7 @@
 	<div class="bg-white border text-lightBlack border-[#091E4224] rounded-xl shadow-sm overflow-x-auto">
 		<table class="w-full table-auto" :id="tableId">
 			<thead>
-				<tr class="text-center bg-gray-100 medium-text text-text-default">
+				<tr class="text-left bg-gray-100 font-medium text-text-default md:text-[12px]">
 					<slot name="tableHeader">
 						<template v-for="column in columns" :key="`th-${column.field}-${pageName}`">
 							<!-- :class="{ 'cursor-pointer': column.sortable, 'p-2': true }" -->
@@ -121,7 +121,7 @@
 
 <script setup lang="ts">
 import type { PropType } from 'vue';
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import type { TableColumn, ServerParams } from '@/types';
 import UpDownIcon from "@/views/Components/procurement/icons/UpDownIcon.vue";
 import _ from 'lodash';
@@ -178,6 +178,14 @@ const formattedRow = (row: Record<string, any>, columns: TableColumn[]) => {
 const getColumnValue = (row: Record<string, any>, column: TableColumn) => {
 	return column.format ? column.format(_.get(row, column.field)) : _.get(row, column.field);
 };
+
+// Watch items prop for debugging if needed
+// watch(() => props.items, (newItems) => {
+// 	console.log('🔧 Table component - items changed:', { 
+// 		itemsLength: newItems.length, 
+// 		loading: props.loading
+// 	});
+// }, { immediate: true });
 
 </script>
 

@@ -141,7 +141,7 @@
 
       <div class="relative">
         <button ref="branchButton" @click="toggleBranchDropdown"
-          class="flex items-center capitalize border-gray-300 rounded px-3 py-1.5 text-gray-700 font-semibold focus:outline-none bg-bg-neutral">
+          class="flex items-center capitalize border-gray-300 rounded px-3 py-1.5 text-gray-700 font-semibold focus:outline-none bg-neutral-100">
           <p class="text-xs font-normal">
             {{ authStore.selectedBranch?.name.toLocaleLowerCase() + " branch" }}
           </p>

@@ -64,22 +64,12 @@
           <div class="bg-white rounded-lg shadow-sm border card attention-container p-6">
             <div class="flex items-center justify-between mb-6">
               <h3 class="text-lg font-semibold text-gray-900">Order Time Tracker</h3>
-              <div class="relative">
-                <select 
-                  v-model="selectedYear" 
-                  class="appearance-none px-3 py-2 pr-8 text-sm bg-white rounded-md focus:outline-none cursor-pointer"
-                  style="border: 2px solid #091E4224;"
-                >
-                  <option v-for="option in yearOptions" :key="option.id" :value="option">
-                    {{ option.name }}
-                  </option>
-                </select>
-                <!-- Custom caret down icon -->
-                <div class="absolute inset-y-0 right-2 flex items-center pointer-events-none">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M8.29207 10.2929C8.10526 10.4818 8.00049 10.7368 8.00049 11.0024C8.00049 11.2681 8.10526 11.523 8.29207 11.7119L11.2311 14.6769C11.4491 14.8919 11.7311 14.9989 12.0101 14.9989C12.2891 14.9989 12.5661 14.8919 12.7791 14.6769L15.7091 11.7219C15.8956 11.5329 16.0002 11.278 16.0002 11.0124C16.0002 10.7469 15.8956 10.492 15.7091 10.3029C15.6172 10.2098 15.5078 10.1358 15.3871 10.0853C15.2664 10.0347 15.1369 10.0087 15.0061 10.0087C14.8752 10.0087 14.7457 10.0347 14.625 10.0853C14.5043 10.1358 14.3949 10.2098 14.3031 10.3029L12.0051 12.6199L9.69807 10.2929C9.60603 10.2001 9.49652 10.1264 9.37586 10.0762C9.25521 10.0259 9.12578 10 8.99507 10C8.86435 10 8.73493 10.0259 8.61427 10.0762C8.49361 10.1264 8.38411 10.2001 8.29207 10.2929Z" fill="#44546F"/>
-                  </svg>
-                </div>
+              <div class="w-24">
+                <SelectField
+                  v-model="selectedYear"
+                  :options="yearOptions"
+                  placeholder="2025"
+                />
               </div>
             </div>
 
@@ -101,11 +91,11 @@
                       <div v-html="getDepartmentIcon(stage.department)" class="w-4 h-4"></div>
                     </div>
                     <div>
-                      <div class="text-sm font-medium text-gray-800">{{ stage.department }}</div>
-                      <div class="text-xs text-gray-500">{{ stage.process }}</div>
+                      <div class="text-[12px] font-medium text-gray-800">{{ stage.department }}</div>
+                      <div class="text-[11px] text-gray-500">{{ stage.process }}</div>
                     </div>
                   </div>
-                  <div class="text-sm font-semibold text-gray-700">{{ stage.time }}</div>
+                  <div class="text-[11px] font-semibold text-gray-700">{{ stage.time }}</div>
                 </div>
               </div>
             </div>

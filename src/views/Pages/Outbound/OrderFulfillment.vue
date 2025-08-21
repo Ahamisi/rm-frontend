@@ -17,7 +17,7 @@
     </div>
 
     <!-- Header -->
-    <div class="px-6 py-4 bg-[#F7F8F9] flex items-center justify-between">
+    <div class="px-6 py-4 bg-white flex items-center justify-between">
       <div>
         <h5 class="text-sm font-normal text-gray-700">ORDER FULFILLMENT</h5>
       </div>
@@ -60,7 +60,7 @@
 
     <!-- Check In Confirmation Modal -->
     <div v-if="showCheckInModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div class="bg-white rounded-lg shadow-xl w-[500px] mx-4">
+      <div class="bg-white rounded-lg shadow-xl w-[550px] mx-4">
         <!-- Modal Header -->
         <div class="flex items-center justify-between p-6 border-b border-gray-200">
           <div class="flex items-center gap-3">
@@ -69,7 +69,7 @@
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M11.0616 4.96699C11.5776 3.99299 12.4196 3.98899 12.9376 4.96699L20.0616 18.425C20.5776 19.399 20.1066 20.196 19.0046 20.196H4.99458C3.89258 20.196 3.41958 19.403 3.93758 18.425L11.0616 4.96699ZM11.2925 14.7071C11.48 14.8946 11.7344 15 11.9996 15C12.2648 15 12.5192 14.8946 12.7067 14.7071C12.8942 14.5196 12.9996 14.2652 12.9996 14V8.99998C12.9996 8.73477 12.8942 8.48041 12.7067 8.29288C12.5192 8.10534 12.2648 7.99998 11.9996 7.99998C11.7344 7.99998 11.48 8.10534 11.2925 8.29288C11.1049 8.48041 10.9996 8.73477 10.9996 8.99998V14C10.9996 14.2652 11.1049 14.5196 11.2925 14.7071ZM11.2925 17.7071C11.48 17.8946 11.7344 18 11.9996 18C12.2648 18 12.5192 17.8946 12.7067 17.7071C12.8942 17.5196 12.9996 17.2652 12.9996 17C12.9996 16.7348 12.8942 16.4804 12.7067 16.2929C12.5192 16.1053 12.2648 16 11.9996 16C11.7344 16 11.48 16.1053 11.2925 16.2929C11.1049 16.4804 10.9996 16.7348 10.9996 17C10.9996 17.2652 11.1049 17.5196 11.2925 17.7071Z" fill="#E56910"/>
               </svg>
             </div>
-            <h3 class="text-lg font-normal text-[#172B4D]">Check In?</h3>
+            <h3 class="text-lg font-[600] text-[#172B4D]">Check In?</h3>
           </div>
           <button @click="showCheckInModal = false" class="text-gray-400 hover:text-gray-600">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -80,7 +80,7 @@
         
         <!-- Modal Body -->
         <div class="p-6">
-          <p class="text-gray-600">
+          <p class="text-[#44546F] text-[14px] font-[400]">
             You are about to start your shift and begin receiving orders for processing. Please ensure you're ready to start processing orders.
           </p>
         </div>
@@ -149,7 +149,7 @@
     </div>
 
     <!-- Content Area -->
-    <div class="px-6 py-6 bg-[#F7F8F9]" style="min-height: calc(100vh - 200px);">
+    <div class="px-6 py-6 bg-[#F7F8F9] w-[97%] mx-auto rounded-[16px] flex items-center justify-center" style="min-height: calc(100vh - 200px);">
       <!-- No Assigned Orders State -->
       <div v-if="!isCheckedIn" class="flex items-center justify-center h-full">
         <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center max-w-md w-full mx-4">

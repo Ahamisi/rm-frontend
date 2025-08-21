@@ -29,7 +29,7 @@
         v-for="(option, index) in options" 
         :key="option.value"
         class="px-2 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-50"
-        :class="{ 'border-b-2': index < options.length - 1 }"
+        :class="{ 'border-b-0': index < options.length - 1 }"
         style="border-color: #091E4224; padding: 8px;"
         @click="selectOption(option)"
       >

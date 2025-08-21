@@ -727,6 +727,296 @@ export const mockHandlers: Record<string, (config: AxiosRequestConfig) => Promis
     });
   },
 
+  // Outbound Log Books
+  'GET /outbound/log-books': async (config) => {
+    const params = config.params || {};
+    console.log('🎭 Mock API: GET /outbound/log-books - Received params:', params);
+    
+    const mockLogBooks = [
+      {
+        id: 1,
+        driver_name: 'Janet Adeajayi',
+        order_count: 15,
+        state: 'Lagos State',
+        delivery_timeline: '16/01/2025 - 16:34:54s',
+        vehicle_reg_no: 'LAG-123-ABC',
+        created_at: '2025-01-16T16:34:54Z',
+        updated_at: '2025-01-16T16:34:54Z',
+        customers: [
+          {
+            id: 1,
+            order_number: 'ORD-2025-001',
+            customer_name: 'Emeka Pharmacy',
+            package_type: 'Standard Box',
+            quantity: 25,
+            warehouse_rep_signoff: 'John Doe',
+            logistics_rep_signoff: 'Jane Smith',
+            vehicle_reg_no: 'LAG-123-ABC'
+          },
+          {
+            id: 2,
+            order_number: 'ORD-2025-002',
+            customer_name: 'Mercy Medical Store',
+            package_type: 'Cold Chain',
+            quantity: 12,
+            warehouse_rep_signoff: 'John Doe',
+            logistics_rep_signoff: 'Jane Smith',
+            vehicle_reg_no: 'LAG-123-ABC'
+          }
+        ]
+      },
+      {
+        id: 2,
+        driver_name: 'Chike Okafor',
+        order_count: 22,
+        state: 'Abuja FCT',
+        delivery_timeline: '16/01/2025 - 14:20:30s',
+        vehicle_reg_no: 'ABJ-456-DEF',
+        created_at: '2025-01-16T14:20:30Z',
+        updated_at: '2025-01-16T14:20:30Z',
+        customers: [
+          {
+            id: 3,
+            order_number: 'ORD-2025-003',
+            customer_name: 'Capital Health Pharmacy',
+            package_type: 'Standard Box',
+            quantity: 18,
+            warehouse_rep_signoff: 'Mary Johnson',
+            logistics_rep_signoff: 'David Wilson',
+            vehicle_reg_no: 'ABJ-456-DEF'
+          }
+        ]
+      },
+      {
+        id: 3,
+        driver_name: 'Adunni Lawal',
+        order_count: 8,
+        state: 'Ogun State',
+        delivery_timeline: '16/01/2025 - 12:15:45s',
+        vehicle_reg_no: 'OGN-789-GHI',
+        created_at: '2025-01-16T12:15:45Z',
+        updated_at: '2025-01-16T12:15:45Z',
+        customers: [
+          {
+            id: 4,
+            order_number: 'ORD-2025-004',
+            customer_name: 'Gateway Medical Centre',
+            package_type: 'Fragile',
+            quantity: 5,
+            warehouse_rep_signoff: 'Peter Brown',
+            logistics_rep_signoff: 'Sarah Davis',
+            vehicle_reg_no: 'OGN-789-GHI'
+          }
+        ]
+      },
+      {
+        id: 4,
+        driver_name: 'Tunde Bakare',
+        order_count: 31,
+        state: 'Rivers State',
+        delivery_timeline: '16/01/2025 - 10:45:12s',
+        vehicle_reg_no: 'RIV-321-JKL',
+        created_at: '2025-01-16T10:45:12Z',
+        updated_at: '2025-01-16T10:45:12Z',
+        customers: [
+          {
+            id: 5,
+            order_number: 'ORD-2025-005',
+            customer_name: 'Port Harcourt General Hospital',
+            package_type: 'Bulk Order',
+            quantity: 45,
+            warehouse_rep_signoff: 'Michael Green',
+            logistics_rep_signoff: 'Lisa White',
+            vehicle_reg_no: 'RIV-321-JKL'
+          }
+        ]
+      },
+      {
+        id: 5,
+        driver_name: 'Kemi Adebayo',
+        order_count: 19,
+        state: 'Kano State',
+        delivery_timeline: '16/01/2025 - 09:30:25s',
+        vehicle_reg_no: 'KAN-654-MNO',
+        created_at: '2025-01-16T09:30:25Z',
+        updated_at: '2025-01-16T09:30:25Z',
+        customers: [
+          {
+            id: 6,
+            order_number: 'ORD-2025-006',
+            customer_name: 'Northern Pharmacy Ltd',
+            package_type: 'Standard Box',
+            quantity: 28,
+            warehouse_rep_signoff: 'Ahmed Hassan',
+            logistics_rep_signoff: 'Fatima Ali',
+            vehicle_reg_no: 'KAN-654-MNO'
+          }
+        ]
+      }
+    ];
+
+    // Apply search filter
+    let filteredLogBooks = [...mockLogBooks];
+    if (params.searchTerm || params.search) {
+      const searchTerm = (params.searchTerm || params.search).toLowerCase();
+      filteredLogBooks = filteredLogBooks.filter(logBook => 
+        logBook.driver_name.toLowerCase().includes(searchTerm) ||
+        logBook.state.toLowerCase().includes(searchTerm) ||
+        logBook.vehicle_reg_no.toLowerCase().includes(searchTerm)
+      );
+    }
+
+    // Apply date filters
+    if (params.from_date && params.to_date) {
+      filteredLogBooks = filteredLogBooks.filter(logBook => 
+        logBook.created_at >= params.from_date && logBook.created_at <= params.to_date
+      );
+    }
+
+    const result = paginate(filteredLogBooks, params.page, params.perPage);
+    console.log('🎭 Mock API: GET /outbound/log-books - Returning data:', result);
+    return createMockResponse(result);
+  },
+
+  // Outbound Stock Count
+  'GET /outbound/stock-count': async (config) => {
+    const params = config.params || {};
+    console.log('🎭 Mock API: GET /outbound/stock-count - Received params:', params);
+    
+    const mockStockCount = [
+      {
+        id: 1,
+        product_name: 'Paracetamol 500mg',
+        batch_number: 'BATCH-001',
+        expected_quantity: 500,
+        actual_quantity: 498,
+        variance: -2,
+        status: 'Discrepancy',
+        shelf_location: 'A1-B2',
+        counted_by: 'John Doe',
+        counted_at: '2025-01-16T14:30:00Z'
+      },
+      {
+        id: 2,
+        product_name: 'Amoxicillin 250mg',
+        batch_number: 'BATCH-002',
+        expected_quantity: 300,
+        actual_quantity: 300,
+        variance: 0,
+        status: 'Match',
+        shelf_location: 'A2-C1',
+        counted_by: 'Jane Smith',
+        counted_at: '2025-01-16T14:35:00Z'
+      },
+      {
+        id: 3,
+        product_name: 'Ibuprofen 400mg',
+        batch_number: 'BATCH-003',
+        expected_quantity: 250,
+        actual_quantity: 255,
+        variance: 5,
+        status: 'Surplus',
+        shelf_location: 'B1-A3',
+        counted_by: 'Mike Johnson',
+        counted_at: '2025-01-16T14:40:00Z'
+      }
+    ];
+
+    const result = paginate(mockStockCount, params.page, params.perPage);
+    return createMockResponse(result);
+  },
+
+  // Outbound Picking Lists
+  'GET /outbound/picking-lists': async (config) => {
+    const params = config.params || {};
+    console.log('🎭 Mock API: GET /outbound/picking-lists - Received params:', params);
+    
+    const mockPickingLists = [
+      {
+        id: 1,
+        order_ref: 'ORD-2025-001',
+        customer_name: 'Emeka Pharmacy',
+        status: 'In Progress',
+        assigned_to: 'Esther Joel',
+        created_at: '2025-01-16T10:00:00Z',
+        items: [
+          {
+            id: 1,
+            sn: 1,
+            product_name: 'Paracetamol 500mg',
+            batch_number: 'BATCH-001',
+            quantity_required: 50,
+            quantity_picked: 0,
+            shelf_location: 'A1-B2',
+            scan: 'Scan',
+            status: 'Pending'
+          },
+          {
+            id: 2,
+            sn: 2,
+            product_name: 'Amoxicillin 250mg',
+            batch_number: 'BATCH-002',
+            quantity_required: 30,
+            quantity_picked: 0,
+            shelf_location: 'A2-C1',
+            scan: 'Scan',
+            status: 'Pending'
+          }
+        ]
+      }
+    ];
+
+    const result = paginate(mockPickingLists, params.page, params.perPage);
+    return createMockResponse(result);
+  },
+
+  // Outbound Check-in/Check-out
+  'POST /outbound/check-in': async (config) => {
+    console.log('🎭 Mock API: POST /outbound/check-in - Received data:', config.data);
+    return createMockResponse({
+      message: 'Successfully checked in',
+      check_in_time: new Date().toISOString(),
+      agent_name: 'Current User'
+    });
+  },
+
+  'POST /outbound/check-out': async (config) => {
+    console.log('🎭 Mock API: POST /outbound/check-out - Received data:', config.data);
+    return createMockResponse({
+      message: 'Successfully checked out',
+      check_out_time: new Date().toISOString(),
+      agent_name: 'Current User'
+    });
+  },
+
+  // Outbound Teams
+  'GET /outbound/teams': async (config) => {
+    const params = config.params || {};
+    const mockTeams = [
+      {
+        id: 1,
+        name: 'Team Alpha',
+        leader: 'John Doe',
+        members: ['Jane Smith', 'Mike Johnson', 'Sarah Wilson'],
+        status: 'Active',
+        current_task: 'Stock Count - Warehouse A',
+        created_at: '2025-01-15T08:00:00Z'
+      },
+      {
+        id: 2,
+        name: 'Team Beta',
+        leader: 'David Brown',
+        members: ['Lisa Davis', 'Tom Wilson', 'Anna Taylor'],
+        status: 'Active',
+        current_task: 'Order Fulfillment - Zone B',
+        created_at: '2025-01-15T08:00:00Z'
+      }
+    ];
+
+    const result = paginate(mockTeams, params.page, params.perPage);
+    return createMockResponse(result);
+  },
+
   // Outbound orders
 'GET /outbound/orders': async (config) => {
   const params = config.params || {};

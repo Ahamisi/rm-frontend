@@ -211,37 +211,57 @@ const logBookColumns = ref<TableColumn[]>([
   { label: 'Action', field: 'action', sortable: false }
 ])
 
-// Mock customer list data
+// Mock customer list data - Enhanced with realistic data
 const customerList = ref([
   {
     id: 1,
-    order_number: 'REF: 1656493689-254',
-    customer_name: 'Janet Adeajayi',
-    package_type: 'None',
-    quantity: 71,
-    warehouse_rep_sign_off: '--',
-    logistics_rep_sign_off: '--',
-    vehicle_reg_no: '--'
+    order_number: 'ORD-2025-001',
+    customer_name: 'Emeka Pharmacy',
+    package_type: 'Standard Box',
+    quantity: 25,
+    warehouse_rep_sign_off: 'John Doe',
+    logistics_rep_sign_off: 'Jane Smith',
+    vehicle_reg_no: 'LAG-123-ABC'
   },
   {
     id: 2,
-    order_number: 'REF: 1656493689-254',
-    customer_name: 'Janet Adeajayi',
-    package_type: 'None',
-    quantity: 59,
-    warehouse_rep_sign_off: '--',
-    logistics_rep_sign_off: '--',
-    vehicle_reg_no: '--'
+    order_number: 'ORD-2025-002',
+    customer_name: 'Mercy Medical Store',
+    package_type: 'Cold Chain',
+    quantity: 12,
+    warehouse_rep_sign_off: 'John Doe',
+    logistics_rep_sign_off: 'Jane Smith',
+    vehicle_reg_no: 'LAG-123-ABC'
   },
   {
     id: 3,
-    order_number: 'REF: 1656493689-254',
-    customer_name: 'Janet Adeajayi',
-    package_type: 'None',
-    quantity: 70,
-    warehouse_rep_sign_off: '--',
-    logistics_rep_sign_off: '--',
-    vehicle_reg_no: '--'
+    order_number: 'ORD-2025-003',
+    customer_name: 'Sunrise Healthcare',
+    package_type: 'Fragile',
+    quantity: 8,
+    warehouse_rep_sign_off: 'Mike Johnson',
+    logistics_rep_sign_off: 'Sarah Wilson',
+    vehicle_reg_no: 'LAG-123-ABC'
+  },
+  {
+    id: 4,
+    order_number: 'ORD-2025-004',
+    customer_name: 'City General Hospital',
+    package_type: 'Bulk Order',
+    quantity: 45,
+    warehouse_rep_sign_off: 'David Brown',
+    logistics_rep_sign_off: 'Lisa Davis',
+    vehicle_reg_no: 'LAG-123-ABC'
+  },
+  {
+    id: 5,
+    order_number: 'ORD-2025-005',
+    customer_name: 'Wellness Pharmacy',
+    package_type: 'Standard Box',
+    quantity: 18,
+    warehouse_rep_sign_off: 'Peter Green',
+    logistics_rep_sign_off: 'Anna Taylor',
+    vehicle_reg_no: 'LAG-123-ABC'
   }
 ])
 

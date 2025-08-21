@@ -38,7 +38,7 @@
 </template>
 <script setup lang="ts">
 import DatatableHeader from "./Header.vue";
-import { ref, computed, type PropType, onMounted, useId } from "vue";
+import { ref, computed, type PropType, onMounted, useId, watch } from "vue";
 import type { TableColumn, FilterFields, FilterField } from "@/types";
 import { useToast } from "vue-toastification";
 import LoadingState from "@/views/Components/procurement/state/LoadingState.vue";
@@ -88,7 +88,7 @@ const props = defineProps({
 	},
 	items: {
 		type: Array as PropType<Record<string, any>[]>,
-		default: () => []
+		default: undefined
 	}
 });
 
@@ -105,7 +105,7 @@ const useApiMode = computed(() => !!props.url);
 const apiComposable = useApiMode.value ? useDatatable(props.url!, props.pageName) : null;
 
 // For static mode
-const staticItems = ref(props.items);
+const staticItems = ref(props.items || []);
 const staticLoading = ref(false);
 const staticPagination = ref({ total: 1, current_page: 1, per_page: 10 });
 const staticCurrentPage = ref(1);
@@ -137,14 +137,15 @@ const tableFilters = useApiMode.value ? useTableFilters(serverParams, updatePara
 const onSearch = useApiMode.value ? tableFilters!.onSearch : (value: string) => {
 	staticServerParams.value.searchTerm = value;
 	// Filter static items based on search
+	const itemsToFilter = props.items || [];
 	if (value) {
-		staticItems.value = props.items.filter(item => 
+		staticItems.value = itemsToFilter.filter(item => 
 			Object.values(item).some(val => 
 				String(val).toLowerCase().includes(value.toLowerCase())
 			)
 		);
 	} else {
-		staticItems.value = props.items;
+		staticItems.value = itemsToFilter;
 	}
 };
 
@@ -226,13 +227,21 @@ const onSortChangeWithEmit = (sortParams: any) => {
 	emit('onSort', sortParams);
 };
 
+// Watch for changes in props.items when in static mode
+watch(() => props.items, (newItems) => {
+	if (!useApiMode.value) {
+		const items = newItems || [];
+		staticItems.value = items;
+	}
+}, { immediate: true });
+
 onMounted(() => {
 	if (useApiMode.value) {
 		loadFromStorage(props.filterFields, props.searchable, props.filterByDate);
 		loadItemsWithEmit();
 	} else {
 		// For static mode, just set the items
-		staticItems.value = props.items;
+		staticItems.value = props.items || [];
 	}
 });
 </script>
