@@ -214,7 +214,7 @@ const onSubmit = () => {
         <!-- Footer -->
         <div class="border-t px-6 py-4 flex items-center justify-end">
           <button v-if="form.id" @click="isDeleteModalOpen = true"
-            class="flex items-center text-white bg-red-500 hover:bg-red-600 rounded-lg px-2 py-2 text-sm mr-auto">
+            class="flex items-center text-white bg-red-500 hover:text-[#44546F] rounded-lg px-2 py-2 text-sm mr-auto">
             <TrashIcon class="w-4 h-4 text-white" />
           </button>
           <div class="flex gap-3">

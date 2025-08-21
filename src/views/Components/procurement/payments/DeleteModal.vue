@@ -28,7 +28,7 @@
               Cancel
             </button>
             <button @click="confirmDelete"
-              class="px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 text-sm font-medium">
+              class="px-6 py-2 text-[#44546F] text-white rounded-md hover:bg-red-700 text-sm font-medium">
               Delete
             </button>
           </div>

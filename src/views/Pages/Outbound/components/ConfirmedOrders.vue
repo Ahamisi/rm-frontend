@@ -288,9 +288,8 @@
           <div class="mb-6">
             <h3 class="text-xs font-medium text-gray-500 pb-[12px]">Recent</h3>
 
-            <Activities 
-              :activities="orderActivities" 
-              :order-ref="selectedOrder.order_no" 
+            <WorkflowActivities 
+              :activities="workflowActivities" 
             />
           </div>
         </div>
@@ -355,9 +354,8 @@
     >
       <div class="space-y-6">
         <h3 class="text-xs font-medium text-gray-500 mb-4">Recent</h3>
-        <Activities 
-          :activities="orderActivities" 
-          :order-ref="selectedOrder.order_no" 
+        <WorkflowActivities 
+          :activities="workflowActivities" 
         />
       </div>
     </SideBarModal>
@@ -386,6 +384,7 @@ import Datatable from '@/views/Components/Datatable/Datatable.vue';
 import LoadingState from '@/views/Components/procurement/state/LoadingState.vue';
 import SideBarModal from '@/views/Components/SideBarModal.vue';
 import Activities from '@/views/Components/Activities.vue';
+import WorkflowActivities from '@/views/Components/WorkflowActivities.vue';
 import TableActionDropdown from '@/views/Components/procurement/ui/TableActionDropdown.vue';
 import SuccessAlertToast from '@/views/Components/SuccessAlertToast.vue';
 import SuccessModal from '@/views/Components/procurement/ui/SuccessModal.vue';
@@ -505,6 +504,20 @@ const orderActivities = ref([
   { action: 'Order being processed status changed', user: 'Oreva Emamoro', time: 'Today 12:45pm' },
   { action: 'Order has been picked and packed assigned', user: 'Oreva Emamoro', time: 'Today 10:45pm' },
   { action: 'Order has been picked and packed status changed', user: 'Oreva Emamoro', time: 'Today 10:45pm' }
+]);
+
+// Mock workflow activities for Activities tab
+const workflowActivities = ref([
+  {
+    department: 'Accounting',
+    statusChange: 'New Order → Order Confirmed',
+    timeTaken: '1-2 hours'
+  },
+  {
+    department: 'Inventory',
+    statusChange: 'Order Confirmed → Being Processed',
+    timeTaken: '1 minute'
+  }
 ]);
 
 // Action handlers

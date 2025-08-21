@@ -173,7 +173,7 @@
     </SideBarModal>
 
     <!-- Reject Stock Count Modal -->
-    <DeleteConfirmationModal
+    <RejectConfirmationModal
       :show="showRejectModal"
       :message="rejectMessage"
       confirm-text="Reject Stock Count"
@@ -188,7 +188,7 @@ import { ref, computed } from 'vue';
 import Datatable from '@/views/Components/Datatable/Datatable.vue';
 import SideBarModal from '@/views/Components/SideBarModal.vue';
 import SelectBox from '@/views/Components/procurement/SelectBox.vue';
-import DeleteConfirmationModal from '@/views/Components/ui/DeleteConfirmationModal.vue';
+import RejectConfirmationModal from '@/views/Components/ui/RejectConfirmationModal.vue';
 
 const childKey = ref(0);
 

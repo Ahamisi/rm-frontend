@@ -48,7 +48,7 @@ const emit = defineEmits(["edit", "delete"]);
       <!-- Right Section: Action Buttons -->
       <div class="flex items-center gap-2">
         <button @click="$emit('delete')"
-          class="bg-[#C9372C] text-white flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded hover:bg-red-600">
+          class="bg-[#C9372C] text-white flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded hover:text-[#44546F]">
           <TrashIcon class="h-4 w-4 text-white" />
           Delete
         </button>

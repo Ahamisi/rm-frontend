@@ -9,7 +9,9 @@
           <!-- Display Lucide Icon -->
           <component v-else-if="displayIcon" :is="displayIcon" class="w-5 h-6 text-text-default" />
           <input :placeholder="placeholder"
-            class="w-full bg-white outline-none appearance-none medium-text text-text-default" v-model="searchTerm"
+            class="w-full bg-white outline-none appearance-none medium-text text-text-default border-none p-0 m-0" 
+            style="box-shadow: none; border: none;"
+            v-model="searchTerm"
             @focus="handleFocus" @blur="handleBlur" />
           <div class="flex items-center w-8 pl-2 pr-1 border-gray-200 text-text-default">
             <button class="w-6 h-6 text-gray-600 outline-none cursor-pointer focus:outline-none"
@@ -27,7 +29,7 @@
         class="absolute left-0 z-40 w-full overflow-y-auto bg-white border-2 border-gray-100 rounded shadow shad-md top-100 max-h-select">
         <div class="flex flex-col w-full max-h-32">
           <div v-for="option in filteredOptions" :key="option.id"
-            class="w-full border-b border-gray-100 cursor-pointer hover:bg-gray-100" @click="selectOption(option)">
+            class="w-full  border-gray-100 cursor-pointer hover:bg-gray-100" @click="selectOption(option)">
             <div @click="selectOption(option)"
               class="relative flex items-center w-full px-3 py-3 pl-2 border-l-2 border-transparent hover:border-gray-200">
               <div class="flex items-center justify-between w-full">

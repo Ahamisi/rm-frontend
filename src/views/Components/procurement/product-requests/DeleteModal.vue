@@ -88,7 +88,7 @@ const confirmDelete = () => {
 }
 
 .btn-danger {
-  @apply px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700;
+  @apply px-4 py-2 text-[#44546F] text-white rounded hover:bg-red-700;
 }
 
 /* Transitions */

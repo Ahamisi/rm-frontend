@@ -122,39 +122,37 @@
         </div>
       </div>
 
+      <!-- Horizontal Divider -->
+      <hr class="border-t border-gray-200 my-6">
+
       <!-- Customer List -->
       <div>
         <h3 class="mb-4 text-lg font-medium text-gray-900">Customer List</h3>
         
-        <!-- Table -->
-        <div class="overflow-x-auto">
-          <table class="w-full border-separate order_summary" style="border-spacing: 0">
-            <thead class="bg-gray-50">
-              <tr>
-                <th class="text-left w-[15%]">Order Number</th>
-                <th class="text-left w-[20%]">Customer Name</th>
-                <th class="text-left w-[15%]">Package Type</th>
-                <th class="text-left w-[10%]">Quantity</th>
-                <th class="text-left w-[15%]">Warehouse Rep. Sign off</th>
-                <th class="text-left w-[15%]">Logistics Rep. Sign off</th>
-                <th class="text-left w-[10%]">Vehicle Reg. No.</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="customer in customerList" :key="customer.id" class="hover:bg-gray-50">
-                <td class="w-[15%]">{{ customer.order_number }}</td>
-                <td class="w-[20%]">
-                  <span class="text-blue-600 hover:text-blue-800 cursor-pointer">{{ customer.customer_name }}</span>
-                </td>
-                <td class="w-[15%]">{{ customer.package_type }}</td>
-                <td class="w-[10%]">{{ customer.quantity }}</td>
-                <td class="w-[15%]">{{ customer.warehouse_rep_sign_off }}</td>
-                <td class="w-[15%]">{{ customer.logistics_rep_sign_off }}</td>
-                <td class="w-[10%]">{{ customer.vehicle_reg_no }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <!-- Customer List Datatable -->
+        <Datatable
+          :items="customerList"
+          :columns="customerListColumns"
+          :searchable="true"
+          :filterByDate="false"
+          :printable="false"
+          :exportable="false"
+          :showActions="false"
+          :showPagination="true"
+          pageName="LogBookCustomers"
+        >
+          <template #column="{ props }">
+            <!-- Customer Name with blue styling -->
+            <span v-if="props.column.field === 'customer_name'">
+              <span class="text-blue-600 hover:text-blue-800 cursor-pointer">{{ props.row.customer_name }}</span>
+            </span>
+            
+            <!-- Default column rendering -->
+            <span v-else>
+              {{ props.row[props.column.field] }}
+            </span>
+          </template>
+        </Datatable>
       </div>
       
       <!-- Footer with Close button -->
@@ -209,6 +207,17 @@ const logBookColumns = ref<TableColumn[]>([
   { label: 'State', field: 'state', sortable: true },
   { label: 'Delivery Timeline', field: 'delivery_timeline', sortable: true },
   { label: 'Action', field: 'action', sortable: false }
+])
+
+// Customer list table columns
+const customerListColumns = ref<TableColumn[]>([
+  { label: 'Order Number', field: 'order_number', sortable: true },
+  { label: 'Customer Name', field: 'customer_name', sortable: true },
+  { label: 'Package Type', field: 'package_type', sortable: true },
+  { label: 'Quantity', field: 'quantity', sortable: true },
+  { label: 'Warehouse Rep. Sign off', field: 'warehouse_rep_sign_off', sortable: true },
+  { label: 'Logistics Rep. Sign off', field: 'logistics_rep_sign_off', sortable: true },
+  { label: 'Vehicle Reg. No.', field: 'vehicle_reg_no', sortable: true }
 ])
 
 // Mock customer list data - Enhanced with realistic data

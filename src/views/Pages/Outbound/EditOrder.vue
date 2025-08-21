@@ -6,8 +6,8 @@
     <!-- Header -->
     <PageTitle :title="getTitle" />
 
-    <div class="flex flex-wrap items-center gap-2 mb-8 md:justify-between create_grn_header_wrapper">
-      <button @click="goBack" class="flex items-center p-1 rounded hover:bg-gray-200">
+    <div class="flex flex-wrap items-center gap-2 mb-8 md:justify-between create_grn_header_wrapper pt-[12px]">
+      <button @click="goBack" class="flex items-center rounded hover:bg-gray-200">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" clip-rule="evenodd"
             d="M9.0047 10.9951L13.5977 6.40205C13.6893 6.3086 13.7985 6.23422 13.919 6.18324C14.0395 6.13225 14.1689 6.10565 14.2998 6.10499C14.4306 6.10433 14.5603 6.12962 14.6813 6.17939C14.8023 6.22915 14.9123 6.30242 15.0048 6.39494C15.0973 6.48747 15.1706 6.59742 15.2204 6.71844C15.2701 6.83945 15.2954 6.96913 15.2948 7.09998C15.2941 7.23083 15.2675 7.36025 15.2165 7.48076C15.1655 7.60126 15.0912 7.71047 14.9977 7.80205L11.0977 11.7021L14.9977 15.6021C15.1803 15.7883 15.2819 16.0392 15.2806 16.3C15.2793 16.5608 15.1751 16.8106 14.9907 16.995C14.8062 17.1795 14.5565 17.2837 14.2956 17.285C14.0348 17.2863 13.784 17.1846 13.5977 17.0021L9.0047 12.4101C8.81723 12.2225 8.71191 11.9682 8.71191 11.7031C8.71191 11.4379 8.81723 11.1836 9.0047 10.9961V10.9951Z"
@@ -23,14 +23,15 @@
             d="M2.91933 0.833313C2.45725 0.833313 2.0835 1.20498 2.0835 1.66248V8.33748C2.08493 8.5581 2.17366 8.76918 2.33029 8.92456C2.48692 9.07994 2.6987 9.16698 2.91933 9.16665H7.081C7.54308 9.16665 7.91683 8.7954 7.91683 8.33748V1.66248C7.91683 1.20748 7.54266 0.833313 7.081 0.833313H2.91933ZM3.75016 2.49998H6.25016C6.48028 2.49998 6.66683 2.68653 6.66683 2.91665C6.66683 3.14676 6.48028 3.33331 6.25016 3.33331H3.75016C3.52004 3.33331 3.3335 3.14676 3.3335 2.91665C3.3335 2.68653 3.52004 2.49998 3.75016 2.49998ZM6.25016 3.74998H3.75016C3.52004 3.74998 3.3335 3.93653 3.3335 4.16665C3.3335 4.39676 3.52004 4.58331 3.75016 4.58331H6.25016C6.48028 4.58331 6.66683 4.39676 6.66683 4.16665C6.66683 3.93653 6.48028 3.74998 6.25016 3.74998ZM3.75016 4.99998H4.5835C4.81362 4.99998 5.00016 5.18653 5.00016 5.41665C5.00016 5.64676 4.81362 5.83331 4.5835 5.83331H3.75016C3.52004 5.83331 3.3335 5.64676 3.3335 5.41665C3.3335 5.18653 3.52004 4.99998 3.75016 4.99998Z"
             fill="#44546F" />
         </svg>
-        <span class="font-light upper">{{ order?.order_no }}</span>
+        <span class="font-light upper">{{ order?.order_no }}2444134331</span>
       </div>
 
         <div class="flex items-center gap-2">
+         
+          <button @click="goBack" class="px-3 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 text-xs">Cancel</button>
           <button @click="showConfirmUpdate = true" class="flex items-center px-3 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 gap-x-1">
             <span class="text-xs">Update</span>
           </button>
-          <button @click="goBack" class="px-3 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 text-xs">Cancel</button>
         </div>
     </div>
 
@@ -67,17 +68,16 @@
         </div>
       </div>
 
-      <h3 class="mb-4">All Items</h3>
 
       <div class="overflow-hidden bg-white shadow-sm rounded-xl table_wrapper">
         <div class="overflow-x-auto">
           <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
-              <tr>
+            <thead class="bg-gray-50 border-gray-200">
+              <tr class="bg-gray-50">
                 <th class="px-2 py-3 tracking-wider text-left">ID</th>
                 <th class="px-2 py-3 tracking-wider text-left">Product Name</th>
                 <th class="px-2 py-3 tracking-wider text-left">Quantity</th>
-                <th class="px-2 py-3 tracking-wider text-left">Action</th>
+                <th class="px-2 py-3 tracking-wider text-center bg-gray-50 border-l border-gray-200">Action</th>
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
@@ -110,9 +110,9 @@
                       ref="quantityInput"
                     />
                   </td>
-                  <td class="px-2 py-3 tracking-wider text-left">
+                  <td class="px-2 py-3 tracking-wider text-center bg-gray-50 border-l border-gray-200">
                     <!-- Normal actions -->
-                    <div v-if="editingQuantity !== index" class="flex space-x-2">
+                    <div v-if="editingQuantity !== index" class="flex space-x-2 justify-center">
                       <button @click="editItem(item, index)" class="text-blue-600 transition-colors hover:text-blue-800" title="Edit Order Quantity">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path fill-rule="evenodd" clip-rule="evenodd" d="M4.02001 19.23C3.9869 19.392 3.99447 19.5597 4.04205 19.718C4.08963 19.8764 4.17573 20.0205 4.29265 20.1374C4.40956 20.2543 4.55364 20.3404 4.71199 20.388C4.87034 20.4355 5.03802 20.4431 5.20001 20.41L9.01001 19.63L4.80001 15.42L4.02001 19.23ZM9.94101 16.61L7.82101 14.49L16.306 6H16.308L18.429 8.121L9.94001 16.611L9.94101 16.61ZM19.844 6.707L17.724 4.585C17.5381 4.39908 17.3173 4.2517 17.0743 4.15131C16.8314 4.05092 16.5709 3.9995 16.308 4C15.796 4 15.284 4.195 14.893 4.585L5.13601 14.343L10.086 19.293L19.843 9.535C20.218 9.15995 20.4286 8.65133 20.4286 8.121C20.4286 7.59068 20.218 7.08206 19.843 6.707H19.844Z" fill="#44546F"/>
@@ -147,7 +147,7 @@
                     </div>
 
                     <!-- Edit mode actions - Update and X buttons -->
-                    <div v-else class="flex space-x-2">
+                    <div v-else class="flex space-x-2 justify-center">
                       <!-- <span class="px-2 py-1 text-xs text-gray-600 bg-gray-100 rounded">Edit Order Quantity</span> -->
                       <button @click="updateQuantity(index)" class="px-2 py-1 text-xs text-white bg-blue-600 rounded hover:bg-blue-700">
                         Update
@@ -169,10 +169,10 @@
                       You are about to delete without returning this item back to stock <strong>"{{ itemToDelete?.product_name }}"</strong>.
                     </div>
                   </td>
-                  <td class="px-2 py-3 bg-red-50">
-                    <div class="flex space-x-2">
-                      <!-- <span class="px-2 py-1 text-xs text-white bg-red-600 rounded">Item Unavailable</span> -->
-                      <button @click="confirmItemUnavailable" class="px-2 py-1 text-xs text-white bg-red-600 rounded hover:bg-red-700">
+                  <td class="px-2 py-3 text-center bg-red-50 border-l border-gray-200">
+                    <div class="flex space-x-2 justify-center">
+                      <!-- <span class="px-2 py-1 text-xs text-white text-[#44546F] rounded">Item Unavailable</span> -->
+                      <button @click="confirmItemUnavailable" class="px-2 py-1 text-xs text-white text-[#44546F] rounded hover:bg-red-700">
                         Confirm
                       </button>
                       <button @click="cancelItemUnavailable" class="px-1 py-1 text-gray-500 hover:text-gray-700">
@@ -192,10 +192,10 @@
                       You are about to delete and return this item back to stock <strong>"{{ itemToReturn?.product_name }}"</strong>.
                     </div>
                   </td>
-                  <td class="px-2 py-3 bg-red-50">
-                    <div class="flex space-x-2">
+                  <td class="px-2 py-3 text-center bg-red-50 border-l border-gray-200">
+                    <div class="flex space-x-2 justify-center">
                       <!-- <span class="px-2 py-1 text-xs text-white bg-blue-600 rounded">Return to Stock</span> -->
-                      <button @click="confirmReturnToStock" class="px-2 py-1 text-xs text-white bg-red-600 rounded hover:bg-red-700">
+                      <button @click="confirmReturnToStock" class="px-2 py-1 text-xs text-white text-[#44546F] rounded hover:bg-red-700">
                         Confirm
                       </button>
                       <button @click="cancelReturnToStock" class="px-1 py-1 text-gray-500 hover:text-gray-700">
@@ -214,37 +214,49 @@
     </div>
 
     <!-- Add Batch Modal -->
-    <div v-if="showAddBatchModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-xl">
-        <div class="flex items-center justify-between mb-4">
-          <h3 class="text-lg font-semibold text-gray-900">Add Batch</h3>
-          <button @click="showAddBatchModal = false" class="text-gray-400 hover:text-gray-600">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
+    <SideBarModal
+      :isOpen="showAddBatchModal"
+      title="Add Product to Order"
+      @close="showAddBatchModal = false"
+      width="md"
+    >
+      <div class="space-y-6">
+        <!-- Select Product -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Select Product</label>
+          <SelectField
+            v-model="addBatchForm.selectedProduct"
+            :options="productOptions"
+            labelField="name"
+            valueField="id"
+            placeholder="Type to search for product"
+          />
         </div>
-        
-        <div class="mb-4">
-          <label class="block text-sm font-medium text-gray-700 mb-2">Batch Information</label>
-          <textarea 
-            v-model="batchInfo" 
-            rows="4" 
+
+        <!-- Quantity -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Quantity</label>
+          <input
+            v-model="addBatchForm.quantity"
+            type="number"
+            min="1"
             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Enter batch information..."
-          ></textarea>
-        </div>
-        
-        <div class="flex justify-end space-x-3">
-          <button @click="showAddBatchModal = false" class="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300">
-            Cancel
-          </button>
-          <button @click="addBatch" class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">
-            Add Batch
-          </button>
+            placeholder="0"
+          />
         </div>
       </div>
-    </div>
+
+      <template #footer>
+        <div class="flex justify-end space-x-3">
+          <button @click="showAddBatchModal = false" class="cancel_btn">
+            Cancel
+          </button>
+          <button @click="addBatch" class="create_btn">
+            Add
+          </button>
+        </div>
+      </template>
+    </SideBarModal>
 
 
 
@@ -291,6 +303,8 @@ import { useToast } from "vue-toastification";
 import Tooltip from "@/views/Components/Tooltip.vue";
 import LoadingState from "@/views/Components/procurement/state/LoadingState.vue";
 import UniversalCenteredModal from "@/views/Components/UniversalCenteredModal.vue";
+import SideBarModal from "@/views/Components/SideBarModal.vue";
+import SelectField from "@/views/Components/procurement/ui/SelectField.vue";
 import SuccessModal from "@/views/Components/procurement/ui/SuccessModal.vue";
 import { api } from "@/api";
 
@@ -313,7 +327,19 @@ const showConfirmUpdate = ref(false);
 const showSuccessModal = ref(false);
 
 // Form data
-const batchInfo = ref('');
+const addBatchForm = ref({
+  selectedProduct: null,
+  quantity: 0
+});
+
+// Product options for the dropdown
+const productOptions = ref([
+  { id: 1, name: 'STREPSILS INTENSIVE HONEY & LEMON LOZENGES X 16' },
+  { id: 2, name: 'PARACETAMOL 500MG TABLETS' },
+  { id: 3, name: 'IBUPROFEN 400MG TABLETS' },
+  { id: 4, name: 'AMOXICILLIN 250MG CAPSULES' },
+  { id: 5, name: 'VITAMIN C 1000MG TABLETS' }
+]);
 const editingQuantity = ref(null);
 const originalQuantity = ref(null);
 const itemUnavailableIndex = ref(null);
@@ -420,10 +446,29 @@ const confirmItemUnavailable = () => {
 };
 
 const addBatch = () => {
-  if (batchInfo.value.trim()) {
-    toast.success('Batch information added');
-    batchInfo.value = '';
+  if (addBatchForm.value.selectedProduct && addBatchForm.value.quantity > 0) {
+    const selectedProduct = productOptions.value.find(p => p.id === addBatchForm.value.selectedProduct);
+    
+    // Add the new product to the order items
+    const newItem = {
+      id: Date.now(), // Simple ID generation
+      product_name: selectedProduct?.name || '',
+      quantity: addBatchForm.value.quantity
+    };
+    
+    order.value.items.push(newItem);
+    
+    toast.success('Product added to order successfully');
+    
+    // Reset form
+    addBatchForm.value = {
+      selectedProduct: null,
+      quantity: 0
+    };
+    
     showAddBatchModal.value = false;
+  } else {
+    toast.error('Please select a product and enter a valid quantity');
   }
 };
 
