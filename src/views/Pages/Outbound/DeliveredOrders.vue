@@ -53,11 +53,13 @@
         <template #header_search>
           <div class="flex items-center gap-2 mr-3">
             <label for="sort_by" class="sort_by_label">Search By</label>
-            <div class="w-40">
+            <div class="w-40 h-[36px]">
               <CustomSelectDropdown 
+                style="height: 36px;"
                 v-model="selectedSearchBy"
                 :options="searchByOptions"
                 placeholder="Select search type"
+                class="h-[36px]"
               />
             </div>
           </div>
