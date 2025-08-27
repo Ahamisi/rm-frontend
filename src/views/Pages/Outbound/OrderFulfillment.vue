@@ -10,18 +10,18 @@
   <!-- Main Content -->
   <div class="erp_dashboard_wrapper">
     <!-- Breadcrumb -->
-    <div class="bg-white px-6 py-4">
+    <div class="bg-white px-6 pt-4 pb-0">
       <nav class="text-[#626F86] text-sm space-x-2">
         <span>Order Fulfillment</span>
       </nav>
     </div>
 
     <!-- Header -->
-    <div class="px-6 py-4 bg-white flex items-center justify-between">
-      <div>
+    <div class="px-6 py-3 bg-white flex items-center justify-end">
+      <!-- <div>
         <h5 class="text-sm font-normal text-gray-700">ORDER FULFILLMENT</h5>
       </div>
-      
+       -->
       <!-- Check In/Out Button -->
       <button 
         v-if="!isCheckedIn"
@@ -38,7 +38,7 @@
       
       <button 
         v-else
-        @click="showCheckOutModal = true"
+        @click="attemptCheckOut"
         class="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-gray-400 text-white rounded-md hover:bg-gray-500"
       >
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -58,98 +58,39 @@
       @close="showToast = false" 
     />
 
+    <!-- Warning Toast -->
+    <WarningAlertToast
+      message="You have a pending order that must be completed before checking out"
+      :duration="3000"
+      :isVisible="showWarningToast"
+      @close="showWarningToast = false"
+    />
+
     <!-- Check In Confirmation Modal -->
-    <div v-if="showCheckInModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div class="bg-white rounded-lg shadow-xl w-[550px] mx-4">
-        <!-- Modal Header -->
-        <div class="flex items-center justify-between p-6 border-b border-gray-200">
-          <div class="flex items-center gap-3">
-            <div class="w-8 h-8 flex items-center justify-center">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M11.0616 4.96699C11.5776 3.99299 12.4196 3.98899 12.9376 4.96699L20.0616 18.425C20.5776 19.399 20.1066 20.196 19.0046 20.196H4.99458C3.89258 20.196 3.41958 19.403 3.93758 18.425L11.0616 4.96699ZM11.2925 14.7071C11.48 14.8946 11.7344 15 11.9996 15C12.2648 15 12.5192 14.8946 12.7067 14.7071C12.8942 14.5196 12.9996 14.2652 12.9996 14V8.99998C12.9996 8.73477 12.8942 8.48041 12.7067 8.29288C12.5192 8.10534 12.2648 7.99998 11.9996 7.99998C11.7344 7.99998 11.48 8.10534 11.2925 8.29288C11.1049 8.48041 10.9996 8.73477 10.9996 8.99998V14C10.9996 14.2652 11.1049 14.5196 11.2925 14.7071ZM11.2925 17.7071C11.48 17.8946 11.7344 18 11.9996 18C12.2648 18 12.5192 17.8946 12.7067 17.7071C12.8942 17.5196 12.9996 17.2652 12.9996 17C12.9996 16.7348 12.8942 16.4804 12.7067 16.2929C12.5192 16.1053 12.2648 16 11.9996 16C11.7344 16 11.48 16.1053 11.2925 16.2929C11.1049 16.4804 10.9996 16.7348 10.9996 17C10.9996 17.2652 11.1049 17.5196 11.2925 17.7071Z" fill="#E56910"/>
-              </svg>
-            </div>
-            <h3 class="text-lg font-[600] text-[#172B4D]">Check In?</h3>
-          </div>
-          <button @click="showCheckInModal = false" class="text-gray-400 hover:text-gray-600">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-        </div>
-        
-        <!-- Modal Body -->
-        <div class="p-6">
-          <p class="text-[#44546F] text-[14px] font-[400]">
-            You are about to start your shift and begin receiving orders for processing. Please ensure you're ready to start processing orders.
-          </p>
-        </div>
-        
-        <!-- Modal Footer -->
-        <div class="flex items-center justify-end gap-3 p-6 border-t border-gray-200">
-          <button 
-            @click="showCheckInModal = false"
-            class="px-4 py-2 text-sm font-medium text-gray-700 bg-[#091E420F] rounded-md hover:bg-gray-50"
-          >
-            Cancel
-          </button>
-          <button 
-            @click="checkIn"
-            class="px-4 py-2 text-sm font-medium bg-[#F5CD47] text-[#172B4D] rounded-md hover:bg-[#F5CD47]/80"
-          >
-            Check In
-          </button>
-        </div>
-      </div>
-    </div>
+    <WarningConfirmationModal
+      :show="showCheckInModal"
+      title="Check In?"
+      message="You are about to start your shift and begin receiving orders for processing. Please ensure you're ready to start processing orders."
+      confirm-text="Check In"
+      width="lg"
+      :title-bold="true"
+      @close="showCheckInModal = false"
+      @confirm="checkIn"
+    />
 
     <!-- Check Out Confirmation Modal -->
-    <div v-if="showCheckOutModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div class="bg-white rounded-lg shadow-xl w-[500px] mx-4">
-        <!-- Modal Header -->
-        <div class="flex items-center justify-between p-6 border-b border-gray-200">
-          <div class="flex items-center gap-3">
-            <div class="w-8 h-8 flex items-center justify-center">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M11.0616 4.96699C11.5776 3.99299 12.4196 3.98899 12.9376 4.96699L20.0616 18.425C20.5776 19.399 20.1066 20.196 19.0046 20.196H4.99458C3.89258 20.196 3.41958 19.403 3.93758 18.425L11.0616 4.96699ZM11.2925 14.7071C11.48 14.8946 11.7344 15 11.9996 15C12.2648 15 12.5192 14.8946 12.7067 14.7071C12.8942 14.5196 12.9996 14.2652 12.9996 14V8.99998C12.9996 8.73477 12.8942 8.48041 12.7067 8.29288C12.5192 8.10534 12.2648 7.99998 11.9996 7.99998C11.7344 7.99998 11.48 8.10534 11.2925 8.29288C11.1049 8.48041 10.9996 8.73477 10.9996 8.99998V14C10.9996 14.2652 11.1049 14.5196 11.2925 14.7071ZM11.2925 17.7071C11.48 17.8946 11.7344 18 11.9996 18C12.2648 18 12.5192 17.8946 12.7067 17.7071C12.8942 17.5196 12.9996 17.2652 12.9996 17C12.9996 16.7348 12.8942 16.4804 12.7067 16.2929C12.5192 16.1053 12.2648 16 11.9996 16C11.7344 16 11.48 16.1053 11.2925 16.2929C11.1049 16.4804 10.9996 16.7348 10.9996 17C10.9996 17.2652 11.1049 17.5196 11.2925 17.7071Z" fill="#E56910"/>
-              </svg>
-            </div>
-            <h3 class="text-lg font-normal text-[#172B4D]">Check Out?</h3>
-          </div>
-          <button @click="showCheckOutModal = false" class="text-gray-400 hover:text-gray-600">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-        </div>
-        
-        <!-- Modal Body -->
-        <div class="p-6">
-          <p class="text-gray-600">
-            You are about to end your shift. Any pending orders will be reassigned. Make sure all your current orders are properly completed.
-          </p>
-        </div>
-        
-        <!-- Modal Footer -->
-        <div class="flex justify-end gap-3 p-6 border-t border-gray-200">
-          <button 
-            @click="showCheckOutModal = false"
-            class="px-4 py-2 text-sm font-medium text-gray-700 bg-[#091E420F] rounded-md hover:bg-gray-50"
-          >
-            Cancel
-          </button>
-          <button 
-            @click="checkOut"
-            class="px-4 py-2 text-sm font-medium bg-[#F5CD47] text-[#172B4D] rounded-md hover:bg-[#F5CD47]/80"
-          >
-            Check Out
-          </button>
-        </div>
-      </div>
-    </div>
+    <WarningConfirmationModal
+      :show="showCheckOutModal"
+      title="Check Out?"
+      message="You are about to end your shift. Any pending orders will be reassigned. Make sure all your current orders are properly completed."
+      confirm-text="Check Out"
+      message-style="text-gray-600"
+      @close="showCheckOutModal = false"
+      @confirm="checkOut"
+    />
 
     <!-- Content Area -->
-    <div class="px-6 py-6 bg-[#F7F8F9] w-[97%] mx-auto rounded-[16px] flex items-center justify-center" style="min-height: calc(100vh - 200px);">
+    <div class="px-6 py-6 bg-[#F7F8F9] w-[97%] mx-auto rounded-[16px] flex items-center justify-center min-h-[calc(100vh-250px)]" >
       <!-- No Assigned Orders State -->
       <div v-if="!isCheckedIn" class="flex items-center justify-center h-full">
         <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center max-w-md w-full mx-4">
@@ -358,6 +299,8 @@ import { useRouter } from 'vue-router'
 import LoadingState from '@/views/Components/procurement/state/LoadingState.vue'
 import Activities from '@/views/Components/Activities.vue'
 import Datatable from '@/views/Components/Datatable/Datatable.vue'
+import WarningConfirmationModal from '@/views/Components/ui/WarningConfirmationModal.vue'
+import WarningAlertToast from '@/views/Components/WarningAlertToast.vue'
 // @ts-ignore
 import SuccessAlertToast from '@/views/Components/SuccessAlertToast.vue'
 
@@ -366,6 +309,7 @@ const router = useRouter()
 // Reactive state
 const loading = ref(false)
 const showToast = ref(false)
+const showWarningToast = ref(false)
 const toastMessage = ref('')
 const showCheckInModal = ref(false)
 const showCheckOutModal = ref(false)
@@ -487,6 +431,7 @@ const checkIn = () => {
   setTimeout(() => {
     loading.value = false
     isCheckedIn.value = true
+    localStorage.setItem('isCheckedIn', 'true')
     toastMessage.value = 'Successfully checked in!'
     showToast.value = true
     
@@ -497,6 +442,14 @@ const checkIn = () => {
   }, 1000)
 }
 
+const attemptCheckOut = () => {
+  if (currentOrder.value) {
+    showWarningToast.value = true
+    return
+  }
+  showCheckOutModal.value = true
+}
+
 const checkOut = () => {
   loading.value = true
   showCheckOutModal.value = false
@@ -505,6 +458,7 @@ const checkOut = () => {
   setTimeout(() => {
     loading.value = false
     isCheckedIn.value = false
+    localStorage.removeItem('isCheckedIn')
     currentOrder.value = null
     toastMessage.value = 'Successfully checked out!'
     showToast.value = true
@@ -532,6 +486,11 @@ const pickOrder = () => {
 
 onMounted(() => {
   // Check if user is already checked in (from localStorage or API)
-  // For demo purposes, starting with checked out state
+  const storedCheckInState = localStorage.getItem('isCheckedIn')
+  if (storedCheckInState === 'true') {
+    isCheckedIn.value = true
+    // Also get current order if any
+    currentOrder.value = mockOrder
+  }
 })
 </script>

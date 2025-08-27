@@ -1,7 +1,7 @@
 <template>
   <div class="relative w-full" ref="dropdownRef">
     <div 
-      class="flex items-center justify-between w-full px-3 py-2 bg-white border-2 rounded-lg cursor-pointer"
+      class="flex items-center justify-between w-full px-3 py-2 bg-white border-2 rounded-lg cursor-pointer h-auto special-input"
       style="border-color: #091E4224;"
       @click="toggleDropdown"
     >

@@ -2,22 +2,22 @@
   <div class="relative w-full" ref="dropdownRef">
     <!-- Select Field (without pills inside) -->
     <div 
-      class="flex items-center justify-between w-full px-3 py-2 bg-white border-2 rounded-lg cursor-pointer"
+      class="flex items-center justify-between w-full px-3 py-2 bg-white border-2 rounded-lg cursor-pointer h-auto special-input"
       style="border-color: #091E4224;"
       @click="toggleDropdown"
     >
       <!-- Placeholder or search input -->
-      <div class="flex-1">
+      <div class="flex-1 h-[20px] flex items-center">
         <input
           v-if="isOpen"
           v-model="searchTerm"
           :placeholder="placeholder"
-          class="w-full appearance-none outline-none bg-transparent text-sm text-gray-700 border-none p-0 m-0"
+          class="w-full appearance-none outline-none bg-transparent text-sm text-gray-700 border-none p-0 m-0 h-[20px] leading-[20px]"
           style="box-shadow: none; border: none;"
           @blur="handleBlur"
           ref="searchInput"
         />
-        <span v-else class="text-sm text-gray-700">
+        <span v-else class="text-sm text-gray-700 h-[20px] leading-[20px] block">
           {{ placeholder }}
         </span>
       </div>

@@ -253,7 +253,7 @@
             <h3 class="text-lg font-medium text-[#44546F] mb-4">Order Summary</h3>
             
             <!-- Products Table -->
-            <div class="mb-6">
+            <div class="mb-32">
               <Datatable
                 :items="orderProducts"
                 :columns="orderProductColumns"
@@ -267,9 +267,11 @@
               >
                 <template #column="{ props }">
                   <div v-if="props.column.field === 'tags'">
-                    <span v-if="props.row.tags" class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                      {{ props.row.tags }}
-                    </span>
+                    <Pill 
+                      v-if="props.row.tags"
+                      :type="getPillType(props.row.tags)"
+                      :text="props.row.tags"
+                    />
           </div>
                   <span v-else>
                     {{ props.row[props.column.field] }}
@@ -279,8 +281,8 @@
         </div>
 
             <!-- Totals -->
-            <div class="sticky-totals-section">
-              <div class="space-y-4 px-4 py-4">
+                        <div class="totals-section">
+              <div class="space-y-4">
                 <div class="flex justify-between items-center">
                   <span class="text-sm font-medium text-[#172B4D]">Total Cost Price</span>
                   <span class="text-sm text-[#44546F]">₦187,000.00</span>
@@ -313,7 +315,7 @@
 
       <template #footer>
         <div class="flex justify-end">
-          <button @click="closeOrderModal" class="cancel_btn">Close</button>
+          <button @click="closeOrderModal" class="px-6 py-2 text-white font-medium bg-[#0C66E4] rounded-[6px]">Close</button>
         </div>
       </template>
     </SideBarModal>
@@ -370,6 +372,7 @@ import SideBarModal from "@/views/Components/SideBarModal.vue";
 import UniversalCenteredModal from "@/views/Components/UniversalCenteredModal.vue";
 import Activities from "@/views/Components/Activities.vue";
 import SelectField from "@/views/Components/procurement/ui/SelectField.vue";
+import Pill from "@/views/Components/ui/Pill.vue";
 import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue';
 import type { TableColumn } from '@/types';
 
@@ -795,6 +798,19 @@ const handleClickOutside = (event: Event) => {
   }
 };
 
+const getPillType = (tag: string) => {
+  switch (tag) {
+    case 'Cash and Carry':
+      return 'cash-and-carry';
+    case 'Controlled':
+      return 'controlled';
+    case 'Hospital':
+      return 'hospital';
+    default:
+      return 'hospital'; // Default to hospital style
+  }
+};
+
 onMounted(() => {
   document.addEventListener('click', handleClickOutside);
 });
@@ -838,16 +854,15 @@ onUnmounted(() => {
   background-color: #f8f9fa !important;
 }
 
-/* Sticky Totals Section */
-.sticky-totals-section {
-  position: sticky;
-  bottom: 0;
+/* Totals Section */
+.totals-section {
   background-color: #F7F8F9;
   border-top: 1px solid #091E4224;
   border-bottom: 1px solid #091E4224;
-  margin-left: -24px;
-  margin-right: -24px;
-  margin-bottom: -24px;
+  margin: 0 -24px;
+  padding: 16px 24px;
+  position: sticky;
+  bottom: 0;
   z-index: 10;
 }
 </style>

@@ -64,14 +64,12 @@
         <!-- Tags -->
         <span v-else-if="col.props.column.field === 'tags'">
           <div class="flex flex-wrap gap-1">
-            <span 
+            <Pill 
               v-for="tag in col.props.row.tags" 
               :key="tag"
-              :class="getTagClass(tag)"
-              class="px-2 py-1 text-xs font-medium rounded-md"
-            >
-              {{ tag }}
-            </span>
+              :type="getPillType(tag)"
+              :text="tag"
+            />
           </div>
         </span>
         
@@ -194,53 +192,53 @@
 
             <!-- Order Summary -->
             <div class="mt-8">
-              <h3 class="mb-4 text-lg font-medium text-gray-900">Order Summary</h3>
+              <h3 class="mb-4 text-lg font-medium text-[#44546F]">Order Summary</h3>
 
-              <!-- Table -->
-              <div class="overflow-x-auto">
-                <table class="w-full border-separate order_summary" style="border-spacing: 0">
-                  <thead class="bg-gray-50">
-                    <tr>
-                      <th class="text-left">Product Name</th>
-                      <th class="text-left">Tags</th>
-                      <th class="text-left">Quantity Delivered</th>
-                      <th class="text-left">Unit Price</th>
-                      <th class="text-left">Price Total</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="(item, index) in orderItems" :key="index" class="hover:bg-gray-50">
-                      <td class="">{{ item.product_name }}</td>
-                      <td class="">
-                        <span v-for="tag in item.tags" :key="tag" :class="getTagClass(tag)" class="px-2 py-1 text-xs rounded-full mr-1">
-                          {{ tag }}
-                        </span>
-                      </td>
-                      <td class="">{{ item.quantity }}</td>
-                      <td class="">{{ formatCurrency(item.unit_price) }}</td>
-                      <td class="">{{ formatCurrency(item.total_price) }}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+              <!-- Products Table -->
+              <Datatable
+                :items="orderItems"
+                :columns="orderProductColumns"
+                :searchable="false"
+                :filterByDate="false"
+                :printable="false"
+                :exportable="false"
+                :showActions="false"
+                :showPagination="false"
+                class="order-summary-table"
+              >
+                <template #column="{ props }">
+                  <div v-if="props.column.field === 'tags'">
+                    <Pill 
+                      v-if="props.row.tags"
+                      :type="getPillType(props.row.tags)"
+                      :text="props.row.tags"
+                    />
+                  </div>
+                  <span v-else>
+                    {{ props.row[props.column.field] }}
+                  </span>
+                </template>
+              </Datatable>
 
-              <!-- Payment Status and Totals -->
-              <div class="mt-4 space-y-2">
-                <div class="flex items-center justify-between px-6 py-2">
-                  <span class="text-sm font-medium">Payment Status</span>
-                  <span class="text-sm text-blue-600">{{ selectedOrder.payment }}</span>
-                </div>
-                <div class="flex items-center justify-between px-6 py-2">
-                  <span class="text-sm font-medium">Sub Total</span>
-                  <span class="text-sm">{{ formatCurrency(selectedOrder.total_amount) }}</span>
-                </div>
-                <div class="flex items-center justify-between px-6 py-2">
-                  <span class="text-sm font-medium">Delivery Fee</span>
-                  <span class="text-sm">₦0.00</span>
-                </div>
-                <div class="flex items-center justify-between px-6 py-2 bg-gray-50 order_total">
-                  <span class="font-medium">Total</span>
-                  <span class="font-bold">{{ formatCurrency(selectedOrder.total_amount) }}</span>
+              <!-- Totals -->
+              <div class="totals-section">
+                <div class="space-y-4">
+                  <div class="flex justify-between items-center">
+                    <span class="text-sm font-medium text-[#172B4D]">Total Cost Price</span>
+                    <span class="text-sm text-[#44546F]">₦187,000.00</span>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-sm font-medium text-[#172B4D]">Total Selling Price</span>
+                    <span class="text-sm text-[#44546F]">₦187,000.00</span>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-sm font-medium text-[#172B4D]">Shipping Fee</span>
+                    <span class="text-sm text-[#44546F]">₦0.00</span>
+                  </div>
+                  <div class="flex justify-between items-center border-t pt-4" style="border-color: #091E4224;">
+                    <span class="text-lg font-semibold text-[#44546F]">Total</span>
+                    <span class="text-lg font-semibold text-[#44546F]">₦187,000.00</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -275,6 +273,7 @@ import Datatable from '@/views/Components/Datatable/Datatable.vue';
 import LoadingState from '@/views/Components/procurement/state/LoadingState.vue';
 import SideBarModal from '@/views/Components/SideBarModal.vue';
 import Activities from '@/views/Components/Activities.vue';
+import Pill from '@/views/Components/ui/Pill.vue';
 // Eye icon is now inline SVG
 import type { TableColumn, FilterFields, FilterField } from '@/types';
 import dayjs from 'dayjs';
@@ -316,6 +315,15 @@ const filterFields = ref<FilterFields<FilterField>>({
     ]
   }
 });
+
+// Order products table columns
+const orderProductColumns = ref([
+  { label: 'Product Name', field: 'product_name', sortable: false },
+  { label: 'Tags', field: 'tags', sortable: false },
+  { label: 'Quantity Delivered', field: 'quantity', sortable: false },
+  { label: 'Unit Price', field: 'unit_price', sortable: false },
+  { label: 'Price Total', field: 'total_price', sortable: false }
+]);
 
 // Table columns - all sortable except tags and action
 const orderColumns = ref<TableColumn[]>([
@@ -389,13 +397,17 @@ const formatCurrency = (amount: number) => {
   }).format(amount);
 };
 
-const getTagClass = (tag: string) => {
-  const tagClasses: Record<string, string> = {
-    'Cash and Carry': 'bg-green-100 text-green-800',
-    'Controlled': 'bg-blue-100 text-blue-800',
-    'Hospital': 'bg-purple-100 text-purple-800'
-  };
-  return tagClasses[tag] || 'bg-gray-100 text-gray-800';
+const getPillType = (tag: string) => {
+  switch (tag) {
+    case 'Cash and Carry':
+      return 'cash-and-carry';
+    case 'Controlled':
+      return 'controlled';
+    case 'Hospital':
+      return 'hospital';
+    default:
+      return 'hospital'; // Default to hospital style
+  }
 };
 
 // Modal state
@@ -546,14 +558,34 @@ const viewOrder = (order: any) => {
   border-top-right-radius: 8px;
 }
 
-.order_total {
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 20px;
-  color: rgba(23, 43, 77, 1);
-  background: rgba(247, 248, 249, 1);
-  padding: 16px 0;
+.totals-section {
+  background-color: #F7F8F9;
+  border-top: 1px solid #091E4224;
+  border-bottom: 1px solid #091E4224;
+  margin: 0 -24px;
+  padding: 16px 24px;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+}
+
+.order-summary-table {
+  font-size: 12px;
+  color: #172B4D;
+}
+
+.order-summary-table table {
+  font-size: 12px;
+}
+
+.order-summary-table th,
+.order-summary-table td {
+  font-size: 12px !important;
+  color: #172B4D !important;
+}
+
+.order-summary-table .bg-gray-100 {
+  background-color: #f8f9fa !important;
 }
 
 .tab_text {

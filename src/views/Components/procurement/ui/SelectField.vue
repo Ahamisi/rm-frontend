@@ -50,7 +50,7 @@ import { ref, computed, watch } from "vue";
 import { LucideChevronDown, LucideChevronUp, LucideX } from "lucide-vue-next";
 import { onClickOutside } from "@vueuse/core";
 
-import { Option } from "@/types";
+import type { Option } from "@/types";
 
 import type { Component } from "vue";
 
@@ -78,7 +78,7 @@ watch(
     // console.log("Model value changed:", newValue, typeof newValue, props.options, searchTerm.value);
     if (newValue) {
       if(typeof newValue === "object" && "name" in newValue) searchTerm.value = newValue.name;
-      else searchTerm.value = props.options.find(opt => opt.id == newValue)?.name;
+      else searchTerm.value = props.options.find(opt => opt.id == newValue)?.name || "";
     } else {
       searchTerm.value = "";
     }

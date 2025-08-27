@@ -62,13 +62,12 @@
         <!-- Product Name -->
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">Product Name</label>
-          <v-select
+          <SelectField
             v-model="disableForm.product_name"
             :options="productOptions"
-            label="name"
+            labelField="name"
+            valueField="id"
             placeholder="Type to search for products"
-            :searchable="true"
-            :clearable="true"
           />
         </div>
 
@@ -105,13 +104,12 @@
         <!-- Product Name -->
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">Product Name</label>
-          <v-select
+          <SelectField
             v-model="enableForm.product_name"
             :options="productOptions"
-            label="name"
+            labelField="name"
+            valueField="id"
             placeholder="Type to search for products"
-            :searchable="true"
-            :clearable="true"
           />
         </div>
       </div>
@@ -135,39 +133,36 @@
         <!-- Product Name -->
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">Product Name</label>
-          <v-select
+          <SelectField
             v-model="newStockCountForm.product_name"
             :options="productOptions"
-            label="name"
+            labelField="name"
+            valueField="id"
             placeholder="Type to search for products"
-            :searchable="true"
-            :clearable="true"
           />
         </div>
 
         <!-- Batch -->
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">Batch</label>
-          <v-select
+          <SelectField
             v-model="newStockCountForm.batch"
             :options="batchOptions"
-            label="name"
+            labelField="name"
+            valueField="id"
             placeholder="Select a batch"
-            :searchable="true"
-            :clearable="true"
           />
         </div>
 
         <!-- Warehouse Shelf -->
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">Warehouse Shelf</label>
-          <v-select
+          <SelectField
             v-model="newStockCountForm.warehouse_shelf"
             :options="warehouseShelfOptions"
-            label="name"
+            labelField="name"
+            valueField="id"
             placeholder="Select a shelf"
-            :searchable="true"
-            :clearable="true"
           />
         </div>
 
@@ -226,14 +221,15 @@ import Tabs from "@/views/Components/Tabs.vue";
 import SideBarModal from "@/views/Components/SideBarModal.vue";
 import SuccessModal from "@/views/Components/ui/SuccessModal.vue";
 import DiscardModal from "@/views/Components/procurement/ui/DiscardModal.vue";
-// @ts-ignore
-import vSelect from "vue-select";
 import { ref, computed } from 'vue';
+import SelectField from "@/views/Components/ui/SelectField.vue";
 import type { Option } from '@/types';
 import UnapprovedStockCount from './components/UnapprovedStockCount.vue';
 import ApprovedStockCount from './components/ApprovedStockCount.vue';
 
 const activeTab = ref('Unapproved Stock Count');
+const toastMessage = ref('');
+const showToast = ref(false);
 
 const stockCountTabs = ref([
   { name: 'Unapproved Stock Count', count: 0 },
@@ -445,8 +441,6 @@ const handleCreateStockCountCancel = () => {
 </script>
 
 <style>
-@import "vue-select/dist/vue-select.css";
-
 .erp_dashboard_wrapper .create_btn {
   background: rgba(12, 102, 228, 1);
   border-radius: 6px;
@@ -458,39 +452,5 @@ const handleCreateStockCountCancel = () => {
 
 .bg-gray-light {
   background-color: #091E420F;
-}
-
-/* Vue Select Styling */
-.vs__dropdown-toggle {
-  border: 2px solid rgba(9, 30, 66, 0.14);
-  border-radius: 8px;
-  padding: 4px 8px;
-  min-height: 40px;
-}
-
-.vs__dropdown-menu {
-  border: 2px solid rgba(9, 30, 66, 0.14);
-  border-radius: 8px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
-.vs__dropdown-option {
-  padding: 8px 12px;
-  font-size: 14px;
-  color: rgba(98, 111, 134, 1);
-}
-
-.vs__dropdown-option--highlight {
-  background: rgba(12, 102, 228, 0.1);
-  color: rgba(12, 102, 228, 1);
-}
-
-.vs__search {
-  font-size: 14px;
-  color: rgba(98, 111, 134, 1);
-}
-
-.vs__search::placeholder {
-  color: rgba(98, 111, 134, 0.7);
 }
 </style>

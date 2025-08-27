@@ -62,14 +62,12 @@
         <!-- Tags -->
         <span v-else-if="col.props.column.field === 'tags'">
           <div class="flex flex-wrap gap-1">
-            <span 
+            <Pill 
               v-for="tag in col.props.row.tags" 
               :key="tag"
-              :class="getTagClass(tag)"
-              class="px-2 py-1 text-xs rounded-full"
-            >
-              {{ tag }}
-            </span>
+              :type="getPillType(tag)"
+              :text="tag"
+            />
           </div>
         </span>
         
@@ -105,8 +103,22 @@
                 Edit Order
               </li>
               
-              <!-- Unassign -->
-              <li @click="unassignOrder(selectedItem); closeDropdown()" 
+              <!-- Assign to me - only show if order is unassigned -->
+              <li v-if="!selectedItem.assigned || selectedItem.assigned === 'Unassigned'"
+                  @click="assignToMe(selectedItem); closeDropdown()" 
+                  class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-gray-100 medium-text">
+                <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M20 6.5C20 5.94772 19.5523 5.5 19 5.5C18.4477 5.5 18 5.94772 18 6.5V10.5C18 11.0523 18.4477 11.5 19 11.5C19.5523 11.5 20 11.0523 20 10.5V6.5Z" fill="#626F86"/>
+                  <path d="M21 7.5H17C16.4477 7.5 16 7.94772 16 8.5C16 9.05228 16.4477 9.5 17 9.5H21C21.5523 9.5 22 9.05228 22 8.5C22 7.94772 21.5523 7.5 21 7.5Z" fill="#626F86"/>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M5 14.5C5 13.395 5.902 12.5 7.009 12.5H14.991C16.101 12.5 17 13.394 17 14.506V18.946C17 22.351 5 22.351 5 18.946V14.5Z" fill="#626F86"/>
+                  <path d="M11 11.5C13.2091 11.5 15 9.70914 15 7.5C15 5.29086 13.2091 3.5 11 3.5C8.79086 3.5 7 5.29086 7 7.5C7 9.70914 8.79086 11.5 11 11.5Z" fill="#626F86"/>
+                </svg>
+                Assign to me
+              </li>
+
+              <!-- Unassign - only show if order is assigned -->
+              <li v-if="selectedItem.assigned && selectedItem.assigned !== 'Unassigned'"
+                  @click="unassignOrder(selectedItem); closeDropdown()" 
                   class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-gray-100 medium-text">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M20.99 6C20.9909 6.12978 20.9661 6.25846 20.917 6.3786C20.8679 6.49874 20.7955 6.60798 20.704 6.7L19.371 7.969L20.655 9.269C20.7934 9.38673 20.8964 9.54055 20.9526 9.71335C21.0088 9.88614 21.0159 10.0711 20.9732 10.2477C20.9305 10.4243 20.8396 10.5856 20.7107 10.7137C20.5818 10.8417 20.4199 10.9315 20.243 10.973C20.0663 11.0152 19.8814 11.0079 19.7085 10.952C19.5357 10.8961 19.3815 10.7937 19.263 10.656L17.287 8.687C17.1034 8.50291 17.0003 8.25351 17.0003 7.9935C17.0003 7.73349 17.1034 7.48409 17.287 7.3L19.322 5.272C19.463 5.13804 19.6403 5.04858 19.8319 5.01479C20.0234 4.981 20.2207 5.00437 20.399 5.082C20.764 5.242 20.996 5.604 20.99 6ZM5 14C5 12.895 5.902 12 7.009 12H14.991C16.101 12 17 12.894 17 14.006V18.446C17 21.851 5 21.851 5 18.446V14Z" fill="#626F86"/>
@@ -183,7 +195,7 @@
       </div>
 
       <!-- Tab Content -->
-      <div class="flex-1 overflow-y-auto">
+      <div class="flex-1 overflow-y-auto pb-[250px]">
         <!-- Details Tab -->
         <div v-if="activeTab === 'details'" class="space-y-6">
           <!-- Order Information Grid -->
@@ -248,36 +260,56 @@
           <hr>
 
           <!-- Order Summary -->
-          <div class="mt-8">
-            <h3 class="mb-4 text-lg font-medium text-gray-900">Order Summary</h3>
-
-            <!-- Table -->
-            <div class="overflow-x-auto">
-              <table class="w-full text-sm">
-                <thead class="bg-gray-50">
-                  <tr>
-                    <th class="px-4 py-3 text-left font-medium text-gray-900">Product</th>
-                    <th class="px-4 py-3 text-left font-medium text-gray-900">Quantity</th>
-                    <th class="px-4 py-3 text-left font-medium text-gray-900">Unit Price</th>
-                    <th class="px-4 py-3 text-left font-medium text-gray-900">Total</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200">
-                  <tr v-for="item in orderItems" :key="item.id">
-                    <td class="px-4 py-3 text-gray-900">{{ item.product }}</td>
-                    <td class="px-4 py-3 text-gray-700">{{ item.quantity }}</td>
-                    <td class="px-4 py-3 text-gray-700">{{ formatCurrency(item.unit_price) }}</td>
-                    <td class="px-4 py-3 text-gray-900 font-medium">{{ formatCurrency(item.total) }}</td>
-                  </tr>
-                </tbody>
-              </table>
+          <div class="space-y-4">
+            <h3 class="text-sm font-medium text-gray-900">Order Summary</h3>
+            <div class="order-summary-table">
+              <Datatable
+                :items="orderItems"
+                :columns="orderProductColumns"
+                :searchable="false"
+                :filterByDate="false"
+                :printable="false"
+                :exportable="false"
+                :filterFields="{}"
+                pageName="OrderSummary"
+              >
+                <template #column="col">
+                  <!-- Tags -->
+                  <span v-if="col.props.column.field === 'tags'">
+                    <Pill 
+                      :type="getPillType((col.props.formattedRow as any).tags)"
+                      :text="(col.props.formattedRow as any).tags"
+                    />
+                  </span>
+                  <!-- Default Column -->
+                  <span v-else>
+                    {{ col.props.column.field === 'unit_price' || col.props.column.field === 'price_total' 
+                      ? formatCurrency((col.props.formattedRow as any)[col.props.column.field]) 
+                      : (col.props.formattedRow as any)[col.props.column.field] }}
+                  </span>
+                </template>
+              </Datatable>
             </div>
+          </div>
 
-            <!-- Order Total -->
-            <div class="mt-6 pt-4 border-t border-gray-200">
+          <!-- Totals Section -->
+          <div class="totals-section">
+            <div class="space-y-4">
               <div class="flex justify-between items-center">
-                <span class="text-lg font-medium text-gray-900">Total Amount</span>
-                <span class="text-xl font-bold text-gray-900">{{ formatCurrency(selectedOrder.total_amount) }}</span>
+                <span class="text-sm font-medium text-[#172B4D]">Payment Status</span>
+                <span class="text-sm text-[#44546F]">Pay Now</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-sm font-medium text-[#172B4D]">Sub Total</span>
+                <span class="text-sm text-[#44546F]">₦187,000.00</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-sm font-medium text-[#172B4D]">Delivery Fee</span>
+                <span class="text-sm text-[#44546F]">₦0.00</span>
+              </div>
+              <div class="flex justify-between items-center border-t pt-4" style="border-color: #091E4224;">
+                <span class="text-lg font-semibold text-[#44546F]">Total</span>
+                <span class="text-lg font-semibold text-[#44546F]">₦187,000.00</span>
               </div>
             </div>
           </div>
@@ -288,18 +320,27 @@
           <div class="mb-6">
             <h3 class="text-xs font-medium text-gray-500 pb-[12px]">Recent</h3>
 
-            <WorkflowActivities 
-              :activities="workflowActivities" 
+            <Activities 
+              :activities="orderActivities" 
+              :order-ref="selectedOrder.order_no" 
             />
           </div>
         </div>
+
+
       </div>
+
+      <template #footer>
+        <div class="flex justify-end px-0 py-0">
+          <button @click="isOrderDetailsModalOpen = false" class="px-6 py-2 text-white font-medium bg-[#0C66E4] rounded-[6px]">Close</button>
+        </div>
+      </template>
     </SideBarModal>
 
-    <!-- Success Toast for Unassign -->
+    <!-- Success Toast -->
     <SuccessAlertToast 
       :isVisible="showUnassignToast" 
-      message="Order has been unassigned successfully" 
+      :message="showUnassignToast ? (selectedOrder.assigned ? 'Order has been unassigned successfully' : 'Order has been assigned to you successfully') : ''" 
       @close="showUnassignToast = false"
     />
 
@@ -315,11 +356,10 @@
         <div class="space-y-4">
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
-            <SelectBox 
+            <SelectField
               v-model="selectedStatus"
               :options="statusOptions"
               placeholder="Select a status"
-              class="w-full"
             />
           </div>
         </div>
@@ -360,22 +400,6 @@
       </div>
     </SideBarModal>
 
-    <!-- Activity Log Modal -->
-    <SideBarModal
-      v-if="showActivityLogModal"
-      :isOpen="showActivityLogModal"
-      :title="`Activity Log REF: ${selectedOrder.order_no}`"
-      width="lg"
-      @close="showActivityLogModal = false"
-    >
-      <div class="space-y-6">
-        <h3 class="text-xs font-medium text-gray-500 mb-4">Recent</h3>
-        <Activities 
-          :activities="orderActivities" 
-          :order-ref="selectedOrder.order_no" 
-        />
-      </div>
-    </SideBarModal>
   </div>
 </template>
 
@@ -389,8 +413,10 @@ import TableActionDropdown from '@/views/Components/procurement/ui/TableActionDr
 import SuccessAlertToast from '@/views/Components/SuccessAlertToast.vue';
 import SuccessModal from '@/views/Components/procurement/ui/SuccessModal.vue';
 import UniversalCenteredModal from '@/views/Components/UniversalCenteredModal.vue';
-import SelectBox from '@/views/Components/procurement/SelectBox.vue';
-import type { TableColumn, FilterFields, FilterField } from '@/types';
+import SelectField from '@/views/Components/ui/SelectField.vue';
+// import SelectField from '@/views/Components/procurement/ui/SelectField.vue';
+import Pill from '@/views/Components/ui/Pill.vue';
+import type { TableColumn, FilterFields, FilterField, Option } from '@/types';
 import dayjs from 'dayjs';
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
@@ -408,22 +434,21 @@ const showUnassignToast = ref(false);
 // Change Status Modal
 const showChangeStatusModal = ref(false);
 const showStatusSuccessModal = ref(false);
-const selectedStatus = ref('');
-
-// Status options for the dropdown
-const statusOptions = ref([
-  { id: 'New', name: 'New' },
-  { id: 'Confirmed', name: 'Confirmed' },
-  { id: 'Being Processed', name: 'Being Processed' },
-  { id: 'Picked & Packed', name: 'Picked & Packed' },
-  { id: 'Delivered', name: 'Delivered' }
-]);
 
 // Time Tracker Modal
 const showTimeTrackerModal = ref(false);
+const selectedStatus = ref<Option | null>(null);
 
-// Activity Log Modal 
-const showActivityLogModal = ref(false);
+// Status options for the dropdown
+const statusOptions = ref<Option[]>([
+  { id: 1, name: 'New' },
+  { id: 2, name: 'Confirmed' },
+  { id: 3, name: 'Being Processed' },
+  { id: 4, name: 'Picked & Packed' },
+  { id: 5, name: 'Delivered' }
+]);
+
+
 
 // API URL for confirmed orders - using same mock data but could be different endpoint
 const ordersUrl = '/outbound/orders';
@@ -487,11 +512,33 @@ const modalTitle = computed(() => {
   return 'Order Details';
 });
 
+// Order products table columns
+const orderProductColumns = ref<TableColumn[]>([
+  { field: 'product_name', label: 'Product Name', sortable: false },
+  { field: 'tags', label: 'Tags', sortable: false },
+  { field: 'quantity_delivered', label: 'Quantity Delivered', sortable: false },
+  { field: 'unit_price', label: 'Unit Price', sortable: false },
+  { field: 'price_total', label: 'Price Total', sortable: false }
+]);
+
 // Mock order items for details view
 const orderItems = ref([
-  { id: 1, product: 'Paracetamol 500mg', quantity: 100, unit_price: 50, total: 5000 },
-  { id: 2, product: 'Ibuprofen 400mg', quantity: 50, unit_price: 80, total: 4000 },
-  { id: 3, product: 'Amoxicillin 250mg', quantity: 30, unit_price: 120, total: 3600 },
+  {
+    id: 1,
+    product_name: 'STREPSILS INTENSIVE HONEY & LEMON LOZENGES X 16',
+    tags: 'Controlled',
+    quantity_delivered: 20,
+    unit_price: 47400.00,
+    price_total: 47400.00
+  },
+  {
+    id: 2,
+    product_name: 'STREPSILS INTENSIVE HONEY & LEMON LOZENGES X 16',
+    tags: 'Controlled',
+    quantity_delivered: 10,
+    unit_price: 47400.00,
+    price_total: 47400.00
+  }
 ]);
 
 // Mock order activities
@@ -537,6 +584,12 @@ const unassignOrder = (order: any) => {
   showUnassignToast.value = true;
 };
 
+const assignToMe = (order: any) => {
+  console.log('Assign order to me:', order);
+  // Show success toast
+  showUnassignToast.value = true;
+};
+
 const changeStatus = (order: any) => {
   selectedOrder.value = order;
   showChangeStatusModal.value = true;
@@ -554,7 +607,8 @@ const openTimeTracker = (order: any) => {
 
 const openActivityLog = (order: any) => {
   selectedOrder.value = order;
-  showActivityLogModal.value = true;
+  activeTab.value = 'activities';
+  isOrderDetailsModalOpen.value = true;
 };
 
 // Utility functions
@@ -570,14 +624,17 @@ const formatCurrency = (amount: number) => {
   }).format(amount);
 };
 
-const getTagClass = (tag: string) => {
-  const tagClasses: Record<string, string> = {
-    'Cash and Carry': 'bg-green-100 text-green-800',
-    'Controlled': 'bg-purple-100 text-purple-800',
-    'Hospital': 'bg-blue-100 text-blue-800',
-    'Unassigned': 'bg-red-100 text-red-800'
-  };
-  return tagClasses[tag] || 'bg-gray-100 text-gray-800';
+const getPillType = (tag: string) => {
+  switch (tag) {
+    case 'Cash and Carry':
+      return 'cash-and-carry';
+    case 'Controlled':
+      return 'controlled';
+    case 'Hospital':
+      return 'hospital';
+    default:
+      return 'hospital'; // Default to hospital style
+  }
 };
 </script>
 
@@ -587,19 +644,39 @@ const getTagClass = (tag: string) => {
 }
 
 .value {
-  @apply text-sm font-medium text-gray-900;
+  @apply text-sm font-medium text-[#44546F];
 }
 
-.order_summary {
-  @apply bg-gray-50 p-4 rounded-lg;
+.order-summary-table {
+  font-size: 12px;
+  color: #172B4D;
 }
 
-.order_total {
-  @apply text-lg font-semibold text-gray-900;
+.order-summary-table table {
+  font-size: 12px;
 }
 
-.tab_text {
-  @apply text-sm font-medium;
+.order-summary-table th,
+.order-summary-table td {
+  font-size: 12px !important;
+  color: #172B4D !important;
+}
+
+.order-summary-table .bg-gray-100 {
+  background-color: #f8f9fa !important;
+}
+
+.totals-section {
+  background-color: #F7F8F9;
+  border-top: 1px solid #091E4224;
+  border-bottom: 1px solid #091E4224;
+  margin: 0 -24px;
+  padding: 16px 24px;
+  position: fixed;
+  bottom: 60px;
+  width: 100%;
+  z-index: 10;
+  margin-top: 24px;
 }
 
 .approve_btn {

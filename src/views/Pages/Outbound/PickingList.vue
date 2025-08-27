@@ -19,15 +19,14 @@
       </button>
       
       <!-- Center Title -->
-      <div class="flex items-center gap-3">
-        <h1 class="text-sm text-[#44546F]">Picking List</h1>
+      <div class="absolute left-1/2 -translate-x-1/2 flex items-center gap-3">
+        <h1 class="text-sm text-[#172B4D]">Picking List</h1>
         <div class="flex items-center gap-2 text-sm text-[#44546F]">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
-            <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="2"/>
-            <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="2"/>
-            <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2"/>
-          </svg>
+          <div class="p-[5px] bg-[#F7F8F9] rounded-[4px]">
+            <svg width="11" height="10" viewBox="0 0 11 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M3.41884 0.833336C2.95676 0.833336 2.58301 1.205 2.58301 1.6625V8.3375C2.58444 8.55812 2.67317 8.7692 2.8298 8.92458C2.98643 9.07996 3.19821 9.167 3.41884 9.16667H7.58051C8.04259 9.16667 8.41634 8.79542 8.41634 8.3375V1.6625C8.41634 1.2075 8.04217 0.833336 7.58051 0.833336H3.41884ZM4.24967 2.5H6.74967C6.97979 2.5 7.16634 2.68655 7.16634 2.91667C7.16634 3.14679 6.97979 3.33334 6.74967 3.33334H4.24967C4.01956 3.33334 3.83301 3.14679 3.83301 2.91667C3.83301 2.68655 4.01956 2.5 4.24967 2.5ZM6.74967 3.75H4.24967C4.01956 3.75 3.83301 3.93655 3.83301 4.16667C3.83301 4.39679 4.01956 4.58334 4.24967 4.58334H6.74967C6.97979 4.58334 7.16634 4.39679 7.16634 4.16667C7.16634 3.93655 6.97979 3.75 6.74967 3.75ZM4.24967 5H5.08301C5.31313 5 5.49967 5.18655 5.49967 5.41667C5.49967 5.64679 5.31313 5.83334 5.08301 5.83334H4.24967C4.01956 5.83334 3.83301 5.64679 3.83301 5.41667C3.83301 5.18655 4.01956 5 4.24967 5Z" fill="#44546F"/>
+            </svg>
+          </div>
           <span>REF: {{ orderRef }}</span>
         </div>
       </div>
@@ -35,13 +34,13 @@
       <!-- Confirm Buttons (Far Right) -->
       <div class="flex items-center gap-3">
         <button 
-          @click="startConfirmFlow(false)"
+          @click="confirmPickingList"
           class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
         >
           Confirm Picking List
         </button>
         <button 
-          @click="startConfirmFlow(true)"
+          @click="confirmPickingListAndCheckOut"
           class="px-4 py-2 text-sm font-medium bg-[#0C66E4] text-white rounded-md hover:bg-[#0C66E4]/80"
         >
           Confirm Picking List & CheckOut
@@ -62,7 +61,7 @@
               <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M10.9997 8H9.66634V9.33333H10.9997M10.9997 5.33333H9.66634V6.66667H10.9997M12.333 10.6667H6.99967V9.33333H8.33301V8H6.99967V6.66667H8.33301V5.33333H6.99967V4H12.333M5.66634 2.66667H4.33301V1.33333H5.66634M5.66634 5.33333H4.33301V4H5.66634M5.66634 8H4.33301V6.66667H5.66634M5.66634 10.6667H4.33301V9.33333H5.66634M2.99967 2.66667H1.66634V1.33333H2.99967M2.99967 5.33333H1.66634V4H2.99967M2.99967 8H1.66634V6.66667H2.99967M2.99967 10.6667H1.66634V9.33333H2.99967M6.99967 2.66667V0H0.333008V12H13.6663V2.66667H6.99967Z" fill="#091E42" fill-opacity="0.31"/>
               </svg>
-              <span class="font-medium text-[#44546F]">Remedial Health</span>
+              <span class="">Remedial Health</span>
             </div>
             <div class="flex items-center gap-2 text-sm text-[#44546F]">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -135,7 +134,7 @@
                <path fill-rule="evenodd" clip-rule="evenodd" d="M4.67034 1.33333C3.93101 1.33333 3.33301 1.928 3.33301 2.66V13.34C3.3353 13.693 3.47727 14.0307 3.72788 14.2793C3.97849 14.5279 4.31734 14.6672 4.67034 14.6667H11.329C12.0683 14.6667 12.6663 14.0727 12.6663 13.34V2.66C12.6663 1.932 12.0677 1.33333 11.329 1.33333H4.67034ZM5.99967 4H9.99967C10.3679 4 10.6663 4.29848 10.6663 4.66667C10.6663 5.03486 10.3679 5.33333 9.99967 5.33333H5.99967C5.63148 5.33333 5.33301 5.03486 5.33301 4.66667C5.33301 4.29848 5.63148 4 5.99967 4ZM9.99967 6H5.99967C5.63148 6 5.33301 6.29848 5.33301 6.66667C5.33301 7.03486 5.63148 7.33333 5.99967 7.33333H9.99967C10.3679 7.33333 10.6663 7.03486 10.6663 6.66667C10.6663 6.29848 10.3679 6 9.99967 6ZM5.99967 8H7.33301C7.7012 8 7.99967 8.29848 7.99967 8.66667C7.99967 9.03486 7.7012 9.33333 7.33301 9.33333H5.99967C5.63148 9.33333 5.33301 9.03486 5.33301 8.66667C5.33301 8.29848 5.63148 8 5.99967 8Z" fill="#091E42" fill-opacity="0.31"/>
               </svg>
 
-              <span class="font-medium text-[#44546F]">REF: {{ orderRef }}</span>
+              <span class="">REF: {{ orderRef }}</span>
             </div>
             <div class="flex items-center gap-2 text-sm text-[#44546F]">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -305,7 +304,7 @@
             Cancel
           </button>
           <button 
-            @click="confirmPickingList"
+            @click="handleConfirmation"
             class="px-4 py-2 text-sm font-medium bg-[#F5CD47] text-[#172B4D] rounded-md hover:bg-[#F5CD47]/80"
           >
             Confirm
@@ -520,20 +519,32 @@ const proceedToConfirm = () => {
 }
 
 const confirmPickingList = () => {
+  // Just confirm picking list and return to order fulfillment
+  showPackagingModal.value = true
+}
+
+const confirmPickingListAndCheckOut = () => {
+  // Confirm picking list and check out
+  shouldCheckOut.value = true
+  showPackagingModal.value = true
+}
+
+const handleConfirmation = () => {
   showConfirmModal.value = false
   
   if (shouldCheckOut.value) {
     toastMessage.value = 'Picking list confirmed and checked out successfully!'
+    // Clear check-in state and navigate back
+    localStorage.removeItem('isCheckedIn')
+    router.push({ name: 'outbound.order-fulfillment' })
   } else {
     toastMessage.value = 'Picking list confirmed successfully!'
+    // Maintain check-in state and navigate back
+    localStorage.setItem('isCheckedIn', 'true')
+    router.push({ name: 'outbound.order-fulfillment' })
   }
   
   showToast.value = true
-  
-  // Navigate back after a delay
-  setTimeout(() => {
-    goBack()
-  }, 2000)
 }
 
 onMounted(() => {

@@ -24,7 +24,7 @@
 			</div>
 
 			<!-- Form content slot -->
-			<div class="p-6 modal_content">
+			<div class="p-6 pb-0 modal_content">
 				<slot :close-modal="closeModal" :form-data="internalFormData" :update-form-data="updateFormData"></slot>
 			</div>
 

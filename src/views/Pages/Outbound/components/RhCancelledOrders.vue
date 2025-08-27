@@ -66,7 +66,7 @@
           <div class="space-y-4">
             <div class="flex justify-between items-center">
               <span class="text-sm font-medium text-[#172B4D]">HMO Name</span>
-              <span class="text-sm text-[#44546F]">{{ selectedOrder.hmo_name }}</span>
+              <span class="text-sm text-[#44546F]">{{ selectedOrder?.hmo_name }}</span>
             </div>
             <div class="flex justify-between items-center">
               <span class="text-sm font-medium text-[#172B4D]">Customer Type</span>
@@ -87,7 +87,7 @@
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M5.83464 1.66663C4.91416 1.66663 4.16797 2.41282 4.16797 3.33329V16.6666C4.16797 17.5871 4.91416 18.3333 5.83464 18.3333H14.168C15.0884 18.3333 15.8346 17.5871 15.8346 16.6666V3.33329C15.8346 2.41282 15.0884 1.66663 14.168 1.66663H5.83464ZM14.168 3.33329H5.83464V14.1666H14.168V3.33329ZM11.668 15.8333H8.33464V16.6666H11.668V15.8333Z" fill="#091E42" fill-opacity="0.31"/>
                 </svg>
-                {{ selectedOrder.store_name }}
+                {{ selectedOrder?.store_name }}
               </span>
             </div>
             <div class="flex justify-between items-center">
@@ -108,7 +108,7 @@
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M4.1625 4.16667H15.8375C16.7558 4.16667 17.5 4.9125 17.5 5.82833V15.8383C17.5 16.0566 17.457 16.2728 17.3734 16.4744C17.2899 16.6761 17.1674 16.8593 17.013 17.0136C16.8586 17.1679 16.6753 17.2903 16.4736 17.3738C16.2719 17.4572 16.0558 17.5001 15.8375 17.5H4.1625C3.72172 17.5 3.29898 17.325 2.98723 17.0134C2.67547 16.7018 2.50022 16.2791 2.5 15.8383V5.82833C2.5 4.91083 3.24333 4.16667 4.1625 4.16667ZM4.16667 7.5V15C4.16667 15.221 4.25446 15.433 4.41074 15.5893C4.56702 15.7455 4.77899 15.8333 5 15.8333H15C15.221 15.8333 15.433 15.7455 15.5893 15.5893C15.7455 15.433 15.8333 15.221 15.8333 15V7.5H4.16667ZM5 3.33333C5 3.11232 5.0878 2.90036 5.24408 2.74408C5.40036 2.5878 5.61232 2.5 5.83333 2.5C6.05435 2.5 6.26631 2.5878 6.42259 2.74408C6.57887 2.90036 6.66667 3.11232 6.66667 3.33333V4.16667H5V3.33333ZM13.3333 3.33333C13.3333 3.11232 13.4211 2.90036 13.5774 2.74408C13.7337 2.5878 13.9457 2.5 14.1667 2.5C14.3877 2.5 14.5996 2.5878 14.7559 2.74408C14.9122 2.90036 15 3.11232 15 3.33333V4.16667H13.3333V3.33333ZM5.83333 10.8333V9.16583H7.5V10.8333H5.83333ZM12.5 10.8333V9.16583H14.1667V10.8333H12.5ZM9.16667 10.8333V9.16583H10.8342V10.8333H9.16667ZM5.83333 14.1667V12.5H7.5V14.1667H5.83333ZM9.16667 14.1667V12.5H10.8342V14.1667H9.16667ZM12.5 14.1667V12.5H14.1667V14.1667H12.5Z" fill="#091E42" fill-opacity="0.31"/>
                 </svg>
-                {{ selectedOrder.order_date }} - 11:13 AM
+                {{ selectedOrder?.order_date }} - 11:13 AM
               </span>
             </div>
           </div>
@@ -123,7 +123,7 @@
               </div>
               <div class="flex justify-between items-center">
                 <span class="text-sm font-medium text-[#172B4D]">Cancellation Date</span>
-                <span class="text-sm text-[#44546F]">{{ selectedOrder.order_date }} - 2:30 PM</span>
+                <span class="text-sm text-[#44546F]">{{ selectedOrder?.order_date }} - 2:30 PM</span>
               </div>
               <div class="flex justify-between items-start">
                 <span class="text-sm font-medium text-[#172B4D]">Reason</span>
@@ -155,9 +155,11 @@
               >
                 <template #column="{ props }">
                   <div v-if="props.column.field === 'tags'">
-                    <span v-if="props.row.tags" class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                      {{ props.row.tags }}
-                    </span>
+                    <Pill 
+                      v-if="props.row.tags"
+                      :type="getPillType(props.row.tags)"
+                      :text="props.row.tags"
+                    />
                   </div>
                   <span v-else>
                     {{ props.row[props.column.field] }}
@@ -192,7 +194,7 @@
 
         <!-- Activities Tab -->
         <div v-if="activeTab === 'activities'" class="space-y-4">
-          <Activities :activities="orderActivities" :order-ref="selectedOrder.order_no" />
+          <Activities :activities="orderActivities" :order-ref="selectedOrder?.order_no || ''" />
         </div>
       </div>
     </SideBarModal>
@@ -204,6 +206,7 @@ import { ref, computed } from 'vue';
 import Datatable from "@/views/Components/Datatable/Datatable.vue";
 import SideBarModal from '@/views/Components/SideBarModal.vue';
 import Activities from '@/views/Components/Activities.vue';
+import Pill from '@/views/Components/ui/Pill.vue';
 import type { TableColumn } from '@/types';
 
 // Reactive variables
@@ -211,7 +214,22 @@ const childKey = ref(0);
 
 // Modal states
 const isOrderDetailsModalOpen = ref(false);
-const selectedOrder = ref({});
+interface Order {
+  order_no: string;
+  hmo_name: string;
+  store_name: string;
+  state: string;
+  order_date: string;
+  processing_date: string;
+  delivery_type: string;
+  total_cost_price: string;
+  total_selling_price: string;
+  warehouse: string;
+  warehouse_state: string;
+  warehouse_lga: string;
+}
+
+const selectedOrder = ref<Order | null>(null);
 const activeTab = ref('details');
 
 // Tab management
@@ -289,37 +307,41 @@ const orderProducts = ref([
 
 const orderActivities = ref([
   {
-    id: 1,
-    type: 'Order cancelled',
-    description: 'Order cancelled by customer request',
+    action: 'Order cancelled',
     user: 'Customer Service',
-    timestamp: '2024-01-15 14:30:00',
-    details: 'Customer requested cancellation due to change in medication requirements'
+    time: 'Today 2:30 PM',
   },
   {
-    id: 2,
-    type: 'Refund processed',
-    description: 'Full refund processed to customer account',
+    action: 'Refund processed',
     user: 'Finance Team',
-    timestamp: '2024-01-15 15:00:00',
-    details: 'Refund amount: ₦187,000.00'
+    time: 'Today 3:00 PM',
   },
   {
-    id: 3,
-    type: 'Order status changed',
-    description: 'Status changed from New to Cancelled',
+    action: 'Order status changed',
     user: 'System',
-    timestamp: '2024-01-15 14:25:00',
-    details: 'Automatic status update upon cancellation'
+    time: 'Today 2:25 PM',
   }
 ]);
 
 // Computed modal title
 const modalTitle = computed(() => {
-  return selectedOrder.value.order_no ? `Order Details REF: ${selectedOrder.value.order_no}` : 'Order Details';
+  return selectedOrder.value?.order_no ? `Order Details REF: ${selectedOrder.value.order_no}` : 'Order Details';
 });
 
 // Methods
+const getPillType = (tag: string) => {
+  switch (tag) {
+    case 'Cash and Carry':
+      return 'cash-and-carry';
+    case 'Controlled':
+      return 'controlled';
+    case 'Hospital':
+      return 'hospital';
+    default:
+      return 'hospital'; // Default to hospital style
+  }
+};
+
 const viewOrder = (order: any) => {
   selectedOrder.value = order;
   isOrderDetailsModalOpen.value = true;

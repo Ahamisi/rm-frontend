@@ -1,16 +1,30 @@
 <template>
-    <div class="">
+    <div class="h-[38px]">
         <slot name="label"></slot>
         <v-select v-if="props.options" :options="props.options" :label="label" :placeholder="placeholder"
-            @option:selected="optionSelected" v-model="tempValue">
+            @option:selected="optionSelected" v-model="tempValue" class="h-full">
             <template #no-options>
                 Type to search {{ tag }}...
             </template>
+            <template #search="{ attributes, events }">
+                <input
+                    class="vs__search h-[20px] leading-[20px]"
+                    v-bind="attributes"
+                    v-on="events"
+                />
+            </template>
         </v-select>
         <v-select v-else-if="props.url" :options="data" :label="label" :placeholder="placeholder"
-            @option:selected="optionSelected" v-model="tempValue" @search="onSearch" :loading="loading">
+            @option:selected="optionSelected" v-model="tempValue" @search="onSearch" :loading="loading" class="h-full">
             <template #no-options>
                 Type to search {{ tag }}...
+            </template>
+            <template #search="{ attributes, events }">
+                <input
+                    class="vs__search h-[20px] leading-[20px]"
+                    v-bind="attributes"
+                    v-on="events"
+                />
             </template>
         </v-select>
         <slot name="description"></slot>
@@ -52,21 +66,26 @@ interface Props {
 const props = defineProps<Props>();
 const emit = defineEmits(['selected', 'update:modelValue']);
 
-const selectedItems = ref([]);
+interface Item {
+    id: number;
+    [key: string]: any;
+}
+
+const selectedItems = ref<Item[]>([]);
 watch(() => props.modelValue, (newValue) => {
     if (newValue && Array.isArray(newValue) && newValue.length) {
         selectedItems.value = props.options ? props.options.filter(item => newValue.some(v => v.id === item.id)) : newValue;
     }
 }, { immediate: true });
 
-const tempValue = ref(null);
+const tempValue = ref<Item | null>(null);
 const loading = ref(false);
-const data = ref([]);
+const data = ref<Item[]>([]);
 const toast = useToast();
 const authStore = useAuthStore();
 let debounceTimeout: ReturnType<typeof setTimeout>;
 
-const optionSelected = (option) => {
+const optionSelected = (option: Item) => {
     if (!selectedItems.value.some(item => item.id === option.id)) {
         selectedItems.value.push(option);
         emit('update:modelValue', selectedItems.value);
@@ -74,7 +93,7 @@ const optionSelected = (option) => {
     tempValue.value = null;
 };
 
-const removeItem = (item) => {
+const removeItem = (item: Item) => {
     selectedItems.value = selectedItems.value.filter(i => i.id !== item.id);
     emit('update:modelValue', selectedItems.value);
 };
@@ -89,6 +108,8 @@ const onSearch = (query: string) => {
 };
 
 const fetchData = (query: string) => {
+    if (!props.url) return;
+    
     loading.value = true;
     axios.get(props.url, { params: { search: query, searchTerm: query, current_branch: authStore.selectedBranch.id } })
         .then(response => {
@@ -99,12 +120,12 @@ const fetchData = (query: string) => {
             loading.value = false;
         })
         .catch(err => {
-            error(err);
+            handleError(err);
             loading.value = false;
         });
 };
 
-const error = (err) => {
+const handleError = (err: any) => {
     let errorMessage = '';
     if (Array.isArray(err.response.data.error)) {
         errorMessage = "<p>" + err.response.data.error.join("</p><p>") + "</p>";
@@ -137,5 +158,25 @@ div.flex.flex-wrap.gap-2.multi_select_item_container {
 
 .vs__dropdown-option--highlight {
     background: rgb(236, 236, 236);
+}
+
+.vs__search {
+    margin: 0;
+    padding: 0;
+    border: none !important;
+    line-height: 20px !important;
+}
+
+.vs__selected-options {
+    padding: 0 !important;
+}
+
+.vs__selected {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.vs__actions {
+    padding: 0 !important;
 }
 </style>

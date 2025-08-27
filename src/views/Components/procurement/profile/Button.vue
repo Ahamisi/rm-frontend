@@ -1,7 +1,7 @@
 <template>
   <button
     type="button"
-    class="h-[32px] text-white pt-0.5 pr-2 pb-0.5 pl-1 rounded-md"
+    class="h-auto special-input text-white pt-0.5 pr-2 pb-0.5 pl-1 rounded-md"
   >
   <p class="text-xs font-medium leading-4">
 

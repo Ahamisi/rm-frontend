@@ -87,13 +87,12 @@
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Select Product</label>
-            <v-select
+            <SelectField
               v-model="form.product"
               :options="productOptions"
-              label="name"
+              labelField="name"
+              valueField="id"
               placeholder="Type to search for product"
-              :searchable="true"
-              :clearable="true"
             />
           </div>
           <div>
@@ -102,7 +101,8 @@
               type="number"
               v-model="form.quantity"
               placeholder="0"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              class="w-full px-3 py-2 border-2 rounded-lg text-sm text-[#44546F] focus:outline-none focus:border-blue-600 overflow-hidden text-ellipsis"
+              style="border-color: #091E4224;"
             />
           </div>
         </div>
@@ -114,18 +114,18 @@
             <input
               type="date"
               v-model="form.date_damaged"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              class="w-full px-3 py-2 border-2 rounded-lg text-sm text-[#44546F] focus:outline-none focus:border-blue-600 overflow-hidden text-ellipsis"
+              style="border-color: #091E4224;"
             />
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Product Batch Number</label>
-            <v-select
+            <SelectField
               v-model="form.batch_number"
               :options="batchOptions"
-              label="name"
+              labelField="name"
+              valueField="id"
               placeholder="Select a product batch no"
-              :searchable="true"
-              :clearable="true"
             />
           </div>
         </div>
@@ -148,7 +148,8 @@
             v-model="form.comment"
             placeholder="Add additional details or notes about the damage"
             rows="4"
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full px-3 py-2 border-2 rounded-lg text-sm text-[#44546F] focus:outline-none focus:border-blue-600 resize-none"
+            style="border-color: #091E4224;"
           ></textarea>
         </div>
 
@@ -244,8 +245,7 @@ import PageTitle from "@/views/Components/header/PageTitle.vue";
 import Datatable from "@/views/Components/Datatable/Datatable.vue";
 import SuccessAlertToast from "@/views/Components/SuccessAlertToast.vue";
 import SideBarModal from "@/views/Components/SideBarModal.vue";
-// @ts-ignore
-import vSelect from "vue-select";
+import SelectField from "@/views/Components/ui/SelectField.vue";
 import { ref } from 'vue';
 import type { TableColumn } from '@/types';
 
@@ -261,7 +261,17 @@ const showDeleteModal = ref(false);
 const selectedProduct = ref<any>(null);
 
 // Form data
-const form = ref({
+interface FormData {
+  product: { id: number; name: string } | null;
+  quantity: string;
+  date_damaged: string;
+  batch_number: { id: number; name: string } | null;
+  damage_cause: string;
+  comment: string;
+  returnable: boolean;
+}
+
+const form = ref<FormData>({
   product: null,
   quantity: '',
   date_damaged: '',
@@ -509,8 +519,6 @@ const executeDelete = () => {
 </script>
 
 <style>
-@import "vue-select/dist/vue-select.css";
-
 .erp_dashboard_wrapper .create_btn {
   background: rgba(12, 102, 228, 1);
   border-radius: 6px;
@@ -524,37 +532,14 @@ const executeDelete = () => {
   background-color: #091E420F;
 }
 
-/* Vue Select Styling */
-.vs__dropdown-toggle {
-  border: 2px solid rgba(9, 30, 66, 0.14);
-  border-radius: 8px;
-  padding: 4px 8px;
-  min-height: 40px;
+/* Input Field Styling */
+input[type="text"],
+input[type="number"],
+input[type="date"] {
+  height: 38px;
 }
 
-.vs__dropdown-menu {
-  border: 2px solid rgba(9, 30, 66, 0.14);
-  border-radius: 8px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
-.vs__dropdown-option {
-  padding: 8px 12px;
-  font-size: 14px;
-  color: rgba(98, 111, 134, 1);
-}
-
-.vs__dropdown-option--highlight {
-  background: rgba(12, 102, 228, 0.1);
-  color: rgba(12, 102, 228, 1);
-}
-
-.vs__search {
-  font-size: 14px;
-  color: rgba(98, 111, 134, 1);
-}
-
-.vs__search::placeholder {
-  color: rgba(98, 111, 134, 0.7);
+textarea {
+  min-height: 100px;
 }
 </style>
