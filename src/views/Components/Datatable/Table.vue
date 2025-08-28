@@ -7,7 +7,7 @@
 						<template v-for="column in columns" :key="`th-${column.field}-${pageName}`">
 							<!-- :class="{ 'cursor-pointer': column.sortable, 'p-2': true }" -->
 							<th @click="handleSort(column)" :class="[
-								'p-2',
+								'px-3 py-2',
 								column.sortable ? 'cursor-pointer' : '',
 								column.field === 'action' || column.field === 'actions' ? 'w-[100px] text-center' : ''
 							]">
@@ -106,7 +106,7 @@
 				<tr v-else-if="!loading && items.length > 0" v-for="row in items" :key="`${row.id}-${pageName}`"
 					class="relative text-left text-gray-500 border-b hover:bg-gray-50">
 					<slot name="tableRow" :row="row">
-						<td v-for="column in columns" :key="`td-${column.field}-${pageName}`" class="p-3">
+						<td v-for="column in columns" :key="`td-${column.field}-${pageName}`" class="px-3 py-2">
 							<slot name="column" :props="{ row, column, formattedRow: formattedRow(row, columns) }">
 								{{ getColumnValue(row, column) }}
 							</slot>

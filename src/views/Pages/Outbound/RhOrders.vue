@@ -507,10 +507,13 @@ const baseColumns: TableColumn[] = [
 const rhOrderColumns = computed<TableColumn[]>(() => {
   const columns = [...baseColumns];
   
-  // Add processing date column only for "Being Processed" tab
+  // For "Being Processed" tab, replace "Order Date" with "Processing Date"
   if (activeTab.value === 'Being Processed') {
-    // Insert processing date after order date (index 4) and before delivery type
-    columns.splice(5, 0, { label: 'Processing Date', field: 'processing_date', sortable: true });
+    // Find and replace the Order Date column with Processing Date
+    const orderDateIndex = columns.findIndex(col => col.field === 'order_date');
+    if (orderDateIndex !== -1) {
+      columns[orderDateIndex] = { label: 'Processing Date', field: 'processing_date', sortable: true };
+    }
   }
   
   return columns;

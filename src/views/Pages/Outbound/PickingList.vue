@@ -226,8 +226,8 @@
         
         <!-- Modal Body -->
         <div class="p-6">
-          <div class="bg-blue-50 p-4 rounded-lg mb-6">
-            <p class="text-sm text-blue-800">
+          <div class="bg-[#CCE0FF] p-4 rounded-lg mb-6">
+            <p class="text-sm text-[#172B4D]">
               Please enter the number of cartons or nylons used to package this order.
             </p>
           </div>
@@ -536,11 +536,13 @@ const handleConfirmation = () => {
     toastMessage.value = 'Picking list confirmed and checked out successfully!'
     // Clear check-in state and navigate back
     localStorage.removeItem('isCheckedIn')
+    localStorage.removeItem('currentOrder')
     router.push({ name: 'outbound.order-fulfillment' })
   } else {
     toastMessage.value = 'Picking list confirmed successfully!'
-    // Maintain check-in state and navigate back
+    // Maintain check-in state but clear current order (user should wait for new orders)
     localStorage.setItem('isCheckedIn', 'true')
+    localStorage.removeItem('currentOrder')
     router.push({ name: 'outbound.order-fulfillment' })
   }
   

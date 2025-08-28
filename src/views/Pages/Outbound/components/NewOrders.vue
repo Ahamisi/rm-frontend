@@ -28,7 +28,7 @@
         
         <!-- Customer Name -->
         <span v-else-if="col.props.column.field === 'customer_name'">
-          <span class="font-medium text-gray-900">{{ col.props.row.customer_name }}</span>
+          <span>{{ col.props.row.customer_name }}</span>
         </span>
         
         <!-- Store Name -->
@@ -58,7 +58,7 @@
         
         <!-- Total Amount -->
         <span v-else-if="col.props.column.field === 'total_amount'">
-          <span class="font-medium text-gray-900">{{ formatCurrency(col.props.row.total_amount) }}</span>
+          <span>{{ formatCurrency(col.props.row.total_amount) }}</span>
         </span>
         
         <!-- Tags -->
@@ -537,7 +537,7 @@ const viewOrder = (order: any) => {
   font-weight: 400;
   line-height: 16px;
   color: rgba(68, 84, 111, 1);
-  padding: 8px;
+  padding: 8px 12px;
 }
 
 .order_summary thead tr th {
@@ -546,7 +546,7 @@ const viewOrder = (order: any) => {
   font-weight: 500;
   line-height: 16px;
   color: rgba(23, 43, 77, 1);
-  padding: 8px;
+  padding: 8px 12px;
   background: rgba(247, 248, 249, 1);
 }
 

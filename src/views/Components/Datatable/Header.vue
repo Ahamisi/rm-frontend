@@ -113,30 +113,65 @@
 					<div v-for="(group, index) in filterGroups" :key="index" class="group"
 						:class="index == 0 ? 'border-b' : ''">
 						<ul class="sort-menu">
-							<li v-for="item in group.items" class="flex items-center" :key="item.value"
-								@click="selectOption(item.value)">
+							<!-- Show first 4 items -->
+							<li v-for="(item, itemIndex) in group.items.slice(0, 4)" class="flex items-center cursor-pointer hover:bg-[#091E4224]" :key="item.value"
+								@click="selectOption(item.value); sortModalOpen = false;">
 								<span class="group-title">
 									<svg :style="{
 										visibility:
 											group.label === 'Sort Order'
-												? item.value === sortOrder
+												? item.value === filters.sortOrder
 													? 'visible'
 													: 'hidden'
-												: item.value === sortBy
+												: item.value === filters.sortBy
 													? 'visible'
 													: 'hidden'
 									}" width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
 										<circle cx="12" cy="12.5" r="2" fill="#626F86" />
 									</svg>
 								</span>
-								<span class="medium-text text-text-subtle" :class="item.value !== 'name' &&
-									item.value !== 'asc' &&
-									item.value !== 'desc'
-									? ''
-									: ''
-									">
+								<span class="medium-text text-text-subtle">
 									{{ item.label }}
 								</span>
+							</li>
+							<!-- Show "More" option if there are more than 4 items -->
+							<li v-if="group.items.length > 4" class="flex items-center cursor-pointer relative hover:bg-[#091E4224]" 
+								@click.stop="toggleMoreItems(index)">
+								<span class="group-title">
+									<svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path d="M7 10.5L12 15.5L17 10.5H7Z" fill="#626F86"/>
+									</svg>
+								</span>
+								<span class="medium-text text-text-subtle">
+									More ({{ group.items.length - 4 }})
+								</span>
+								
+								<!-- More items dropdown as separate card -->
+								<div v-if="showMoreItems[index]" 
+									class="absolute left-full top-0 ml-2 bg-white shadow-lg rounded-md border border-gray-200 py-1 z-50 min-w-[200px]"
+									@click.stop>
+									<div v-for="item in group.items.slice(4)" :key="item.value"
+										class="flex items-center px-3 py-2 cursor-pointer hover:bg-[#091E4224]"
+										@click="selectOption(item.value); sortModalOpen = false; showMoreItems[index] = false;">
+										<span class="group-title mr-2">
+											<svg :style="{
+												visibility:
+													group.label === 'Sort Order'
+														? item.value === filters.sortOrder
+															? 'visible'
+															: 'hidden'
+														: item.value === filters.sortBy
+															? 'visible'
+															: 'hidden'
+											}" width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+												<circle cx="12" cy="12.5" r="2" fill="#626F86" />
+											</svg>
+										</span>
+										<span class="medium-text text-text-subtle">
+											{{ item.label }}
+										</span>
+									</div>
+								</div>
 							</li>
 						</ul>
 					</div>
@@ -284,6 +319,7 @@ const isSortable = computed<boolean>(() => {
 
 const filterModalOpen = ref<boolean>(false);
 const sortModalOpen = ref<boolean>(false);
+const showMoreItems = ref<Record<number, boolean>>({});
 
 const resetFilters = (): void => {
 	filters.value.filterValues = {};
@@ -326,6 +362,10 @@ const selectOption = (value: string): void => {
 		field: filters.value.sortBy,
 		type: filters.value.sortOrder
 	} as SortParams)
+};
+
+const toggleMoreItems = (groupIndex: number): void => {
+	showMoreItems.value[groupIndex] = !showMoreItems.value[groupIndex];
 };
 
 onClickOutside(sortRef, (): void => {

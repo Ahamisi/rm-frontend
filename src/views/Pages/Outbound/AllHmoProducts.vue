@@ -87,11 +87,13 @@
       :fullWidth="true"
     >
       <!-- Info Alert -->
-      <div class="mb-6 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-        <p class="text-sm text-blue-800">
-          Please ensure the transfer quantity is a multiple of 2.
-        </p>
-      </div>
+    
+
+      <div class="bg-[#CCE0FF] p-3 rounded-lg mb-6">
+            <p class="text-sm text-[#172B4D]">
+              Please ensure the transfer quantity is a multiple of 2.
+            </p>
+        </div>
 
       <!-- Batch Information Table -->
       <div class="overflow-x-auto">
@@ -100,7 +102,6 @@
             <thead>
               <tr class="text-center bg-gray-100 medium-text text-text-default">
                 <th class="p-2 text-left">
-                  <input type="checkbox" class="rounded">
                 </th>
                 <th class="p-2 text-left">Batch No.</th>
                 <th class="p-2 text-left">Expiry Date</th>

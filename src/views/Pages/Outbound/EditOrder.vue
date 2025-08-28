@@ -108,7 +108,7 @@
                       v-model="item.quantity" 
                       type="number" 
                       min="1"
-                      class="w-[60%] px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      class="w-[60%] px-2 pb-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                       @keyup.enter="updateQuantity(index)"
                       @keyup.escape="cancelEditQuantity(index)"
                       :id="`quantityInput-${index}`"
@@ -308,7 +308,7 @@ import Tooltip from "@/views/Components/Tooltip.vue";
 import LoadingState from "@/views/Components/procurement/state/LoadingState.vue";
 import UniversalCenteredModal from "@/views/Components/UniversalCenteredModal.vue";
 import SideBarModal from "@/views/Components/SideBarModal.vue";
-import SelectField from "@/views/Components/procurement/ui/SelectField.vue";
+import SelectField from "@/views/Components/ui/SelectField.vue";
 import SuccessModal from "@/views/Components/procurement/ui/SuccessModal.vue";
 import GrayButton from "@/views/Components/ui/GrayButton.vue";
 import { api } from "@/api";

@@ -158,26 +158,26 @@
       width="xl"
       @close="isOrderDetailsModalOpen = false"
     >
-  
-      <!-- Tabs -->
-      <div class="flex border-b border-gray-200 mb-6">
-        <button
-          v-for="tab in orderTabs"
-          :key="tab.id"
-          @click="activeTab = tab.id"
-          :class="[
-            'text-sm font-medium border-b-2 transition-colors',
-            activeTab === tab.id
-              ? 'border-blue-500 text-blue-600'
-              : 'border-transparent text-gray-500 hover:text-gray-700'
-          ]"
-        >
-          {{ tab.label }}
-        </button>
-      </div>
+      <div class="p-0">
+        <!-- Tabs -->
+        <div class="flex border-b border-gray-200 mb-6">
+          <button
+            v-for="tab in orderTabs"
+            :key="tab.id"
+            @click="activeTab = tab.id"
+            :class="[
+              'px-4 py-2 text-sm font-medium border-b-2 transition-colors',
+              activeTab === tab.id
+                ? 'border-blue-500 text-blue-600'
+                : 'border-transparent text-gray-500 hover:text-gray-700'
+            ]"
+          >
+            {{ tab.label }}
+          </button>
+        </div>
 
-      <!-- Tab Content -->
-      <div class="flex-1 overflow-y-auto pb-[250px]">
+        <!-- Tab Content -->
+        <div class="flex-1 overflow-y-auto pb-[250px]">
         <!-- Details Tab -->
         <div v-if="activeTab === 'details'" class="space-y-6">
           <!-- Order Information Grid -->
@@ -305,32 +305,33 @@
           </div>
         </div>
 
-        <!-- Activities Tab -->
-        <div v-else-if="activeTab === 'activities'">
-          <Activities :activities="orderActivities" :order-ref="selectedOrder?.order_no || ''" />
+          <!-- Activities Tab -->
+          <div v-else-if="activeTab === 'activities'">
+            <Activities :activities="orderActivities" :order-ref="selectedOrder?.order_no || ''" />
+          </div>
         </div>
-      </div>
 
-      <!-- Fixed Totals Section - Only show on Details tab -->
-      <div v-if="activeTab === 'details'" class="totals-section">
-        <div class="space-y-2">
-          <div class="flex justify-between items-center">
-            <span class="text-[12px] text-[#44546F]">Subtotal:</span>
-            <span class="text-[12px] text-[#44546F]">₦17,250.00</span>
-          </div>
-          <div class="flex justify-between items-center">
-            <span class="text-[12px] text-[#44546F]">Tax:</span>
-            <span class="text-[12px] text-[#44546F]">₦1,725.00</span>
-          </div>
-          <div class="flex justify-between items-center">
-            <span class="text-[12px] text-[#44546F]">Shipping:</span>
-            <span class="text-[12px] text-[#44546F]">₦500.00</span>
-          </div>
-          <div class="flex justify-between items-center pt-2 border-t border-gray-200">
-            <span class="text-[16px] font-medium text-[#44546F]">Total:</span>
-            <span class="text-[16px] font-medium text-[#44546F]">{{ selectedOrder?.total_amount }}</span>
-          </div>
-        </div>
+        <!-- Fixed Totals Section - Only show on Details tab -->
+        <div v-if="activeTab === 'details'" class="totals-section">
+            <div class="space-y-2">
+              <div class="flex justify-between items-center">
+                <span class="text-[12px] text-[#44546F]">Subtotal:</span>
+                <span class="text-[12px] text-[#44546F]">₦17,250.00</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-[12px] text-[#44546F]">Tax:</span>
+                <span class="text-[12px] text-[#44546F]">₦1,725.00</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-[12px] text-[#44546F]">Shipping:</span>
+                <span class="text-[12px] text-[#44546F]">₦500.00</span>
+              </div>
+              <div class="flex justify-between items-center pt-2 border-t border-gray-200">
+                <span class="text-[16px] font-medium text-[#44546F]">Total:</span>
+                <span class="text-[16px] font-medium text-[#44546F]">{{ selectedOrder?.total_amount }}</span>
+              </div>
+            </div>
+      </div>
       </div>
 
       <template #footer>
@@ -346,16 +347,12 @@
     </SideBarModal>
 
     <!-- Time Tracker Modal -->
-    <SideBarModal 
-      title="Time Tracker" 
-      :is-open="showTimeTrackerModal" 
-      width="lg" 
+    <TimeTrackerModal
+      :isOpen="showTimeTrackerModal"
+      :orderRef="selectedOrder?.order_no || ''"
+      :activities="workflowActivities"
       @close="showTimeTrackerModal = false"
-    >
-      <div class="p-6">
-        <Activities :activities="orderActivities" :order-ref="selectedOrder?.order_no || ''" />
-      </div>
-    </SideBarModal>
+    />
 
 
 
@@ -436,6 +433,7 @@ import SideBarModal from '@/views/Components/SideBarModal.vue';
 import SuccessAlertToast from '@/views/Components/SuccessAlertToast.vue';
 import Tabs from '@/views/Components/Tabs.vue';
 import Activities from '@/views/Components/Activities.vue';
+import TimeTrackerModal from '@/views/Components/TimeTrackerModal.vue';
 import UniversalCenteredModal from '@/views/Components/UniversalCenteredModal.vue';
 import SelectField from '@/views/Components/ui/SelectField.vue';
 import TableActionDropdown from '@/views/Components/procurement/ui/TableActionDropdown.vue';
@@ -591,6 +589,20 @@ const orderActivities = ref([
     user: 'John Doe',
     time: '2024-01-15 11:00:00',
     details: 'Updated delivery address'
+  }
+]);
+
+// Mock workflow activities for Time Tracker
+const workflowActivities = ref([
+  {
+    department: 'Accounting',
+    statusChange: 'New Order → Order Confirmed',
+    timeTaken: '1-2 hours'
+  },
+  {
+    department: 'Inventory',
+    statusChange: 'Order Confirmed → Being Processed',
+    timeTaken: '1 minute'
   }
 ]);
 

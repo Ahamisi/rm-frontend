@@ -8,7 +8,7 @@
   </div>
 
   <!-- Main Content -->
-  <div class="erp_dashboard_wrapper">
+  <div class="erp_dashboard_wrapper h-screen overflow-y-hidden flex flex-col">
     <!-- Breadcrumb -->
     <div class="bg-white px-6 pt-4 pb-0">
       <nav class="text-[#626F86] text-sm space-x-2">
@@ -90,7 +90,7 @@
     />
 
     <!-- Content Area -->
-    <div class="px-6 py-6 bg-[#F7F8F9] w-[97%] mx-auto rounded-[16px] flex items-center justify-center min-h-[calc(100vh-250px)]" >
+    <div class="px-6 py-8 bg-[#F7F8F9] w-[97%] mx-auto rounded-[16px] flex items-center justify-center h-[78vh] overflow-hidden " >
       <!-- No Assigned Orders State -->
       <div v-if="!isCheckedIn" class="flex items-center justify-center h-full">
         <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center max-w-md w-full mx-4">
@@ -147,11 +147,38 @@
       <!-- Order Details (70% / 30% Layout) -->
       <div v-if="currentOrder" class="grid grid-cols-1 lg:grid-cols-10 gap-6">
         <!-- Left Card - Order Details (70%) -->
-        <div class="lg:col-span-7 bg-[#FFFFFF] rounded-lg shadow-sm border border-gray-200 p-6">
-          <!-- Action Buttons at Top Right -->
-          <div class="flex justify-between items-center mb-6">
-            <h6 class="text-sm font-medium text-gray-900">ORDER FULFILLMENT</h6>
-                          <div class="flex gap-2">
+        <div class="lg:col-span-7 bg-[#FFFFFF] rounded-lg shadow-sm border border-gray-200" style="padding: 24px;">
+          <!-- Tabs and Action Buttons on Same Line -->
+          <div class="border-b border-gray-200 mb-6">
+            <div class="flex justify-between items-end">
+              <!-- Tabs on Left -->
+              <nav class="-mb-px flex space-x-8">
+                <button 
+                  @click="activeTab = 'details'"
+                  :class="[
+                    activeTab === 'details' 
+                      ? 'border-blue-500 text-blue-600' 
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
+                    'whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm'
+                  ]"
+                >
+                  Details
+                </button>
+                <button 
+                  @click="activeTab = 'items'"
+                  :class="[
+                    activeTab === 'items' 
+                      ? 'border-blue-500 text-blue-600' 
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
+                    'whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm'
+                  ]"
+                >
+                  Order Items
+                </button>
+              </nav>
+              
+              <!-- Action Buttons on Right -->
+              <div class="flex gap-2 pb-2">
                 <button 
                   @click="pickOrder"
                   class="px-4 py-2 text-sm font-medium bg-[#0C66E4] text-white rounded-md hover:bg-[#0C66E4]/80"
@@ -165,34 +192,7 @@
                   Download Invoice
                 </button>
               </div>
-          </div>
-          
-          <!-- Tabs -->
-          <div class="border-b border-gray-200 mb-6">
-            <nav class="-mb-px flex space-x-8">
-              <button 
-                @click="activeTab = 'details'"
-                :class="[
-                  activeTab === 'details' 
-                    ? 'border-blue-500 text-blue-600' 
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
-                  'whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm'
-                ]"
-              >
-                Details
-              </button>
-              <button 
-                @click="activeTab = 'items'"
-                :class="[
-                  activeTab === 'items' 
-                    ? 'border-blue-500 text-blue-600' 
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
-                  'whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm'
-                ]"
-              >
-                Order Items
-              </button>
-            </nav>
+            </div>
           </div>
 
           <!-- Tab Content -->
@@ -201,23 +201,23 @@
               <table class="w-full">
                 <tbody>
                   <tr class="hover:bg-gray-50">
-                    <td class="px-4 py-3 text-sm font-medium text-gray-700">Customer's Name</td>
+                    <td class="pl-0 pr-4 py-3 text-sm font-medium text-gray-700">Customer's Name</td>
                     <td class="px-4 py-3 text-sm text-gray-900 text-right">{{ currentOrder.customer_name }}</td>
                   </tr>
                   <tr class="hover:bg-gray-50">
-                    <td class="px-4 py-3 text-sm font-medium text-gray-700">Customer Type</td>
+                    <td class="pl-0 pr-4 py-3 text-sm font-medium text-gray-700">Customer Type</td>
                     <td class="px-4 py-3 text-sm text-gray-900 text-right">{{ currentOrder.customer_type }}</td>
                   </tr>
                   <tr class="hover:bg-gray-50">
-                    <td class="px-4 py-3 text-sm font-medium text-gray-700">Order By</td>
+                    <td class="pl-0 pr-4 py-3 text-sm font-medium text-gray-700">Order By</td>
                     <td class="px-4 py-3 text-sm text-gray-900 text-right">{{ currentOrder.customer_name }}</td>
                   </tr>
                   <tr class="hover:bg-gray-50">
-                    <td class="px-4 py-3 text-sm font-medium text-gray-700">Agent Name</td>
+                    <td class="pl-0 pr-4 py-3 text-sm font-medium text-gray-700">Agent Name</td>
                     <td class="px-4 py-3 text-sm text-gray-900 text-right">{{ currentOrder.agent_name }}</td>
                   </tr>
                   <tr class="hover:bg-gray-50">
-                    <td class="px-4 py-3 text-sm font-medium text-gray-700">Phone</td>
+                    <td class="pl-0 pr-4 py-3 text-sm font-medium text-gray-700">Phone</td>
                     <td class="px-4 py-3 text-sm text-gray-900 text-right">
                       <div class="flex items-center justify-end gap-2">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -228,7 +228,7 @@
                     </td>
                   </tr>
                   <tr class="hover:bg-gray-50">
-                    <td class="px-4 py-3 text-sm font-medium text-gray-700">Store</td>
+                    <td class="pl-0 pr-4 py-3 text-sm font-medium text-gray-700">Store</td>
                     <td class="px-4 py-3 text-sm text-gray-900 text-right">
                       <div class="flex items-center justify-end gap-2">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -239,11 +239,11 @@
                     </td>
                   </tr>
                   <tr class="hover:bg-gray-50">
-                    <td class="px-4 py-3 text-sm font-medium text-gray-700">Order Amount</td>
+                    <td class="pl-0 pr-4 py-3 text-sm font-medium text-gray-700">Order Amount</td>
                     <td class="px-4 py-3 text-sm text-gray-900 text-right">{{ currentOrder.total_amount }}</td>
                   </tr>
                   <tr class="hover:bg-gray-50">
-                    <td class="px-4 py-3 text-sm font-medium text-gray-700">Order Date</td>
+                    <td class="pl-0 pr-4 py-3 text-sm font-medium text-gray-700">Order Date</td>
                     <td class="px-4 py-3 text-sm text-gray-900 text-right">
                       <div class="flex items-center justify-end gap-2">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -254,7 +254,7 @@
                     </td>
                   </tr>
                   <tr class="hover:bg-gray-50">
-                    <td class="px-4 py-3 text-sm font-medium text-gray-700">Delivery Date</td>
+                    <td class="pl-0 pr-4 py-3 text-sm font-medium text-gray-700">Delivery Date</td>
                     <td class="px-4 py-3 text-sm text-gray-900 text-right">
                       <div class="flex items-center justify-end gap-2">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -284,7 +284,7 @@
         </div>
 
         <!-- Right Card - Order Activities (30%) -->
-        <div class="lg:col-span-3 bg-[#FFFFFF] rounded-lg shadow-sm border border-gray-200 p-6">
+        <div class="lg:col-span-3 bg-[#FFFFFF] rounded-lg shadow-sm border border-gray-200" style="padding: 24px;">
           <h6 class="text-sm font-medium text-gray-900 mb-6">Order Activities</h6>
           <Activities :activities="orderActivities" orderRef="1656493689-254" />
         </div>
@@ -438,6 +438,7 @@ const checkIn = () => {
     // Simulate getting an order after check-in
     setTimeout(() => {
       currentOrder.value = mockOrder
+      localStorage.setItem('currentOrder', JSON.stringify(mockOrder))
     }, 2000)
   }, 1000)
 }
@@ -473,6 +474,7 @@ const refreshOrders = () => {
     loading.value = false
     // Simulate getting an order
     currentOrder.value = mockOrder
+    localStorage.setItem('currentOrder', JSON.stringify(mockOrder))
   }, 1000)
 }
 
@@ -489,8 +491,14 @@ onMounted(() => {
   const storedCheckInState = localStorage.getItem('isCheckedIn')
   if (storedCheckInState === 'true') {
     isCheckedIn.value = true
-    // Also get current order if any
-    currentOrder.value = mockOrder
+    // Only get current order if one exists in localStorage
+    const storedOrder = localStorage.getItem('currentOrder')
+    if (storedOrder) {
+      currentOrder.value = JSON.parse(storedOrder)
+    } else {
+      // User is checked in but no current order - they should wait for new orders
+      currentOrder.value = null
+    }
   }
 })
 </script>

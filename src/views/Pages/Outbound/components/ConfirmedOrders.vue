@@ -26,7 +26,7 @@
         
         <!-- Customer Name -->
         <span v-else-if="col.props.column.field === 'customer_name'">
-          <span class="font-medium text-gray-900">{{ col.props.row.customer_name }}</span>
+          <span>{{ col.props.row.customer_name }}</span>
         </span>
         
         <!-- Store Name -->
@@ -56,7 +56,7 @@
         
         <!-- Total Amount -->
         <span v-else-if="col.props.column.field === 'total_amount'">
-          <span class="font-medium text-gray-900">{{ formatCurrency(col.props.row.total_amount) }}</span>
+          <span>{{ formatCurrency(col.props.row.total_amount) }}</span>
         </span>
         
         <!-- Tags -->
@@ -332,7 +332,7 @@
 
       <template #footer>
         <div class="flex justify-end px-0 py-0">
-          <button @click="isOrderDetailsModalOpen = false" class="px-6 py-2 text-white font-medium bg-[#0C66E4] rounded-[6px]">Close</button>
+          <button @click="isOrderDetailsModalOpen = false" class="px-4 py-2 text-white font-medium bg-[#0C66E4] rounded-[6px]">Close</button>
         </div>
       </template>
     </SideBarModal>
@@ -385,20 +385,12 @@
     />
 
     <!-- Time Tracker Modal -->
-    <SideBarModal
-      v-if="showTimeTrackerModal"
+    <TimeTrackerModal
       :isOpen="showTimeTrackerModal"
-      :title="`Time Tracker REF: ${selectedOrder.order_no}`"
-      width="lg"
+      :orderRef="selectedOrder.order_no || ''"
+      :activities="workflowActivities"
       @close="showTimeTrackerModal = false"
-    >
-      <div class="space-y-6">
-        <h3 class="text-xs font-medium text-gray-500 mb-4">Recent</h3>
-        <WorkflowActivities 
-          :activities="workflowActivities" 
-        />
-      </div>
-    </SideBarModal>
+    />
 
   </div>
 </template>
@@ -408,7 +400,7 @@ import Datatable from '@/views/Components/Datatable/Datatable.vue';
 import LoadingState from '@/views/Components/procurement/state/LoadingState.vue';
 import SideBarModal from '@/views/Components/SideBarModal.vue';
 import Activities from '@/views/Components/Activities.vue';
-import WorkflowActivities from '@/views/Components/WorkflowActivities.vue';
+import TimeTrackerModal from '@/views/Components/TimeTrackerModal.vue';
 import TableActionDropdown from '@/views/Components/procurement/ui/TableActionDropdown.vue';
 import SuccessAlertToast from '@/views/Components/SuccessAlertToast.vue';
 import SuccessModal from '@/views/Components/procurement/ui/SuccessModal.vue';

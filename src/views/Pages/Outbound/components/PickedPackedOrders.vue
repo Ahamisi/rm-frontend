@@ -26,7 +26,7 @@
         
         <!-- Customer Name -->
         <span v-else-if="col.props.column.field === 'customer_name'">
-          <span class="font-medium text-gray-900">{{ col.props.row.customer_name }}</span>
+          <span>{{ col.props.row.customer_name }}</span>
         </span>
         
         <!-- Store Name -->
@@ -363,16 +363,12 @@
     </SideBarModal>
 
     <!-- Time Tracker Modal -->
-    <SideBarModal 
-      title="Time Tracker" 
-      :is-open="showTimeTrackerModal" 
-      width="lg" 
+    <TimeTrackerModal
+      :isOpen="showTimeTrackerModal"
+      :orderRef="selectedOrder?.order_no || ''"
+      :activities="workflowActivities"
       @close="showTimeTrackerModal = false"
-    >
-      <div class="p-6">
-        <Activities :activities="orderActivities" :order-ref="selectedOrder?.order_no || ''" />
-      </div>
-    </SideBarModal>
+    />
 
 
 
@@ -452,6 +448,7 @@ import Datatable from '@/views/Components/Datatable/Datatable.vue';
 import SideBarModal from '@/views/Components/SideBarModal.vue';
 import SuccessAlertToast from '@/views/Components/SuccessAlertToast.vue';
 import Activities from '@/views/Components/Activities.vue';
+import TimeTrackerModal from '@/views/Components/TimeTrackerModal.vue';
 import UniversalCenteredModal from '@/views/Components/UniversalCenteredModal.vue';
 import SelectField from '@/views/Components/ui/SelectField.vue';
 import TableActionDropdown from '@/views/Components/procurement/ui/TableActionDropdown.vue';
@@ -610,6 +607,25 @@ const orderActivities = ref([
     user: 'John Doe',
     time: '2024-01-15 11:00:00',
     details: 'Updated delivery address'
+  }
+]);
+
+// Mock workflow activities for Time Tracker
+const workflowActivities = ref([
+  {
+    department: 'Accounting',
+    statusChange: 'New Order → Order Confirmed',
+    timeTaken: '1-2 hours'
+  },
+  {
+    department: 'Inventory',
+    statusChange: 'Order Confirmed → Being Processed',
+    timeTaken: '1 minute'
+  },
+  {
+    department: 'Warehouse',
+    statusChange: 'Being Processed → Picked & Packed',
+    timeTaken: '30 minutes'
   }
 ]);
 

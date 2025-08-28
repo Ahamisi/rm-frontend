@@ -42,7 +42,7 @@
         <template #column="col">
           <!-- Driver Name -->
           <span v-if="col.props.column.field === 'driver_name'">
-            <span class="font-medium text-gray-900">{{ col.props.row.driver_name }}</span>
+            <span>{{ col.props.row.driver_name }}</span>
           </span>
           
           <!-- Order Count -->

@@ -19,8 +19,8 @@
           <h3>Let's Find Your Orders</h3>
         </div>
         <p class="my-4 text-center">Please search by Order Ref No, Customer Name or Store Name to load delivered orders</p>
-        <div class="relative grid items-baseline grid-cols-1 gap-2 md:grid-cols-7 search_content">
-          <div class="md:col-span-2">
+        <div class="relative grid items-baseline grid-cols-1 gap-2 md:grid-cols-8 search_content">
+          <div class="md:col-span-3">
             <CustomSelectDropdown 
               v-model="selectedSearchBy"
               :options="searchByOptions"
@@ -72,7 +72,7 @@
           
           <!-- Customer Name -->
           <span v-else-if="col.props.column.field === 'customer_name'">
-            <span class="font-medium text-gray-900">{{ col.props.row.customer_name }}</span>
+            <span>{{ col.props.row.customer_name }}</span>
           </span>
           
           <!-- Store Name -->
@@ -720,7 +720,7 @@ const viewOrderActivities = (order: any) => {
   font-weight: 400;
   line-height: 16px;
   color: rgba(68, 84, 111, 1);
-  padding: 8px;
+  padding: 8px 12px;
 }
 
 .order_summary thead tr th {
@@ -729,7 +729,7 @@ const viewOrderActivities = (order: any) => {
   font-weight: 500;
   line-height: 16px;
   color: rgba(23, 43, 77, 1);
-  padding: 8px;
+  padding: 8px 12px;
   background: rgba(247, 248, 249, 1);
 }
 
