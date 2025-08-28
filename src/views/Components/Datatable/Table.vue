@@ -2,7 +2,7 @@
 	<div class="bg-white border text-lightBlack border-[#091E4224] rounded-xl shadow-sm overflow-x-auto">
 		<table class="w-full table-auto" :id="tableId">
 			<thead>
-				<tr class="text-left bg-gray-100 font-medium text-text-default md:text-[12px]">
+				<tr class="text-left bg-gray-100 font-medium text-[#172B4D] text-[12px]">
 					<slot name="tableHeader">
 						<template v-for="column in columns" :key="`th-${column.field}-${pageName}`">
 							<!-- :class="{ 'cursor-pointer': column.sortable, 'p-2': true }" -->
@@ -14,9 +14,9 @@
 								<span class="inline-flex items-center text-left">
 									{{ column.label }}
 									<UpDownIcon class="inline w-[12px] ml-1"
-										v-if="column.sortable && serverParams.sort.field != column.field" />
+										v-if="column.sortable && serverParams.sort?.field != column.field" />
 									<span class="inline ml-1"
-										v-else-if="column.sortable && serverParams.sort.field == column.field && serverParams.sort.type == 'asc'">
+										v-else-if="column.sortable && serverParams.sort?.field == column.field && serverParams.sort?.type == 'asc'">
 										<svg width="11" height="16" viewBox="0 0 11 16" fill="none"
 											xmlns="http://www.w3.org/2000/svg">
 											<path d="M8.19922 7H2.19922L5.19922 4L8.19922 7Z" fill="#091E42"
@@ -24,7 +24,7 @@
 										</svg>
 									</span>
 									<span class="inline w-[12px] ml-1"
-										v-else-if="column.sortable && serverParams.sort.field == column.field && serverParams.sort.type == 'desc'">
+										v-else-if="column.sortable && serverParams.sort?.field == column.field && serverParams.sort?.type == 'desc'">
 										<svg width="11" height="16" viewBox="0 0 11 16" fill="none"
 											xmlns="http://www.w3.org/2000/svg">
 											<path d="M8.19922 9H2.19922L5.19922 12L8.19922 9Z" fill="#091E42"
@@ -49,7 +49,7 @@
 					</slot>
 				</tr>
 			</tbody> -->
-			<tbody class="medium-text">
+			<tbody class="medium-text text-[#44546F] text-[12px]">
 				<!-- Show loader if loading -->
 				<tr v-if="loading">
 					<td :colspan="columns.length" class="py-20 text-center">
@@ -124,7 +124,10 @@ import type { PropType } from 'vue';
 import { computed, watch } from 'vue';
 import type { TableColumn, ServerParams } from '@/types';
 import UpDownIcon from "@/views/Components/procurement/icons/UpDownIcon.vue";
-import _ from 'lodash';
+// Simple get function to replace lodash.get
+const get = (obj: any, path: string) => {
+	return path.split('.').reduce((current, key) => current?.[key], obj);
+};
 import LoadingState from '../procurement/state/LoadingState.vue';
 defineOptions({
 	name: "DatatableTable"
@@ -168,7 +171,7 @@ const handleSort = (column: TableColumn) => {
 };
 
 const formattedRow = (row: Record<string, any>, columns: TableColumn[]) => {
-	let formattedRow = {};
+	let formattedRow: Record<string, any> = {};
 	for (const column of columns) {
 		formattedRow[column.field] = getColumnValue(row, column);
 	}
@@ -176,7 +179,7 @@ const formattedRow = (row: Record<string, any>, columns: TableColumn[]) => {
 };
 
 const getColumnValue = (row: Record<string, any>, column: TableColumn) => {
-	return column.format ? column.format(_.get(row, column.field)) : _.get(row, column.field);
+	return column.format ? column.format(get(row, column.field)) : get(row, column.field);
 };
 
 // Watch items prop for debugging if needed

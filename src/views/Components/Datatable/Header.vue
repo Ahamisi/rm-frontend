@@ -11,7 +11,7 @@
 
 			<!-- Filter Dropdown -->
 			<SearchDropdown :isOpen="modalTypeOpen == 'filter' && filterModalOpen" :toggle="() => toggleModal(`filter`)"
-				:alignLeft="false" v-if="isFilterable">
+				:alignLeft="true" v-if="isFilterable">
 				<template #trigger>
 					<div class="flex items-center px-4 py-2 border-l-2 border-gray-300 bg-gray-50" title="Filter">
 						<LucideListFilter class="w-4 h-4 text-gray-600" @click="filterModalOpen = true" />

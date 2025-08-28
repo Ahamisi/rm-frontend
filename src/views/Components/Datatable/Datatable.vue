@@ -246,8 +246,10 @@ onMounted(() => {
 });
 </script>
 <style>
-table.w-full.table-auto thead tr.text-center.medium-text {
+table.w-full.table-auto thead tr {
 	text-align: left;
+	font-size: 12px;
+	color: #172B4D;
 }
 
 table.w-full.table-auto tbody tr {
@@ -255,7 +257,7 @@ table.w-full.table-auto tbody tr {
 	font-style: normal;
 	font-weight: 400;
 	line-height: 16px;
-	color: rgba(68, 84, 111, 1);
+	color: #44546F;
 }
 
 table.w-full.table-auto tbody tr td {

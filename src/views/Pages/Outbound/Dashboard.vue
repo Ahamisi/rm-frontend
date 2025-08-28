@@ -4,10 +4,8 @@
   </div>
   
   <div class="erp_dashboard_wrapper">
-    <!-- Simple breadcrumb only -->
-    <div class="px-6 py-4 bg-gray-50">
-      <h1 class="text-sm text-gray-600">Dashboard</h1>
-    </div>
+    <!-- Page Title -->
+    <PageTitle title="Dashboard" class="px-6" :style="{ backgroundColor: '#f9fafb' }" />
     
     <!-- Main Content -->
     <div class="px-6 py-4 bg-[#f9fafb] min-h-[calc(100vh-120px)]">
@@ -113,6 +111,7 @@ import { ref, computed, onMounted } from 'vue';
 import DateFilter from "@/views/Components/Dashboards/DateFilter.vue";
 import Datatable from "@/views/Components/Datatable/Datatable.vue";
 import SelectField from "@/views/Components/procurement/ui/SelectField.vue";
+import PageTitle from "@/views/Components/header/PageTitle.vue";
 import axios from 'axios';
 import LoadingState from '@/views/Components/procurement/state/LoadingState.vue';
 import { useAuthStore } from '@/stores/auth';

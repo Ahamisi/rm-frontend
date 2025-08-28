@@ -24,20 +24,17 @@ const updateDropdownPosition = () => {
   const rect = triggerRef.value.getBoundingClientRect();
   const dropdownWidth = 280; // Estimated dropdown width
   
-    dropdownPosition.value = {
-      top: rect.bottom + window.scrollY - 4, // 8px gap below
-      left: props.alignLeft 
-          ? rect.right + window.scrollX - dropdownWidth + 50 
-          : rect.right + window.scrollX - dropdownWidth + 130 
-       // aligns dropdown's right to trigger's right
-    };
-
-  // dropdownPosition.value = {
-  //   top: rect.bottom + window.scrollY + 8, // 8px gap
-  //   left: props.alignLeft
-  //     ? rect.left + window.scrollX
-  //     : rect.right + window.scrollX - dropdownWidth
-  // };
+  // Find the search container to align with its left edge
+  const searchContainer = triggerRef.value.closest('.flex.border-2.border-gray-300');
+  const searchRect = searchContainer ? searchContainer.getBoundingClientRect() : rect;
+  
+  dropdownPosition.value = {
+    top: rect.bottom + window.scrollY - 4, // 8px gap below
+    left: props.alignLeft 
+        ? searchRect.left + window.scrollX // Align with search container's left edge
+        : rect.right + window.scrollX - dropdownWidth + 130 
+     // aligns dropdown's right to trigger's right
+  };
 };
 
 const handleToggle = () => {
