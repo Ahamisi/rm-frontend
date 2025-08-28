@@ -49,14 +49,14 @@ interface Props {
 	title: string;
 	isOpen: boolean;
 	showDiscardWarning?: boolean;
-	width?: 'sm' | 'md' | 'lg' | 'xl' | string;
+	width?: 'sm' | 'md' | 'lg' | 'xl' | 'small' | 'medium' | 'large' | string;
 	initialFormData?: Record<string, any>;
 	extraHeader?: HTMLElement;
 	fullWidth?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-	width: 'md',
+	width: 'small',
 	initialFormData: () => ({})
 })
 
@@ -83,7 +83,10 @@ const widthClass = computed(() => {
 		sm: 'md:w-80 w-[90vw]',
 		md: 'md:w-96 w-[90vw]',
 		lg: 'md:w-[28rem] w-[90vw]',
-		xl: 'md:w-[45rem] w-[90vw]'
+		xl: 'md:w-[45rem] w-[90vw]',
+		small: 'w-[45%] max-w-[450px] min-w-[320px]',
+		medium: 'w-[65%] max-w-[750px] min-w-[320px]',
+		large: 'w-[80%] max-w-[1000px] min-w-[320px]'
 	}
 	
 	// Check if it's a percentage or custom width - return empty string to use inline style
@@ -91,7 +94,7 @@ const widthClass = computed(() => {
 		return ''
 	}
 	
-	return widthMap[props.width] || widthMap.xl
+	return widthMap[props.width as keyof typeof widthMap] || widthMap.small
 })
 
 const widthStyle = computed(() => {
@@ -255,13 +258,17 @@ defineExpose({
 .sidebar_overlay .cancel_btn,
 .sidebar_overlay .grey_btn,
 .sidebar_overlay .create_btn,
-.sidebar_overlay .approve_btn {
+.sidebar_overlay .approve_btn,
+.sidebar_overlay .reject_btn {
 	padding: 8px 16px;
 	border-radius: 6px;
 	font-size: 12px;
 	font-style: normal;
 	font-weight: 400;
 	line-height: 16px;
+	display: flex;
+	align-items: center;
+	gap: 8px;
 }
 
 .sidebar_overlay .cancel_btn,
@@ -273,6 +280,11 @@ defineExpose({
 .sidebar_overlay .create_btn,
 .sidebar_overlay .approve_btn {
 	background: rgba(12, 102, 228, 1);
+	color: white;
+}
+
+.sidebar_overlay .reject_btn {
+	background: #C9372C;
 	color: white;
 }
 

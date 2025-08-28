@@ -75,6 +75,7 @@
     <SideBarModal
       :isOpen="showApproveModal"
       title="Approve Stock Count"
+      width="small"
       @update:isOpen="showApproveModal = $event"
       @close="closeApproveModal"
     >
@@ -145,8 +146,11 @@
               class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
               @click="scanBarcode"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M2.5 6.994C2.5 5.893 3.398 5 4.49 5H20.51C21.608 5 22.5 5.895 22.5 6.994V19.006C22.4992 19.5339 22.2894 20.04 21.9165 20.4137C21.5436 20.7873 21.0379 20.9981 20.51 21H4.49C3.96185 20.9989 3.4557 20.7884 3.08261 20.4146C2.70953 20.0407 2.5 19.5341 2.5 19.006V6.994ZM4.5 7V19H20.5V7H4.5Z" fill="#44546F"/>
+                <path d="M12.5 17C13.5609 17 14.5783 16.5786 15.3284 15.8284C16.0786 15.0783 16.5 14.0609 16.5 13C16.5 11.9391 16.0786 10.9217 15.3284 10.1716C14.5783 9.42143 13.5609 9 12.5 9C11.4391 9 10.4217 9.42143 9.67157 10.1716C8.92143 10.9217 8.5 11.9391 8.5 13C8.5 14.0609 8.92143 15.0783 9.67157 15.8284C10.4217 16.5786 11.4391 17 12.5 17ZM12.5 15C11.9696 15 11.4609 14.7893 11.0858 14.4142C10.7107 14.0391 10.5 13.5304 10.5 13C10.5 12.4696 10.7107 11.9609 11.0858 11.5858C11.4609 11.2107 11.9696 11 12.5 11C13.0304 11 13.5391 11.2107 13.9142 11.5858C14.2893 11.9609 14.5 12.4696 14.5 13C14.5 13.5304 14.2893 14.0391 13.9142 14.4142C13.5391 14.7893 13.0304 15 12.5 15Z" fill="#44546F"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.5 4C8.5 3.448 8.953 3 9.497 3H15.503C16.053 3 16.5 3.444 16.5 4V5H8.5V4Z" fill="#44546F"/>
+                <path d="M19.5 9C19.5 8.44772 19.0523 8 18.5 8C17.9477 8 17.5 8.44772 17.5 9C17.5 9.55228 17.9477 10 18.5 10C19.0523 10 19.5 9.55228 19.5 9Z" fill="#44546F"/>
               </svg>
             </button>
           </div>
@@ -155,19 +159,36 @@
       </div>
 
       <template #footer>
-        <div class="flex justify-end space-x-3">
+        <div class="flex justify-between">
+          <!-- Reject button on the left -->
           <button 
-            @click="closeApproveModal"
-            class="cancel_btn"
+            @click="rejectItem(selectedItem)"
+            class="reject_btn"
           >
-            Cancel
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8.00027 7.05733L4.4716 3.52866C4.34587 3.40722 4.17747 3.34002 4.00267 3.34154C3.82787 3.34306 3.66066 3.41318 3.53706 3.53678C3.41345 3.66039 3.34334 3.82759 3.34182 4.00239C3.3403 4.17719 3.4075 4.34559 3.52894 4.47133L7.05761 7.99999L3.52894 11.5287C3.4075 11.6544 3.3403 11.8228 3.34182 11.9976C3.34334 12.1724 3.41345 12.3396 3.53706 12.4632C3.66066 12.5868 3.82787 12.6569 4.00267 12.6584C4.17747 12.66 4.34587 12.5928 4.4716 12.4713L8.00027 8.94266L11.5289 12.4713C11.6547 12.5928 11.8231 12.66 11.9979 12.6584C12.1727 12.6569 12.3399 12.5868 12.4635 12.4632C12.5871 12.3396 12.6572 12.1724 12.6587 11.9976C12.6602 11.8228 12.593 11.6544 12.4716 11.5287L8.94294 7.99999L12.4716 4.47133C12.5353 4.40983 12.5861 4.33627 12.621 4.25493C12.6559 4.17359 12.6743 4.08611 12.6751 3.99759C12.6759 3.90907 12.659 3.82129 12.6255 3.73936C12.592 3.65743 12.5425 3.58299 12.4799 3.5204C12.4173 3.4578 12.3428 3.4083 12.2609 3.37478C12.179 3.34126 12.0912 3.32439 12.0027 3.32516C11.9142 3.32593 11.8267 3.34432 11.7453 3.37926C11.664 3.4142 11.5904 3.46499 11.5289 3.52866L8.00027 7.05733Z" fill="white"/>
+            </svg>
+            Reject
           </button>
-          <button 
-            @click="confirmApprove"
-            class="approve_btn"
-          >
-            Approve
-          </button>
+          
+          <!-- Cancel and Approve buttons on the right -->
+          <div class="flex space-x-3">
+            <button 
+              @click="closeApproveModal"
+              class="cancel_btn"
+            >
+              Cancel
+            </button>
+            <button 
+              @click="confirmApprove"
+              class="approve_btn"
+            >
+              <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7.23439 12.322C7.05385 12.13 6.8048 12.017 6.5414 12.0076C6.278 11.9983 6.02156 12.0933 5.82783 12.272C5.6341 12.4507 5.51876 12.6986 5.50688 12.9619C5.495 13.2252 5.58754 13.4826 5.76439 13.678L9.37639 17.597C9.91339 18.123 10.7134 18.123 11.2104 17.627L11.5744 17.268C12.8889 15.9752 14.2019 14.6809 15.5134 13.385L15.5534 13.345C16.7791 12.1371 17.9984 10.9227 19.2114 9.70199C19.3927 9.51218 19.4921 9.25872 19.4881 8.99628C19.4842 8.73384 19.3772 8.48348 19.1903 8.2992C19.0034 8.11493 18.7516 8.01152 18.4891 8.01129C18.2266 8.01106 17.9746 8.11404 17.7874 8.29799C16.5801 9.51232 15.3667 10.7207 14.1474 11.923L14.1074 11.963C12.8507 13.2053 11.5923 14.4459 10.3324 15.685L7.23439 12.322Z" fill="white"/>
+              </svg>
+              Approve
+            </button>
+          </div>
         </div>
       </template>
     </SideBarModal>
@@ -197,6 +218,7 @@ const showApproveModal = ref(false);
 const showRejectModal = ref(false);
 const itemToApprove = ref<any>(null);
 const itemToReject = ref<any>(null);
+const selectedItem = ref<any>(null);
 
 // Approve form data
 const approveForm = ref({
@@ -462,6 +484,7 @@ const downloadUnapprovedStockCount = () => {
 
 const approveItem = (item: any) => {
   itemToApprove.value = item;
+  selectedItem.value = item;
   // Pre-fill form with item data
   approveForm.value = {
     product_name: item.product_name,

@@ -28,14 +28,14 @@
             />
           </div>
           <div class="relative p-0 m-0 md:col-span-4">
-            <svg width="18" height="18" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="absolute top-2 left-1">
+            <svg width="18" height="18" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="absolute top-1/2 left-3 transform -translate-y-1/2 z-10">
               <path fill-rule="evenodd" clip-rule="evenodd"
                 d="M14.1965 12.5708L17.4798 15.9125C17.6269 16.0715 17.7063 16.2815 17.7012 16.498C17.6961 16.7145 17.6069 16.9206 17.4525 17.0725C17.2982 17.2244 17.0907 17.3102 16.8741 17.3117C16.6575 17.3133 16.4489 17.2305 16.2923 17.0808L13.0106 13.7425C11.7444 14.6964 10.163 15.1334 8.58669 14.9652C7.01035 14.7969 5.55684 14.036 4.52048 12.8363C3.48411 11.6367 2.94234 10.0881 3.00487 8.50399C3.06739 6.91993 3.72953 5.41881 4.85722 4.3046C5.98491 3.19038 7.49388 2.54632 9.07858 2.50284C10.6633 2.45936 12.2053 3.0197 13.3924 4.07041C14.5795 5.12111 15.3229 6.58366 15.4722 8.16192C15.6215 9.74017 15.1655 11.3162 14.1965 12.5708ZM9.2498 13.3333C10.4654 13.3333 11.6312 12.8505 12.4907 11.9909C13.3502 11.1314 13.8331 9.96558 13.8331 8.75C13.8331 7.53443 13.3502 6.36864 12.4907 5.5091C11.6312 4.64956 10.4654 4.16667 9.2498 4.16667C8.03422 4.16667 6.86843 4.64956 6.00889 5.5091C5.14935 6.36864 4.66646 7.53443 4.66646 8.75C4.66646 9.96558 5.14935 11.1314 6.00889 11.9909C6.86843 12.8505 8.03422 13.3333 9.2498 13.3333Z"
                 fill="#626F86" />
             </svg>
-            <input type="text" v-model="search" class="w-full pr-2 pl-7 py-2 border-2 border-gray-300 rounded-md focus:outline-none h-auto special-input">
+            <input type="text" v-model="search" class="w-full pr-3 pl-10 py-2 border-2 border-gray-300 rounded-md focus:outline-none special-input" style="height: 38px;">
           </div>
-          <button class="text-white h-auto special-input" @click="performSearch">Search</button>
+          <button class="text-white special-input px-4 py-2 rounded-md" style="height: 38px;" @click="performSearch">Search</button>
         </div>
       </div>
     </div>
@@ -53,13 +53,12 @@
         <template #header_search>
           <div class="flex items-center gap-2 mr-3">
             <label for="sort_by" class="sort_by_label">Search By</label>
-            <div class="w-40 h-[36px]">
+            <div class="w-40 h-[34px]">
               <CustomSelectDropdown 
-                style="height: 36px;"
                 v-model="selectedSearchBy"
                 :options="searchByOptions"
                 placeholder="Select search type"
-                class="h-[36px]"
+                customHeight="34px"
               />
             </div>
           </div>

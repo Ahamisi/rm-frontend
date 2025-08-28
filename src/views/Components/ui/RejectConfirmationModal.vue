@@ -2,7 +2,7 @@
   <UniversalCenteredModal
     :show="show"
     @close="$emit('cancel')"
-    :width="'600px'"
+    class="reject-confirmation-modal"
   >
     <template #header>
       <div class="flex items-center gap-3">
@@ -14,7 +14,7 @@
     </template>
 
     <template #body>
-      <div class="py-4">
+      <div>
         <p class="text-gray-900 mb-2">
           {{ message }}
         </p>
@@ -25,7 +25,7 @@
     </template>
 
     <template #footer>
-      <div class="flex justify-end space-x-3 p-4">
+      <div class="flex justify-end space-x-3">
         <button 
           @click="$emit('cancel')"
           class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
@@ -59,3 +59,27 @@ defineEmits<{
   cancel: [];
 }>();
 </script>
+
+<style scoped>
+/* Override UniversalCenteredModal styles for RejectConfirmationModal */
+:deep(.modal-content) {
+  width: 700px !important;
+  max-width: 700px !important;
+  border-radius: 16px !important;
+}
+
+/* Override header padding: y: 18px, x: 24px */
+:deep(.header) {
+  padding: 18px 24px !important;
+}
+
+/* Override body padding: 24px all around */
+:deep(.body) {
+  padding: 24px !important;
+}
+
+/* Override footer padding: y: 16px, x: 24px */
+:deep(.footer) {
+  padding: 16px 24px !important;
+}
+</style>

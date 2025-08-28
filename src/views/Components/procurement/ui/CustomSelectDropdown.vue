@@ -1,8 +1,14 @@
 <template>
   <div class="relative w-full" ref="dropdownRef">
     <div 
-      class="flex items-center justify-between w-full px-3 py-2 bg-white border-2 rounded-lg cursor-pointer h-auto special-input"
-      style="border-color: #091E4224;"
+      class="flex items-center justify-between w-full bg-white border-2 rounded-lg cursor-pointer special-input"
+      :class="props.customHeight ? 'px-3' : 'px-3 py-2 h-auto'"
+      :style="{ 
+        'border-color': '#091E4224',
+        'height': props.customHeight || 'auto',
+        'padding-top': props.customHeight ? '0' : undefined,
+        'padding-bottom': props.customHeight ? '0' : undefined
+      }"
       @click="toggleDropdown"
     >
       <span class="text-sm text-gray-700">
@@ -51,6 +57,7 @@ const props = defineProps<{
   modelValue: string;
   options: DropdownOption[];
   placeholder?: string;
+  customHeight?: string;
 }>();
 
 const emit = defineEmits<{

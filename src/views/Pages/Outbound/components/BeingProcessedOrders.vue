@@ -112,7 +112,7 @@
               </li>
               
               <!-- Activity Log -->
-              <li @click="openActivityLog(selectedItem); closeDropdown()" 
+              <li @click="viewOrderActivities(selectedItem); closeDropdown()" 
                   class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-gray-100 medium-text">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M17 10.005V19H7V5H12.99V7.49C12.99 7.88782 13.148 8.26936 13.4293 8.55066C13.7106 8.83196 14.0922 8.99 14.49 8.99H18.99V8.468C18.99 8.171 18.858 7.89 18.631 7.7L13.557 3.464C13.197 3.164 12.744 3 12.275 3H7C6.46957 3 5.96086 3.21071 5.58579 3.58579C5.21071 3.96086 5 4.46957 5 5V19C5 19.5304 5.21071 20.0391 5.58579 20.4142C5.96086 20.7893 6.46957 21 7 21H17C17.5304 21 18.0391 20.7893 18.4142 20.4142C18.7893 20.0391 19 19.5304 19 19V10.005H17Z" fill="#626F86"/>
@@ -158,6 +158,7 @@
       width="xl"
       @close="isOrderDetailsModalOpen = false"
     >
+  
       <!-- Tabs -->
       <div class="flex border-b border-gray-200 mb-6">
         <button
@@ -165,7 +166,7 @@
           :key="tab.id"
           @click="activeTab = tab.id"
           :class="[
-            'px-4 py-2 text-sm font-medium border-b-2 transition-colors',
+            'text-sm font-medium border-b-2 transition-colors',
             activeTab === tab.id
               ? 'border-blue-500 text-blue-600'
               : 'border-transparent text-gray-500 hover:text-gray-700'
@@ -310,8 +311,8 @@
         </div>
       </div>
 
-      <!-- Fixed Totals Section -->
-      <div class="totals-section">
+      <!-- Fixed Totals Section - Only show on Details tab -->
+      <div v-if="activeTab === 'details'" class="totals-section">
         <div class="space-y-2">
           <div class="flex justify-between items-center">
             <span class="text-[12px] text-[#44546F]">Subtotal:</span>
@@ -333,12 +334,14 @@
       </div>
 
       <template #footer>
-        <button 
-          @click="isOrderDetailsModalOpen = false" 
-          class="px-6 py-2 text-white font-medium bg-[#0C66E4] rounded-[6px]"
-        >
-          Close
-        </button>
+        <div class="flex justify-end">
+          <button 
+            @click="isOrderDetailsModalOpen = false" 
+            class="px-6 py-2 text-white font-medium bg-[#0C66E4] rounded-[6px]"
+          >
+            Close
+          </button>
+        </div>
       </template>
     </SideBarModal>
 
@@ -354,17 +357,7 @@
       </div>
     </SideBarModal>
 
-    <!-- Activity Log Modal -->
-    <SideBarModal 
-      title="Activity Log" 
-      :is-open="showActivityLogModal" 
-      width="lg" 
-      @close="showActivityLogModal = false"
-    >
-      <div class="p-6">
-        <Activities :activities="orderActivities" :order-ref="selectedOrder?.order_no || ''" />
-      </div>
-    </SideBarModal>
+
 
     <!-- Change Status Modal -->
     <UniversalCenteredModal :show="showChangeStatusModal" @close="showChangeStatusModal = false">
@@ -496,7 +489,6 @@ const orderColumns = ref([
 // Modal states
 const isOrderDetailsModalOpen = ref(false);
 const showTimeTrackerModal = ref(false);
-const showActivityLogModal = ref(false);
 const showChangeStatusModal = ref(false);
 const showStatusSuccessModal = ref(false);
 const showUnassignToast = ref(false);
@@ -604,7 +596,7 @@ const orderActivities = ref([
 
 // Computed modal title
 const modalTitle = computed(() => {
-  return selectedOrder.value?.order_no ? `Order Details REF: ${selectedOrder.value.order_no}` : 'Order Details';
+  return 'Order Details';
 });
 
 // Helper function
@@ -622,7 +614,7 @@ const formatDate = (dateString: string) => {
 const viewOrder = (order: any) => {
   selectedOrder.value = order;
   isOrderDetailsModalOpen.value = true;
-  activeTab.value = 'Details';
+  activeTab.value = 'details';
 };
 
 const unassignOrder = (order: any) => {
@@ -661,9 +653,10 @@ const openTimeTracker = (order: any) => {
   showTimeTrackerModal.value = true;
 };
 
-const openActivityLog = (order: any) => {
+const viewOrderActivities = (order: any) => {
   selectedOrder.value = order;
-  showActivityLogModal.value = true;
+  isOrderDetailsModalOpen.value = true;
+  activeTab.value = 'activities';
 };
 
 const downloadPickingList = (order: any) => {
