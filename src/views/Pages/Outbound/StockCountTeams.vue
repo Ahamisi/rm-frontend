@@ -76,7 +76,7 @@
       @update:isOpen="showCreateModal = $event"
       @close="resetForm"
       :title="editingTeamId ? 'Edit Stock Count Team' : 'Create Stock Count Team'"
-      width="md"
+      width="small"
     >
       <div class="space-y-6">
         <!-- Team Name -->

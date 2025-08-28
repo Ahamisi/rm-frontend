@@ -57,14 +57,18 @@
         </div>
         
         <div class="flex items-center gap-2">
-          <button @click="showAddBatchModal = true" class="flex items-center px-3 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 gap-x-1">
+          <GrayButton @click="showAddBatchModal = true" size="sm">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" clip-rule="evenodd" d="M8 3C8.27614 3 8.5 3.22386 8.5 3.5V7.5H12.5C12.7761 7.5 13 7.72386 13 8C13 8.27614 12.7761 8.5 12.5 8.5H8.5V12.5C8.5 12.7761 8.27614 13 8 13C7.72386 13 7.5 12.7761 7.5 12.5V8.5H3.5C3.22386 8.5 3 8.27614 3 8C3 7.72386 3.22386 7.5 3.5 7.5H7.5V3.5C7.5 3.22386 7.72386 3 8 3Z" fill="currentColor"/>
             </svg>
             <span class="text-xs">Add Batch</span>
-          </button>
-          <button class="px-3 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 text-xs">Reset Delivery Price</button>
-          <button class="px-3 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 text-xs">Set Delivery Price to Zero</button>
+          </GrayButton>
+          <GrayButton size="sm">
+            <span class="text-xs">Reset Delivery Price</span>
+          </GrayButton>
+          <GrayButton size="sm">
+            <span class="text-xs">Set Delivery Price to Zero</span>
+          </GrayButton>
         </div>
       </div>
 
@@ -75,13 +79,13 @@
             <thead class="bg-gray-50 border-gray-200">
               <tr class="bg-gray-50">
                 <th class="px-2 py-3 tracking-wider text-left">ID</th>
-                <th class="px-2 py-3 tracking-wider text-left">Product Name</th>
-                <th class="px-2 py-3 tracking-wider text-left">Quantity</th>
-                <th class="px-2 py-3 tracking-wider text-center bg-gray-50 border-l border-gray-200">Action</th>
+                <th class="px-2 py-3 tracking-wider text-left w-1/3">Product Name</th>
+                <th class="px-2 py-3 tracking-wider text-left w-1/3">Quantity</th>
+                <th class="px-2 py-3 tracking-wider text-center bg-gray-50 border-l border-gray-200 w-32">Action</th>
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-              <tr v-for="(item, index) in order.items" :key="item.id">
+              <tr v-for="(item, index) in order.items" :key="item.id" class="bg-gray-50">
                 <!-- Normal row -->
                 <template v-if="itemUnavailableIndex !== index && returnToStockIndex !== index">
                   <td class="px-2 py-3 tracking-wider text-left">{{ item.id }}</td>
@@ -104,10 +108,10 @@
                       v-model="item.quantity" 
                       type="number" 
                       min="1"
-                      class="w-16 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      class="w-[60%] px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                       @keyup.enter="updateQuantity(index)"
                       @keyup.escape="cancelEditQuantity(index)"
-                      ref="quantityInput"
+                      :id="`quantityInput-${index}`"
                     />
                   </td>
                   <td class="px-2 py-3 tracking-wider text-center bg-gray-50 border-l border-gray-200">
@@ -172,7 +176,7 @@
                   <td class="px-2 py-3 text-center bg-red-50 border-l border-gray-200">
                     <div class="flex space-x-2 justify-center">
                       <!-- <span class="px-2 py-1 text-xs text-white text-[#44546F] rounded">Item Unavailable</span> -->
-                      <button @click="confirmItemUnavailable" class="px-2 py-1 text-xs text-white text-[#44546F] rounded hover:bg-red-700">
+                      <button @click="confirmItemUnavailable" class="px-2 py-1 text-xs text-white text-[#44546F] bg-red-700 rounded hover:bg-red-700">
                         Confirm
                       </button>
                       <button @click="cancelItemUnavailable" class="px-1 py-1 text-gray-500 hover:text-gray-700">
@@ -195,7 +199,7 @@
                   <td class="px-2 py-3 text-center bg-red-50 border-l border-gray-200">
                     <div class="flex space-x-2 justify-center">
                       <!-- <span class="px-2 py-1 text-xs text-white bg-blue-600 rounded">Return to Stock</span> -->
-                      <button @click="confirmReturnToStock" class="px-2 py-1 text-xs text-white text-[#44546F] rounded hover:bg-red-700">
+                      <button @click="confirmReturnToStock" class="px-2 py-1 text-xs text-white text-[#44546F] bg-red-700 rounded hover:bg-red-700">
                         Confirm
                       </button>
                       <button @click="cancelReturnToStock" class="px-1 py-1 text-gray-500 hover:text-gray-700">
@@ -218,7 +222,7 @@
       :isOpen="showAddBatchModal"
       title="Add Product to Order"
       @close="showAddBatchModal = false"
-      width="md"
+      width="small"
     >
       <div class="space-y-6">
         <!-- Select Product -->
@@ -306,6 +310,7 @@ import UniversalCenteredModal from "@/views/Components/UniversalCenteredModal.vu
 import SideBarModal from "@/views/Components/SideBarModal.vue";
 import SelectField from "@/views/Components/procurement/ui/SelectField.vue";
 import SuccessModal from "@/views/Components/procurement/ui/SuccessModal.vue";
+import GrayButton from "@/views/Components/ui/GrayButton.vue";
 import { api } from "@/api";
 
 const route = useRoute();
@@ -381,10 +386,13 @@ const truncateText = (text: string, maxLength = 25) => {
 const startEditQuantity = (index: number) => {
   editingQuantity.value = index;
   originalQuantity.value = order.value.items[index].quantity;
-  // Focus the input after Vue updates the DOM
+  // Focus the specific quantity input after Vue updates the DOM
   nextTick(() => {
-    const input = document.querySelector('input[type="number"]') as HTMLInputElement;
-    if (input) input.focus();
+    const input = document.getElementById(`quantityInput-${index}`) as HTMLInputElement;
+    if (input) {
+      input.focus();
+      input.select(); // Select all text for easy editing
+    }
   });
 };
 

@@ -151,7 +151,7 @@
                 </li>
                 
                 <!-- Activity Log -->
-                <li @click="openActivityLog(selectedItem); closeDropdown()" 
+                <li @click="viewOrderActivities(selectedItem); closeDropdown()" 
                     class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-gray-100 medium-text">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M17 10.005V19H7V5H12.99V7.49C12.99 7.88782 13.148 8.26936 13.4293 8.55066C13.7106 8.83196 14.0922 8.99 14.49 8.99H18.99V8.468C18.99 8.171 18.858 7.89 18.631 7.7L13.557 3.464C13.197 3.164 12.744 3 12.275 3H7C6.46957 3 5.96086 3.21071 5.58579 3.58579C5.21071 3.96086 5 4.46957 5 5V19C5 19.5304 5.21071 20.0391 5.58579 20.4142C5.96086 20.7893 6.46957 21 7 21H17C17.5304 21 18.0391 20.7893 18.4142 20.4142C18.7893 20.0391 19 19.5304 19 19V10.005H17Z" fill="#626F86"/>
@@ -198,94 +198,124 @@
       </div>
 
       <!-- Tab Content -->
-      <div class="flex-1 overflow-y-auto">
-        <!-- Details Tab -->
-        <div v-if="activeTab === 'details'" class="space-y-6">
-          <!-- Order Information Grid -->
-          <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="key">Customer's Name</span>
-              <span class="value">{{ selectedOrder.customer_name }}</span>
-            </div>
-            <div class="flex items-center justify-between">
-              <span class="key">Customer Type</span>
-              <span class="value">{{ selectedOrder.customer_type || 'Pharmacy' }}</span>
-            </div>
-            <div class="flex items-center justify-between">
-              <span class="key">Order By</span>
-              <span class="value">{{ selectedOrder.customer_name }}</span>
-            </div>
-            <div class="flex items-center justify-between">
-              <span class="key">Phone</span>
-              <div class="flex items-center space-x-2">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M5.83464 1.66675C4.91416 1.66675 4.16797 2.41294 4.16797 3.33341V16.6667C4.16797 17.5872 4.91416 18.3334 5.83464 18.3334H14.168C15.0884 18.3334 15.8346 17.5872 15.8346 16.6667V3.33341C15.8346 2.41294 15.0884 1.66675 14.168 1.66675H5.83464ZM14.168 3.33341H5.83464V14.1667H14.168V3.33341ZM11.668 15.8334H8.33464V16.6667H11.668V15.8334Z" fill="#091E42" fill-opacity="0.31" />
-                </svg>
-                <span class="value">{{ selectedOrder.phone || '+234 809 123 4567' }}</span>
+      <div class="flex flex-col h-full">
+        <!-- Scrollable Content -->
+        <div class="flex-1 overflow-y-auto pb-32">
+          <!-- Details Tab -->
+          <div v-if="activeTab === 'details'" class="space-y-6">
+            <!-- Order Information Grid -->
+            <div class="space-y-4">
+              <div class="flex items-center justify-between">
+                <span class="key">Customer's Name</span>
+                <span class="value">{{ selectedOrder.customer_name }}</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="key">Customer Type</span>
+                <span class="value">{{ selectedOrder.customer_type || 'Pharmacy' }}</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="key">Order By</span>
+                <span class="value">{{ selectedOrder.customer_name }}</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="key">Phone</span>
+                <div class="flex items-center space-x-2">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.83464 1.66675C4.91416 1.66675 4.16797 2.41294 4.16797 3.33341V16.6667C4.16797 17.5872 4.91416 18.3334 5.83464 18.3334H14.168C15.0884 18.3334 15.8346 17.5872 15.8346 16.6667V3.33341C15.8346 2.41294 15.0884 1.66675 14.168 1.66675H5.83464ZM14.168 3.33341H5.83464V14.1667H14.168V3.33341ZM11.668 15.8334H8.33464V16.6667H11.668V15.8334Z" fill="#091E42" fill-opacity="0.31" />
+                  </svg>
+                  <span class="value">{{ selectedOrder.phone || '+234 809 123 4567' }}</span>
+                </div>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="key">Store</span>
+                <div class="flex items-center space-x-2">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M3.33333 9.16667H5V13.3333H3.33333V9.16667ZM3.79667 3.24C4.00083 2.83167 4.54167 2.5 5.005 2.5H14.9942C15.4575 2.5 15.9992 2.83167 16.2025 3.24L17.5 5.83333H2.5L3.79667 3.24ZM2.5 5.83333H17.5V6.66667H2.5V5.83333ZM15 9.16667H16.6667V13.3333H15V9.16667ZM2.5 6.66667C2.61667 7.60667 3.41167 8.33333 4.375 8.33333C5.33833 8.33333 6.13333 7.60667 6.25 6.66667H2.5ZM6.25 6.66667C6.36667 7.60667 7.16167 8.33333 8.125 8.33333C9.08833 8.33333 9.88333 7.60667 10 6.66667H6.25ZM10 6.66667C10.1167 7.60667 10.9117 8.33333 11.875 8.33333C12.8383 8.33333 13.6333 7.60667 13.75 6.66667H10ZM13.75 6.66667C13.8667 7.60667 14.6617 8.33333 15.625 8.33333C16.5883 8.33333 17.3833 7.60667 17.5 6.66667H13.75ZM3.33333 13.3333H16.6667V15.8292C16.6678 16.2711 16.4934 16.6953 16.1818 17.0086C15.8702 17.3219 15.4469 17.4987 15.005 17.5H4.995C4.77611 17.4997 4.55943 17.4562 4.35738 17.372C4.15532 17.2878 3.97187 17.1645 3.81751 17.0093C3.66316 16.8541 3.54094 16.67 3.45785 16.4675C3.37477 16.265 3.33246 16.0481 3.33333 15.8292V13.3333Z" fill="#091E42" fill-opacity="0.31" />
+                  </svg>
+                  <span class="value">{{ selectedOrder.store_name }}</span>
+                </div>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="key">Date</span>
+                <div class="flex items-center space-x-2">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M4.1625 4.16667H15.8375C16.7558 4.16667 17.5 4.9125 17.5 5.82833V15.8383C17.5 16.0566 17.457 16.2728 17.3734 16.4744C17.2899 16.6761 17.1674 16.8593 17.013 17.0136C16.8586 17.1679 16.6753 17.2903 16.4736 17.3738C16.2719 17.4572 16.0558 17.5001 15.8375 17.5H4.1625C3.72172 17.5 3.29898 17.325 2.98723 17.0134C2.67547 16.7018 2.50022 16.2791 2.5 15.8383V5.82833C2.5 4.91083 3.24333 4.16667 4.1625 4.16667ZM4.16667 7.5V15C4.16667 15.221 4.25446 15.433 4.41074 15.5893C4.56702 15.7455 4.77899 15.8333 5 15.8333H15C15.221 15.8333 15.433 15.7455 15.5893 15.5893C15.7455 15.433 15.8333 15.221 15.8333 15V7.5H4.16667ZM5 3.33333C5 3.11232 5.0878 2.90036 5.24408 2.74408C5.40036 2.5878 5.61232 2.5 5.83333 2.5C6.05435 2.5 6.26631 2.5878 6.42259 2.74408C6.57887 2.90036 6.66667 3.11232 6.66667 3.33333V4.16667H5V3.33333ZM13.3333 3.33333C13.3333 3.11232 13.4211 2.90036 13.5774 2.74408C13.7337 2.5878 13.9457 2.5 14.1667 2.5C14.3877 2.5 14.5996 2.5878 14.7559 2.74408C14.9122 2.90036 15 3.11232 15 3.33333V4.16667H13.3333V3.33333ZM5.83333 10.8333V9.16583H7.5V10.8333H5.83333ZM12.5 10.8333V9.16583H14.1667V10.8333H12.5ZM9.16667 10.8333V9.16583H10.8342V10.8333H9.16667ZM5.83333 14.1667V12.5H7.5V14.1667H5.83333ZM9.16667 14.1667V12.5H10.8342V14.1667H9.16667ZM12.5 14.1667V12.5H14.1667V14.1667H12.5Z" fill="#091E42" fill-opacity="0.31" />
+                  </svg>
+                  <span class="value">{{ formatDate(selectedOrder.order_date) }}</span>
+                </div>
               </div>
             </div>
-            <div class="flex items-center justify-between">
-              <span class="key">Store</span>
-              <div class="flex items-center space-x-2">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M3.33333 9.16667H5V13.3333H3.33333V9.16667ZM3.79667 3.24C4.00083 2.83167 4.54167 2.5 5.005 2.5H14.9942C15.4575 2.5 15.9992 2.83167 16.2025 3.24L17.5 5.83333H2.5L3.79667 3.24ZM2.5 5.83333H17.5V6.66667H2.5V5.83333ZM15 9.16667H16.6667V13.3333H15V9.16667ZM2.5 6.66667C2.61667 7.60667 3.41167 8.33333 4.375 8.33333C5.33833 8.33333 6.13333 7.60667 6.25 6.66667H2.5ZM6.25 6.66667C6.36667 7.60667 7.16167 8.33333 8.125 8.33333C9.08833 8.33333 9.88333 7.60667 10 6.66667H6.25ZM10 6.66667C10.1167 7.60667 10.9117 8.33333 11.875 8.33333C12.8383 8.33333 13.6333 7.60667 13.75 6.66667H10ZM13.75 6.66667C13.8667 7.60667 14.6617 8.33333 15.625 8.33333C16.5883 8.33333 17.3833 7.60667 17.5 6.66667H13.75ZM3.33333 13.3333H16.6667V15.8292C16.6678 16.2711 16.4934 16.6953 16.1818 17.0086C15.8702 17.3219 15.4469 17.4987 15.005 17.5H4.995C4.77611 17.4997 4.55943 17.4562 4.35738 17.372C4.15532 17.2878 3.97187 17.1645 3.81751 17.0093C3.66316 16.8541 3.54094 16.67 3.45785 16.4675C3.37477 16.265 3.33246 16.0481 3.33333 15.8292V13.3333Z" fill="#091E42" fill-opacity="0.31" />
-                </svg>
-                <span class="value">{{ selectedOrder.store_name }}</span>
-              </div>
-            </div>
-            <div class="flex items-center justify-between">
-              <span class="key">Date</span>
-              <div class="flex items-center space-x-2">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M4.1625 4.16667H15.8375C16.7558 4.16667 17.5 4.9125 17.5 5.82833V15.8383C17.5 16.0566 17.457 16.2728 17.3734 16.4744C17.2899 16.6761 17.1674 16.8593 17.013 17.0136C16.8586 17.1679 16.6753 17.2903 16.4736 17.3738C16.2719 17.4572 16.0558 17.5001 15.8375 17.5H4.1625C3.72172 17.5 3.29898 17.325 2.98723 17.0134C2.67547 16.7018 2.50022 16.2791 2.5 15.8383V5.82833C2.5 4.91083 3.24333 4.16667 4.1625 4.16667ZM4.16667 7.5V15C4.16667 15.221 4.25446 15.433 4.41074 15.5893C4.56702 15.7455 4.77899 15.8333 5 15.8333H15C15.221 15.8333 15.433 15.7455 15.5893 15.5893C15.7455 15.433 15.8333 15.221 15.8333 15V7.5H4.16667ZM5 3.33333C5 3.11232 5.0878 2.90036 5.24408 2.74408C5.40036 2.5878 5.61232 2.5 5.83333 2.5C6.05435 2.5 6.26631 2.5878 6.42259 2.74408C6.57887 2.90036 6.66667 3.11232 6.66667 3.33333V4.16667H5V3.33333ZM13.3333 3.33333C13.3333 3.11232 13.4211 2.90036 13.5774 2.74408C13.7337 2.5878 13.9457 2.5 14.1667 2.5C14.3877 2.5 14.5996 2.5878 14.7559 2.74408C14.9122 2.90036 15 3.11232 15 3.33333V4.16667H13.3333V3.33333ZM5.83333 10.8333V9.16583H7.5V10.8333H5.83333ZM12.5 10.8333V9.16583H14.1667V10.8333H12.5ZM9.16667 10.8333V9.16583H10.8342V10.8333H9.16667ZM5.83333 14.1667V12.5H7.5V14.1667H5.83333ZM9.16667 14.1667V12.5H10.8342V14.1667H9.16667ZM12.5 14.1667V12.5H14.1667V14.1667H12.5Z" fill="#091E42" fill-opacity="0.31" />
-                </svg>
-                <span class="value">{{ formatDate(selectedOrder.order_date) }}</span>
+
+            <hr>
+
+            <!-- Order Summary -->
+            <div class="mt-8">
+              <h3 class="mb-4 text-lg font-medium text-gray-900">Order Summary</h3>
+
+              <!-- Table -->
+              <div class="overflow-x-auto">
+                <table class="w-full border-separate order_summary" style="border-spacing: 0">
+                  <thead class="bg-gray-50">
+                    <tr>
+                      <th class="text-left">Product</th>
+                      <th class="text-left">Quantity</th>
+                      <th class="text-left">Unit Price</th>
+                      <th class="text-left">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="item in orderItems" :key="item.id">
+                      <td class="">
+                        <div class="font-medium">{{ item.name }}</div>
+                        <div class="text-xs text-gray-500">SKU: {{ item.sku }}</div>
+                      </td>
+                      <td class="">{{ item.quantity }}</td>
+                      <td class="">₦{{ item.unit_price }}</td>
+                      <td class=" font-medium">₦{{ item.total }}</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
 
-          <hr>
-
-          <!-- Order Summary -->
-          <div class="mt-8">
-            <h3 class="mb-4 text-lg font-medium text-gray-900">Order Summary</h3>
-
-            <!-- Table -->
-            <div class="overflow-x-auto">
-              <table class="w-full border-separate order_summary" style="border-spacing: 0">
-                <thead class="bg-gray-50">
-                  <tr>
-                    <th class="text-left">Product</th>
-                    <th class="text-left">Quantity</th>
-                    <th class="text-left">Unit Price</th>
-                    <th class="text-left">Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="item in orderItems" :key="item.id">
-                    <td class="">
-                      <div class="font-medium">{{ item.name }}</div>
-                      <div class="text-xs text-gray-500">SKU: {{ item.sku }}</div>
-                    </td>
-                    <td class="">{{ item.quantity }}</td>
-                    <td class="">₦{{ item.unit_price }}</td>
-                    <td class=" font-medium">₦{{ item.total }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <!-- Order Total -->
-            <div class="flex items-center justify-between px-6 mt-4 order_total">
-              <span class="">Total Amount:</span>
-              <span class="">{{ selectedOrder.total_amount }}</span>
-            </div>
+          <!-- Activities Tab -->
+          <div v-else-if="activeTab === 'activities'">
+            <Activities :activities="orderActivities" :order-ref="selectedOrder.order_no" />
           </div>
         </div>
 
-        <!-- Activities Tab -->
-        <div v-else-if="activeTab === 'activities'">
-          <Activities :activities="orderActivities" :order-ref="selectedOrder.order_no" />
+        <!-- Fixed Totals Section (Only for Details Tab) -->
+        <div v-if="activeTab === 'details'" class="fixed bottom-0 left-0 right-0 bg-white border-t border-[#091E4224]">
+          <!-- Order Total Section -->
+          <div class="space-y-3 px-6 py-4 bg-[#F7F8F9]">
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-[#44546F]">Payment Status</span>
+              <span class="text-xs font-medium text-[#44546F]">Pay Now</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-[#44546F]">Sub Total</span>
+              <span class="text-xs font-medium text-[#44546F]">₦187,000.00</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-[#44546F]">Delivery Fee</span>
+              <span class="text-xs font-medium text-[#44546F]">₦0.00</span>
+            </div>
+            <div class="flex items-center justify-between pt-2 border-t border-[#091E4224]">
+              <span class="text-base font-medium text-[#44546F]">Total</span>
+              <span class="text-base font-medium text-[#44546F]">₦187,000.00</span>
+            </div>
+          </div>
+          
+          <!-- Close Button -->
+          <div class="flex justify-end px-6 py-4 bg-white border-t border-[#091E4224]">
+            <button 
+              @click="isOrderDetailsModalOpen = false"
+              class="px-4 py-2 text-sm font-medium bg-[#0C66E4] text-white rounded-md hover:bg-[#0C66E4]/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              Close
+            </button>
+          </div>
         </div>
       </div>
     </SideBarModal>
@@ -300,15 +330,7 @@
       <Activities :activities="orderActivities" :order-ref="selectedOrder.order_no" />
     </SideBarModal>
 
-    <!-- Activity Log Modal -->
-    <SideBarModal 
-      title="Activity Log" 
-      :is-open="showActivityLogModal" 
-      width="lg" 
-      @close="showActivityLogModal = false"
-    >
-      <Activities :activities="orderActivities" :order-ref="selectedOrder.order_no" />
-    </SideBarModal>
+
 
     <!-- Fulfillment Details Modal -->
     <SideBarModal 
@@ -438,7 +460,6 @@ const loading = ref(false);
 // Modal states
 const isOrderDetailsModalOpen = ref(false);
 const showTimeTrackerModal = ref(false);
-const showActivityLogModal = ref(false);
 const showFulfillmentDetailsModal = ref(false);
 const showDownloadInvoiceToast = ref(false);
 
@@ -594,9 +615,10 @@ const openTimeTracker = (order: any) => {
   showTimeTrackerModal.value = true;
 };
 
-const openActivityLog = (order: any) => {
+const viewOrderActivities = (order: any) => {
   selectedOrder.value = order;
-  showActivityLogModal.value = true;
+  isOrderDetailsModalOpen.value = true;
+  activeTab.value = 'activities';
 };
 </script>
 
