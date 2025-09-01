@@ -173,10 +173,16 @@
     <SideBarModal
       v-if="isOrderDetailsModalOpen"
       :isOpen="isOrderDetailsModalOpen"
-      :title="modalTitle"
       width="xl"
       @close="isOrderDetailsModalOpen = false"
     >
+      <template #header>
+        <OrderHeader 
+          title="Order Details" 
+          :reference="`REF: ${selectedOrder?.order_no || ''}`"
+          titleSize="md"
+        />
+      </template>
       <!-- Tabs -->
       <div class="flex border-b border-gray-200 mb-6">
         <button
@@ -408,6 +414,7 @@ import UniversalCenteredModal from '@/views/Components/UniversalCenteredModal.vu
 import SelectField from '@/views/Components/ui/SelectField.vue';
 // import SelectField from '@/views/Components/procurement/ui/SelectField.vue';
 import Pill from '@/views/Components/ui/Pill.vue';
+import OrderHeader from '@/views/Components/ui/OrderHeader.vue';
 import type { TableColumn, FilterFields, FilterField, Option } from '@/types';
 import dayjs from 'dayjs';
 import { ref, computed } from 'vue';
@@ -497,12 +504,7 @@ const orderTabs = ref([
 ]);
 
 // Modal title with order reference (plain text)
-const modalTitle = computed(() => {
-  if (selectedOrder.value?.order_no) {
-    return `Order Details REF: ${selectedOrder.value.order_no}`;
-  }
-  return 'Order Details';
-});
+// Modal reference data is now handled by OrderHeader component
 
 // Order products table columns
 const orderProductColumns = ref<TableColumn[]>([

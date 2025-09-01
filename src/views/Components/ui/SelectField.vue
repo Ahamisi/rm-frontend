@@ -10,11 +10,11 @@
       <div class="flex-1 h-[20px] flex items-center">
         <div class="flex items-center gap-2 w-full">
           <img v-if="displayImage" :src="displayImage" alt="Profile Image" class="w-6 h-6 object-contain" />
-          <component v-else-if="displayIcon" :is="displayIcon" class="w-5 h-5 text-[#44546F]" />
+          <component v-else-if="displayIcon" :is="displayIcon" class="w-5 h-5 text-[#172B4D]" />
           <input 
             :placeholder="placeholder"
-            class="w-full appearance-none outline-none bg-transparent text-sm text-[#44546F] border-none p-0 m-0 h-[20px] leading-[20px]"
-            style="box-shadow: none; border: none;"
+            class="w-full appearance-none outline-none bg-transparent text-sm text-[#172B4D] border-none p-0 m-0 h-[20px] leading-[20px]"
+            style="box-shadow: none; border: none; color: #172B4D !important;"
             v-model="searchTerm"
             @focus="handleFocus" 
             @blur="handleBlur"
@@ -25,7 +25,7 @@
       <!-- Dropdown Icons -->
       <div class="flex items-center">
         <button 
-          class="text-[#44546F] hover:text-[#172B4D] outline-none focus:outline-none"
+          class="text-[#172B4D] hover:text-[#172B4D] outline-none focus:outline-none"
           @click="toggleDropdown"
         >
           <LucideX v-if="!!searchTerm" @click="selectOption()" class="w-4 h-4" />
@@ -43,7 +43,7 @@
       style="border: 2px solid #091E4224;"
     >
       <div v-for="option in filteredOptions" :key="option.id"
-        class="px-3 py-3 text-sm text-[#44546F] cursor-pointer hover:bg-gray-50 flex items-center justify-between"
+        class="px-3 py-3 text-sm text-[#172B4D] cursor-pointer hover:bg-gray-50 flex items-center justify-between"
         @click="selectOption(option)"
       >
         <span>{{ option.name }}</span>

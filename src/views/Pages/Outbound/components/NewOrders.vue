@@ -98,13 +98,19 @@
 
     <!-- Order Details Modal -->
     <SideBarModal 
-      :title="modalTitle" 
       :is-open="isOrderDetailsModalOpen" 
       width="xl"
       @update:is-open="isOrderDetailsModalOpen = $event" 
       :initial-form-data="selectedOrder"
       @close="isOrderDetailsModalOpen = false"
     >
+      <template #header>
+        <OrderHeader 
+          title="Order Details" 
+          :reference="`REF: ${selectedOrder?.order_no || ''}`"
+          titleSize="md"
+        />
+      </template>
       <!-- Main content -->
       <template #default>
         <div class="space-y-6">
@@ -274,6 +280,7 @@ import LoadingState from '@/views/Components/procurement/state/LoadingState.vue'
 import SideBarModal from '@/views/Components/SideBarModal.vue';
 import Activities from '@/views/Components/Activities.vue';
 import Pill from '@/views/Components/ui/Pill.vue';
+import OrderHeader from '@/views/Components/ui/OrderHeader.vue';
 // Eye icon is now inline SVG
 import type { TableColumn, FilterFields, FilterField } from '@/types';
 import dayjs from 'dayjs';
@@ -478,12 +485,7 @@ const orderActivities = computed(() => [
 ]);
 
 // Modal title with order reference (plain text)
-const modalTitle = computed(() => {
-  if (selectedOrder.value?.order_no) {
-    return `Order Details REF: ${selectedOrder.value.order_no}`;
-  }
-  return 'Order Details';
-});
+// Modal reference data is now handled by OrderHeader component
 
 
 

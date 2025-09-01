@@ -9,12 +9,8 @@
 
   <!-- Main Content -->
   <div class="erp_dashboard_wrapper h-screen overflow-y-hidden flex flex-col">
-    <!-- Breadcrumb -->
-    <div class="bg-white px-6 pt-4 pb-0">
-      <nav class="text-[#626F86] text-sm space-x-2">
-        <span>Order Fulfillment</span>
-      </nav>
-    </div>
+    <!-- Page Title -->
+    <PageTitle title="Order Fulfillment" class="px-6" />
 
     <!-- Header -->
     <div class="px-6 py-3 bg-white flex items-center justify-end">
@@ -308,6 +304,7 @@ import WarningConfirmationModal from '@/views/Components/ui/WarningConfirmationM
 import WarningAlertToast from '@/views/Components/WarningAlertToast.vue'
 // @ts-ignore
 import SuccessAlertToast from '@/views/Components/SuccessAlertToast.vue'
+import PageTitle from '@/views/Components/header/PageTitle.vue'
 
 const router = useRouter()
 

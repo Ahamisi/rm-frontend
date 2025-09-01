@@ -28,12 +28,13 @@
       <div class="flex justify-end space-x-3">
         <button 
           @click="$emit('cancel')"
-          class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
+          class="px-4 py-2 text-sm font-medium text-gray-700 bg-[#e5e7eb] rounded-md hover:bg-gray-100"
         >
           Cancel
         </button>
         <button 
           @click="$emit('confirm')"
+          style="color: white;"
           class="px-4 py-2 text-sm font-medium text-white bg-[#C9372C] rounded-md hover:bg-red-700"
         >
           {{ confirmText || 'Reject Stock Count' }}

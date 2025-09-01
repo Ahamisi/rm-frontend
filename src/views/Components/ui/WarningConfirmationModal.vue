@@ -29,7 +29,7 @@
       <div class="flex items-center justify-end gap-3 px-6 py-6 border-t border-gray-200">
         <button 
           @click="$emit('close')"
-          class="px-4 py-2 text-sm font-[500] text-gray-700 bg-[#091E420F] rounded-md hover:bg-gray-50"
+          class="px-4 py-2 text-sm font-[500] text-gray-700 bg-[#e5e7eb] rounded-md hover:bg-gray-100"
         >
           {{ cancelText || 'Cancel' }}
         </button>

@@ -37,10 +37,16 @@
     <SideBarModal
       v-if="isOrderDetailsModalOpen"
       :isOpen="isOrderDetailsModalOpen"
-      :title="modalTitle"
       width="50vw"
       @close="isOrderDetailsModalOpen = false"
     >
+      <template #header>
+        <OrderHeader 
+          title="Order Details" 
+          :reference="`REF: ${selectedOrder?.order_no || ''}`"
+          titleSize="md"
+        />
+      </template>
       <!-- Tabs -->
       <div class="flex border-b border-gray-200 mb-6">
         <button
@@ -207,6 +213,7 @@ import Datatable from "@/views/Components/Datatable/Datatable.vue";
 import SideBarModal from '@/views/Components/SideBarModal.vue';
 import Activities from '@/views/Components/Activities.vue';
 import Pill from '@/views/Components/ui/Pill.vue';
+import OrderHeader from '@/views/Components/ui/OrderHeader.vue';
 import type { TableColumn } from '@/types';
 
 // Reactive variables
@@ -324,9 +331,7 @@ const orderActivities = ref([
 ]);
 
 // Computed modal title
-const modalTitle = computed(() => {
-  return selectedOrder.value?.order_no ? `Order Details REF: ${selectedOrder.value.order_no}` : 'Order Details';
-});
+// Modal reference data is now handled by OrderHeader component
 
 // Methods
 const getPillType = (tag: string) => {

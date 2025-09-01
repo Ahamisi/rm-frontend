@@ -176,10 +176,16 @@
     <SideBarModal
       v-if="isOrderDetailsModalOpen"
       :isOpen="isOrderDetailsModalOpen"
-      :title="modalTitle"
       width="xl"
       @close="isOrderDetailsModalOpen = false"
     >
+      <template #header>
+        <OrderHeader 
+          title="Order Details" 
+          :reference="`REF: ${selectedOrder?.order_no || ''}`"
+          titleSize="md"
+        />
+      </template>
       <!-- Tabs -->
       <div class="flex border-b border-gray-200 mb-6">
         <button
@@ -446,6 +452,7 @@ import Activities from '@/views/Components/Activities.vue';
 import TableActionDropdown from '@/views/Components/procurement/ui/TableActionDropdown.vue';
 import LoadingState from '@/views/Components/procurement/state/LoadingState.vue';
 import CustomSelectDropdown from '@/views/Components/procurement/ui/CustomSelectDropdown.vue';
+import OrderHeader from '@/views/Components/ui/OrderHeader.vue';
 import { useDebounceFn } from '@vueuse/core';
 import type { TableColumn } from '@/types';
 
@@ -554,10 +561,7 @@ const orderActivities = ref([
   }
 ]);
 
-// Computed modal title
-const modalTitle = computed(() => {
-  return selectedOrder.value.order_no ? `Order Details REF: ${selectedOrder.value.order_no}` : 'Order Details';
-});
+// Modal reference data is now handled by OrderHeader component
 
 // Computed fulfillment extra header
 const getFulfillmentExtraHeader = computed(() => {

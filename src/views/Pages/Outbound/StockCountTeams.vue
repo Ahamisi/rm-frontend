@@ -1,15 +1,7 @@
 <template>
   <div class="erp_dashboard_wrapper">
-    <!-- Breadcrumb -->
-    <div class="bg-white px-6 py-4">
-      <nav class="text-[#626F86] text-sm space-x-2">
-        <!-- <router-link :to="{ name: 'outbound.dashboard' }" class="hover:text-gray-800">Dashboard</router-link>
-        <span>/</span> -->
-        <router-link :to="{ name: 'outbound.stock-count' }" class="hover:text-gray-800">Stock Count</router-link>
-        <span>/</span>
-        <span class="">Stock Count Teams</span>
-      </nav>
-    </div>
+    <!-- Page Title -->
+    <PageTitle title="Stock Count Teams" class="px-6" />
 
     
 
@@ -190,6 +182,7 @@ import CustomMultiSelect from '@/views/Components/CustomMultiSelect.vue'
 import DeleteConfirmationModal from '@/views/Components/ui/DeleteConfirmationModal.vue';
 import SuccessModal from '@/views/Components/ui/SuccessModal.vue';
 import DiscardModal from '@/views/Components/procurement/ui/DiscardModal.vue';
+import PageTitle from '@/views/Components/header/PageTitle.vue';
 
 const router = useRouter()
 

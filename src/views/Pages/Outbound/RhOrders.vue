@@ -127,11 +127,17 @@
     <!-- View Order Modal -->
     <SideBarModal
       :isOpen="showOrderModal"
-      :title="`Order Details - REF: ${selectedOrder?.order_no || ''}`"
       @update:isOpen="closeOrderModal"
       @close="closeOrderModal"
       width="50vw"
     >
+      <template #header>
+        <OrderHeader 
+          title="Order Details" 
+          :reference="`REF: ${selectedOrder?.order_no || ''}`"
+          titleSize="md"
+        />
+      </template>
       <div v-if="selectedOrder">
         <!-- Tabs -->
         <div class="border-b border-gray-200 mb-6">
@@ -373,6 +379,7 @@ import UniversalCenteredModal from "@/views/Components/UniversalCenteredModal.vu
 import Activities from "@/views/Components/Activities.vue";
 import SelectField from "@/views/Components/procurement/ui/SelectField.vue";
 import Pill from "@/views/Components/ui/Pill.vue";
+import OrderHeader from "@/views/Components/ui/OrderHeader.vue";
 import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue';
 import type { TableColumn } from '@/types';
 

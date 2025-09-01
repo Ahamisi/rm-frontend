@@ -6,7 +6,7 @@
 				<LucideSearch class="w-4 h-4 text-gray-600" />
 				<InputBox :model-value="filters.searchTerm" @update:modelValue="emit('onSearch', $event)"
 					placeholder="Search"
-					custom-styles="bg-transparent outline-none w-full text-sm text-gray-700 dataTableSearch" />
+					custom-styles="bg-transparent outline-none w-full text-[12px] font-[400] text-[#44546F] dataTableSearch" />
 			</div>
 
 			<!-- Filter Dropdown -->
@@ -32,7 +32,7 @@
 										<label class="label">From</label>
 										<div class="input-container">
 											<input type="date" v-model="filters.filterValues.from_date"
-												class="text-sm text-gray-500 bg-white input" ref="fromDateInputRef"
+												class="text-[12px] font-[400] text-[#44546F] bg-white input" ref="fromDateInputRef"
 												@click="() => $refs.fromDateInputRef.showPicker ? $refs.fromDateInputRef.showPicker() : $refs.fromDateInputRef.focus()" />
 										</div>
 									</div>
@@ -40,7 +40,7 @@
 										<label class="label">To</label>
 										<div class="input-container">
 											<input type="date" v-model="filters.filterValues.to_date"
-												class="text-sm text-gray-500 bg-white input" ref="toDateInputRef"
+												class="text-[12px] font-[400] text-[#44546F] bg-white input" ref="toDateInputRef"
 												@click="() => $refs.toDateInputRef.showPicker ? $refs.toDateInputRef.showPicker() : $refs.toDateInputRef.focus()" />
 										</div>
 									</div>
@@ -51,21 +51,21 @@
 									<label class="label">{{ filter.label }}</label>
 									<div class="input-container" v-if="filter.type === 'text'">
 										<input type="text" v-model="filters.filterValues[filter.field]"
-											class="text-sm text-gray-500 bg-white input" />
+											class="text-[12px] font-[400] text-[#44546F] bg-white input" />
 									</div>
 									<div class="input-container" v-if="filter.type === 'number'">
 										<input type="number" v-model="filters.filterValues[filter.field]"
-											class="text-sm text-gray-500 bg-white input" />
+											class="text-[12px] font-[400] text-[#44546F] bg-white input" />
 									</div>
 									<div class="input-container" v-if="filter.type === 'date'">
 										<input type="date" v-model="filters.filterValues[filter.field]"
-											class="text-sm text-gray-500 bg-white input" />
+											class="text-[12px] font-[400] text-[#44546F] bg-white input" />
 									</div>
 									<div class="input-container" v-if="filter.type === 'select'">
 										<UiSelectField :model-value="filters.filterValues[filter.field]"
 											@update:modelValue="filters.filterValues[filter.field] = $event"
 											:options="filter.options"
-											:placeholder="filter.placeholder ?? `All ${filter.label}`" class="text-sm"
+											:placeholder="filter.placeholder ?? `All ${filter.label}`" class="text-[12px] font-[400]"
 											:reduce="(option) => option.id" />
 									</div>
 									<div class="input-container" v-if="filter.type === 'multi-select'">
@@ -78,12 +78,12 @@
 											<div>
 												<label class="label">From</label>
 												<input type="date" v-model="filters.filterValues[filter.field][0]"
-													class="text-sm text-gray-500 bg-white input" />
+													class="text-[12px] font-[400] text-[#44546F] bg-white input" />
 											</div>
 											<div>
 												<label class="label">To</label>
 												<input type="date" v-model="filters.filterValues[filter.field][1]"
-													class="text-sm text-gray-500 bg-white input" />
+													class="text-[12px] font-[400] text-[#44546F] bg-white input" />
 											</div>
 										</div>
 									</div>
@@ -130,7 +130,7 @@
 										<circle cx="12" cy="12.5" r="2" fill="#626F86" />
 									</svg>
 								</span>
-								<span class="medium-text text-text-subtle">
+								<span class="text-[12px] font-[400] text-[#44546F]">
 									{{ item.label }}
 								</span>
 							</li>
@@ -142,7 +142,7 @@
 										<circle cx="12" cy="12.5" r="2" fill="#626F86" />
 									</svg>
 								</span>
-								<span class="medium-text text-text-subtle">
+								<span class="text-[12px] font-[400] text-[#44546F]">
 									More ({{ group.items.length - 4 }})
 								</span>
 								<span class="ml-auto mr-3">
@@ -172,7 +172,7 @@
 												<circle cx="12" cy="12.5" r="2" fill="#626F86" />
 											</svg>
 										</span>
-										<span class="medium-text text-text-subtle">
+										<span class="text-[12px] font-[400] text-[#44546F]">
 											{{ item.label }}
 										</span>
 									</div>
@@ -472,9 +472,9 @@ const resetFilterValue = (key) => {
 
 .label {
 	display: block;
-	font-size: 14px;
+	font-size: 12px;
 	font-weight: 500;
-	color: rgba(55, 65, 81, 1);
+	color: #172B4D;
 	margin-bottom: 8px;
 }
 
@@ -483,8 +483,9 @@ const resetFilterValue = (key) => {
 	padding: 8px 12px;
 	border: 2px solid #091E4224;
 	border-radius: 8px;
-	font-size: 14px;
-	color: rgba(55, 65, 81, 1);
+	font-size: 12px;
+	font-weight: 400;
+	color: #44546F;
 	background: white;
 }
 
@@ -511,8 +512,8 @@ const resetFilterValue = (key) => {
 	background-color: #091E420F;
 	padding: 8px 16px;
 	border-radius: 8px;
-	color: rgba(55, 65, 81, 1);
-	font-size: 14px;
+	color: #44546F;
+	font-size: 12px;
 	font-weight: 500;
 	border: none;
 	cursor: pointer;
@@ -528,7 +529,7 @@ const resetFilterValue = (key) => {
 	padding: 8px 16px;
 	border-radius: 8px;
 	color: white;
-	font-size: 14px;
+	font-size: 12px;
 	font-weight: 500;
 	border: none;
 	cursor: pointer;
@@ -568,11 +569,11 @@ ul.sort-menu {
 
 .sort-menu li {
 	/* @apply py-2 pr-4 cursor-pointer hover:bg-gray-100; */
-	font-size: 14px;
+	font-size: 12px;
 	font-style: normal;
 	font-weight: 400;
-	line-height: 18px;
-	color: rgba(23, 43, 77, 1);
+	line-height: 16px;
+	color: #44546F;
 	padding: 11px 0px;
 }
 
@@ -595,7 +596,7 @@ ul.sort-menu {
 /* .filter_item_display_container .filter_item .label{
 	} */
 .filter_item_display_container .filter_item .label {
-	color: rgba(23, 43, 77, 1);
+	color: #172B4D;
 	margin-bottom: 0;
 }
 
@@ -603,9 +604,9 @@ ul.sort-menu {
 	border: 2px solid rgba(9, 30, 66, 0.14);
 	font-size: 12px;
 	font-style: normal;
-	font-weight: 590;
+	font-weight: 500;
 	line-height: 16px;
 	letter-spacing: -0.25px;
-	color: rgba(98, 111, 134, 1);
+	color: #626F86;
 }
 </style>

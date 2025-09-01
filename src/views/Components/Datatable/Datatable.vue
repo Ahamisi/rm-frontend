@@ -246,9 +246,18 @@ onMounted(() => {
 });
 </script>
 <style>
+/* Standardized Datatable Typography */
 table.w-full.table-auto thead tr {
 	text-align: left;
 	font-size: 12px;
+	font-weight: 500;
+	line-height: 16px;
+	color: #172B4D;
+}
+
+table.w-full.table-auto thead tr th {
+	font-size: 12px;
+	font-weight: 500;
 	color: #172B4D;
 }
 
@@ -262,5 +271,8 @@ table.w-full.table-auto tbody tr {
 
 table.w-full.table-auto tbody tr td {
 	text-align: left;
+	font-size: 12px;
+	font-weight: 400;
+	color: #44546F;
 }
 </style>

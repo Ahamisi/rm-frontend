@@ -36,13 +36,14 @@
           <!-- Product Image Column -->
           <span v-if="col.props?.column?.field === 'product_image'">
             <img 
+              @click="navigateToProduct(col.props?.formattedRow)"
               :src="(col.props?.formattedRow as any)?.product_image || '/placeholder-product.png'" 
               :alt="(col.props?.formattedRow as any)?.product_name"
-              class="w-12 h-12 object-cover rounded-md"
+              class="w-12 h-12 object-cover rounded-md cursor-pointer hover:opacity-80"
             >
           </span>
 
-          <!-- Action Column -->
+          <!-- Action Column (unchanged) -->
           <span v-else-if="col.props?.column?.field === 'action'">
             <button 
               @click="viewProduct(col.props?.formattedRow)"
@@ -60,6 +61,13 @@
                 </defs>
               </svg>
             </button>
+          </span>
+
+          <!-- Clickable Columns (ID to Shelf Location) -->
+          <span v-else-if="isClickableColumn(col.props?.column?.field)"
+                @click="navigateToProduct(col.props?.formattedRow)"
+                class="cursor-pointer hover:text-blue-600 hover:underline">
+            {{ (col.props?.formattedRow as any)?.[col.props?.column?.field || ''] || '' }}
           </span>
 
           <!-- Default Column -->
@@ -86,6 +94,19 @@
       @close="closeTransferModal"
       :fullWidth="true"
     >
+      <template #header>
+        <OrderHeader 
+          title="Transfer Information to Inventory" 
+          :reference="selectedProduct?.product_name || ''"
+          titleSize="md"
+        >
+          <template #icon>
+            <svg width="10" height="8" viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M4.6189 0.351782C4.83555 0.282255 5.06706 0.273179 5.28849 0.325532L5.38224 0.351782L8.10474 1.22511C8.1839 1.25136 8.25515 1.30053 8.30724 1.36928L8.3364 1.41303L9.48224 3.39095C9.51122 3.44091 9.5295 3.49635 9.53591 3.55375C9.54233 3.61116 9.53674 3.66927 9.5195 3.72439C9.50226 3.77952 9.47375 3.83046 9.43577 3.87398C9.3978 3.9175 9.35119 3.95265 9.2989 3.9772L9.2489 3.99678L8.39432 4.27095V6.07511C8.39426 6.24006 8.34525 6.40128 8.2535 6.53835C8.16174 6.67543 8.03138 6.78219 7.8789 6.84511L7.81557 6.86845L5.38224 7.64845C5.16559 7.71797 4.93408 7.72705 4.71265 7.6747L4.6189 7.64886L2.18557 6.86845C2.02847 6.818 1.88989 6.72205 1.78737 6.59276C1.68486 6.46347 1.62304 6.30666 1.60974 6.1422L1.60682 6.0747V4.27095L0.752237 3.99678C0.697278 3.97914 0.646584 3.95028 0.603367 3.91202C0.56015 3.87376 0.525353 3.82694 0.501183 3.77453C0.477013 3.72211 0.463996 3.66525 0.462958 3.60754C0.46192 3.54983 0.472883 3.49253 0.495153 3.43928L0.518903 3.39095L1.66474 1.41303C1.70769 1.33893 1.77243 1.27986 1.85015 1.24387L1.89599 1.22511L4.6189 0.351782ZM5.41724 4.1272V6.7622L7.56099 6.0747V4.53845L6.27349 4.95136C6.19092 4.97785 6.10215 4.97791 6.01954 4.95155C5.93693 4.92518 5.86461 4.8737 5.81265 4.80428L5.78599 4.76345L5.41724 4.1272ZM4.5839 4.1272L4.21515 4.76345C4.1675 4.84567 4.09318 4.90913 4.00452 4.94331C3.91585 4.97749 3.81816 4.98033 3.72765 4.95136L2.44015 4.53845V6.0747L4.5839 6.76261V4.1272ZM2.21724 2.12095L1.49932 3.36136L3.66224 4.05553L4.38099 2.81511L2.21724 2.12095ZM7.7839 2.12095L5.62015 2.81511L6.33849 4.05553L8.50182 3.36136L7.7839 2.12095ZM5.12765 1.14511C5.06169 1.12405 4.99152 1.11975 4.92349 1.13261L4.87349 1.14511L3.38807 1.62178L5.00057 2.13886L6.61307 1.62178L5.12765 1.14511Z" fill="#626F86"/>
+            </svg>
+          </template>
+        </OrderHeader>
+      </template>
       <!-- Info Alert -->
     
 
@@ -205,8 +226,13 @@ import PageTitle from "@/views/Components/header/PageTitle.vue";
 import Datatable from "@/views/Components/Datatable/Datatable.vue";
 import SuccessAlertToast from "@/views/Components/SuccessAlertToast.vue";
 import SideBarModal from "@/views/Components/SideBarModal.vue";
+import OrderHeader from "@/views/Components/ui/OrderHeader.vue";
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import type { TableColumn, FilterFields, FilterField } from '@/types';
+
+// Router
+const router = useRouter();
 
 // Reactive variables
 const childKey = ref(0);
@@ -460,6 +486,27 @@ const batchData = ref([
 const viewProduct = (product: any) => {
   selectedProduct.value = product;
   showTransferModal.value = true;
+};
+
+// Navigation function for clickable columns
+const navigateToProduct = (product: any) => {
+  router.push({ name: 'admin.products.show', params: { id: product.id } });
+};
+
+// Helper function to determine if a column should be clickable
+const isClickableColumn = (field: string | undefined) => {
+  const clickableColumns = [
+    'id',
+    'product_name', 
+    'category',
+    'product_formulation',
+    'hmo_price',
+    'pharmacy_price',
+    'available_qty',
+    'sold_qty',
+    'shelf_location'
+  ];
+  return field && clickableColumns.includes(field);
 };
 
 // Modal functions

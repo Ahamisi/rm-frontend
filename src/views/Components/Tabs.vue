@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Tab headers -->
-    <div class="relative flex flex-wrap px-6 pt-2 border-b tab_wrapper">
+    <div class="relative flex flex-wrap px-6 pt-2 border-b tab_wrapper mt-[15px]">
       <div v-for="(tab, index) in tabs" :key="index" @click="setActive(tab, index)"
         class="relative z-10 px-2 py-3 text-sm transition-all cursor-pointer tab-pane-item" :class="[
           activeTab === getTabName(tab)

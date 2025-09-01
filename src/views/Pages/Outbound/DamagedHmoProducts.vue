@@ -101,8 +101,8 @@
               type="number"
               v-model="form.quantity"
               placeholder="0"
-              class="w-full px-3 py-2 border-2 rounded-lg text-sm text-[#44546F] focus:outline-none focus:border-blue-600 overflow-hidden text-ellipsis"
-              style="border-color: #091E4224;"
+              class="w-full px-3 py-2 border-2 rounded-lg text-sm text-[#172B4D] focus:outline-none focus:border-blue-600 overflow-hidden text-ellipsis"
+              style="border-color: #091E4224; color: #172B4D !important;"
             />
           </div>
         </div>
@@ -114,8 +114,8 @@
             <input
               type="date"
               v-model="form.date_damaged"
-              class="w-full px-3 py-2 border-2 rounded-lg text-sm text-[#44546F] focus:outline-none focus:border-blue-600 overflow-hidden text-ellipsis"
-              style="border-color: #091E4224;"
+              class="w-full px-3 py-2 border-2 rounded-lg text-sm text-[#172B4D] focus:outline-none focus:border-blue-600 overflow-hidden text-ellipsis"
+              style="border-color: #091E4224; color: #172B4D !important;"
             />
           </div>
           <div>
@@ -137,7 +137,8 @@
             type="text"
             v-model="form.damage_cause"
             placeholder="Enter a specific cause of damage"
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full px-3 py-2 border-2 rounded-lg text-sm text-[#172B4D] focus:outline-none focus:border-blue-600 overflow-hidden text-ellipsis"
+            style="border-color: #091E4224; color: #172B4D !important;"
           />
         </div>
 
@@ -148,8 +149,8 @@
             v-model="form.comment"
             placeholder="Add additional details or notes about the damage"
             rows="4"
-            class="w-full px-3 py-2 border-2 rounded-lg text-sm text-[#44546F] focus:outline-none focus:border-blue-600 resize-none"
-            style="border-color: #091E4224;"
+            class="w-full px-3 py-2 border-2 rounded-lg text-sm text-[#172B4D] focus:outline-none focus:border-blue-600 resize-none"
+            style="border-color: #091E4224; color: #172B4D !important;"
           ></textarea>
         </div>
 
@@ -514,9 +515,30 @@ input[type="text"],
 input[type="number"],
 input[type="date"] {
   height: 38px;
+  color: #172B4D !important;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus {
+  color: #172B4D !important;
 }
 
 textarea {
   min-height: 100px;
+  color: #172B4D !important;
+}
+
+textarea:focus {
+  color: #172B4D !important;
+}
+
+/* Ensure input values are visible */
+input:not(:placeholder-shown) {
+  color: #172B4D !important;
+}
+
+textarea:not(:placeholder-shown) {
+  color: #172B4D !important;
 }
 </style>

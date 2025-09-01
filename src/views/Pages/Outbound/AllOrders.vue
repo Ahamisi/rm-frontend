@@ -47,10 +47,16 @@
     <SideBarModal
       v-if="isOrderDetailsModalOpen"
       :isOpen="isOrderDetailsModalOpen"
-      :title="modalTitle"
       width="xl"
       @close="isOrderDetailsModalOpen = false"
     >
+      <template #header>
+        <OrderHeader 
+          title="Order Details" 
+          :reference="`REF: ${selectedOrder?.order_no || ''}`"
+          titleSize="md"
+        />
+      </template>
       <!-- Tabs -->
       <div class="flex border-b border-gray-200 mb-6">
         <button
@@ -220,6 +226,7 @@ import Activities from "@/views/Components/Activities.vue";
 import Datatable from "@/views/Components/Datatable/Datatable.vue";
 import Pill from "@/views/Components/ui/Pill.vue";
 import GrayButton from "@/views/Components/ui/GrayButton.vue";
+import OrderHeader from "@/views/Components/ui/OrderHeader.vue";
 import { ref, computed } from 'vue';
 import NewOrders from './components/NewOrders.vue';
 import ConfirmedOrders from './components/ConfirmedOrders.vue';
@@ -265,10 +272,7 @@ const modalTabs = ref([
   { id: 'activities', label: 'Activities' }
 ]);
 
-// Modal title with order reference
-const modalTitle = computed(() => {
-  return selectedOrder.value?.order_no ? `Order Details REF: ${selectedOrder.value.order_no}` : 'Order Details';
-});
+// Modal reference data is now handled by OrderHeader component
 
 // Order products table columns
 const orderProductColumns = ref([

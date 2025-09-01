@@ -2,7 +2,7 @@
 	<div class="bg-white border text-lightBlack border-[#091E4224] rounded-xl shadow-sm overflow-x-auto">
 		<table class="w-full table-auto" :id="tableId">
 			<thead>
-				<tr class="text-left bg-gray-100 font-medium text-[#172B4D] text-[12px]">
+				<tr class="text-left bg-gray-100 text-[12px] font-[500] text-[#172B4D]">
 					<slot name="tableHeader">
 						<template v-for="column in columns" :key="`th-${column.field}-${pageName}`">
 							<!-- :class="{ 'cursor-pointer': column.sortable, 'p-2': true }" -->
@@ -49,7 +49,7 @@
 					</slot>
 				</tr>
 			</tbody> -->
-			<tbody class="medium-text text-[#44546F] text-[12px]">
+			<tbody class="text-[12px] font-[400] text-[#44546F]">
 				<!-- Show loader if loading -->
 				<tr v-if="loading">
 					<td :colspan="columns.length" class="py-20 text-center">
@@ -57,7 +57,7 @@
 							<div class="flex flex-col items-center justify-center space-y-2 min-h-[40vh]">
 								<LoadingState></LoadingState>
 								<!-- <p class="font-medium text-gray-600">Loading data</p> -->
-								<p class="text-sm text-gray-400">Please wait while we fetch your data</p>
+								<p class="text-[12px] font-[400] text-[#626F86]">Please wait while we fetch your data</p>
 							</div>
 						</slot>
 					</td>
@@ -78,7 +78,7 @@
 										fill="#44546F" />
 								</svg>
 
-								<p class="font-medium text-gray-600">No data available</p>
+								<p class="text-[14px] font-[500] text-[#44546F]">No data available</p>
 								<!-- <p class="text-sm text-gray-400">Please wait while we fetch your data</p> -->
 							</div>
 							<div class="flex flex-col items-center justify-center h-[30vh] space-y-2" v-else>
@@ -91,10 +91,10 @@
 										d="M36 42V13.5L22.5 0H6C4.4087 0 2.88258 0.632141 1.75736 1.75736C0.632141 2.88258 0 4.4087 0 6V42C0 43.5913 0.632141 45.1174 1.75736 46.2426C2.88258 47.3679 4.4087 48 6 48H30C31.5913 48 33.1174 47.3679 34.2426 46.2426C35.3679 45.1174 36 43.5913 36 42ZM22.5 9C22.5 10.1935 22.9741 11.3381 23.818 12.182C24.6619 13.0259 25.8065 13.5 27 13.5H33V42C33 42.7957 32.6839 43.5587 32.1213 44.1213C31.5587 44.6839 30.7957 45 30 45H6C5.20435 45 4.44129 44.6839 3.87868 44.1213C3.31607 43.5587 3 42.7957 3 42V6C3 5.20435 3.31607 4.44129 3.87868 3.87868C4.44129 3.31607 5.20435 3 6 3H22.5V9Z"
 										fill="#44546F" />
 								</svg>
-								<p class="font-medium text-gray-600 alert_text">No results found for “{{
-									serverParams.searchTerm }}”
+								<p class="text-[14px] font-[500] text-[#44546F]">No results found for "{{
+									serverParams.searchTerm }}"
 								</p>
-								<p class="text-sm text-gray-400 detail_text">We couldn’t find any matching result for
+								<p class="text-[12px] font-[400] text-[#626F86]">We couldn't find any matching result for
 									your search.
 									Try adjusting your search terms or filters</p>
 							</div>
@@ -193,19 +193,22 @@ const getColumnValue = (row: Record<string, any>, column: TableColumn) => {
 </script>
 
 <style>
+/* Standardized Table Typography - matches Datatable.vue */
 .detail_text {
 	font-weight: 400;
-	font-size: 11px;
-	line-height: 14px;
+	font-size: 12px;
+	line-height: 16px;
 	letter-spacing: 0px;
 	text-align: center;
+	color: #626F86;
 }
 
 .alert_text {
-	font-weight: 600;
-	font-size: 16px;
+	font-weight: 500;
+	font-size: 14px;
 	line-height: 20px;
 	letter-spacing: 0px;
 	text-align: center;
+	color: #44546F;
 }
 </style>

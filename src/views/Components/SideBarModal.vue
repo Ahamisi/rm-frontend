@@ -13,7 +13,10 @@
 			@click.stop>
 			<!-- Header -->
 			<div class="flex items-center justify-between py-3 pl-6 pr-2 modal_header">
-				<h2 class="flex items-center gap-2 modal_title">{{ title }} <span v-html="extraHeader"></span></h2>
+				<div v-if="$slots.header" class="flex items-center gap-2">
+					<slot name="header"></slot>
+				</div>
+				<h2 v-else class="flex items-center gap-2 modal_title">{{ title }} <span v-html="extraHeader"></span></h2>
 				<button @click="closeModal" class="text-gray-400 transition-colors hover:text-gray-600">
 					<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<path fill-rule="evenodd" clip-rule="evenodd"
@@ -46,7 +49,7 @@ import { ref, watch, nextTick, computed, onUnmounted } from 'vue'
 // });
 
 interface Props {
-	title: string;
+	title?: string;
 	isOpen: boolean;
 	showDiscardWarning?: boolean;
 	width?: 'sm' | 'md' | 'lg' | 'xl' | 'small' | 'medium' | 'large' | string;
