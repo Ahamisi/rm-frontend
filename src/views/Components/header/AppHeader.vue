@@ -352,7 +352,8 @@ const selectApp = (appName: string) => {
 
   if (route.path.startsWith(departmentPrefix)) {
     emit("changeDepartment", appName);
-    localStorage.setItem("selected_department", appName);
+    // Use consistent localStorage key
+    localStorage.setItem("selectedDepartment", appName.toLowerCase());
     return;
   }
 
@@ -441,7 +442,7 @@ const dashboardStats = reactive({
 onMounted(async () => {
   document.addEventListener("click", closeDropdownsOnOutsideClick);
   let department =
-    localStorage.getItem("selected_department") || "no department";
+    localStorage.getItem("selectedDepartment") || localStorage.getItem("selected_department") || "no department";
   if (department) {
     selectApp(department);
   }
