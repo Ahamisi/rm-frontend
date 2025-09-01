@@ -193,42 +193,13 @@
     </SideBarModal>
 
     <!-- Delete Confirmation Modal -->
-    <div v-if="showDeleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
-        <!-- Header -->
-        <div class="flex items-center justify-between mb-4">
-          <div class="flex items-center gap-2">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M5 5C4.73478 5 4.48043 5.10536 4.29289 5.29289C4.10536 5.48043 4 5.73478 4 6V7H20V6C20 5.73478 19.8946 5.48043 19.7071 5.29289C19.5196 5.10536 19.2652 5 19 5H5ZM16.15 20H7.845C7.60844 19.9999 7.37956 19.916 7.19904 19.7631C7.01851 19.6102 6.89803 19.3983 6.859 19.165L5 8H19L17.136 19.166C17.0969 19.3992 16.9764 19.611 16.7959 19.7637C16.6153 19.9165 16.3865 20.0002 16.15 20ZM9 4.5C8.99998 4.36894 9.05142 4.2431 9.14325 4.14959C9.23508 4.05608 9.35996 4.00236 9.491 4H14.509C14.64 4.00236 14.7649 4.05608 14.8567 4.14959C14.9486 4.2431 15 4.36894 15 4.5V5H9V4.5Z" fill="#C9372C"/>
-            </svg>
-            <h3 class="text-lg font-medium text-gray-900">Delete</h3>
-          </div>
-          <button @click="cancelDelete" class="text-gray-400 hover:text-gray-600">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-        </div>
-
-        <!-- Body -->
-        <div class="mb-6">
-          <p class="text-sm text-gray-600">
-            You are about to delete this damaged HMO product 
-            <strong>"{{ selectedProduct?.product_name }}"</strong>. This action will permanently remove it from the system.
-          </p>
-        </div>
-
-        <!-- Footer -->
-        <div class="flex justify-end space-x-3">
-          <button @click="cancelDelete" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">
-            Cancel
-          </button>
-          <button @click="executeDelete" class="px-4 py-2 text-sm font-medium text-white text-[#44546F] rounded-md hover:bg-red-700">
-            Delete Damaged HMO Products
-          </button>
-        </div>
-      </div>
-    </div>
+    <DeleteConfirmationModal
+      :show="showDeleteModal"
+      :message="deleteMessage"
+      :confirmText="'Delete Product'"
+      @confirm="executeDelete"
+      @cancel="cancelDelete"
+    />
 
     <!-- Success Toast -->
     <SuccessAlertToast 
@@ -246,7 +217,8 @@ import Datatable from "@/views/Components/Datatable/Datatable.vue";
 import SuccessAlertToast from "@/views/Components/SuccessAlertToast.vue";
 import SideBarModal from "@/views/Components/SideBarModal.vue";
 import SelectField from "@/views/Components/ui/SelectField.vue";
-import { ref } from 'vue';
+import DeleteConfirmationModal from "@/views/Components/ui/DeleteConfirmationModal.vue";
+import { ref, computed } from 'vue';
 import type { TableColumn } from '@/types';
 
 // Reactive variables
@@ -259,6 +231,13 @@ const showCreateModal = ref(false);
 const showEditModal = ref(false);
 const showDeleteModal = ref(false);
 const selectedProduct = ref<any>(null);
+
+// Computed properties
+const deleteMessage = computed(() => {
+  return selectedProduct.value 
+    ? `You are about to delete this damaged HMO product "${selectedProduct.value.product_name}".`
+    : 'You are about to delete this damaged HMO product.';
+});
 
 // Form data
 interface FormData {
@@ -498,9 +477,7 @@ const confirmDelete = () => {
 
 const cancelDelete = () => {
   showDeleteModal.value = false;
-  if (selectedProduct.value) {
-    showEditModal.value = true;
-  }
+  selectedProduct.value = null;
 };
 
 const executeDelete = () => {

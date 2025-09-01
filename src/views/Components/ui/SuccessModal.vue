@@ -2,7 +2,7 @@
   <!-- Custom Success Modal - No header, keep footer border -->
   <Transition name="modal" appear>
     <div v-if="show" class="fixed inset-0 bg-black/50 z-[99999999999999] flex items-center justify-center">
-      <div class="rounded-lg bg-white w-[450px] max-w-[450px] mx-auto shadow-lg">
+      <div class="rounded-lg bg-white w-[320px] max-w-[90vw] mx-auto shadow-lg">
         <!-- Modal Body - No header section -->
         <div class="p-8">
           <div class="text-center">
@@ -73,5 +73,13 @@ defineEmits<{
 .modal-enter-from > div > div,
 .modal-leave-to > div > div {
   transform: scale(0.95) translateY(-20px);
+}
+
+/* Responsive styles */
+@media (max-width: 480px) {
+  .modal-container {
+    width: 95vw !important;
+    margin: 0 10px !important;
+  }
 }
 </style>

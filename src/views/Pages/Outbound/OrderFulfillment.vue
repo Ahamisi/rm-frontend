@@ -39,7 +39,12 @@
       <button 
         v-else
         @click="attemptCheckOut"
-        class="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-gray-400 text-white rounded-md hover:bg-gray-500"
+        :class="[
+          'flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md',
+          canCheckOut 
+            ? 'bg-[#0C66E4] text-white hover:bg-[#0C66E4]/80' 
+            : 'bg-gray-400 text-white hover:bg-gray-500'
+        ]"
       >
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" clip-rule="evenodd" d="M5 14C5 12.895 5.902 12 7.009 12H14.991C16.101 12 17 12.894 17 14.006V18.446C17 21.851 5 21.851 5 18.446V14Z" fill="white"/>
@@ -294,7 +299,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import LoadingState from '@/views/Components/procurement/state/LoadingState.vue'
 import Activities from '@/views/Components/Activities.vue'
@@ -316,6 +321,12 @@ const showCheckOutModal = ref(false)
 const isCheckedIn = ref(false)
 const currentOrder = ref<any>(null)
 const activeTab = ref('details')
+
+// Computed properties
+const canCheckOut = computed(() => {
+  const hasCompletedPickingList = localStorage.getItem('hasCompletedPickingList') === 'true'
+  return !currentOrder.value || hasCompletedPickingList
+})
 
 // Mock order data
 const mockOrder = {
@@ -432,6 +443,8 @@ const checkIn = () => {
     loading.value = false
     isCheckedIn.value = true
     localStorage.setItem('isCheckedIn', 'true')
+    // Clear any previous completed picking list flag
+    localStorage.removeItem('hasCompletedPickingList')
     toastMessage.value = 'Successfully checked in!'
     showToast.value = true
     
@@ -444,7 +457,10 @@ const checkIn = () => {
 }
 
 const attemptCheckOut = () => {
-  if (currentOrder.value) {
+  // Check if user has a pending order that hasn't been processed
+  const hasCompletedPickingList = localStorage.getItem('hasCompletedPickingList') === 'true'
+  
+  if (currentOrder.value && !hasCompletedPickingList) {
     showWarningToast.value = true
     return
   }
@@ -460,6 +476,7 @@ const checkOut = () => {
     loading.value = false
     isCheckedIn.value = false
     localStorage.removeItem('isCheckedIn')
+    localStorage.removeItem('hasCompletedPickingList') // Clear the completed picking list flag
     currentOrder.value = null
     toastMessage.value = 'Successfully checked out!'
     showToast.value = true
@@ -475,6 +492,8 @@ const refreshOrders = () => {
     // Simulate getting an order
     currentOrder.value = mockOrder
     localStorage.setItem('currentOrder', JSON.stringify(mockOrder))
+    // Clear completed picking list flag when new order is assigned
+    localStorage.removeItem('hasCompletedPickingList')
   }, 1000)
 }
 

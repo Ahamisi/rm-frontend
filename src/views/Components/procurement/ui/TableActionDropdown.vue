@@ -10,7 +10,7 @@
         <teleport to="body">
             <div v-if="isCurrentDropdownOpen" :style="dropdownStyle"
                 class="absolute z-50 bg-white border border-gray-200 rounded shadow-lg w-fit dropdown-menu min-w-48">
-                <ul class="text-sm text-gray-700 divide-y divide-gray-200">
+                <ul class="text-sm text-gray-700" :class="{ 'divide-y divide-gray-200': !props.noDividers }">
                     <slot :selectedItem="rowData" :closeDropdown="closeDropdown">
                         <!-- Default menu items if no slot content provided -->
                         <li v-for="(item, index) in menuItems" :key="index"
@@ -37,6 +37,7 @@ const props = defineProps<{
     rowData: any;
     menuItems?: MenuItem[];
     dropdownId?: string;
+    noDividers?: boolean;
 }>();
 
 const emit = defineEmits<{

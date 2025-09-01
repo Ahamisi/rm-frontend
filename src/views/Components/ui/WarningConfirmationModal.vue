@@ -1,6 +1,6 @@
 <template>
   <div v-if="show" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-    <div class="bg-white rounded-[16px] shadow-xl" :class="width === 'lg' ? 'w-[550px]' : 'w-[500px]'" :style="customWidth ? { width: customWidth } : {}">
+    <div class="bg-white rounded-[16px] shadow-xl w-[426px] max-w-[90vw] mx-4" :style="customWidth ? { width: customWidth, maxWidth: '90vw' } : {}">
       <!-- Modal Header -->
       <div class="flex items-center justify-between px-6 py-6 border-b border-gray-200">
         <div class="flex items-center gap-3">
@@ -62,3 +62,13 @@ defineEmits<{
   confirm: [];
 }>();
 </script>
+
+<style scoped>
+/* Responsive styles */
+@media (max-width: 480px) {
+  .bg-white {
+    width: 95vw !important;
+    margin: 0 10px !important;
+  }
+}
+</style>

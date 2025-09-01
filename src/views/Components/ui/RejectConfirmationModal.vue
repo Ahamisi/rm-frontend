@@ -63,9 +63,16 @@ defineEmits<{
 <style scoped>
 /* Override UniversalCenteredModal styles for RejectConfirmationModal */
 :deep(.modal-content) {
-  width: 700px !important;
-  max-width: 700px !important;
+  width: 426px !important;
+  max-width: 90vw !important;
   border-radius: 16px !important;
+}
+
+@media (max-width: 480px) {
+  :deep(.modal-content) {
+    width: 95vw !important;
+    margin: 0 10px !important;
+  }
 }
 
 /* Override header padding: y: 18px, x: 24px */

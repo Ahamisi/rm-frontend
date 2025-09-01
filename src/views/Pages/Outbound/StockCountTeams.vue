@@ -74,7 +74,7 @@
     <SideBarModal
       :isOpen="showCreateModal"
       @update:isOpen="showCreateModal = $event"
-      @close="resetForm"
+      @close="handleCancel"
       :title="editingTeamId ? 'Edit Stock Count Team' : 'Create Stock Count Team'"
       width="small"
     >
@@ -130,7 +130,7 @@
           <!-- Cancel and Create/Update buttons -->
           <div class="flex items-center gap-3">
             <button 
-              @click="showCreateModal = false"
+              @click="handleCancel"
               class="cancel_btn"
             >
               Cancel
@@ -170,6 +170,14 @@
       :message="successMessage"
       @close="closeSuccessModal"
     />
+
+    <!-- Discard Changes Modal -->
+    <DiscardModal
+      :isOpen="showDiscardModal"
+      :action="currentModalAction"
+      @close="cancelDiscardChanges"
+      @confirm="confirmDiscardChanges"
+    />
   </div>
 </template>
 
@@ -181,6 +189,7 @@ import SideBarModal from '@/views/Components/SideBarModal.vue'
 import CustomMultiSelect from '@/views/Components/CustomMultiSelect.vue'
 import DeleteConfirmationModal from '@/views/Components/ui/DeleteConfirmationModal.vue';
 import SuccessModal from '@/views/Components/ui/SuccessModal.vue';
+import DiscardModal from '@/views/Components/procurement/ui/DiscardModal.vue';
 
 const router = useRouter()
 
@@ -189,7 +198,9 @@ const showCreateModal = ref(false)
 const showDeleteModal = ref(false)
 const showSuccessModal = ref(false)
 const showCreateSuccessModal = ref(false)
+const showDiscardModal = ref(false)
 const createSuccessMessage = ref('')
+const currentModalAction = ref('')
 const childKey = ref(0)
 const editingTeamId = ref(null)
 const teamToDelete = ref<any>(null)
@@ -348,6 +359,13 @@ const newTeam = ref({
   shelves: []
 })
 
+// Store original form data for change detection
+const originalTeam = ref({
+  name: '',
+  admins: [],
+  shelves: []
+})
+
 // Column definitions
 const teamColumns = ref([
   {
@@ -423,6 +441,11 @@ const resetForm = () => {
     admins: [],
     shelves: []
   }
+  originalTeam.value = {
+    name: '',
+    admins: [],
+    shelves: []
+  }
   editingTeamId.value = null
 }
 
@@ -461,12 +484,7 @@ const createTeam = () => {
   const teamName = newTeam.value.name
   
   // Reset form and editing state
-  newTeam.value = {
-    name: '',
-    admins: [],
-    shelves: []
-  }
-  editingTeamId.value = null
+  resetForm()
   
   // Close modal
   showCreateModal.value = false
@@ -483,11 +501,14 @@ const createTeam = () => {
 
 const editTeam = (team: any) => {
   // Populate form with team data for editing
-  newTeam.value = {
+  const teamData = {
     name: team.name,
     admins: team.admins || [],
     shelves: team.assignedShelves || []
   }
+  
+  newTeam.value = { ...teamData }
+  originalTeam.value = { ...teamData } // Store original for change detection
   
   // Set editing mode
   editingTeamId.value = team.id
@@ -516,14 +537,19 @@ const confirmDelete = () => {
     // Close delete modal
     showDeleteModal.value = false
     
+    // Close the SideBarModal since we're deleting from within it
+    showCreateModal.value = false
+    
     // Show success modal
     showSuccessModal.value = true
     
     // Refresh datatable
     childKey.value++
     
-    // Reset team to delete
+    // Reset team to delete and editing state
     teamToDelete.value = null
+    editingTeamId.value = null
+    resetForm()
   }
 }
 
@@ -547,8 +573,44 @@ const deleteTeamFromModal = () => {
   const team = teams.value.find(t => t.id === editingTeamId.value)
   if (team) {
     teamToDelete.value = team
-    showCreateModal.value = false // Close edit modal first
+    // Keep the SideBarModal open so both modals co-exist
     showDeleteModal.value = true
   }
+}
+
+// Check if form has changes
+const hasFormChanges = () => {
+  // Compare current form values with original values
+  const nameChanged = newTeam.value.name !== originalTeam.value.name
+  const adminsChanged = JSON.stringify(newTeam.value.admins) !== JSON.stringify(originalTeam.value.admins)
+  const shelvesChanged = JSON.stringify(newTeam.value.shelves) !== JSON.stringify(originalTeam.value.shelves)
+  
+  return nameChanged || adminsChanged || shelvesChanged
+}
+
+// Handle cancel button click
+const handleCancel = () => {
+  if (hasFormChanges()) {
+    currentModalAction.value = editingTeamId.value ? 'Update Team' : 'Create Team'
+    showDiscardModal.value = true
+  } else {
+    closeCreateModal()
+  }
+}
+
+// Handle discard modal actions
+const confirmDiscardChanges = () => {
+  showDiscardModal.value = false
+  closeCreateModal()
+}
+
+const cancelDiscardChanges = () => {
+  showDiscardModal.value = false
+}
+
+// Close create modal and reset form
+const closeCreateModal = () => {
+  showCreateModal.value = false
+  resetForm()
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="show" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+  <div v-if="show" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" style="z-index: 999999;">
     <div class="bg-white rounded-[16px] shadow-xl w-[500px]">
       <!-- Modal Header -->
       <div class="flex items-center justify-between px-6 py-6 border-b border-gray-200">

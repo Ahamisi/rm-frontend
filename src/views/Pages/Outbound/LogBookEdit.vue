@@ -5,26 +5,27 @@
   </div>
   
   <div class="px-6 erp_dashboard_wrapper">
+    <!-- Breadcrumb -->
+    <Breadcrumb :items="breadcrumbItems" />
+    
     <!-- Header -->
-    <div class="flex items-center justify-between mb-6 mt-2">
-      <!-- Left: Back button and text -->
-      <div class="flex items-center gap-3">
-        <button @click="goBack" class="flex items-center gap-2 text-gray-600 hover:text-gray-800">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M9.0047 10.9951L13.5977 6.40205C13.6893 6.3086 13.7985 6.23422 13.919 6.18324C14.0395 6.13225 14.1689 6.10565 14.2998 6.10499C14.4306 6.10433 14.5603 6.12962 14.6813 6.17939C14.8023 6.22915 14.9123 6.30242 15.0048 6.39494C15.0973 6.48747 15.1706 6.59742 15.2204 6.71844C15.2701 6.83945 15.2954 6.96913 15.2948 7.09998C15.2941 7.23083 15.2675 7.36025 15.2165 7.48076C15.1655 7.60126 15.0912 7.71047 14.9977 7.80205L11.0977 11.7021L14.9977 15.6021C15.1803 15.7883 15.2819 16.0392 15.2806 16.3C15.2793 16.5608 15.1751 16.8106 14.9907 16.995C14.8062 17.1795 14.5565 17.2837 14.2956 17.285C14.0348 17.2863 13.784 17.1846 13.5977 17.0021L9.0047 12.4101C8.81723 12.2225 8.71191 11.9682 8.71191 11.7031C8.71191 11.4379 8.81723 11.1836 9.0047 10.9961V10.9951Z" fill="#44546F"/>
-          </svg>
-          <span class="text-sm font-medium">Back</span>
-        </button>
-      </div>
+    <div class="flex items-center justify-between mb-6">
+      <!-- Left: Back button -->
+      <button @click="goBack" class="flex items-center gap-2 text-gray-600 hover:text-gray-800">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M9.0047 10.9951L13.5977 6.40205C13.6893 6.3086 13.7985 6.23422 13.919 6.18324C14.0395 6.13225 14.1689 6.10565 14.2998 6.10499C14.4306 6.10433 14.5603 6.12962 14.6813 6.17939C14.8023 6.22915 14.9123 6.30242 15.0048 6.39494C15.0973 6.48747 15.1706 6.59742 15.2204 6.71844C15.2701 6.83945 15.2954 6.96913 15.2948 7.09998C15.2941 7.23083 15.2675 7.36025 15.2165 7.48076C15.1655 7.60126 15.0912 7.71047 14.9977 7.80205L11.0977 11.7021L14.9977 15.6021C15.1803 15.7883 15.2819 16.0392 15.2806 16.3C15.2793 16.5608 15.1751 16.8106 14.9907 16.995C14.8062 17.1795 14.5565 17.2837 14.2956 17.285C14.0348 17.2863 13.784 17.1846 13.5977 17.0021L9.0047 12.4101C8.81723 12.2225 8.71191 11.9682 8.71191 11.7031C8.71191 11.4379 8.81723 11.1836 9.0047 10.9961V10.9951Z" fill="#44546F"/>
+        </svg>
+        <span class="text-sm font-medium">Back</span>
+      </button>
       
       <!-- Center: Edit Log Book title with icon -->
       <div class="flex items-center gap-2">
-        <span class="text-sm font-medium text-gray-900">Edit Log Book</span>
+        <span class="text-md text-gray-900">Edit Log Book</span>
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect width="20" height="20" rx="3.75" fill="#F7F8F9"/>
           <path fill-rule="evenodd" clip-rule="evenodd" d="M7.91884 5.83337C7.45676 5.83337 7.08301 6.20504 7.08301 6.66254V13.3375C7.08444 13.5582 7.17317 13.7692 7.3298 13.9246C7.48643 14.08 7.69821 14.167 7.91884 14.1667H12.0805C12.5426 14.1667 12.9163 13.7955 12.9163 13.3375V6.66254C12.9163 6.20754 12.5422 5.83337 12.0805 5.83337H7.91884ZM8.74967 7.50004H11.2497C11.4798 7.50004 11.6663 7.68659 11.6663 7.91671C11.6663 8.14683 11.4798 8.33337 11.2497 8.33337H8.74967C8.51956 8.33337 8.33301 8.14683 8.33301 7.91671C8.33301 7.68659 8.51956 7.50004 8.74967 7.50004ZM11.2497 8.75004H8.74967C8.51956 8.75004 8.33301 8.93659 8.33301 9.16671C8.33301 9.39683 8.51956 9.58337 8.74967 9.58337H11.2497C11.4798 9.58337 11.6663 9.39683 11.6663 9.16671C11.6663 8.93659 11.4798 8.75004 11.2497 8.75004ZM8.74967 10H9.58301C9.81313 10 9.99967 10.1866 9.99967 10.4167C9.99967 10.6468 9.81313 10.8334 9.58301 10.8334H8.74967C8.51956 10.8334 8.33301 10.6468 8.33301 10.4167C8.33301 10.1866 8.51956 10 8.74967 10Z" fill="#44546F"/>
         </svg>
-        <span class="text-sm text-gray-500">JANET ADEAJAYI</span>
+        <span class="text-sm text-gray-500 uppercase font-medium">JANET ADEAJAYI</span>
       </div>
       
       <!-- Right: Update button -->
@@ -95,6 +96,7 @@ import { ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import LoadingState from '@/views/Components/procurement/state/LoadingState.vue'
 import Datatable from '@/views/Components/Datatable/Datatable.vue'
+import Breadcrumb from '@/views/Components/ui/Breadcrumb.vue'
 // @ts-ignore
 import SuccessAlertToast from '@/views/Components/SuccessAlertToast.vue'
 
@@ -107,6 +109,12 @@ const showToast = ref(false)
 const toastMessage = ref('')
 const warehouseRepSignOff = ref('')
 const selectedOrders = ref<number[]>([])
+
+// Breadcrumb items
+const breadcrumbItems = ref([
+  { label: 'Log Book', to: { name: 'outbound.log-book' } },
+  { label: 'Janet Adeajayi' }
+])
 
 // Customer table columns
 const customerColumns = ref([

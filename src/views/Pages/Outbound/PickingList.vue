@@ -542,6 +542,7 @@ const handleConfirmation = () => {
     toastMessage.value = 'Picking list confirmed successfully!'
     // Maintain check-in state but clear current order (user should wait for new orders)
     localStorage.setItem('isCheckedIn', 'true')
+    localStorage.setItem('hasCompletedPickingList', 'true') // Flag that picking list is completed
     localStorage.removeItem('currentOrder')
     router.push({ name: 'outbound.order-fulfillment' })
   }
