@@ -121,6 +121,12 @@
                 <span v-else-if="col.props.column.field === 'tags'">
                   <div class="flex flex-wrap gap-1">
                     <Pill 
+                      v-if="typeof (col.props.formattedRow as any)[col.props.column.field || ''] === 'string'"
+                      :type="getPillType((col.props.formattedRow as any)[col.props.column.field || ''])"
+                      :text="(col.props.formattedRow as any)[col.props.column.field || '']"
+                    />
+                    <Pill 
+                      v-else
                       v-for="tag in (col.props.formattedRow as any)[col.props.column.field || '']" 
                       :key="tag"
                       :type="getPillType(tag)"
