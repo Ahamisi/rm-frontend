@@ -13,26 +13,25 @@
       />
     </template>
     <div class="space-y-6">
-      <h3 class="text-xs font-medium text-gray-500 mb-4">Recent</h3>
-      <WorkflowActivities 
-        :activities="activities" 
-      />
+      <TimeTrackerContent :stages="stages" />
     </div>
   </SideBarModal>
 </template>
 
 <script setup lang="ts">
 import SideBarModal from '@/views/Components/SideBarModal.vue';
-import WorkflowActivities from '@/views/Components/WorkflowActivities.vue';
+import TimeTrackerContent from '@/views/Components/TimeTrackerContent.vue';
 import OrderHeader from '@/views/Components/ui/OrderHeader.vue';
 
 interface Props {
   isOpen: boolean;
   orderRef: string;
-  activities: Array<{
+  stages: Array<{
+    id: number;
     department: string;
-    statusChange: string;
-    timeTaken: string;
+    process: string;
+    time: string;
+    color: string;
   }>;
 }
 

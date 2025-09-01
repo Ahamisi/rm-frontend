@@ -140,7 +140,7 @@
           <hr>
 
           <!-- Order Summary -->
-          <div class="mt-8">
+          <div class="mt-8 ">
             <h3 class="mb-4 text-lg font-medium text-[#44546F]">Order Summary</h3>
 
             <!-- Products Table -->
@@ -155,6 +155,7 @@
               :showPagination="false"
               class="order-summary-table"
             >
+
               <template #column="{ props }">
                 <div v-if="props.column.field === 'tags'">
                   <Pill 

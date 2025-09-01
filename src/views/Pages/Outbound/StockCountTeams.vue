@@ -66,7 +66,7 @@
     <SideBarModal
       :isOpen="showCreateModal"
       @update:isOpen="showCreateModal = $event"
-      @close="handleCancel"
+      @close="closeCreateModal"
       :title="editingTeamId ? 'Edit Stock Count Team' : 'Create Stock Count Team'"
       width="small"
     >
@@ -122,7 +122,7 @@
           <!-- Cancel and Create/Update buttons -->
           <div class="flex items-center gap-3">
             <button 
-              @click="handleCancel"
+              @click="showDiscardModal = true"
               class="cancel_btn"
             >
               Cancel
@@ -164,11 +164,13 @@
     />
 
     <!-- Discard Changes Modal -->
-    <DiscardModal
-      :isOpen="showDiscardModal"
-      :action="currentModalAction"
-      @close="cancelDiscardChanges"
-      @confirm="confirmDiscardChanges"
+    <WarningConfirmationModal
+      :show="showDiscardModal"
+      title="Discard Changes?"
+      message="You are about to leave the 'Edit Stock Count Team' process. Any unsaved information will be lost."
+      confirm-text="Discard Changes"
+      @close="showDiscardModal = false"
+      @confirm="showDiscardModal = false"
     />
   </div>
 </template>
@@ -181,7 +183,7 @@ import SideBarModal from '@/views/Components/SideBarModal.vue'
 import CustomMultiSelect from '@/views/Components/CustomMultiSelect.vue'
 import DeleteConfirmationModal from '@/views/Components/ui/DeleteConfirmationModal.vue';
 import SuccessModal from '@/views/Components/ui/SuccessModal.vue';
-import DiscardModal from '@/views/Components/procurement/ui/DiscardModal.vue';
+import WarningConfirmationModal from '@/views/Components/ui/WarningConfirmationModal.vue';
 import PageTitle from '@/views/Components/header/PageTitle.vue';
 
 const router = useRouter()
@@ -193,7 +195,6 @@ const showSuccessModal = ref(false)
 const showCreateSuccessModal = ref(false)
 const showDiscardModal = ref(false)
 const createSuccessMessage = ref('')
-const currentModalAction = ref('')
 const childKey = ref(0)
 const editingTeamId = ref(null)
 const teamToDelete = ref<any>(null)
@@ -423,6 +424,8 @@ const successMessage = computed(() => {
     : ''
 })
 
+
+
 // Functions
 const goBack = () => {
   router.push({ name: 'outbound.stock-count' })
@@ -579,26 +582,6 @@ const hasFormChanges = () => {
   const shelvesChanged = JSON.stringify(newTeam.value.shelves) !== JSON.stringify(originalTeam.value.shelves)
   
   return nameChanged || adminsChanged || shelvesChanged
-}
-
-// Handle cancel button click
-const handleCancel = () => {
-  if (hasFormChanges()) {
-    currentModalAction.value = editingTeamId.value ? 'Update Team' : 'Create Team'
-    showDiscardModal.value = true
-  } else {
-    closeCreateModal()
-  }
-}
-
-// Handle discard modal actions
-const confirmDiscardChanges = () => {
-  showDiscardModal.value = false
-  closeCreateModal()
-}
-
-const cancelDiscardChanges = () => {
-  showDiscardModal.value = false
 }
 
 // Close create modal and reset form

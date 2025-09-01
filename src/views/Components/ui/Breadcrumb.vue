@@ -23,11 +23,9 @@
         </span>
       </div>
       
-      <!-- Separator -->
+      <!-- Separator --> 
       <div v-if="index < items.length - 1" class="flex items-center">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="mx-1">
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M6.22 3.22a.75.75 0 011.06 0l3.25 3.25a.75.75 0 010 1.06L7.28 10.78a.75.75 0 01-1.06-1.06L8.94 7 6.22 4.28a.75.75 0 010-1.06z" fill="currentColor"/>
-        </svg>
+        <span class="mx-1">/</span>
       </div>
     </template>
   </nav>

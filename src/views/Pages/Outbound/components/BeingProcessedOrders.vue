@@ -159,27 +159,29 @@
       @close="isOrderDetailsModalOpen = false"
     >
       <div class="p-0">
-        <!-- Tabs -->
-        <div class="flex border-b border-gray-200 mb-6">
-          <button
-            v-for="tab in orderTabs"
-            :key="tab.id"
-            @click="activeTab = tab.id"
-            :class="[
-              'px-4 py-2 text-sm font-medium border-b-2 transition-colors',
-              activeTab === tab.id
-                ? 'border-blue-500 text-blue-600'
-                : 'border-transparent text-gray-500 hover:text-gray-700'
-            ]"
-          >
-            {{ tab.label }}
-          </button>
+        <!-- Tab Navigation -->
+        <div class="mb-6 border-b border-gray-200 px-6">
+          <div class="flex gap-x-2">
+            <button 
+              v-for="tab in orderTabs" 
+              :key="tab.id" 
+              @click="activeTab = tab.id"
+              :class="[
+                'px-1 py-3 -mb-px text-sm font-medium border-b-2 transition-colors tab_text',
+                activeTab === tab.id
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              ]"
+            >
+              {{ tab.label }}
+            </button>
+          </div>
         </div>
 
         <!-- Tab Content -->
         <div class="flex-1 overflow-y-auto pb-[250px]">
         <!-- Details Tab -->
-        <div v-if="activeTab === 'details'" class="space-y-6">
+        <div v-if="activeTab === 'details'" class="space-y-6 px-6">
           <!-- Order Information Grid -->
           <div class="space-y-4">
             <div class="flex items-center justify-between">
@@ -239,7 +241,7 @@
             </div>
           </div>
 
-          <hr>
+          <hr class="border-gray-200">
 
           <!-- Delivery Details -->
           <div class="space-y-4">
@@ -258,7 +260,7 @@
             </div>
           </div>
 
-          <hr>
+          <hr class="border-gray-200">
 
           <!-- Order Summary -->
           <div class="mt-8">
@@ -306,7 +308,7 @@
         </div>
 
           <!-- Activities Tab -->
-          <div v-else-if="activeTab === 'activities'">
+          <div v-else-if="activeTab === 'activities'" class="px-6">
             <Activities :activities="orderActivities" :order-ref="selectedOrder?.order_no || ''" />
           </div>
         </div>
@@ -349,8 +351,8 @@
     <!-- Time Tracker Modal -->
     <TimeTrackerModal
       :isOpen="showTimeTrackerModal"
-      :orderRef="selectedOrder?.order_no || ''"
-      :activities="workflowActivities"
+      :orderRef="selectedOrder?.order_no || '1656493689-254'"
+      :stages="timeTrackerStages"
       @close="showTimeTrackerModal = false"
     />
 
@@ -592,18 +594,14 @@ const orderActivities = ref([
   }
 ]);
 
-// Mock workflow activities for Time Tracker
-const workflowActivities = ref([
-  {
-    department: 'Accounting',
-    statusChange: 'New Order → Order Confirmed',
-    timeTaken: '1-2 hours'
-  },
-  {
-    department: 'Inventory',
-    statusChange: 'Order Confirmed → Being Processed',
-    timeTaken: '1 minute'
-  }
+// Time Tracker Stages - Department-based workflow (same as Dashboard)
+const timeTrackerStages = ref([
+  { id: 1, department: 'Accounting', process: 'Order Pending → Order Confirmed', time: '0 hours', color: '#E56910' },
+  { id: 2, department: 'Inventory', process: 'Account Confirmed → Order Confirmed', time: '1 minute', color: '#1D7AFC' },
+  { id: 3, department: 'Inventory', process: 'Order Confirmed → Being Processed', time: '1 minute', color: '#1D7AFC' },
+  { id: 4, department: 'Inventory', process: 'Being Processed → Awaiting Shipment', time: '2 minutes', color: '#1D7AFC' },
+  { id: 5, department: 'Logistics', process: 'Awaiting Shipment → Shipped for Delivery', time: '24 seconds', color: '#22A06B' },
+  { id: 6, department: 'Logistics', process: 'Shipped for Delivery → Items Delivered', time: '2 hours', color: '#22A06B' }
 ]);
 
 // Computed modal title
@@ -701,12 +699,20 @@ const pickOrder = (order: any) => {
   background-color: #F7F8F9;
   border-top: 1px solid #091E4224;
   border-bottom: 1px solid #091E4224;
-  margin: 0 -24px;
+  margin: 0;
   padding: 16px 24px;
   position: fixed;
   bottom: 60px;
   width: 100%;
   z-index: 10;
   margin-top: 24px;
+}
+
+.tab_text {
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: -0.25px;
 }
 </style>

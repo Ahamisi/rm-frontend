@@ -198,6 +198,24 @@
       @confirm="confirmReject"
       @cancel="closeRejectModal"
     />
+
+    <!-- Warning Confirmation Modal -->
+    <WarningConfirmationModal
+      :show="showWarningModal"
+      title="Approve Stock Count?"
+      :message="warningMessage"
+      confirm-text="Approve Stock Count"
+      @confirm="handleWarningConfirm"
+      @close="handleWarningCancel"
+    />
+
+    <!-- Success Modal -->
+    <SuccessModal
+      :show="showSuccessModal"
+      title="Stock Count Approved"
+      :message="successMessage"
+      @close="closeSuccessModal"
+    />
   </div>
 </template>
 
@@ -207,6 +225,8 @@ import Datatable from '@/views/Components/Datatable/Datatable.vue';
 import SideBarModal from '@/views/Components/SideBarModal.vue';
 import SelectBox from '@/views/Components/procurement/SelectBox.vue';
 import RejectConfirmationModal from '@/views/Components/ui/RejectConfirmationModal.vue';
+import WarningConfirmationModal from '@/views/Components/ui/WarningConfirmationModal.vue';
+import SuccessModal from '@/views/Components/ui/SuccessModal.vue';
 import GrayButton from '@/views/Components/ui/GrayButton.vue';
 
 const childKey = ref(0);
@@ -214,6 +234,8 @@ const childKey = ref(0);
 // Modal states
 const showApproveModal = ref(false);
 const showRejectModal = ref(false);
+const showWarningModal = ref(false);
+const showSuccessModal = ref(false);
 const itemToApprove = ref<any>(null);
 const itemToReject = ref<any>(null);
 const selectedItem = ref<any>(null);
@@ -386,6 +408,18 @@ const rejectMessage = computed(() => {
     : '';
 });
 
+const warningMessage = computed(() => {
+  return itemToApprove.value 
+    ? `You are about to approve this product stock count "${itemToApprove.value.product_name}". This will update the ERP quantity of this batch.`
+    : '';
+});
+
+const successMessage = computed(() => {
+  return itemToApprove.value 
+    ? `The stock count team "${itemToApprove.value.counted_by}" has been successfully deleted from the system.`
+    : '';
+});
+
 // Column definitions
 const stockCountColumns = ref([
   {
@@ -520,6 +554,14 @@ const closeRejectModal = () => {
 };
 
 const confirmApprove = () => {
+  // Show warning modal instead of directly approving
+  showWarningModal.value = true;
+};
+
+const handleWarningConfirm = () => {
+  // Close warning modal
+  showWarningModal.value = false;
+  
   if (itemToApprove.value) {
     // Remove from unapproved list
     const index = unapprovedStockItems.value.findIndex(i => i.id === itemToApprove.value.id);
@@ -528,7 +570,19 @@ const confirmApprove = () => {
       childKey.value++;
     }
   }
+  
+  // Close approve modal and show success modal
   closeApproveModal();
+  showSuccessModal.value = true;
+};
+
+const handleWarningCancel = () => {
+  // Just close warning modal, keep approve modal open
+  showWarningModal.value = false;
+};
+
+const closeSuccessModal = () => {
+  showSuccessModal.value = false;
 };
 
 const confirmReject = () => {

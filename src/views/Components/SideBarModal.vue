@@ -27,7 +27,7 @@
 			</div>
 
 			<!-- Form content slot -->
-			<div class="p-6 pb-0 modal_content">
+			<div class="modal_content">
 				<slot :close-modal="closeModal" :form-data="internalFormData" :update-form-data="updateFormData"></slot>
 			</div>
 
@@ -277,7 +277,12 @@ defineExpose({
 .sidebar_overlay .cancel_btn,
 .sidebar_overlay .grey_btn {
 	color: rgba(23, 43, 77, 1);
-	background: rgba(9, 30, 66, 0.06);
+	background: #091E420F;
+}
+
+.sidebar_overlay .cancel_btn:hover,
+.sidebar_overlay .grey_btn:hover {
+	background: #e5e7eb;
 }
 
 .sidebar_overlay .create_btn,

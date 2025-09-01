@@ -18,15 +18,18 @@
         <span class="text-sm font-medium">Back</span>
       </button>
       
-      <!-- Center: Edit Log Book title with icon -->
-      <div class="flex items-center gap-2">
-        <span class="text-md text-gray-900">Edit Log Book</span>
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="20" height="20" rx="3.75" fill="#F7F8F9"/>
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M7.91884 5.83337C7.45676 5.83337 7.08301 6.20504 7.08301 6.66254V13.3375C7.08444 13.5582 7.17317 13.7692 7.3298 13.9246C7.48643 14.08 7.69821 14.167 7.91884 14.1667H12.0805C12.5426 14.1667 12.9163 13.7955 12.9163 13.3375V6.66254C12.9163 6.20754 12.5422 5.83337 12.0805 5.83337H7.91884ZM8.74967 7.50004H11.2497C11.4798 7.50004 11.6663 7.68659 11.6663 7.91671C11.6663 8.14683 11.4798 8.33337 11.2497 8.33337H8.74967C8.51956 8.33337 8.33301 8.14683 8.33301 7.91671C8.33301 7.68659 8.51956 7.50004 8.74967 7.50004ZM11.2497 8.75004H8.74967C8.51956 8.75004 8.33301 8.93659 8.33301 9.16671C8.33301 9.39683 8.51956 9.58337 8.74967 9.58337H11.2497C11.4798 9.58337 11.6663 9.39683 11.6663 9.16671C11.6663 8.93659 11.4798 8.75004 11.2497 8.75004ZM8.74967 10H9.58301C9.81313 10 9.99967 10.1866 9.99967 10.4167C9.99967 10.6468 9.81313 10.8334 9.58301 10.8334H8.74967C8.51956 10.8334 8.33301 10.6468 8.33301 10.4167C8.33301 10.1866 8.51956 10 8.74967 10Z" fill="#44546F"/>
-        </svg>
-        <span class="text-sm text-gray-500 uppercase font-medium">JANET ADEAJAYI</span>
-      </div>
+      <!-- Center: Edit Log Book title with OrderHeader -->
+      <OrderHeader 
+        title="Edit Log Book" 
+        reference="JANET ADEAJAYI"
+        titleSize="md"
+      >
+        <template #icon>
+          <svg width="10" height="8" viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M2.91921 0.833252C2.45712 0.833252 2.08337 1.20492 2.08337 1.66242V6.33742C2.08481 6.55804 2.17354 6.76912 2.33017 6.9245C2.4868 7.07988 2.69858 7.16692 2.91921 7.16659H7.08087C7.54296 7.16659 7.91671 6.79534 7.91671 6.33742V1.66242C7.91671 1.20742 7.54254 0.833252 7.08087 0.833252H2.91921ZM3.75004 2.49992H6.25004C6.48016 2.49992 6.66671 2.68647 6.66671 2.91659C6.66671 3.1467 6.48016 3.33325 6.25004 3.33325H3.75004C3.51992 3.33325 3.33337 3.1467 3.33337 2.91659C3.33337 2.68647 3.51992 2.49992 3.75004 2.49992ZM6.25004 3.74992H3.75004C3.51992 3.74992 3.33337 3.93647 3.33337 4.16659C3.33337 4.3967 3.51992 4.58325 3.75004 4.58325H6.25004C6.48016 4.58325 6.66671 4.3967 6.66671 4.16659C6.66671 3.93647 6.48016 3.74992 6.25004 3.74992ZM3.75004 4.99992H4.58337C4.81349 4.99992 5.00004 5.18647 5.00004 5.41659C5.00004 5.6467 4.81349 5.83325 4.58337 5.83325H3.75004C3.51992 5.83325 3.33337 5.6467 3.33337 5.41659C3.33337 5.18647 3.51992 4.99992 3.75004 4.99992Z" fill="#44546F"/>
+          </svg>
+        </template>
+      </OrderHeader>
       
       <!-- Right: Update button -->
       <button 
@@ -97,6 +100,7 @@ import { useRouter, useRoute } from 'vue-router'
 import LoadingState from '@/views/Components/procurement/state/LoadingState.vue'
 import Datatable from '@/views/Components/Datatable/Datatable.vue'
 import Breadcrumb from '@/views/Components/ui/Breadcrumb.vue'
+import OrderHeader from '@/views/Components/ui/OrderHeader.vue'
 // @ts-ignore
 import SuccessAlertToast from '@/views/Components/SuccessAlertToast.vue'
 
@@ -113,7 +117,7 @@ const selectedOrders = ref<number[]>([])
 // Breadcrumb items
 const breadcrumbItems = ref([
   { label: 'Log Book', to: { name: 'outbound.log-book' } },
-  { label: 'Janet Adeajayi' }
+  { label: 'Janet Adeajayi' } // Current page (not clickable)
 ])
 
 // Customer table columns
