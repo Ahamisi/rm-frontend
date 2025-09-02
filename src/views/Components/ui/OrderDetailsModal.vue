@@ -189,7 +189,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import SideBarModal from '@/views/Components/SideBarModal.vue';
 import OrderHeader from '@/views/Components/ui/OrderHeader.vue';
 import Activities from '@/views/Components/Activities.vue';
@@ -202,11 +202,13 @@ interface Props {
   orderData: any;
   orderItems?: any[];
   orderActivities?: any[];
+  initialActiveTab?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   orderItems: () => [],
-  orderActivities: () => []
+  orderActivities: () => [],
+  initialActiveTab: 'details'
 });
 
 const emit = defineEmits<{
@@ -214,11 +216,18 @@ const emit = defineEmits<{
 }>();
 
 // Tab state
-const activeTab = ref('details');
+const activeTab = ref(props.initialActiveTab);
 const orderTabs = [
   { id: 'details', label: 'Details' },
   { id: 'activities', label: 'Activities' }
 ];
+
+// Watch for changes to initialActiveTab prop
+watch(() => props.initialActiveTab, (newTab) => {
+  if (newTab) {
+    activeTab.value = newTab;
+  }
+});
 
 // Order products table columns
 const orderProductColumns = ref([

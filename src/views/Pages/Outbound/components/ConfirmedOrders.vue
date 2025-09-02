@@ -175,6 +175,7 @@
       :orderData="selectedOrder"
       :orderItems="orderItems"
       :orderActivities="orderActivities"
+      :initialActiveTab="modalActiveTab"
       @close="isOrderDetailsModalOpen = false"
     />
 
@@ -328,6 +329,7 @@ const orderColumns = ref<TableColumn[]>([
 // Order Details Modal
 const isOrderDetailsModalOpen = ref(false);
 const selectedOrder = ref<any>({});
+const modalActiveTab = ref('details');
 
 // Mock order items for details view
 const orderItems = ref([
@@ -374,6 +376,7 @@ const timeTrackerStages = ref([
 // Action handlers
 const viewOrder = (order: any) => {
   selectedOrder.value = order;
+  modalActiveTab.value = 'details';
   isOrderDetailsModalOpen.value = true;
 };
 
@@ -410,6 +413,7 @@ const openTimeTracker = (order: any) => {
 
 const openActivityLog = (order: any) => {
   selectedOrder.value = order;
+  modalActiveTab.value = 'activities';
   isOrderDetailsModalOpen.value = true;
 };
 

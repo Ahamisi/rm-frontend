@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-0">
+  <div class="space-y-0 px-6 py-6">
     <div v-for="(stage, index) in stages" :key="stage.id" 
          class="relative" 
          :style="{ marginBottom: index < stages.length - 1 ? '70px' : '0' }">

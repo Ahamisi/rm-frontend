@@ -102,6 +102,7 @@
       :orderData="selectedOrder"
       :orderItems="orderItems"
       :orderActivities="orderActivities"
+      :initialActiveTab="'details'"
       @close="isOrderDetailsModalOpen = false"
     />
   </div>
