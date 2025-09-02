@@ -13,8 +13,8 @@
     </template>
     
     <!-- Tab Navigation -->
-    <div class="mb-6 border-b border-gray-200 px-6">
-      <div class="flex gap-x-2">
+    <div class="mb-6 border-b border-gray-200">
+      <div class="flex gap-x-2 px-6">
         <button 
           v-for="tab in orderTabs" 
           :key="tab.id" 
@@ -32,9 +32,9 @@
     </div>
 
     <!-- Tab Content -->
-    <div class="flex-1 overflow-y-auto pb-[250px]">
+    <div class="flex-1 overflow-y-auto pb-[250px] px-6">
       <!-- Details Tab -->
-      <div v-if="activeTab === 'details'" class="space-y-6 px-6">
+      <div v-if="activeTab === 'details'" class="space-y-6">
         <!-- Order Information Grid -->
         <div class="space-y-4">
           <div class="flex items-center justify-between">
@@ -148,7 +148,7 @@
       </div>
 
       <!-- Activities Tab -->
-      <div v-else-if="activeTab === 'activities'" class="px-6">
+      <div v-else-if="activeTab === 'activities'" class="">
         <Activities :activities="orderActivities" :order-ref="orderData?.order_no || ''" />
       </div>
     </div>

@@ -48,7 +48,7 @@
         />
       </template>
       <!-- Tabs -->
-      <div class="flex border-b border-gray-200 mb-6">
+      <div class="flex border-b border-gray-200 mb-6 px-6">
         <button
           v-for="tab in orderTabs"
           :key="tab.id"
@@ -65,9 +65,9 @@
       </div>
 
       <!-- Tab Content -->
-      <div class="flex-1 overflow-y-auto">
+      <div class="flex-1 overflow-y-auto pb-[250px]">
         <!-- Details Tab -->
-        <div v-if="activeTab === 'details'" class="space-y-6">
+        <div v-if="activeTab === 'details'" class="space-y-6 px-6">
           <!-- HMO Information -->
           <div class="space-y-4">
             <div class="flex justify-between items-center">
@@ -119,8 +119,10 @@
             </div>
           </div>
 
+          <hr class="border-gray-200">
+
           <!-- Delivery Details -->
-          <div class="border-t pt-6">
+          <div class="space-y-4">
             <h3 class="text-lg font-medium text-[#44546F] mb-4">Delivery Details</h3>
             <div class="space-y-4">
               <div class="flex justify-between items-center">
@@ -152,12 +154,14 @@
             </div>
           </div>
 
+          <hr class="border-gray-200">
+
           <!-- Order Summary -->
-          <div class="border-t pt-6">
-            <h3 class="text-lg font-medium text-[#44546F] mb-4">Order Summary</h3>
+          <div class="mt-8">
+            <h3 class="mb-4 text-lg font-medium text-[#44546F]">Order Summary</h3>
             
             <!-- Products Table -->
-            <div class="mb-6">
+            <div class="order-summary-table">
               <Datatable
                 :items="orderProducts"
                 :columns="orderProductColumns"
@@ -167,7 +171,6 @@
                 :exportable="false"
                 :showActions="false"
                 :showPagination="false"
-                class="order-summary-table"
               >
                 <template #column="{ props }">
                   <div v-if="props.column.field === 'tags'">
@@ -184,33 +187,34 @@
               </Datatable>
             </div>
 
-            <!-- Totals -->
-            <div class="sticky-totals-section">
-              <div class="space-y-4 px-4 py-4">
-                <div class="flex justify-between items-center">
-                  <span class="text-sm font-medium text-[#172B4D]">Total Cost Price</span>
-                  <span class="text-sm text-[#44546F]">₦187,000.00</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span class="text-sm font-medium text-[#172B4D]">Total Selling Price</span>
-                  <span class="text-sm text-[#44546F]">₦187,000.00</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span class="text-sm font-medium text-[#172B4D]">Shipping Fee</span>
-                  <span class="text-sm text-[#44546F]">₦0.00</span>
-                </div>
-                <div class="flex justify-between items-center border-t pt-4" style="border-color: #091E4224;">
-                  <span class="text-lg font-semibold text-[#44546F]">Total</span>
-                  <span class="text-lg font-semibold text-[#44546F]">₦187,000.00</span>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 
         <!-- Activities Tab -->
-        <div v-if="activeTab === 'activities'" class="space-y-4">
+        <div v-if="activeTab === 'activities'" class="px-6">
           <Activities :activities="orderActivities" :order-ref="selectedOrder?.order_no || ''" />
+        </div>
+      </div>
+
+      <!-- Fixed Totals Section - Only show on Details tab -->
+      <div v-if="activeTab === 'details'" class="sticky-totals-section">
+        <div class="space-y-2 px-6">
+          <div class="flex justify-between items-center">
+            <span class="text-[12px] text-[#44546F]">Total Cost Price:</span>
+            <span class="text-[12px] text-[#44546F]">₦187,000.00</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-[12px] text-[#44546F]">Total Selling Price:</span>
+            <span class="text-[12px] text-[#44546F]">₦187,000.00</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-[12px] text-[#44546F]">Shipping Fee:</span>
+            <span class="text-[12px] text-[#44546F]">₦0.00</span>
+          </div>
+          <div class="flex justify-between items-center pt-2 border-t border-gray-200">
+            <span class="text-[16px] font-medium text-[#44546F]">Total:</span>
+            <span class="text-[16px] font-medium text-[#44546F]">₦187,000.00</span>
+          </div>
         </div>
       </div>
     </SideBarModal>
@@ -393,10 +397,10 @@ const viewOrder = (order: any) => {
   background-color: #F7F8F9;
   border-top: 1px solid #091E4224;
   border-bottom: 1px solid #091E4224;
-  margin-left: -24px;
-  margin-right: -24px;
-  margin-bottom: -24px;
+  margin: 0 -24px;
+  padding: 16px 24px;
   z-index: 10;
+  margin-top: 24px;
 }
 </style>
 

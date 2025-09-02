@@ -4,7 +4,7 @@
 		:class="{ 'opacity-100': showModal, 'opacity-0': !showModal }" @click="closeModal">
 
 		<!-- Sidebar modal -->
-		<div class="fixed top-0 right-0 h-full overflow-y-auto transition-transform duration-300 ease-in-out bg-white shadow-2xl content"
+		<div class="fixed top-0 right-0 h-full flex flex-col transition-transform duration-300 ease-in-out bg-white shadow-2xl content"
 			:class="[
 				showModal ? 'translate-x-0' : 'translate-x-full',
 				widthClass
@@ -27,12 +27,12 @@
 			</div>
 
 			<!-- Form content slot -->
-			<div class="modal_content">
+			<div class="modal_content flex-1 overflow-y-auto">
 				<slot :close-modal="closeModal" :form-data="internalFormData" :update-form-data="updateFormData"></slot>
 			</div>
 
 			<!-- Footer slot -->
-			<div v-if="$slots.footer" class="p-6 border-t border-gray-200">
+			<div v-if="$slots.footer" class="flex-shrink-0 p-6 border-t border-gray-200">
 				<slot name="footer" :close-modal="closeModal" :form-data="internalFormData"
 					:update-form-data="updateFormData" :show-discard-warning="showDiscardWarning"
 					:trigger-discard-warning="() => emit('showDiscardWarning')"></slot>
@@ -224,8 +224,7 @@ defineExpose({
 }
 
 .sidebar_overlay .modal_content {
-	height: 85vh;
-	overflow-y: auto;
+	/* Flexbox handles the height automatically */
 }
 
 .sidebar_overlay .modal_content label {

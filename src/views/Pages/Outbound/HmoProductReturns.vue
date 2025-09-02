@@ -88,7 +88,7 @@
       @close="closeCreateModal"
       width="70%"
     >
-      <div class="space-y-6">
+      <div class="space-y-6 px-6 mt-4">
         <!-- Customer and Order Number Row -->
         <div class="grid grid-cols-2 gap-4">
           <div>

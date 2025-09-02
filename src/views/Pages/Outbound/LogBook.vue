@@ -98,14 +98,20 @@
 
     <!-- Log Book Detail Modal -->
     <SideBarModal 
-      title="Log Book" 
       :is-open="showLogBookModal" 
       width="70%" 
       @close="showLogBookModal = false"
-      :extra-header="getLogBookExtraHeader"
     >
+      <template #header>
+        <OrderHeader 
+          title="Log Book" 
+          :reference="getLogBookExtraHeader"
+          titleSize="md"
+        />
+      </template>
+      
       <!-- Driver Info -->
-      <div class="space-y-3 mb-6">
+      <div class="space-y-3 mb-6 px-6 mt-4">
         <div class="flex justify-between items-center">
           <span class="text-sm text-gray-600">Driver</span>
           <span class="text-sm text-gray-900">{{ selectedLogBook.driver_name || 'Janet Adeajayi' }}</span>
@@ -126,33 +132,35 @@
       <hr class="border-t border-gray-200 my-6">
 
       <!-- Customer List -->
-      <div>
+      <div class="px-6">
         <h3 class="mb-4 text-lg font-medium text-gray-900">Customer List</h3>
         
         <!-- Customer List Datatable -->
-        <Datatable
-          :items="customerList"
-          :columns="customerListColumns"
-          :searchable="true"
-          :filterByDate="false"
-          :printable="false"
-          :exportable="false"
-          :showActions="false"
-          :showPagination="true"
-          pageName="LogBookCustomers"
-        >
-          <template #column="{ props }">
-            <!-- Customer Name with blue styling -->
-            <span v-if="props.column.field === 'customer_name'">
-              <span class="text-blue-600 hover:text-blue-800 cursor-pointer">{{ props.row.customer_name }}</span>
-            </span>
-            
-            <!-- Default column rendering -->
-            <span v-else>
-              {{ props.row[props.column.field] }}
-            </span>
-          </template>
-        </Datatable>
+        <div class="-mx-6 px-6">
+          <Datatable
+            :items="customerList"
+            :columns="customerListColumns"
+            :searchable="true"
+            :filterByDate="false"
+            :printable="false"
+            :exportable="false"
+            :showActions="false"
+            :showPagination="true"
+            pageName="LogBookCustomers"
+          >
+            <template #column="{ props }">
+              <!-- Customer Name with blue styling -->
+              <span v-if="props.column.field === 'customer_name'">
+                <span class="text-blue-600 hover:text-blue-800 cursor-pointer">{{ props.row.customer_name }}</span>
+              </span>
+              
+              <!-- Default column rendering -->
+              <span v-else>
+                {{ props.row[props.column.field] }}
+              </span>
+            </template>
+          </Datatable>
+        </div>
       </div>
       
       <!-- Footer with Close button -->
@@ -177,6 +185,7 @@ import PageTitle from "@/views/Components/header/PageTitle.vue"
 import Datatable from '@/views/Components/Datatable/Datatable.vue'
 import SideBarModal from '@/views/Components/SideBarModal.vue'
 import LoadingState from '@/views/Components/procurement/state/LoadingState.vue'
+import OrderHeader from '@/views/Components/ui/OrderHeader.vue'
 // @ts-ignore
 import SuccessAlertToast from '@/views/Components/SuccessAlertToast.vue'
 import type { TableColumn } from '@/types'

@@ -70,7 +70,7 @@
       :title="editingTeamId ? 'Edit Stock Count Team' : 'Create Stock Count Team'"
       width="small"
     >
-      <div class="space-y-6">
+      <div class="space-y-6 px-6 mt-4">
         <!-- Team Name -->
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">Team Name</label>

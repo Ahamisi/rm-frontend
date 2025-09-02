@@ -72,7 +72,7 @@
             </div>
 
             <!-- Time Tracker Stages -->
-            <TimeTrackerContent :stages="timeTrackerStages" />
+            <TimeTrackerContent :stages="timeTrackerStages" :noPadding="true" />
           </div>
         </div>
       </div>

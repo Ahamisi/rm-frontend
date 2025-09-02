@@ -82,7 +82,7 @@
       @close="closeModal"
       width="45vw"
     >
-      <div class="space-y-4">
+      <div class="space-y-4 px-6 mt-4">
         <!-- Select Product and Quantity (Row) -->
         <div class="grid grid-cols-2 gap-4">
           <div>

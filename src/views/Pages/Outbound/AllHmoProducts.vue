@@ -110,14 +110,14 @@
       <!-- Info Alert -->
     
 
-      <div class="bg-[#CCE0FF] p-3 rounded-lg mb-6">
+      <div class="bg-[#CCE0FF] p-3 rounded-lg mb-6 mx-6 mt-4">
             <p class="text-sm text-[#172B4D]">
               Please ensure the transfer quantity is a multiple of 2.
             </p>
         </div>
 
       <!-- Batch Information Table -->
-      <div class="overflow-x-auto">
+      <div class="overflow-x-auto mx-6">
         <div class="bg-white border text-lightBlack border-[#091E4224] rounded-xl shadow-sm overflow-x-auto">
           <table class="w-full table-auto">
             <thead>

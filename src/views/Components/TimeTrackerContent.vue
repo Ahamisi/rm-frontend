@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-0 px-6 py-6">
+  <div class="space-y-0" :class="{ 'px-6 py-6': !props.noPadding }">
     <div v-for="(stage, index) in stages" :key="stage.id" 
          class="relative" 
          :style="{ marginBottom: index < stages.length - 1 ? '70px' : '0' }">
@@ -37,9 +37,12 @@ interface TimeTrackerStage {
 
 interface Props {
   stages: TimeTrackerStage[];
+  noPadding?: boolean;
 }
 
-defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+  noPadding: false
+});
 
 const getDepartmentIcon = (department: string) => {
   const icons: Record<string, string> = {

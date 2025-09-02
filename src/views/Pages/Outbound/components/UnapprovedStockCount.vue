@@ -76,7 +76,7 @@
       @update:isOpen="showApproveModal = $event"
       @close="closeApproveModal"
     >
-      <div class="space-y-4">
+      <div class="space-y-4 px-6 mt-4">
         <!-- Product Name -->
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">Product Name</label>
