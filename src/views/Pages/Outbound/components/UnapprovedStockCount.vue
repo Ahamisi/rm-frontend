@@ -213,7 +213,7 @@
     <SuccessModal
       :show="showSuccessModal"
       title="Stock Count Approved"
-      :message="successMessage"
+      :message="currentSuccessMessage"
       @close="closeSuccessModal"
     />
   </div>
@@ -239,6 +239,7 @@ const showSuccessModal = ref(false);
 const itemToApprove = ref<any>(null);
 const itemToReject = ref<any>(null);
 const selectedItem = ref<any>(null);
+const currentSuccessMessage = ref('');
 
 // Approve form data
 const approveForm = ref({
@@ -416,7 +417,7 @@ const warningMessage = computed(() => {
 
 const successMessage = computed(() => {
   return itemToApprove.value 
-    ? `The stock count team "${itemToApprove.value.counted_by}" has been successfully deleted from the system.`
+    ? `The product stock count "${itemToApprove.value.product_name}" has been successfully approved.`
     : '';
 });
 
@@ -563,6 +564,9 @@ const handleWarningConfirm = () => {
   showWarningModal.value = false;
   
   if (itemToApprove.value) {
+    // Store the success message before clearing itemToApprove
+    currentSuccessMessage.value = `The product stock count "${itemToApprove.value.product_name}" has been successfully approved.`;
+    
     // Remove from unapproved list
     const index = unapprovedStockItems.value.findIndex(i => i.id === itemToApprove.value.id);
     if (index > -1) {
@@ -571,9 +575,9 @@ const handleWarningConfirm = () => {
     }
   }
   
-  // Close approve modal and show success modal
-  closeApproveModal();
+  // Show success modal first, then close approve modal
   showSuccessModal.value = true;
+  closeApproveModal();
 };
 
 const handleWarningCancel = () => {
@@ -583,6 +587,7 @@ const handleWarningCancel = () => {
 
 const closeSuccessModal = () => {
   showSuccessModal.value = false;
+  currentSuccessMessage.value = '';
 };
 
 const confirmReject = () => {

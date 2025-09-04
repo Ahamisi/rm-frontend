@@ -2,7 +2,7 @@
   <!-- Custom Success Modal - No header, keep footer border -->
   <Transition name="modal" appear>
     <div v-if="show" class="fixed inset-0 bg-black/50 z-[99999999999999] flex items-center justify-center">
-      <div class="rounded-lg bg-white w-[320px] max-w-[90vw] mx-auto shadow-lg">
+      <div class="rounded-lg bg-white w-[380px] max-w-[90vw] mx-auto shadow-lg">
         <!-- Modal Body - No header section -->
         <div class="p-8">
           <div class="text-center">
@@ -15,10 +15,10 @@
             </div>
             
             <!-- Title -->
-            <h3 class="text-xl font-semibold text-gray-900 mb-4">{{ title }}</h3>
+            <h3 class="text-[16px] font-semibold text-gray-900 mb-4">{{ title }}</h3>
             
             <!-- Message -->
-            <p class="text-gray-600">{{ message }}</p>
+            <p class="text-gray-600 text-[14px]">{{ message }}</p>
           </div>
         </div>
         

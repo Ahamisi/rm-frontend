@@ -184,7 +184,7 @@
 
     <!-- Time Tracker Modal -->
     <TimeTrackerModal
-      :is-open="showTimeTrackerModal"
+      :is-open="showTimeTrackerModal" 
       :order-ref="selectedOrder.order_no || '1656493689-254'"
       :stages="timeTrackerStages"
       @close="showTimeTrackerModal = false"
@@ -443,14 +443,14 @@ const orderActivities = ref([
   }
 ]);
 
-// Time Tracker Stages - Department-based workflow (same as Dashboard)
+// Time Tracker Stages - Actual order processing workflow with specific times
 const timeTrackerStages = ref([
-  { id: 1, department: 'Accounting', process: 'Order Pending → Order Confirmed', time: '0 hours', color: '#E56910' },
-  { id: 2, department: 'Inventory', process: 'Account Confirmed → Order Confirmed', time: '1 minute', color: '#1D7AFC' },
-  { id: 3, department: 'Inventory', process: 'Order Confirmed → Being Processed', time: '1 minute', color: '#1D7AFC' },
-  { id: 4, department: 'Inventory', process: 'Being Processed → Awaiting Shipment', time: '2 minutes', color: '#1D7AFC' },
-  { id: 5, department: 'Logistics', process: 'Awaiting Shipment → Shipped for Delivery', time: '24 seconds', color: '#22A06B' },
-  { id: 6, department: 'Logistics', process: 'Shipped for Delivery → Items Delivered', time: '2 hours', color: '#22A06B' }
+  { id: 1, department: 'Accounting', process: 'New Order → Order Confirmed', time: '1-2 hours', color: '#E56910' },
+  { id: 2, department: 'Inventory', process: 'Order Confirmed → Being Processed', time: '1 minute', color: '#1D7AFC' },
+  { id: 3, department: 'Inventory', process: 'Order is Being Processed → Order has been Picked and Packed', time: '2 minutes', color: '#1D7AFC' },
+  { id: 4, department: 'Inventory', process: 'Order has been Picked and Packed → Order is Awaiting Shipment', time: '2 minutes', color: '#1D7AFC' },
+  { id: 5, department: 'Logistics', process: 'Order is Awaiting Shipment → Items have been Shipped for Delivery', time: '24 seconds', color: '#22A06B' },
+  { id: 6, department: 'Logistics', process: 'Items have been Shipped for Delivery → Items Delivered', time: '2 seconds', color: '#22A06B' }
 ]);
 
 // Modal reference data is now handled by OrderHeader component

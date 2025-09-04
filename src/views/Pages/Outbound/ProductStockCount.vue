@@ -52,7 +52,7 @@
       @update:isOpen="showDisableModal = $event"
       @close="closeDisableModal"
     >
-      <div class="space-y-4">
+      <div class="space-y-4 px-6 mt-4">
         <!-- Product Name -->
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">Product Name</label>
@@ -95,7 +95,7 @@
       @close="closeEnableModal"
       width="small"
     >
-      <div class="space-y-4">
+      <div class="space-y-4 px-6 mt-4">
         <!-- Product Name -->
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">Product Name</label>
@@ -124,7 +124,7 @@
       @update:isOpen="showCreateStockCountModal = $event"
       @close="closeCreateStockCountModal"
     >
-      <div class="space-y-6">
+      <div class="space-y-6 px-6 mt-4">
         <!-- Product Name -->
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">Product Name</label>
