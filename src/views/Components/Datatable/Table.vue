@@ -5,9 +5,8 @@
 				<tr class="text-left bg-gray-100 text-[12px] font-[500] text-[#172B4D]">
 					<slot name="tableHeader">
 						<template v-for="column in columns" :key="`th-${column.field}-${pageName}`">
-							<!-- :class="{ 'cursor-pointer': column.sortable, 'p-2': true }" -->
 							<th @click="handleSort(column)" :class="[
-								'px-3 py-2',
+								'px-4 py-3 h-[44px]',
 								column.sortable ? 'cursor-pointer' : '',
 								column.field === 'action' || column.field === 'actions' ? 'w-[100px] text-center' : ''
 							]">
@@ -49,7 +48,7 @@
 					</slot>
 				</tr>
 			</tbody> -->
-			<tbody class="text-[12px] font-[400] text-[#44546F]">
+			<tbody class="text-[12px] font-[400] text-[#44546F] divide-y divide-gray-200">
 				<!-- Show loader if loading -->
 				<tr v-if="loading">
 					<td :colspan="columns.length" class="py-20 text-center">
@@ -104,9 +103,13 @@
 
 				<!-- Render rows if not loading and there is data -->
 				<tr v-else-if="!loading && items.length > 0" v-for="row in items" :key="`${row.id}-${pageName}`"
-					class="relative text-left text-gray-500 border-b hover:bg-gray-50">
+					class="relative text-left hover:bg-gray-50 transition-colors">
 					<slot name="tableRow" :row="row">
-						<td v-for="column in columns" :key="`td-${column.field}-${pageName}`" class="px-3 py-2">
+						<td v-for="column in columns" :key="`td-${column.field}-${pageName}`" 
+							:class="[
+								'px-4 py-3 h-[52px] align-middle text-[12px] font-[400] text-[#44546F]',
+								column.field === 'action' || column.field === 'actions' ? 'text-center' : ''
+							]">
 							<slot name="column" :props="{ row, column, formattedRow: formattedRow(row, columns) }">
 								{{ getColumnValue(row, column) }}
 							</slot>
@@ -193,7 +196,7 @@ const getColumnValue = (row: Record<string, any>, column: TableColumn) => {
 </script>
 
 <style>
-/* Standardized Table Typography - matches Datatable.vue */
+/* Standardized Table Typography - Uniform across all tables */
 .detail_text {
 	font-weight: 400;
 	font-size: 12px;
@@ -207,8 +210,149 @@ const getColumnValue = (row: Record<string, any>, column: TableColumn) => {
 	font-weight: 500;
 	font-size: 14px;
 	line-height: 20px;
-	letter-spacing: 0px;
-	text-align: center;
-	color: #44546F;
+}
+
+/* Global table cell content standardization */
+table tbody td {
+	vertical-align: middle !important;
+	height: 52px !important;
+}
+
+/* Force consistent styling for ALL table cell content EXCEPT Pills */
+table tbody td:not(:has(.pill-component)),
+table tbody td *:not(.pill-component),
+table tbody td span:not(.pill-component),
+table tbody td div:not(:has(.pill-component)),
+table tbody td p {
+	font-size: 12px !important;
+	font-weight: 400 !important;
+	color: #44546F !important;
+	line-height: 16px !important;
+}
+
+/* Override Tailwind and other CSS classes */
+table tbody td .text-gray-700,
+table tbody td .text-gray-500,
+table tbody td .text-gray-600,
+table tbody td .text-gray-800,
+table tbody td .text-gray-900,
+table tbody td .text-black {
+	color: #44546F !important;
+	font-weight: 400 !important;
+}
+
+/* Force consistent font weight - override all weight classes */
+table tbody td .font-normal,
+table tbody td .font-medium,
+table tbody td .font-semibold,
+table tbody td .font-bold {
+	font-weight: 400 !important;
+	color: #44546F !important;
+}
+
+/* Only allow specific exceptions for emphasis */
+table tbody td .font-medium.allow-medium {
+	font-weight: 500 !important;
+}
+
+/* Special color exceptions (keep their colors but standardize weight) */
+table tbody td .text-red-600,
+table tbody td .text-blue-600,
+table tbody td .text-green-600 {
+	font-weight: 400 !important;
+	font-size: 12px !important;
+}
+
+/* ABSOLUTE PROTECTION for Pill components */
+.pill-component {
+	font-size: 10px !important;
+	font-weight: 500 !important;
+	line-height: 12px !important;
+	padding: 4px 6px !important;
+	border-radius: 4px !important;
+	display: inline-flex !important;
+	align-items: center !important;
+}
+
+/* Specific Pill colors - FORCE them to stay */
+.pill-component.bg-\\[\\#E9F2FF\\] {
+	background-color: #E9F2FF !important;
+	color: #0055CC !important;
+}
+
+.pill-component.bg-\\[\\#F3F0FF\\] {
+	background-color: #F3F0FF !important;
+	color: #5E4DB2 !important;
+}
+
+.pill-component.bg-\\[\\#DCFFF1\\] {
+	background-color: #DCFFF1 !important;
+	color: #216E4E !important;
+}
+
+/* Alternative approach - target by background colors directly */
+table tbody td span[class*="bg-[#E9F2FF]"] {
+	background-color: #E9F2FF !important;
+	color: #0055CC !important;
+	font-size: 10px !important;
+	font-weight: 500 !important;
+}
+
+table tbody td span[class*="bg-[#F3F0FF]"] {
+	background-color: #F3F0FF !important;
+	color: #5E4DB2 !important;
+	font-size: 10px !important;
+	font-weight: 500 !important;
+}
+
+table tbody td span[class*="bg-[#DCFFF1]"] {
+	background-color: #DCFFF1 !important;
+	color: #216E4E !important;
+	font-size: 10px !important;
+	font-weight: 500 !important;
+}
+
+/* Button styling in tables */
+table tbody td button {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	height: 32px !important;
+	min-height: 32px !important;
+}
+
+/* Avatar/initial circles */
+table tbody td .w-6.h-6 {
+	flex-shrink: 0 !important;
+}
+
+/* Ensure consistent row heights regardless of content */
+table tbody tr {
+	height: 52px !important;
+	min-height: 52px !important;
+}
+
+/* Nuclear option - force absolute consistency BUT preserve Pills */
+[id*="table-"] tbody td:not(:has(.pill-component)),
+[id*="table-"] tbody td *:not(.pill-component):not(.text-red-600):not(.text-blue-600):not(.text-green-600) {
+	font-size: 12px !important;
+	font-weight: 400 !important;
+	color: #44546F !important;
+	line-height: 16px !important;
+}
+
+/* Override any remaining Tailwind classes BUT preserve Pills */
+table tbody td [class*="text-"]:not(.pill-component),
+table tbody td [class*="font-"]:not(.pill-component) {
+	font-size: 12px !important;
+	font-weight: 400 !important;
+	color: #44546F !important;
+}
+
+/* Exception for red text (Unassigned) */
+table tbody td .text-red-600 {
+	color: #dc2626 !important;
+	font-size: 12px !important;
+	font-weight: 400 !important;
 }
 </style>

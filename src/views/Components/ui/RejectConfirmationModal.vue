@@ -19,11 +19,9 @@
       <!-- Modal Body -->
       <div class="px-6 py-6">
         <div>
-          <p class="text-[#44546F] text-[14px] font-[400] mb-2">
-            {{ message }}
+          <p class="text-[#44546F] text-[14px] font-[400] mb-2" v-html="formatMessage(message)">
           </p>
-          <p class="text-[#44546F] text-[12px] font-[400]">
-            {{ subMessage || 'This action will permanently delete this stock count from the system.' }}
+          <p class="text-[#44546F] text-[12px] font-[400]" v-html="formatMessage(subMessage || 'This action will permanently delete this stock count from the system.')">
           </p>
         </div>
       </div>
@@ -56,6 +54,14 @@ defineProps<{
   title?: string;
   customWidth?: string;
 }>();
+
+// Function to automatically bold text within quotes
+const formatMessage = (text: string) => {
+  // Replace text within double quotes with bold
+  return text.replace(/"([^"]*)"/g, '<strong>"$1"</strong>')
+             // Replace text within single quotes with bold  
+             .replace(/'([^']*)'/g, '<strong>\'$1\'</strong>');
+};
 
 defineEmits<{
   confirm: [];

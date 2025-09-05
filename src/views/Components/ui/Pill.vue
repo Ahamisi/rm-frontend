@@ -1,6 +1,6 @@
 <template>
   <span 
-    class="inline-flex items-center px-[6px] py-[4px] rounded-[4px] text-[10px] font-medium"
+    class="pill-component inline-flex items-center px-[6px] py-[4px] rounded-[4px] text-[10px] font-medium"
     :class="tagClasses[type]"
   >
     {{ text }}

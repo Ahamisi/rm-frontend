@@ -38,8 +38,8 @@
             <img 
               @click="navigateToProduct(col.props?.formattedRow)"
               :src="(col.props?.formattedRow as any)?.product_image || '/placeholder-product.png'" 
-              :alt="(col.props?.formattedRow as any)?.product_name"
-              class="w-12 h-12 object-cover rounded-md cursor-pointer hover:opacity-80"
+              alt=""
+              class="w-7 h-7 object-cover rounded-md cursor-pointer hover:opacity-80 flex-shrink-0"
             >
           </span>
 
@@ -63,10 +63,18 @@
             </button>
           </span>
 
-          <!-- Clickable Columns (ID to Shelf Location) -->
+          <!-- Shelf Location Column (Pill) -->
+          <span v-else-if="col.props?.column?.field === 'shelf_location'">
+            <span class="inline-flex items-center px-[6px] py-[4px] rounded-[4px] text-[10px] font-medium bg-[#091E420F] cursor-pointer hover:text-blue-600"
+                  @click="navigateToProduct(col.props?.formattedRow)">
+              {{ (col.props?.formattedRow as any)?.shelf_location || '' }}
+            </span>
+          </span>
+
+          <!-- Other Clickable Columns (ID to Available Qty, Sold Qty) -->
           <span v-else-if="isClickableColumn(col.props?.column?.field)"
                 @click="navigateToProduct(col.props?.formattedRow)"
-                class="cursor-pointer hover:text-blue-600 hover:underline">
+                class="cursor-pointer hover:text-blue-600 truncate block">
             {{ (col.props?.formattedRow as any)?.[col.props?.column?.field || ''] || '' }}
           </span>
 
@@ -156,68 +164,23 @@
     </SideBarModal>
 
     <!-- Confirmation Modal -->
-    <div v-if="showConfirmModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
-        <!-- Header -->
-        <div class="flex items-center justify-between mb-4">
-          <div class="flex items-center gap-2">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M11.0626 4.96699C11.5786 3.99299 12.4206 3.98899 12.9386 4.96699L20.0626 18.425C20.5786 19.399 20.1076 20.196 19.0056 20.196H4.99556C3.89356 20.196 3.42056 19.403 3.93856 18.425L11.0626 4.96699ZM11.2935 14.7071C11.481 14.8946 11.7353 15 12.0006 15C12.2658 15 12.5201 14.8946 12.7077 14.7071C12.8952 14.5196 13.0006 14.2652 13.0006 14V8.99998C13.0006 8.73477 12.8952 8.48041 12.7077 8.29288C12.5201 8.10534 12.2658 7.99998 12.0006 7.99998C11.7353 7.99998 11.481 8.10534 11.2935 8.29288C11.1059 8.48041 11.0006 8.73477 11.0006 8.99998V14C11.0006 14.2652 11.1059 14.5196 11.2935 14.7071ZM11.2935 17.7071C11.481 17.8946 11.7353 18 12.0006 18C12.2658 18 12.5201 17.8946 12.7077 17.7071C12.8952 17.5196 13.0006 17.2652 13.0006 17C13.0006 16.7348 12.8952 16.4804 12.7077 16.2929C12.5201 16.1053 12.2658 16 12.0006 16C11.7353 16 11.481 16.1053 11.2935 16.2929C11.1059 16.4804 11.0006 16.7348 11.0006 17C11.0006 17.2652 11.1059 17.5196 11.2935 17.7071Z" fill="#E56910"/>
-            </svg>
-            <h3 class="text-lg font-medium text-gray-900">Transfer Information to Inventory?</h3>
-          </div>
-          <button @click="cancelTransfer" class="text-gray-400 hover:text-gray-600">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-        </div>
-
-        <!-- Body -->
-        <div class="mb-6">
-          <p class="text-sm text-gray-600">
-            You are about to transfer the information of this product 
-            <strong>"{{ selectedProduct?.product_name }}"</strong> to inventory.
-            This action will update the ERP quantity of this quantity!
-          </p>
-        </div>
-
-        <!-- Footer -->
-        <div class="flex justify-end space-x-3">
-          <button @click="cancelTransfer" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">
-            Cancel
-          </button>
-          <button @click="confirmTransfer" class="px-4 py-2 text-sm font-medium text-black rounded-md hover:opacity-90" style="background-color: #F5CD47;">
-            Transfer Information
-          </button>
-        </div>
-      </div>
-    </div>
+    <WarningConfirmationModal
+      :show="showConfirmModal"
+      title="Transfer Information to Inventory?"
+      :message="transferMessage"
+      confirmText="Transfer Information"
+      cancelText="Cancel"
+      @close="cancelTransfer"
+      @confirm="confirmTransfer"
+    />
 
     <!-- Success Modal -->
-    <div v-if="showSuccessModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4 text-center">
-        <!-- Success Icon -->
-        <div class="mb-4 flex justify-center">
-          <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 28C0 12.536 12.536 0 28 0C43.464 0 56 12.536 56 28C56 43.464 43.464 56 28 56C12.536 56 0 43.464 0 28Z" fill="#22A06B"/>
-            <path d="M18.7867 28.5635C18.4707 28.2275 18.0349 28.0298 17.5739 28.0134C17.113 27.997 16.6642 28.1632 16.3252 28.476C15.9861 28.7887 15.7843 29.2226 15.7635 29.6834C15.7427 30.1442 15.9047 30.5945 16.2142 30.9365L22.5352 37.7947C23.4749 38.7152 24.8749 38.7152 25.7447 37.8472L26.3817 37.219C28.6821 34.9566 30.9798 32.6915 33.2749 30.4237L33.3449 30.3537C35.4899 28.2399 37.6237 26.1147 39.7464 23.9785C40.0637 23.6463 40.2376 23.2028 40.2307 22.7435C40.2238 22.2842 40.0366 21.8461 39.7096 21.5236C39.3825 21.2011 38.9417 21.0202 38.4824 21.0198C38.0231 21.0194 37.582 21.1996 37.2544 21.5215C35.1416 23.6466 33.0182 25.7612 30.8844 27.8652L30.8144 27.9352C28.6151 30.1093 26.413 32.2804 24.2082 34.4487L18.7867 28.5635Z" fill="white"/>
-          </svg>
-        </div>
-
-        <!-- Title and Message -->
-        <h3 class="text-lg font-medium text-gray-900 mb-2">Information Transferred</h3>
-        <p class="text-sm text-gray-600 mb-6">
-          The product information <strong>"{{ selectedProduct?.product_name }}"</strong> has been 
-          successfully been transferred to inventory.
-        </p>
-
-        <!-- Footer -->
-        <button @click="closeSuccessModal" class="px-6 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">
-          Done
-        </button>
-      </div>
-    </div>
+    <SuccessModal
+      :show="showSuccessModal"
+      title="Information Transferred"
+      :message="successMessage"
+      @close="closeSuccessModal"
+    />
   </div>
 </template>
 
@@ -227,7 +190,9 @@ import Datatable from "@/views/Components/Datatable/Datatable.vue";
 import SuccessAlertToast from "@/views/Components/SuccessAlertToast.vue";
 import SideBarModal from "@/views/Components/SideBarModal.vue";
 import OrderHeader from "@/views/Components/ui/OrderHeader.vue";
-import { ref } from 'vue';
+import WarningConfirmationModal from "@/views/Components/ui/WarningConfirmationModal.vue";
+import SuccessModal from "@/views/Components/ui/SuccessModal.vue";
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import type { TableColumn, FilterFields, FilterField } from '@/types';
 
@@ -244,6 +209,19 @@ const showTransferModal = ref(false);
 const showConfirmModal = ref(false);
 const showSuccessModal = ref(false);
 const selectedProduct = ref<any>(null);
+const selectedProductName = ref<string>('');
+const isTransitioning = ref(false); // Flag to prevent clearing during modal transitions
+
+// Computed properties
+const transferMessage = computed(() => {
+  if (!selectedProductName.value) return '';
+  return `You are about to transfer the information of this product "${selectedProductName.value}" to inventory. This action will update the ERP quantity of this quantity!`;
+});
+
+const successMessage = computed(() => {
+  if (!selectedProductName.value) return '';
+  return `The product information "${selectedProductName.value}" has been successfully transferred to inventory.`;
+});
 
 // Column definitions
 const hmoProductColumns = ref<TableColumn[]>([
@@ -485,6 +463,7 @@ const batchData = ref([
 
 const viewProduct = (product: any) => {
   selectedProduct.value = product;
+  selectedProductName.value = product?.product_name || '';
   showTransferModal.value = true;
 };
 
@@ -511,28 +490,47 @@ const isClickableColumn = (field: string | undefined) => {
 
 // Modal functions
 const closeTransferModal = () => {
+  // Don't clear data if we're transitioning to confirmation modal
+  if (isTransitioning.value) {
+    return;
+  }
+  
   showTransferModal.value = false;
   selectedProduct.value = null;
+  selectedProductName.value = '';
 };
 
 const handleTransfer = () => {
+  // Set transitioning flag to prevent clearing data
+  isTransitioning.value = true;
   showTransferModal.value = false;
-  showConfirmModal.value = true;
+  
+  // Small delay to ensure modal transition, then show confirmation
+  setTimeout(() => {
+    showConfirmModal.value = true;
+  }, 50);
 };
 
 const confirmTransfer = () => {
   showConfirmModal.value = false;
   showSuccessModal.value = true;
+  // Reset transition flag when moving to success modal
+  isTransitioning.value = false;
 };
 
 const cancelTransfer = () => {
   showConfirmModal.value = false;
   showTransferModal.value = true;
+  // Reset transition flag when user cancels
+  isTransitioning.value = false;
 };
 
 const closeSuccessModal = () => {
   showSuccessModal.value = false;
   selectedProduct.value = null;
+  selectedProductName.value = '';
+  // Reset transition flag when completely done
+  isTransitioning.value = false;
 };
 
 </script>
@@ -549,5 +547,53 @@ const closeSuccessModal = () => {
 
 .bg-gray-light {
   background-color: #091E420F;
+}
+
+/* Force consistent row heights for AllHmoProducts table */
+#AllHmoProducts-table tbody tr {
+  height: 52px !important;
+  min-height: 52px !important;
+  max-height: 52px !important;
+}
+
+#AllHmoProducts-table tbody td {
+  height: 52px !important;
+  min-height: 52px !important;
+  max-height: 52px !important;
+  overflow: hidden !important;
+  vertical-align: middle !important;
+}
+
+/* Truncate long text in product names and other columns */
+#AllHmoProducts-table tbody td span {
+  display: block !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  max-width: 100% !important;
+}
+
+/* Ensure images don't affect row height */
+#AllHmoProducts-table tbody td img {
+  flex-shrink: 0 !important;
+  width: 28px !important;
+  height: 28px !important;
+}
+
+/* Remove underlines from clickable items */
+#AllHmoProducts-table tbody td .cursor-pointer:hover {
+  text-decoration: none !important;
+}
+
+/* Shelf Location Pills - preserve styling */
+#AllHmoProducts-table tbody td span[class*="bg-[#091E420F]"] {
+  background-color: #091E420F !important;
+  color: inherit !important;
+  font-size: 10px !important;
+  font-weight: 500 !important;
+  padding: 4px 6px !important;
+  border-radius: 4px !important;
+  display: inline-flex !important;
+  align-items: center !important;
 }
 </style>

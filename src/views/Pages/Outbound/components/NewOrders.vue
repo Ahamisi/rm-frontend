@@ -23,7 +23,7 @@
       <template #column="col">
         <!-- Order No -->
         <span v-if="col.props.column.field === 'order_no'">
-          <span class="font-medium">{{ col.props.row.order_no }}</span>
+          <span>{{ col.props.row.order_no }}</span>
         </span>
         
         <!-- Customer Name -->
@@ -33,27 +33,27 @@
         
         <!-- Store Name -->
         <span v-else-if="col.props.column.field === 'store_name'">
-          <span class="text-gray-700">{{ col.props.row.store_name }}</span>
+          <span>{{ col.props.row.store_name }}</span>
         </span>
         
         <!-- State -->
         <span v-else-if="col.props.column.field === 'state'">
-          <span class="text-gray-700">{{ col.props.row.state }}</span>
+          <span>{{ col.props.row.state }}</span>
         </span>
         
         <!-- Payment -->
         <span v-else-if="col.props.column.field === 'payment'">
-          <span class="text-gray-700">{{ col.props.row.payment }}</span>
+          <span>{{ col.props.row.payment }}</span>
         </span>
         
         <!-- Order Date -->
         <span v-else-if="col.props.column.field === 'order_date'">
-          <span class="text-gray-700">{{ formatDate(col.props.row.order_date) }}</span>
+          <span>{{ formatDate(col.props.row.order_date) }}</span>
         </span>
         
         <!-- Delivery Date -->
         <span v-else-if="col.props.column.field === 'delivery_date'">
-          <span class="text-gray-700">{{ formatDate(col.props.row.delivery_date) }}</span>
+          <span>{{ formatDate(col.props.row.delivery_date) }}</span>
         </span>
         
         <!-- Total Amount -->
@@ -76,17 +76,17 @@
         <!-- Assigned -->
         <span v-else-if="col.props.column.field === 'assigned'">
           <div v-if="col.props.row.assigned" class="flex items-center gap-2">
-            <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
-              <span class="text-xs font-medium text-blue-600">{{ col.props.row.assigned.charAt(0) }}</span>
+            <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+              <span class="text-[10px] font-medium text-blue-600">{{ col.props.row.assigned.charAt(0) }}</span>
             </div>
-            <span class="text-sm text-gray-700">{{ col.props.row.assigned }}</span>
+            <span>{{ col.props.row.assigned }}</span>
           </div>
-          <span v-else class="text-red-600 text-sm">Unassigned</span>
+          <span v-else class="text-red-600">Unassigned</span>
         </span>
         
                             <!-- Action -->
                     <span v-else-if="col.props.column.field === 'action'">
-                      <button class="p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100" @click="viewOrder(col.props.row)">
+                      <button class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100 transition-colors" @click="viewOrder(col.props.row)">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path fill-rule="evenodd" clip-rule="evenodd" d="M12 18C7.464 18 4.001 13.74 4.001 12C4.001 9.999 7.46 6 12.001 6C16.377 6 19.999 9.973 19.999 12C19.999 13.74 16.537 18 12.001 18H12ZM12.001 4C6.48 4 2 8.841 2 12C2 15.086 6.576 20 12 20C17.423 20 22 15.086 22 12C22 8.841 17.52 4 12 4" fill="#44546F"/>
                           <path fill-rule="evenodd" clip-rule="evenodd" d="M11.977 13.984C10.874 13.984 9.977 13.087 9.977 11.984C9.977 10.881 10.874 9.984 11.977 9.984C13.081 9.984 13.977 10.881 13.977 11.984C13.977 13.087 13.081 13.984 11.977 13.984ZM11.977 7.984C9.771 7.984 7.977 9.778 7.977 11.984C7.977 14.19 9.771 15.984 11.977 15.984C14.184 15.984 15.977 14.19 15.977 11.984C15.977 9.778 14.184 7.984 11.977 7.984Z" fill="#44546F"/>

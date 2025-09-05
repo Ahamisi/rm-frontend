@@ -18,7 +18,7 @@
             <h3 class="text-[16px] font-semibold text-gray-900 mb-4">{{ title }}</h3>
             
             <!-- Message -->
-            <p class="text-gray-600 text-[14px]">{{ message }}</p>
+            <p class="text-gray-600 text-[14px]" v-html="formatMessage(message)"></p>
           </div>
         </div>
         
@@ -47,6 +47,14 @@ defineProps<{
   title: string;
   message: string;
 }>();
+
+// Function to automatically bold text within quotes
+const formatMessage = (text: string) => {
+  // Replace text within double quotes with bold
+  return text.replace(/"([^"]*)"/g, '<strong>"$1"</strong>')
+             // Replace text within single quotes with bold  
+             .replace(/'([^']*)'/g, '<strong>\'$1\'</strong>');
+};
 
 defineEmits<{
   close: [];

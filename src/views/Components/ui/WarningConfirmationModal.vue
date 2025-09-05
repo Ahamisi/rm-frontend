@@ -25,7 +25,7 @@
             You are about to leave the "<span class="font-semibold">{{ processName }}</span>" process. Any unsaved information will be lost.
           </template>
           <template v-else>
-            {{ message }}
+            <span v-html="formatMessage(message)"></span>
           </template>
         </p>
       </div>
@@ -62,6 +62,14 @@ defineProps<{
   customWidth?: string;
   processName?: string;
 }>();
+
+// Function to automatically bold text within quotes
+const formatMessage = (text: string) => {
+  // Replace text within double quotes with bold
+  return text.replace(/"([^"]*)"/g, '<strong>"$1"</strong>')
+             // Replace text within single quotes with bold  
+             .replace(/'([^']*)'/g, '<strong>\'$1\'</strong>');
+};
 
 defineEmits<{
   close: [];
