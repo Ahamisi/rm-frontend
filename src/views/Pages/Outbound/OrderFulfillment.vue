@@ -8,16 +8,14 @@
   </div>
 
   <!-- Main Content -->
-  <div class="erp_dashboard_wrapper h-screen overflow-y-hidden flex flex-col">
+  <div class="h-screen overflow-hidden flex flex-col max-h-screen min-h-0">
     <!-- Page Title -->
-    <PageTitle title="Order Fulfillment" class="px-6" />
+    <div class="flex-shrink-0">
+      <PageTitle title="Order Fulfillment" class="px-6" />
+    </div>
 
     <!-- Header -->
-    <div class="px-6 py-3 bg-white flex items-center justify-end">
-      <!-- <div>
-        <h5 class="text-sm font-normal text-gray-700">ORDER FULFILLMENT</h5>
-      </div>
-       -->
+    <div class="px-6 py-3 bg-white flex items-center justify-end flex-shrink-0">
       <!-- Check In/Out Button -->
       <button 
         v-if="!isCheckedIn"
@@ -91,10 +89,11 @@
     />
 
     <!-- Content Area -->
-    <div class="px-6 py-8 bg-[#F7F8F9] w-[97%] mx-auto rounded-[16px] flex items-center justify-center h-[78vh] overflow-hidden " >
+    <div class="flex-1 flex items-center justify-center overflow-hidden p-6">
+      <div class="w-full h-full bg-[#F7F8F9] rounded-[16px] flex items-center justify-center overflow-hidden">
       <!-- No Assigned Orders State -->
       <div v-if="!isCheckedIn" class="flex items-center justify-center h-full">
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center max-w-md w-full mx-4">
+        <div class="bg-white rounded-[16px] shadow-sm border border-gray-200 p-8 text-center max-w-md w-full mx-4">
           <div class="flex items-center justify-center gap-3 mb-4">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" clip-rule="evenodd" d="M12 22C6.477 22 2 17.523 2 12C2 6.477 6.477 2 12 2C17.523 2 22 6.477 22 12C22 17.523 17.523 22 12 22ZM13 8C13 8.55228 12.5523 9 12 9C11.4477 9 11 8.55228 11 8C11 7.44772 11.4477 7 12 7C12.5523 7 13 7.44772 13 8ZM12 10C12.5523 10 13 10.4477 13 11V16C13 16.5523 12.5523 17 12 17C11.4477 17 11 16.5523 11 16V11C11 10.4477 11.4477 10 12 10Z" fill="#0C66E4"/>
@@ -120,7 +119,7 @@
 
       <!-- Waiting for Orders State -->
       <div v-else-if="isCheckedIn && !currentOrder" class="flex items-center justify-center h-full">
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center max-w-md w-full mx-4">
+        <div class="bg-white rounded-[16px] shadow-sm border border-gray-200 p-8 text-center max-w-md w-full mx-4">
           <div class="flex items-center justify-center gap-3 mb-4">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" clip-rule="evenodd" d="M12 22C6.477 22 2 17.523 2 12C2 6.477 6.477 2 12 2C17.523 2 22 6.477 22 12C22 17.523 17.523 22 12 22ZM13 8C13 8.55228 12.5523 9 12 9C11.4477 9 11 8.55228 11 8C11 7.44772 11.4477 7 12 7C12.5523 7 13 7.44772 13 8ZM12 10C12.5523 10 13 10.4477 13 11V16C13 16.5523 12.5523 17 12 17C11.4477 17 11 16.5523 11 16V11C11 10.4477 11.4477 10 12 10Z" fill="#0C66E4"/>
@@ -146,11 +145,12 @@
       </div>
 
       <!-- Order Details (70% / 30% Layout) -->
-      <div v-if="currentOrder" class="grid grid-cols-1 lg:grid-cols-10 gap-6">
+      <div v-if="currentOrder" class="w-full h-full p-6 overflow-hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-10 gap-6 h-full min-h-0">
         <!-- Left Card - Order Details (70%) -->
-        <div class="lg:col-span-7 bg-[#FFFFFF] rounded-lg shadow-sm border border-gray-200" style="padding: 24px;">
+        <div class="lg:col-span-7 bg-[#FFFFFF] rounded-[16px] shadow-sm border border-gray-200 p-6 overflow-hidden flex flex-col min-h-0">
           <!-- Tabs and Action Buttons on Same Line -->
-          <div class="border-b border-gray-200 mb-6">
+          <div class="border-b border-gray-200 mb-4 flex-shrink-0">
             <div class="flex justify-between items-end">
               <!-- Tabs on Left -->
               <nav class="-mb-px flex space-x-8">
@@ -197,7 +197,7 @@
           </div>
 
           <!-- Tab Content -->
-          <div v-if="activeTab === 'details'" class="space-y-4">
+          <div v-if="activeTab === 'details'" class="space-y-4 overflow-y-auto flex-1">
             <div class="overflow-x-auto">
               <table class="w-full">
                 <tbody>
@@ -271,7 +271,7 @@
           </div>
 
           <!-- Order Items Tab -->
-          <div v-else-if="activeTab === 'items'" class="space-y-4">
+          <div v-else-if="activeTab === 'items'" class="space-y-4 overflow-y-auto flex-1">
             <Datatable
               :data="orderItems"
               :columns="orderItemColumns"
@@ -285,10 +285,14 @@
         </div>
 
         <!-- Right Card - Order Activities (30%) -->
-        <div class="lg:col-span-3 bg-[#FFFFFF] rounded-lg shadow-sm border border-gray-200" style="padding: 24px;">
-          <h6 class="text-sm font-medium text-gray-900 mb-6">Order Activities</h6>
-          <Activities :activities="orderActivities" orderRef="1656493689-254" />
+        <div class="lg:col-span-3 bg-[#FFFFFF] rounded-[16px] shadow-sm border border-gray-200 p-6 overflow-hidden min-h-0 flex flex-col">
+          <h6 class="text-sm font-medium text-gray-900 mb-4 flex-shrink-0">Order Activities</h6>
+          <div class="flex-1 overflow-y-auto min-h-0">
+            <Activities :activities="orderActivities" orderRef="1656493689-254" />
+          </div>
         </div>
+        </div>
+      </div>
       </div>
     </div>
   </div>

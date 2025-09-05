@@ -12,8 +12,8 @@
         />
       </template>
       
-      <!-- Tab Navigation -->
-      <div class="mb-6 border-b border-gray-200">
+      <!-- Fixed Tab Navigation -->
+      <div class="sticky top-0 z-20 bg-white border-b border-gray-200 flex-shrink-0">
         <div class="flex gap-x-2 px-6">
           <button 
             v-for="tab in orderTabs" 
@@ -31,10 +31,10 @@
         </div>
       </div>
   
-      <!-- Tab Content -->
-      <div class="flex-1 overflow-y-auto pb-[250px] px-6">
+      <!-- Scrollable Tab Content -->
+      <div class="flex-1 overflow-y-auto min-h-0 px-6 py-6">
         <!-- Details Tab -->
-        <div v-if="activeTab === 'details'" class="space-y-6">
+        <div v-if="activeTab === 'details'" class="space-y-6 pb-6">
           <!-- Order Information Grid -->
           <div class="space-y-4">
             <div class="flex items-center justify-between">
@@ -148,14 +148,14 @@
         </div>
   
         <!-- Activities Tab -->
-        <div v-else-if="activeTab === 'activities'" class="">
+        <div v-else-if="activeTab === 'activities'" class="py-6">
           <Activities :activities="orderActivities" :order-ref="orderData?.order_no || ''" />
         </div>
       </div>
   
       <!-- Fixed Totals Section - Only show on Details tab -->
-      <div v-if="activeTab === 'details'" class="totals-section">
-        <div class="space-y-2 px-6">
+      <div v-if="activeTab === 'details'" class="sticky bottom-0 z-20 bg-[#F7F8F9] border-t border-gray-200 flex-shrink-0 px-6 py-4">
+        <div class="space-y-2">
           <div class="flex justify-between items-center">
             <span class="text-[12px] text-[#44546F]">Subtotal:</span>
             <span class="text-[12px] text-[#44546F]">₦17,250.00</span>
@@ -296,17 +296,7 @@
     background-color: #f8f9fa !important;
   }
   
-  .totals-section {
-    background-color: #F7F8F9;
-    border-top: 1px solid #091E4224;
-    border-bottom: 1px solid #091E4224;
-    margin: 0 -24px;
-    padding: 16px 24px;
-    position: sticky;
-    bottom: 0;
-    z-index: 10;
-    margin-top: 24px;
-  }
+  /* Removed totals-section styles - now using inline classes */
   
   .tab_text {
     font-size: 12px;

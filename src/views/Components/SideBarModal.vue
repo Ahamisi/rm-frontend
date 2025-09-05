@@ -244,13 +244,32 @@ defineExpose({
 	border-radius: 8px;
 	background: white;
 	overflow: hidden;
-	color: rgba(98, 111, 134, 1);
+	color: #172B4D;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	font-size: 14px;
 	font-style: normal;
-	font-weight: 300;
+	font-weight: 400;
 	line-height: 20px;
+}
+
+.sidebar_overlay .modal_content input:not(.vs__search):not(.dataTableSearch)::placeholder,
+.sidebar_overlay .modal_content select::placeholder {
+	color: rgba(98, 111, 134, 1);
+	font-weight: 300;
+}
+
+/* Ensure inputs with values have proper styling */
+.sidebar_overlay .modal_content input:not(.vs__search):not(.dataTableSearch):not(:placeholder-shown),
+.sidebar_overlay .modal_content select:not(:placeholder-shown) {
+	color: #172B4D;
+	font-weight: 400;
+}
+
+/* Empty inputs should have lighter text */
+.sidebar_overlay .modal_content input:not(.vs__search):not(.dataTableSearch):placeholder-shown {
+	color: rgba(98, 111, 134, 1);
+	font-weight: 300;
 }
 
 .sidebar_overlay .modal_content input.price {
@@ -271,6 +290,7 @@ defineExpose({
 	display: flex;
 	align-items: center;
 	gap: 8px;
+	transition: background-color 0.2s ease-in-out;
 }
 
 .sidebar_overlay .cancel_btn,
@@ -281,7 +301,7 @@ defineExpose({
 
 .sidebar_overlay .cancel_btn:hover,
 .sidebar_overlay .grey_btn:hover {
-	background: rgba(9, 30, 66, 0.20);
+	background: rgba(9, 30, 66, 0.20); /* 16% darker than #091E420F */
 }
 
 .sidebar_overlay .create_btn,
@@ -292,12 +312,16 @@ defineExpose({
 
 .sidebar_overlay .create_btn:hover,
 .sidebar_overlay .approve_btn:hover {
-	background: rgba(12, 102, 228, 0.86);
+	background: #0A56C0; /* 16% darker than #0C66E4 */
 }
 
 .sidebar_overlay .reject_btn {
 	background: #C9372C;
 	color: white;
+}
+
+.sidebar_overlay .reject_btn:hover {
+	background: #A92E24; /* 16% darker than #C9372C */
 }
 
 /* Enhanced body scroll prevention - works on all devices including mobile */
