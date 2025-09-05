@@ -13,7 +13,7 @@
       />
     </template>
     <div class="space-y-6">
-      <TimeTrackerContent :stages="stages" />
+      <TimeTrackerContent :stages="stages" :showTimePrefix="true" />
     </div>
   </SideBarModal>
 </template>

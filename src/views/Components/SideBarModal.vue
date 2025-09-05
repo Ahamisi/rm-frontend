@@ -281,13 +281,18 @@ defineExpose({
 
 .sidebar_overlay .cancel_btn:hover,
 .sidebar_overlay .grey_btn:hover {
-	background: #e5e7eb;
+	background: rgba(9, 30, 66, 0.20);
 }
 
 .sidebar_overlay .create_btn,
 .sidebar_overlay .approve_btn {
-	background: rgba(12, 102, 228, 1);
+	background: #0C66E4;
 	color: white;
+}
+
+.sidebar_overlay .create_btn:hover,
+.sidebar_overlay .approve_btn:hover {
+	background: rgba(12, 102, 228, 0.86);
 }
 
 .sidebar_overlay .reject_btn {

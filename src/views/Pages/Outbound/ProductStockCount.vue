@@ -50,7 +50,7 @@
       :isOpen="showDisableModal"
       title="Disable Products"
       @update:isOpen="showDisableModal = $event"
-      @close="closeDisableModal"
+      @close="handleDisableCancel"
     >
       <div class="space-y-4 px-6 mt-4">
         <!-- Product Name -->
@@ -92,7 +92,7 @@
       :isOpen="showEnableModal"
       title="Enable Products"
       @update:isOpen="showEnableModal = $event"
-      @close="closeEnableModal"
+      @close="handleEnableCancel"
       width="small"
     >
       <div class="space-y-4 px-6 mt-4">
@@ -122,7 +122,7 @@
       :isOpen="showCreateStockCountModal"
       title="New Stock Count"
       @update:isOpen="showCreateStockCountModal = $event"
-      @close="closeCreateStockCountModal"
+      @close="handleCreateStockCountCancel"
     >
       <div class="space-y-6 px-6 mt-4">
         <!-- Product Name -->
@@ -241,6 +241,7 @@ const showCreateStockCountModal = ref(false);
 const showSuccessModal = ref(false);
 const showDiscardModal = ref(false);
 const currentModalAction = ref('');
+const isDiscarding = ref(false);
 
 // Form states
 const disableForm = ref({
@@ -352,24 +353,29 @@ const confirmEnableProducts = () => {
 };
 
 const handleDisableCancel = () => {
-  if (disableForm.value.product_name || disableForm.value.zero_products) {
-    currentModalAction.value = 'Disable Products';
-    showDiscardModal.value = true;
-  } else {
-    closeDisableModal();
+  if (!isDiscarding.value) {
+    if (disableForm.value.product_name || disableForm.value.zero_products) {
+      currentModalAction.value = 'Disable Products';
+      showDiscardModal.value = true;
+    } else {
+      closeDisableModal();
+    }
   }
 };
 
 const handleEnableCancel = () => {
-  if (enableForm.value.product_name) {
-    currentModalAction.value = 'Enable Products';
-    showDiscardModal.value = true;
-  } else {
-    closeEnableModal();
+  if (!isDiscarding.value) {
+    if (enableForm.value.product_name) {
+      currentModalAction.value = 'Enable Products';
+      showDiscardModal.value = true;
+    } else {
+      closeEnableModal();
+    }
   }
 };
 
 const confirmDiscardChanges = () => {
+  isDiscarding.value = true;
   showDiscardModal.value = false;
   if (showDisableModal.value) {
     closeDisableModal();
@@ -378,6 +384,10 @@ const confirmDiscardChanges = () => {
   } else if (showCreateStockCountModal.value) {
     closeCreateStockCountModal();
   }
+  // Reset the flag after a short delay
+  setTimeout(() => {
+    isDiscarding.value = false;
+  }, 500);
 };
 
 const cancelDiscardChanges = () => {
@@ -419,17 +429,19 @@ const closeSuccessModal = () => {
 };
 
 const handleCreateStockCountCancel = () => {
-  const hasFormData = newStockCountForm.value.product_name || 
-                     newStockCountForm.value.batch || 
-                     newStockCountForm.value.warehouse_shelf || 
-                     newStockCountForm.value.expiry_date || 
-                     newStockCountForm.value.quantity > 0;
-                     
-  if (hasFormData) {
-    currentModalAction.value = 'New Stock Count';
-    showDiscardModal.value = true;
-  } else {
-    closeCreateStockCountModal();
+  if (!isDiscarding.value) {
+    const hasFormData = newStockCountForm.value.product_name || 
+                       newStockCountForm.value.batch || 
+                       newStockCountForm.value.warehouse_shelf || 
+                       newStockCountForm.value.expiry_date || 
+                       newStockCountForm.value.quantity > 0;
+                       
+    if (hasFormData) {
+      currentModalAction.value = 'New Stock Count';
+      showDiscardModal.value = true;
+    } else {
+      closeCreateStockCountModal();
+    }
   }
 };
 

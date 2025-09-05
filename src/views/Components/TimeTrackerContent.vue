@@ -1,29 +1,46 @@
 <template>
   <div class="space-y-0" :class="{ 'px-6 py-6': !props.noPadding }">
-    <div v-for="(stage, index) in stages" :key="stage.id" 
-         class="relative" 
-         :style="{ marginBottom: index < stages.length - 1 ? '50px' : '0' }">
-      <!-- Vertical connecting line (except for last item) - with 12px gaps and proper height -->
-      <div v-if="index < stages.length - 1" 
-           class="absolute left-4 w-px bg-gray-300 z-0"
-           :style="{ top: '44px', height: '38px' }"></div>
-      
-      <div class="flex items-start">
-        <!-- Department Icon -->
-        <div class="w-8 h-8 rounded-full flex items-center justify-center z-10 relative mr-3" 
-             :style="{ backgroundColor: stage.color }">
-          <div v-html="getDepartmentIcon(stage.department)" class="w-4 h-4"></div>
-        </div>
-        
-        <!-- Content -->
-        <div class="flex-1">
-          <!-- Department name and time on same line -->
-          <div class="flex items-center justify-between mb-1">
+    <div 
+      v-for="(stage, index) in stages" 
+      :key="stage.id" 
+      class="flex items-start relative"
+      :style="{ marginBottom: index < stages.length - 1 ? '40px' : '0' }"
+    >
+      <!-- Vertical Line (except for last item) -->
+      <div 
+        v-if="index < stages.length - 1"
+        class="absolute z-0"
+        :style="{ 
+          left: '13px', 
+          top: '36px', 
+          width: '2px',
+          height: '34px'
+        }"
+      >
+        <svg width="2" height="34" viewBox="0 0 2 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0.5" width="1" height="34" rx="0.5" fill="#091E42" fill-opacity="0.14"/>
+        </svg>
+      </div>
+
+      <!-- Department Icon -->
+      <div 
+        class="flex items-center justify-center flex-shrink-0 w-7 h-7 rounded-full z-10 relative"
+        :style="{ backgroundColor: stage.color }"
+      >
+        <div v-html="getDepartmentIcon(stage.department)" class="w-4 h-4"></div>
+      </div>
+
+      <!-- Content -->
+      <div class="flex-1 min-w-0 ml-3">
+        <div class="flex items-start justify-between">
+          <div>
             <div class="text-sm font-medium text-gray-900">{{ stage.department }}</div>
-            <div class="text-xs text-gray-600">Time Taken: <span class="font-semibold text-gray-900">{{ stage.time }}</span></div>
+            <div class="text-xs text-[#44546F] mt-1">{{ stage.process }}</div>
           </div>
-          <!-- Process description -->
-          <div class="text-xs text-gray-600">{{ stage.process }}</div>
+          <div class="text-xs text-gray-600 whitespace-nowrap">
+            <template v-if="props.showTimePrefix">Time Taken: </template>
+            <span class="font-semibold text-gray-900">{{ stage.time }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -42,10 +59,12 @@ interface TimeTrackerStage {
 interface Props {
   stages: TimeTrackerStage[];
   noPadding?: boolean;
+  showTimePrefix?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  noPadding: false
+  noPadding: false,
+  showTimePrefix: false
 });
 
 const getDepartmentIcon = (department: string) => {

@@ -47,8 +47,8 @@
           titleSize="md"
         />
       </template>
-      <!-- Tabs -->
-      <div class="flex border-b border-gray-200 mb-6 px-6">
+      <!-- Fixed Tabs -->
+      <div class="sticky top-0 bg-white z-20 flex border-b border-gray-200 mb-6 px-6">
         <button
           v-for="tab in orderTabs"
           :key="tab.id"
@@ -64,8 +64,8 @@
         </button>
       </div>
 
-      <!-- Tab Content -->
-      <div class="flex-1 overflow-y-auto pb-[250px]">
+      <!-- Scrollable Tab Content -->
+      <div class="flex-1 overflow-y-auto" style="max-height: calc(100vh - 200px);">
         <!-- Details Tab -->
         <div v-if="activeTab === 'details'" class="space-y-6 px-6">
           <!-- HMO Information -->

@@ -224,7 +224,7 @@
       @close="showAddBatchModal = false"
       width="small"
     >
-      <div class="space-y-6">
+      <div class="space-y-6 px-6 mt-4">
         <!-- Select Product -->
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">Select Product</label>

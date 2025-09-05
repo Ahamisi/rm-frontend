@@ -139,8 +139,8 @@
         />
       </template>
       <div v-if="selectedOrder">
-        <!-- Tabs -->
-        <div class="border-b border-gray-200 mb-6 px-6">
+        <!-- Fixed Tabs -->
+        <div class="sticky top-0 bg-white z-20 border-b border-gray-200 mb-6 px-6">
           <nav class="-mb-px flex space-x-8">
             <button
               @click="activeOrderTab = 'Details'"
@@ -167,8 +167,8 @@
           </nav>
         </div>
         
-        <!-- Tab Content -->
-        <div class="flex-1 overflow-y-auto pb-[250px]">
+        <!-- Scrollable Tab Content -->
+        <div class="flex-1 overflow-y-auto" style="max-height: calc(100vh - 200px);">
           <!-- Details Tab -->
           <div v-if="activeOrderTab === 'Details'" class="space-y-6 px-6">
             <!-- HMO Information -->

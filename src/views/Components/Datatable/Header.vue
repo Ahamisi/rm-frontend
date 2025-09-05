@@ -6,7 +6,7 @@
 				<LucideSearch class="w-4 h-4 text-gray-600" />
 				<InputBox :model-value="filters.searchTerm" @update:modelValue="emit('onSearch', $event)"
 					placeholder="Search"
-					custom-styles="bg-transparent outline-none w-full text-[12px] font-[400] text-[#44546F] dataTableSearch" />
+					custom-styles="bg-transparent outline-none w-full text-[12px] font-[400] text-[#172B4D] dataTableSearch" />
 			</div>
 
 			<!-- Filter Dropdown -->
@@ -32,7 +32,7 @@
 										<label class="label">From</label>
 										<div class="input-container">
 											<input type="date" v-model="filters.filterValues.from_date"
-												class="text-[12px] font-[400] text-[#44546F] bg-white input" ref="fromDateInputRef"
+												class="text-[12px] font-[400] text-[#172B4D] bg-white input" ref="fromDateInputRef"
 												@click="() => $refs.fromDateInputRef.showPicker ? $refs.fromDateInputRef.showPicker() : $refs.fromDateInputRef.focus()" />
 										</div>
 									</div>
@@ -40,7 +40,7 @@
 										<label class="label">To</label>
 										<div class="input-container">
 											<input type="date" v-model="filters.filterValues.to_date"
-												class="text-[12px] font-[400] text-[#44546F] bg-white input" ref="toDateInputRef"
+												class="text-[12px] font-[400] text-[#172B4D] bg-white input" ref="toDateInputRef"
 												@click="() => $refs.toDateInputRef.showPicker ? $refs.toDateInputRef.showPicker() : $refs.toDateInputRef.focus()" />
 										</div>
 									</div>
@@ -51,15 +51,15 @@
 									<label class="label">{{ filter.label }}</label>
 									<div class="input-container" v-if="filter.type === 'text'">
 										<input type="text" v-model="filters.filterValues[filter.field]"
-											class="text-[12px] font-[400] text-[#44546F] bg-white input" />
+											class="text-[12px] font-[400] text-[#172B4D] bg-white input" />
 									</div>
 									<div class="input-container" v-if="filter.type === 'number'">
 										<input type="number" v-model="filters.filterValues[filter.field]"
-											class="text-[12px] font-[400] text-[#44546F] bg-white input" />
+											class="text-[12px] font-[400] text-[#172B4D] bg-white input" />
 									</div>
 									<div class="input-container" v-if="filter.type === 'date'">
 										<input type="date" v-model="filters.filterValues[filter.field]"
-											class="text-[12px] font-[400] text-[#44546F] bg-white input" />
+											class="text-[12px] font-[400] text-[#172B4D] bg-white input" />
 									</div>
 									<div class="input-container" v-if="filter.type === 'select'">
 										<UiSelectField :model-value="filters.filterValues[filter.field]"
@@ -78,12 +78,12 @@
 											<div>
 												<label class="label">From</label>
 												<input type="date" v-model="filters.filterValues[filter.field][0]"
-													class="text-[12px] font-[400] text-[#44546F] bg-white input" />
+													class="text-[12px] font-[400] text-[#172B4D] bg-white input" />
 											</div>
 											<div>
 												<label class="label">To</label>
 												<input type="date" v-model="filters.filterValues[filter.field][1]"
-													class="text-[12px] font-[400] text-[#44546F] bg-white input" />
+													class="text-[12px] font-[400] text-[#172B4D] bg-white input" />
 											</div>
 										</div>
 									</div>
@@ -114,7 +114,7 @@
 						:class="index == 0 ? 'border-b' : ''">
 						<ul class="sort-menu">
 							<!-- Show first 4 items -->
-							<li v-for="(item, itemIndex) in group.items.slice(0, 4)" class="flex items-center cursor-pointer hover:bg-[#091E4224]" :key="item.value"
+							<li v-for="(item, itemIndex) in group.items.slice(0, 4)" class="flex items-center cursor-pointer hover:bg-gray-100" :key="item.value"
 								@click="selectOption(item.value); sortModalOpen = false;">
 								<span class="group-title">
 									<svg :style="{
@@ -130,19 +130,19 @@
 										<circle cx="12" cy="12.5" r="2" fill="#626F86" />
 									</svg>
 								</span>
-								<span class="text-[12px] font-[400] text-[#44546F]">
+								<span class="text-[12px] font-[400] text-[#172B4D]">
 									{{ item.label }}
 								</span>
 							</li>
 							<!-- Show "More" option if there are more than 4 items -->
-							<li v-if="group.items.length > 4" class="flex items-center cursor-pointer relative hover:bg-[#091E4224]" 
+							<li v-if="group.items.length > 4" class="flex items-center cursor-pointer relative hover:bg-gray-100" 
 								@click.stop="toggleMoreItems(index)">
 								<span class="group-title">
 									<svg style="visibility: hidden;" width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
 										<circle cx="12" cy="12.5" r="2" fill="#626F86" />
 									</svg>
 								</span>
-								<span class="text-[12px] font-[400] text-[#44546F]">
+								<span class="text-[12px] font-[400] text-[#172B4D]">
 									More ({{ group.items.length - 4 }})
 								</span>
 								<span class="ml-auto mr-3">
@@ -156,7 +156,7 @@
 									class="absolute left-full top-0 ml-2 bg-white shadow-lg rounded-md border border-gray-200 py-1 z-50 min-w-[200px]"
 									@click.stop>
 									<div v-for="item in group.items.slice(4)" :key="item.value"
-										class="flex items-center px-3 py-2 cursor-pointer hover:bg-[#091E4224]"
+										class="flex items-center px-3 py-2 cursor-pointer hover:bg-gray-100"
 										@click="selectOption(item.value); sortModalOpen = false; showMoreItems[index] = false;">
 										<span class="group-title mr-2">
 											<svg :style="{
@@ -172,7 +172,7 @@
 												<circle cx="12" cy="12.5" r="2" fill="#626F86" />
 											</svg>
 										</span>
-										<span class="text-[12px] font-[400] text-[#44546F]">
+										<span class="text-[12px] font-[400] text-[#172B4D]">
 											{{ item.label }}
 										</span>
 									</div>

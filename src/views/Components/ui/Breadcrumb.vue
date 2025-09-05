@@ -1,5 +1,5 @@
 <template>
-  <nav class="flex items-center space-x-1 text-sm text-gray-500 mb-[12px] mt-[6px]">
+  <nav class="flex items-center space-x-1 text-[14px] text-gray-500 mb-[12px] mt-[6px]">
     <template v-for="(item, index) in items" :key="index">
       <!-- Breadcrumb Item -->
       <div class="flex items-center">

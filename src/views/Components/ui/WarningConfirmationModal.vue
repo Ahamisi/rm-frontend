@@ -21,7 +21,12 @@
       <!-- Modal Body -->
       <div class="px-6 py-6">
         <p :class="[messageStyle || 'text-[#44546F] text-[14px] font-[400]']">
-          {{ message }}
+          <template v-if="processName">
+            You are about to leave the "<span class="font-semibold">{{ processName }}</span>" process. Any unsaved information will be lost.
+          </template>
+          <template v-else>
+            {{ message }}
+          </template>
         </p>
       </div>
       
@@ -55,6 +60,7 @@ defineProps<{
   messageStyle?: string;
   width?: 'default' | 'lg';
   customWidth?: string;
+  processName?: string;
 }>();
 
 defineEmits<{

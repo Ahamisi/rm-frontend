@@ -66,7 +66,7 @@
     <SideBarModal
       :isOpen="showCreateModal"
       @update:isOpen="showCreateModal = $event"
-      @close="closeCreateModal"
+      @close="handleSideBarClose"
       :title="editingTeamId ? 'Edit Stock Count Team' : 'Create Stock Count Team'"
       width="small"
     >
@@ -168,9 +168,10 @@
       :show="showDiscardModal"
       title="Discard Changes?"
       message="You are about to leave the 'Edit Stock Count Team' process. Any unsaved information will be lost."
+      :processName="modalProcessName"
       confirm-text="Discard Changes"
       @close="showDiscardModal = false"
-      @confirm="showDiscardModal = false"
+      @confirm="handleDiscardConfirm"
     />
   </div>
 </template>
@@ -194,6 +195,7 @@ const showDeleteModal = ref(false)
 const showSuccessModal = ref(false)
 const showCreateSuccessModal = ref(false)
 const showDiscardModal = ref(false)
+const isDiscarding = ref(false)
 const createSuccessMessage = ref('')
 const childKey = ref(0)
 const editingTeamId = ref(null)
@@ -424,6 +426,10 @@ const successMessage = computed(() => {
     : ''
 })
 
+const modalProcessName = computed(() => {
+  return editingTeamId.value ? 'Edit Stock Count Team' : 'Create Stock Count Team'
+})
+
 
 
 // Functions
@@ -582,6 +588,30 @@ const hasFormChanges = () => {
   const shelvesChanged = JSON.stringify(newTeam.value.shelves) !== JSON.stringify(originalTeam.value.shelves)
   
   return nameChanged || adminsChanged || shelvesChanged
+}
+
+// Handle discard confirm - close both modals
+const handleDiscardConfirm = () => {
+  console.log('handleDiscardConfirm called')
+  isDiscarding.value = true
+  // Close the warning modal first
+  showDiscardModal.value = false
+  // Then close the sidebar modal
+  showCreateModal.value = false
+  // Reset the form
+  resetForm()
+  // Reset the flag after a short delay
+  setTimeout(() => {
+    isDiscarding.value = false
+  }, 500)
+}
+
+// Handle sidebar close - only show discard modal if not already processing
+const handleSideBarClose = () => {
+  // Only show discard modal if we're not in the middle of a discard operation
+  if (!isDiscarding.value) {
+    showDiscardModal.value = true
+  }
 }
 
 // Close create modal and reset form

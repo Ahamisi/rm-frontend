@@ -74,7 +74,7 @@
       title="Approve Stock Count"
       width="small"
       @update:isOpen="showApproveModal = $event"
-      @close="closeApproveModal"
+      @close="handleApproveCancel"
     >
       <div class="space-y-4 px-6 mt-4">
         <!-- Product Name -->
@@ -171,7 +171,7 @@
           <!-- Cancel and Approve buttons on the right -->
           <div class="flex space-x-3">
             <button 
-              @click="closeApproveModal"
+              @click="handleApproveCancel"
               class="cancel_btn"
             >
               Cancel
@@ -209,6 +209,17 @@
       @close="handleWarningCancel"
     />
 
+    <!-- Discard Changes Modal -->
+    <WarningConfirmationModal
+      :show="showDiscardModal"
+      title="Discard Changes?"
+      message="You are about to leave the 'Approve Stock Count' process. Any unsaved information will be lost."
+      processName="Approve Stock Count"
+      confirm-text="Discard Changes"
+      @close="showDiscardModal = false"
+      @confirm="handleDiscardConfirm"
+    />
+
     <!-- Success Modal -->
     <SuccessModal
       :show="showSuccessModal"
@@ -235,6 +246,8 @@ const childKey = ref(0);
 const showApproveModal = ref(false);
 const showRejectModal = ref(false);
 const showWarningModal = ref(false);
+const showDiscardModal = ref(false);
+const isDiscarding = ref(false);
 const showSuccessModal = ref(false);
 const itemToApprove = ref<any>(null);
 const itemToReject = ref<any>(null);
@@ -583,6 +596,36 @@ const handleWarningConfirm = () => {
 const handleWarningCancel = () => {
   // Just close warning modal, keep approve modal open
   showWarningModal.value = false;
+};
+
+// Handle approve cancel - check for unsaved changes
+const handleApproveCancel = () => {
+  if (!isDiscarding.value) {
+    // Check if there are any unsaved changes in the form
+    const hasFormData = approveForm.value.product_name || 
+                       approveForm.value.batch_no || 
+                       approveForm.value.warehouse_shelf || 
+                       approveForm.value.expiry_date || 
+                       approveForm.value.quantity || 
+                       approveForm.value.barcode;
+                       
+    if (hasFormData) {
+      showDiscardModal.value = true;
+    } else {
+      closeApproveModal();
+    }
+  }
+};
+
+// Handle discard confirm - close both modals
+const handleDiscardConfirm = () => {
+  isDiscarding.value = true;
+  showDiscardModal.value = false;
+  closeApproveModal();
+  // Reset the flag after a short delay
+  setTimeout(() => {
+    isDiscarding.value = false;
+  }, 500);
 };
 
 const closeSuccessModal = () => {

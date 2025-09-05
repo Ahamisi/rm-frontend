@@ -14,7 +14,7 @@
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" clip-rule="evenodd"
               d="M12 22C6.477 22 2 17.523 2 12C2 6.477 6.477 2 12 2C17.523 2 22 6.477 22 12C22 17.523 17.523 22 12 22ZM13 8C13 8.55228 12.5523 9 12 9C11.4477 9 11 8.55228 11 8C11 7.44772 11.4477 7 12 7C12.5523 7 13 7.44772 13 8ZM12 10C12.5523 10 13 10.4477 13 11V16C13 16.5523 12.5523 17 12 17C11.4477 17 11 16.5523 11 16V11C11 10.4477 11.4477 10 12 10Z"
-              fill="#1D7AFC" />
+              fill="#0C66E4" />
           </svg>
           <h3>Let's Find Your Orders</h3>
         </div>
@@ -446,9 +446,9 @@ const orderActivities = ref([
 // Time Tracker Stages - Actual order processing workflow with specific times
 const timeTrackerStages = ref([
   { id: 1, department: 'Accounting', process: 'New Order → Order Confirmed', time: '1-2 hours', color: '#E56910' },
-  { id: 2, department: 'Inventory', process: 'Order Confirmed → Being Processed', time: '1 minute', color: '#1D7AFC' },
-  { id: 3, department: 'Inventory', process: 'Order is Being Processed → Order has been Picked and Packed', time: '2 minutes', color: '#1D7AFC' },
-  { id: 4, department: 'Inventory', process: 'Order has been Picked and Packed → Order is Awaiting Shipment', time: '2 minutes', color: '#1D7AFC' },
+  { id: 2, department: 'Inventory', process: 'Order Confirmed → Being Processed', time: '1 minute', color: '#0C66E4' },
+  { id: 3, department: 'Inventory', process: 'Order is Being Processed → Order has been Picked and Packed', time: '2 minutes', color: '#0C66E4' },
+  { id: 4, department: 'Inventory', process: 'Order has been Picked and Packed → Order is Awaiting Shipment', time: '2 minutes', color: '#0C66E4' },
   { id: 5, department: 'Logistics', process: 'Order is Awaiting Shipment → Items have been Shipped for Delivery', time: '24 seconds', color: '#22A06B' },
   { id: 6, department: 'Logistics', process: 'Items have been Shipped for Delivery → Items Delivered', time: '2 seconds', color: '#22A06B' }
 ]);
