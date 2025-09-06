@@ -90,7 +90,7 @@
 
     <!-- Content Area -->
     <div class="flex-1 overflow-hidden p-6">
-      <div class="w-full bg-[#F7F8F9] rounded-[16px] overflow-hidden">
+      <div class="w-full bg-[#F7F8F9] rounded-[16px] overflow-hidden min-h-[calc(100vh-250px)] ">
       <!-- No Assigned Orders State -->
       <div v-if="!isCheckedIn" class="flex items-center justify-center min-h-[60vh]">
         <div class="bg-white rounded-[16px] shadow-sm border border-gray-200 p-8 text-center max-w-md w-full mx-4">
@@ -98,7 +98,7 @@
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" clip-rule="evenodd" d="M12 22C6.477 22 2 17.523 2 12C2 6.477 6.477 2 12 2C17.523 2 22 6.477 22 12C22 17.523 17.523 22 12 22ZM13 8C13 8.55228 12.5523 9 12 9C11.4477 9 11 8.55228 11 8C11 7.44772 11.4477 7 12 7C12.5523 7 13 7.44772 13 8ZM12 10C12.5523 10 13 10.4477 13 11V16C13 16.5523 12.5523 17 12 17C11.4477 17 11 16.5523 11 16V11C11 10.4477 11.4477 10 12 10Z" fill="#0C66E4"/>
             </svg>
-            <h3 class="text-lg font-semibold text-gray-900">No Assigned Orders</h3>
+            <h3 class="text-lg font-semibold text-[#44546F]">No Assigned Orders</h3>
           </div>
           <p class="text-gray-600 mb-6">
             You are currently checked out! Please check in to review new orders for processing.
@@ -124,7 +124,7 @@
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" clip-rule="evenodd" d="M12 22C6.477 22 2 17.523 2 12C2 6.477 6.477 2 12 2C17.523 2 22 6.477 22 12C22 17.523 17.523 22 12 22ZM13 8C13 8.55228 12.5523 9 12 9C11.4477 9 11 8.55228 11 8C11 7.44772 11.4477 7 12 7C12.5523 7 13 7.44772 13 8ZM12 10C12.5523 10 13 10.4477 13 11V16C13 16.5523 12.5523 17 12 17C11.4477 17 11 16.5523 11 16V11C11 10.4477 11.4477 10 12 10Z" fill="#0C66E4"/>
             </svg>
-            <h3 class="text-lg font-semibold text-gray-900">No Assigned Orders</h3>
+            <h3 class="text-lg font-semibold text-[#44546F]">No Assigned Orders</h3>
           </div>
           <p class="text-gray-600 mb-6">
             Waiting for new orders... Please stay on this page and reload the page in 5 minutes if needed.
@@ -159,7 +159,7 @@
                   :class="[
                     activeTab === 'details' 
                       ? 'border-blue-500 text-blue-600' 
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
+                      : 'border-transparent text-gray-500 hover:text-[#44546F] hover:border-gray-300',
                     'whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm'
                   ]"
                 >
@@ -170,7 +170,7 @@
                   :class="[
                     activeTab === 'items' 
                       ? 'border-blue-500 text-blue-600' 
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
+                      : 'border-transparent text-gray-500 hover:text-[#44546F] hover:border-gray-300',
                     'whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm'
                   ]"
                 >
@@ -186,10 +186,10 @@
                 >
                   Pick Order
                 </button>
-                <button class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">
+                <button class="px-4 py-2 text-sm font-medium text-[#44546F] bg-gray-100 rounded-md hover:bg-gray-200">
                   Download Waybill
                 </button>
-                <button class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">
+                <button class="px-4 py-2 text-sm font-medium text-[#44546F] bg-gray-100 rounded-md hover:bg-gray-200">
                   Download Invoice
                 </button>
               </div>
@@ -201,75 +201,75 @@
             <div class="space-y-1">
               <!-- Customer's Name -->
               <div class="flex justify-between items-center pb-4">
-                <span class="text-sm font-medium text-gray-700">Customer's Name</span>
-                <span class="text-sm text-gray-900">{{ currentOrder.customer_name }}</span>
+                <span class="text-sm font-medium text-[#44546F]">Customer's Name</span>
+                <span class="text-sm text-[#44546F]">{{ currentOrder.customer_name }}</span>
               </div>
               
               <!-- Customer Type -->
               <div class="flex justify-between items-center pb-4">
-                <span class="text-sm font-medium text-gray-700">Customer Type</span>
-                <span class="text-sm text-gray-900">{{ currentOrder.customer_type }}</span>
+                <span class="text-sm font-medium text-[#44546F]">Customer Type</span>
+                <span class="text-sm text-[#44546F]">{{ currentOrder.customer_type }}</span>
               </div>
               
               <!-- Order By -->
               <div class="flex justify-between items-center pb-4">
-                <span class="text-sm font-medium text-gray-700">Order By</span>
-                <span class="text-sm text-gray-900">{{ currentOrder.customer_name }}</span>
+                <span class="text-sm font-medium text-[#44546F]">Order By</span>
+                <span class="text-sm text-[#44546F]">{{ currentOrder.customer_name }}</span>
               </div>
               
               <!-- Agent Name -->
               <div class="flex justify-between items-center pb-4">
-                <span class="text-sm font-medium text-gray-700">Agent Name</span>
-                <span class="text-sm text-gray-900">{{ currentOrder.agent_name }}</span>
+                <span class="text-sm font-medium text-[#44546F]">Agent Name</span>
+                <span class="text-sm text-[#44546F]">{{ currentOrder.agent_name }}</span>
               </div>
               
               <!-- Phone -->
               <div class="flex justify-between items-center pb-4">
-                <span class="text-sm font-medium text-gray-700">Phone</span>
+                <span class="text-sm font-medium text-[#44546F]">Phone</span>
                 <div class="flex items-center gap-2">
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M5.83366 1.66667C4.91318 1.66667 4.16699 2.41286 4.16699 3.33334V16.6667C4.16699 17.5871 4.91318 18.3333 5.83366 18.3333H14.167C15.0875 18.3333 15.8337 17.5871 15.8337 16.6667V3.33334C15.8337 2.41286 15.0875 1.66667 14.167 1.66667H5.83366ZM14.167 3.33334H5.83366V14.1667H14.167V3.33334ZM11.667 15.8333H8.33366V16.6667H11.667V15.8333Z" fill="#091E42" fill-opacity="0.31"/>
                   </svg>
-                  <span class="text-sm text-gray-900">{{ currentOrder.phone }}</span>
+                  <span class="text-sm text-[#44546F]">{{ currentOrder.phone }}</span>
                 </div>
               </div>
               
               <!-- Store -->
               <div class="flex justify-between items-center pb-4">
-                <span class="text-sm font-medium text-gray-700">Store</span>
+                <span class="text-sm font-medium text-[#44546F]">Store</span>
                 <div class="flex items-center gap-2">
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M3.33333 9.16667H5V13.3333H3.33333V9.16667ZM3.79667 3.24C4.00083 2.83167 4.54167 2.5 5.005 2.5H14.9942C15.4575 2.5 15.9992 2.83167 16.2025 3.24L17.5 5.83333H2.5L3.79667 3.24ZM2.5 5.83333H17.5V6.66667H2.5V5.83333ZM15 9.16667H16.6667V13.3333H15V9.16667ZM2.5 6.66667C2.61667 7.60667 3.41167 8.33333 4.375 8.33333C5.33833 8.33333 6.13333 7.60667 6.25 6.66667H2.5ZM6.25 6.66667C6.36667 7.60667 7.16167 8.33333 8.125 8.33333C9.08833 8.33333 9.88333 7.60667 10 6.66667H6.25ZM10 6.66667C10.1167 7.60667 10.9117 8.33333 11.875 8.33333C12.8383 8.33333 13.6333 7.60667 13.75 6.66667H10ZM13.75 6.66667C13.8667 7.60667 14.6617 8.33333 15.625 8.33333C16.5883 8.33333 17.3833 7.60667 17.5 6.66667H13.75ZM3.33333 13.3333H16.6667V15.8292C16.6678 16.2711 16.4934 16.6953 16.1818 17.0086C15.8702 17.3219 15.4469 17.4987 15.005 17.5H4.995C4.77611 17.4997 4.55943 17.4562 4.35738 17.372C4.15532 17.2878 3.97187 17.1645 3.81751 17.0093C3.66316 16.8541 3.54094 16.67 3.45785 16.4675C3.37477 16.265 3.33246 16.0481 3.33333 15.8292V13.3333Z" fill="#091E42" fill-opacity="0.31"/>
                   </svg>
-                  <span class="text-sm text-gray-900">{{ currentOrder.store_name }}</span>
+                  <span class="text-sm text-[#44546F]">{{ currentOrder.store_name }}</span>
                 </div>
               </div>
               
               <!-- Order Amount -->
               <div class="flex justify-between items-center pb-4">
-                <span class="text-sm font-medium text-gray-700">Order Amount</span>
-                <span class="text-sm text-gray-900">{{ currentOrder.total_amount }}</span>
+                <span class="text-sm font-medium text-[#44546F]">Order Amount</span>
+                <span class="text-sm text-[#44546F]">{{ currentOrder.total_amount }}</span>
               </div>
               
               <!-- Order Date -->
               <div class="flex justify-between items-center pb-4">
-                <span class="text-sm font-medium text-gray-700">Order Date</span>
+                <span class="text-sm font-medium text-[#44546F]">Order Date</span>
                 <div class="flex items-center gap-2">
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M4.1625 4.16667H15.8375C16.7558 4.16667 17.5 4.9125 17.5 5.82833V15.8383C17.5 16.0566 17.457 16.2728 17.3734 16.4744C17.2899 16.6761 17.1674 16.8593 17.013 17.0136C16.8586 17.1679 16.6753 17.2903 16.4736 17.3738C16.2719 17.4572 16.0558 17.5001 15.8375 17.5H4.1625C3.72172 17.5 3.29898 17.325 2.98723 17.0134C2.67547 16.7018 2.50022 16.2791 2.5 15.8383V5.82833C2.5 4.91083 3.24333 4.16667 4.1625 4.16667ZM4.16667 7.5V15C4.16667 15.221 4.25446 15.433 4.41074 15.5893C4.56702 15.7455 4.77899 15.8333 5 15.8333H15C15.221 15.8333 15.433 15.7455 15.5893 15.5893C15.7455 15.433 15.8333 15.221 15.8333 15V7.5H4.16667ZM5 3.33333C5 3.11232 5.0878 2.90036 5.24408 2.74408C5.40036 2.5878 5.61232 2.5 5.83333 2.5C6.05435 2.5 6.26631 2.5878 6.42259 2.74408C6.57887 2.90036 6.66667 3.11232 6.66667 3.33333V4.16667H5V3.33333ZM13.3333 3.33333C13.3333 3.11232 13.4211 2.90036 13.5774 2.74408C13.7337 2.5878 13.9457 2.5 14.1667 2.5C14.3877 2.5 14.5996 2.5878 14.7559 2.74408C14.9122 2.90036 15 3.11232 15 3.33333V4.16667H13.3333V3.33333ZM5.83333 10.8333V9.16583H7.5V10.8333H5.83333ZM12.5 10.8333V9.16583H14.1667V10.8333H12.5ZM9.16667 10.8333V9.16583H10.8342V10.8333H9.16667ZM5.83333 14.1667V12.5H7.5V14.1667H5.83333ZM9.16667 14.1667V12.5H10.8342V14.1667H9.16667ZM12.5 14.1667V12.5H14.1667V14.1667H12.5Z" fill="#091E42" fill-opacity="0.31"/>
                   </svg>
-                  <span class="text-sm text-gray-900">{{ currentOrder.order_date }}</span>
+                  <span class="text-sm text-[#44546F]">{{ currentOrder.order_date }}</span>
                 </div>
               </div>
               
               <!-- Delivery Date -->
               <div class="flex justify-between items-center pb-4">
-                <span class="text-sm font-medium text-gray-700">Delivery Date</span>
+                <span class="text-sm font-medium text-[#44546F]">Delivery Date</span>
                 <div class="flex items-center gap-2">
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M4.1625 4.16667H15.8375C16.7558 4.16667 17.5 4.9125 17.5 5.82833V15.8383C17.5 16.0566 17.457 16.2728 17.3734 16.4744C17.2899 16.6761 17.1674 16.8593 17.013 17.0136C16.8586 17.1679 16.6753 17.2903 16.4736 17.3738C16.2719 17.4572 16.0558 17.5001 15.8375 17.5H4.1625C3.72172 17.5 3.29898 17.325 2.98723 17.0134C2.67547 16.7018 2.50022 16.2791 2.5 15.8383V5.82833C2.5 4.91083 3.24333 4.16667 4.1625 4.16667ZM4.16667 7.5V15C4.16667 15.221 4.25446 15.433 4.41074 15.5893C4.56702 15.7455 4.77899 15.8333 5 15.8333H15C15.221 15.8333 15.433 15.7455 15.5893 15.5893C15.7455 15.433 15.8333 15.221 15.8333 15V7.5H4.16667ZM5 3.33333C5 3.11232 5.0878 2.90036 5.24408 2.74408C5.40036 2.5878 5.61232 2.5 5.83333 2.5C6.05435 2.5 6.26631 2.5878 6.42259 2.74408C6.57887 2.90036 6.66667 3.11232 6.66667 3.33333V4.16667H5V3.33333ZM13.3333 3.33333C13.3333 3.11232 13.4211 2.90036 13.5774 2.74408C13.7337 2.5878 13.9457 2.5 14.1667 2.5C14.3877 2.5 14.5996 2.5878 14.7559 2.74408C14.9122 2.90036 15 3.11232 15 3.33333V4.16667H13.3333V3.33333ZM5.83333 10.8333V9.16583H7.5V10.8333H5.83333ZM12.5 10.8333V9.16583H14.1667V10.8333H12.5ZM9.16667 10.8333V9.16583H10.8342V10.8333H9.16667ZM5.83333 14.1667V12.5H7.5V14.1667H5.83333ZM9.16667 14.1667V12.5H10.8342V14.1667H9.16667ZM12.5 14.1667V12.5H14.1667V14.1667H12.5Z" fill="#091E42" fill-opacity="0.31"/>
                   </svg>
-                  <span class="text-sm text-gray-900">{{ currentOrder.delivery_date }}</span>
+                  <span class="text-sm text-[#44546F]">{{ currentOrder.delivery_date }}</span>
                 </div>
               </div>
             </div>
@@ -293,7 +293,7 @@
 
         <!-- Right Card - Order Activities (30%) -->
         <div class="lg:col-span-3 bg-[#FFFFFF] rounded-[16px] shadow-sm border border-gray-200 overflow-hidden flex flex-col max-h-fit">
-          <h6 class="text-sm font-medium text-gray-900 mb-3 flex-shrink-0 px-4 pt-4">Order Activities</h6>
+          <h6 class="text-sm font-medium text-[#44546F] mb-3 flex-shrink-0 px-4 pt-4">Order Activities</h6>
           <div class="px-4 pb-4">
             <Activities :activities="orderActivities" orderRef="1656493689-254" />
           </div>
@@ -306,7 +306,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import LoadingState from '@/views/Components/procurement/state/LoadingState.vue'
 import Activities from '@/views/Components/Activities.vue'
@@ -514,6 +514,9 @@ const pickOrder = () => {
 }
 
 onMounted(() => {
+  // Add overflow hidden to body for this page only
+  document.body.style.overflowY = 'hidden'
+  
   // Check if user is already checked in (from localStorage or API)
   const storedCheckInState = localStorage.getItem('isCheckedIn')
   if (storedCheckInState === 'true') {
@@ -527,5 +530,10 @@ onMounted(() => {
       currentOrder.value = null
     }
   }
+})
+
+onUnmounted(() => {
+  // Restore body overflow when leaving this page
+  document.body.style.overflowY = 'auto'
 })
 </script>
