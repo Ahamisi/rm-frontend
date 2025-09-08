@@ -20,15 +20,16 @@
         :key="childKey"
       >
         <template #header_actions>
-          <button 
-            @click="showCreateModal = true"
-            class="px-4 py-2 text-sm font-medium bg-[#0C66E4] text-white rounded-md hover:bg-[#0C66E4]/80 flex items-center gap-2"
+          <Button 
+            type="blue-btn"
+            :onClick="() => showCreateModal = true"
+            classStyle="px-4 py-2 flex items-center gap-2"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
             Create Team
-          </button>
+          </Button>
         </template>
         <template #column="col">
           <!-- Action column -->
@@ -186,6 +187,7 @@ import DeleteConfirmationModal from '@/views/Components/ui/DeleteConfirmationMod
 import SuccessModal from '@/views/Components/ui/SuccessModal.vue';
 import WarningConfirmationModal from '@/views/Components/ui/WarningConfirmationModal.vue';
 import PageTitle from '@/views/Components/header/PageTitle.vue';
+import Button from '@/views/Components/ui/Button.vue';
 
 const router = useRouter()
 

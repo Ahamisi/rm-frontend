@@ -273,6 +273,7 @@ import Pill from '@/views/Components/ui/Pill.vue';
 import OrderHeader from '@/views/Components/ui/OrderHeader.vue';
 import OrderDetailsModal from '@/views/Components/ui/OrderDetailsModal.vue';
 import type { TableColumn, FilterFields, FilterField, Option } from '@/types';
+import Button from '@/views/Components/ui/Button.vue';
 
 // Data URL
 const ordersUrl = '/outbound/orders';

@@ -104,12 +104,12 @@
 						<LucideArrowUpDown class="w-4 h-4 text-gray-600" @click="sortModalOpen = true" />
 					</div>
 				</template>
-				<div ref="sortRef" class="text-xs menu-container">
+				<div ref="sortRef" class="menu-container">
 					<div v-for="(group, index) in filterGroups" :key="index" class="group"
 						:class="index == 0 ? 'border-b' : ''">
 						<ul class="sort-menu">
 							<!-- Show first 4 items -->
-							<li v-for="(item, itemIndex) in group.items.slice(0, 4)" class="flex items-center cursor-pointer hover:bg-gray-100 medium-text" :key="item.value"
+							<li v-for="(item, itemIndex) in group.items.slice(0, 4)" class="flex items-center cursor-pointer hover:bg-gray-100 medium-text font-medium" :key="item.value"
 								@click="selectOption(item.value); sortModalOpen = false;">
 								<span class="group-title">
 									<svg :style="{
@@ -130,7 +130,7 @@
 								</span>
 							</li>
 							<!-- Show "More" option if there are more than 4 items -->
-							<li v-if="group.items.length > 4" class="flex items-center cursor-pointer relative hover:bg-gray-100" 
+							<li v-if="group.items.length > 4" class="flex items-center cursor-pointer relative hover:bg-gray-100 medium-text font-medium" 
 								@click.stop="toggleMoreItems(index)">
 								<span class="group-title">
 									<svg style="visibility: hidden;" width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -151,7 +151,7 @@
 									class="absolute left-full top-0 ml-2 bg-white shadow-lg rounded-md border border-gray-200 py-1 z-50 min-w-[200px]"
 									@click.stop>
 									<div v-for="item in group.items.slice(4)" :key="item.value"
-										class="flex items-center px-3 py-2 cursor-pointer hover:bg-gray-100 medium-text"
+										class="flex items-center px-3 py-2 cursor-pointer hover:bg-gray-100 medium-text font-medium"
 										@click="selectOption(item.value); sortModalOpen = false; showMoreItems[index] = false;">
 										<span class="group-title mr-2">
 											<svg :style="{
