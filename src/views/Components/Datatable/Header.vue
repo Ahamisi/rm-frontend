@@ -114,7 +114,7 @@
 						:class="index == 0 ? 'border-b' : ''">
 						<ul class="sort-menu">
 							<!-- Show first 4 items -->
-							<li v-for="(item, itemIndex) in group.items.slice(0, 4)" class="flex items-center cursor-pointer hover:bg-gray-100" :key="item.value"
+							<li v-for="(item, itemIndex) in group.items.slice(0, 4)" class="flex items-center cursor-pointer hover:bg-gray-100 medium-text" :key="item.value"
 								@click="selectOption(item.value); sortModalOpen = false;">
 								<span class="group-title">
 									<svg :style="{
@@ -156,7 +156,7 @@
 									class="absolute left-full top-0 ml-2 bg-white shadow-lg rounded-md border border-gray-200 py-1 z-50 min-w-[200px]"
 									@click.stop>
 									<div v-for="item in group.items.slice(4)" :key="item.value"
-										class="flex items-center px-3 py-2 cursor-pointer hover:bg-gray-100"
+										class="flex items-center px-3 py-2 cursor-pointer hover:bg-gray-100 medium-text"
 										@click="selectOption(item.value); sortModalOpen = false; showMoreItems[index] = false;">
 										<span class="group-title mr-2">
 											<svg :style="{

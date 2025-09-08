@@ -1,34 +1,29 @@
 <template>
-    <Transition name="modal" appear>
-        <div v-if="show" class="fixed inset-0 bg-black/50 z-[99999999999999] flex items-center justify-center">
-            <div class="bg-white rounded-[16px] shadow-xl w-[426px] max-w-[90vw] mx-4 modal-content" :style="customWidth ? { width: customWidth, maxWidth: '90vw' } : {}">
-                <!-- Modal Header -->
-                <div class="flex items-center justify-between px-6 py-6 border-b border-gray-200 header">
-                    <!-- Header -->
-                    <div class="flex items-center gap-3">
-                        <slot name="header"></slot>
-                    </div>
-
-                    <!-- Close Button -->
-                    <button @click="$emit('close')" class="text-[#44546F] hover:text-[#172B4D] -mr-2">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M15.1846 7.4L12.0006 10.585L8.81464 7.399C8.71938 7.30584 8.59127 7.25393 8.45803 7.25449C8.32478 7.25505 8.19712 7.30804 8.10264 7.402L7.40264 8.103C7.35472 8.14897 7.31652 8.20409 7.2903 8.2651C7.26408 8.3261 7.25038 8.39175 7.25001 8.45815C7.24963 8.52455 7.2626 8.59035 7.28813 8.65165C7.31366 8.71295 7.35124 8.7685 7.39864 8.815L10.5836 11.999L7.39964 15.185C7.30661 15.2804 7.25488 15.4086 7.25563 15.5418C7.25638 15.6751 7.30955 15.8027 7.40364 15.897L8.10364 16.597C8.30964 16.804 8.61964 16.797 8.81564 16.601L12.0016 13.416L15.1856 16.601C15.281 16.694 15.4092 16.7458 15.5425 16.745C15.6757 16.7443 15.8033 16.6911 15.8976 16.597L16.5986 15.897C16.6465 15.851 16.6846 15.7958 16.7108 15.7347C16.7369 15.6737 16.7505 15.608 16.7508 15.5416C16.7511 15.4752 16.738 15.4095 16.7124 15.3482C16.6868 15.2869 16.6491 15.2314 16.6016 15.185L13.4156 11.999L16.6016 8.815C16.6948 8.71974 16.7467 8.59163 16.7462 8.45838C16.7456 8.32514 16.6926 8.19748 16.5986 8.103L15.8986 7.403C15.8517 7.35497 15.7958 7.31672 15.734 7.29046C15.6722 7.2642 15.6058 7.25045 15.5386 7.25C15.4728 7.25054 15.4078 7.26407 15.3472 7.28981C15.2866 7.31555 15.2317 7.35299 15.1856 7.4H15.1846Z" fill="currentColor"/>
-                        </svg>
-                    </button>
-                </div>
-
-                <!-- Modal Body -->
-                <div class="px-6 py-6 body">
-                    <slot name="body"></slot>
-                </div>
-
-                <!-- Modal Footer -->
-                <div class="flex items-center justify-end gap-3 px-6 py-6 border-t border-gray-200 footer">
-                    <slot name="footer"></slot>
-                </div>
-            </div>
+  <div v-if="show" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" style="z-index: 999999;">
+    <div class="bg-white rounded-[16px] shadow-xl w-[426px] max-w-[90vw] mx-4" :style="customWidth ? { width: customWidth, maxWidth: '90vw' } : {}">
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between px-6 py-6 border-b border-gray-200">
+        <div class="flex items-center gap-3">
+          <slot name="header"></slot>
         </div>
-    </Transition>
+        <button @click="$emit('close')" class="text-[#44546F] hover:text-[#172B4D] -mr-2">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M15.1846 7.4L12.0006 10.585L8.81464 7.399C8.71938 7.30584 8.59127 7.25393 8.45803 7.25449C8.32478 7.25505 8.19712 7.30804 8.10264 7.402L7.40264 8.103C7.35472 8.14897 7.31652 8.20409 7.2903 8.2651C7.26408 8.3261 7.25038 8.39175 7.25001 8.45815C7.24963 8.52455 7.2626 8.59035 7.28813 8.65165C7.31366 8.71295 7.35124 8.7685 7.39864 8.815L10.5836 11.999L7.39964 15.185C7.30661 15.2804 7.25488 15.4086 7.25563 15.5418C7.25638 15.6751 7.30955 15.8027 7.40364 15.897L8.10364 16.597C8.30964 16.804 8.61964 16.797 8.81564 16.601L12.0016 13.416L15.1856 16.601C15.281 16.694 15.4092 16.7458 15.5425 16.745C15.6757 16.7443 15.8033 16.6911 15.8976 16.597L16.5986 15.897C16.6465 15.851 16.6846 15.7958 16.7108 15.7347C16.7369 15.6737 16.7505 15.608 16.7508 15.5416C16.7511 15.4752 16.738 15.4095 16.7124 15.3482C16.6868 15.2869 16.6491 15.2314 16.6016 15.185L13.4156 11.999L16.6016 8.815C16.6948 8.71974 16.7467 8.59163 16.7462 8.45838C16.7456 8.32514 16.6926 8.19748 16.5986 8.103L15.8986 7.403C15.8517 7.35497 15.7958 7.31672 15.734 7.29046C15.6722 7.2642 15.6058 7.25045 15.5386 7.25C15.4728 7.25054 15.4078 7.26407 15.3472 7.28981C15.2866 7.31555 15.2317 7.35299 15.1856 7.4H15.1846Z" fill="currentColor"/>
+          </svg>
+        </button>
+      </div>
+      
+      <!-- Modal Body -->
+      <div class="px-6 py-6">
+        <slot name="body"></slot>
+      </div>
+      
+      <!-- Modal Footer -->
+      <div class="flex items-center justify-end gap-3 px-6 py-6 border-t border-gray-200">
+        <slot name="footer"></slot>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -43,97 +38,80 @@ defineEmits<{
 </script>
 
 <style scoped>
-/* Modal transition styles */
-.modal-enter-active,
-.modal-leave-active {
-    transition: opacity 0.3s ease;
-}
-
-.modal-enter-active .modal-content,
-.modal-leave-active .modal-content {
-    transition: transform 0.3s ease;
-}
-
-.modal-enter-from,
-.modal-leave-to {
-    opacity: 0;
-}
-
-.modal-enter-from .modal-content,
-.modal-leave-to .modal-content {
-    transform: scale(0.95) translateY(-20px);
-}
-
-/* Override default padding since we're using Tailwind classes */
-.footer,
-.header {
-    padding: 0 !important;
-}
-
-.body {
-    padding: 0 !important;
-}
-
-.discard_merge_alert_footer button,
-.footer button {
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 16px;
+/* Button styling to match WarningConfirmationModal */
+button.cancel_btn {
     padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #374151;
+    background-color: #e5e7eb;
     border-radius: 6px;
-    color: rgba(23, 43, 77, 1);
+    transition: background-color 0.2s;
 }
 
-.discard_merge_alert_footer .cancel_btn,
-.footer .cancel_btn {
-    background: #091E420F;
+button.cancel_btn:hover {
+    background-color: #d1d5db;
 }
 
-.discard_merge_alert_footer .cancel_btn:hover,
-.footer .cancel_btn:hover {
-    background: rgba(9, 30, 66, 0.20);
-}
-
-.discard_merge_alert_footer button.approve_btn,
-.footer button.approve_btn,
-.discard_merge_alert_footer button.create_btn,
-.footer .approve_btn {
-    background: #0C66E4;
+button.approve_btn {
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    background-color: #0C66E4;
     color: white;
+    border-radius: 6px;
+    transition: background-color 0.2s;
 }
 
-.discard_merge_alert_footer button.approve_btn:hover,
-.footer button.approve_btn:hover,
-.discard_merge_alert_footer button.create_btn:hover,
-.footer .approve_btn:hover {
-    background: rgba(12, 102, 228, 0.86);
+button.approve_btn:hover {
+    background-color: rgba(12, 102, 228, 0.86);
 }
 
-.footer .discard_merge_alert_footer .delete_btn,
-.discard_merge_alert_footer .delete_btn ,
-.footer .delete_btn {
-    background: rgba(201, 55, 44, 1);
+button.create_btn {
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    background-color: #0C66E4;
     color: white;
+    border-radius: 6px;
+    transition: background-color 0.2s;
 }
 
-.discard_merge_alert_footer .discard_btn,
-.footer .discard_btn {
-    background: rgba(245, 205, 71, 1);
+button.create_btn:hover {
+    background-color: rgba(12, 102, 228, 0.86);
 }
 
-.body,
-.discard_merge_alert_body_text {
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    color: rgba(68, 84, 111, 1);
-    line-height: 20px;
+button.delete_btn {
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    background-color: #dc2626;
+    color: white;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+}
+
+button.delete_btn:hover {
+    background-color: #b91c1c;
+}
+
+button.discard_btn {
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    background-color: #F5CD47;
+    color: #172B4D;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+}
+
+button.discard_btn:hover {
+    background-color: rgba(245, 205, 71, 0.8);
 }
 
 /* Responsive styles */
 @media (max-width: 480px) {
-  .modal-content {
+  .bg-white {
     width: 95vw !important;
     margin: 0 10px !important;
   }
