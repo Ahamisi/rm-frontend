@@ -35,7 +35,7 @@
             </svg>
             <input type="text" v-model="search" class="w-full pr-3 pl-10 py-2 border-2 border-gray-300 rounded-md focus:outline-none special-input" style="height: 38px;">
           </div>
-          <button class="text-white special-input px-4 py-2 rounded-md" style="height: 38px;" @click="performSearch">Search</button>
+          <Button type="blue-btn" :onClick="performSearch" classStyle="px-4 py-2" style="height: 38px;">Search</Button>
         </div>
       </div>
     </div>
@@ -287,12 +287,9 @@
       <!-- Footer with Close button -->
       <template #footer>
         <div class="flex justify-end">
-          <button 
-            @click="showFulfillmentDetailsModal = false"
-            class="px-4 py-2 text-sm font-medium bg-[#0C66E4] text-white rounded-md hover:bg-[#0C66E4]/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-          >
+          <Button type="blue-btn" :onClick="() => showFulfillmentDetailsModal = false" classStyle="px-4 py-2">
             Close
-          </button>
+          </Button>
         </div>
       </template>
     </SideBarModal>
@@ -311,6 +308,7 @@ import { ref, computed, watch } from 'vue';
 import PageTitle from '@/views/Components/header/PageTitle.vue';
 import Datatable from '@/views/Components/Datatable/Datatable.vue';
 import SideBarModal from '@/views/Components/SideBarModal.vue';
+import Button from '@/views/Components/ui/Button.vue';
 // @ts-ignore
 import SuccessAlertToast from '@/views/Components/SuccessAlertToast.vue';
 import Activities from '@/views/Components/Activities.vue';

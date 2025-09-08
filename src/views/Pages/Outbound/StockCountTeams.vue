@@ -536,6 +536,9 @@ const confirmDelete = () => {
       teams.value.splice(teamIndex, 1)
     }
     
+    // Set isDiscarding flag to prevent warning modal
+    isDiscarding.value = true
+    
     // Close delete modal
     showDeleteModal.value = false
     
@@ -552,6 +555,11 @@ const confirmDelete = () => {
     teamToDelete.value = null
     editingTeamId.value = null
     resetForm()
+    
+    // Reset the flag after a delay to ensure modal transitions are complete
+    setTimeout(() => {
+      isDiscarding.value = false
+    }, 1000)
   }
 }
 

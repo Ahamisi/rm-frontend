@@ -21,15 +21,16 @@
             </svg>
             Enable Products
           </GrayButton>
-          <button 
-            @click="createNewStockCount"
-            class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
+          <Button 
+            type="blue-btn"
+            :onClick="createNewStockCount"
+            classStyle="px-4 py-2"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" clip-rule="evenodd" d="M13 11V7C13 6.73478 12.8946 6.48043 12.7071 6.29289C12.5196 6.10536 12.2652 6 12 6C11.7348 6 11.4804 6.10536 11.2929 6.29289C11.1054 6.48043 11 6.73478 11 7V11H7C6.73478 11 6.48043 11.1054 6.29289 11.2929C6.10536 11.4804 6 11.7348 6 12C6 12.2652 6.10536 12.5196 6.29289 12.7071C6.48043 12.8946 6.73478 13 7 13H11V17C11 17.2652 11.1054 17.5196 11.2929 17.7071C11.4804 17.8946 11.7348 18 12 18C12.2652 18 12.5196 17.8946 12.7071 17.7071C12.8946 17.5196 13 17.2652 13 17V13H17C17.2652 13 17.5196 12.8946 17.7071 12.7071C17.8946 12.5196 18 12.2652 18 12C18 11.7348 17.8946 11.4804 17.7071 11.2929C17.5196 11.1054 17.2652 11 17 11H13Z" fill="white"/>
             </svg>
             New Stock Count
-          </button>
+          </Button>
         </div>
       </Tabs>
     </div>
@@ -81,8 +82,8 @@
 
       <template #footer>
         <div class="flex justify-end space-x-3">
-          <button @click="handleDisableCancel" class="cancel_btn">Cancel</button>
-          <button @click="confirmDisableProducts" class="create_btn">Disable</button>
+          <Button type="gray-btn" :onClick="handleDisableCancel">Cancel</Button>
+          <Button type="red-btn" :onClick="confirmDisableProducts">Disable</Button>
         </div>
       </template>
     </SideBarModal>
@@ -111,8 +112,8 @@
 
       <template #footer>
         <div class="flex justify-end space-x-3">
-          <button @click="handleEnableCancel" class="cancel_btn">Cancel</button>
-          <button @click="confirmEnableProducts" class="create_btn">Enable</button>
+          <Button type="gray-btn" :onClick="handleEnableCancel">Cancel</Button>
+          <Button type="blue-btn" :onClick="confirmEnableProducts">Enable</Button>
         </div>
       </template>
     </SideBarModal>
@@ -186,8 +187,8 @@
 
       <template #footer>
         <div class="flex justify-end space-x-3">
-          <button @click="handleCreateStockCountCancel" class="cancel_btn">Cancel</button>
-          <button @click="confirmCreateStockCount" class="create_btn">Create</button>
+          <Button type="gray-btn" :onClick="handleCreateStockCountCancel">Cancel</Button>
+          <Button type="blue-btn" :onClick="confirmCreateStockCount">Create</Button>
         </div>
       </template>
     </SideBarModal>
@@ -217,6 +218,7 @@ import SideBarModal from "@/views/Components/SideBarModal.vue";
 import SuccessModal from "@/views/Components/ui/SuccessModal.vue";
 import DiscardModal from "@/views/Components/procurement/ui/DiscardModal.vue";
 import GrayButton from "@/views/Components/ui/GrayButton.vue";
+import Button from "@/views/Components/ui/Button.vue";
 import { ref, computed } from 'vue';
 import SelectField from "@/views/Components/ui/SelectField.vue";
 import type { Option } from '@/types';

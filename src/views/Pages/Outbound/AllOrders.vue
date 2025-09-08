@@ -203,7 +203,7 @@
       <!-- Footer -->
       <template #footer>
         <div class="flex justify-end">
-          <button @click="isOrderDetailsModalOpen = false" class="px-6 py-2 text-white font-medium bg-[#0C66E4] rounded-[6px]">Close</button>
+          <Button type="blue-btn" :onClick="() => isOrderDetailsModalOpen = false" classStyle="px-6 py-2">Close</Button>
         </div>
       </template>
     </SideBarModal>
@@ -224,6 +224,7 @@ import Tabs from "@/views/Components/Tabs.vue";
 import SuccessAlertToast from "@/views/Components/SuccessAlertToast.vue";
 import SideBarModal from "@/views/Components/SideBarModal.vue";
 import Activities from "@/views/Components/Activities.vue";
+import Button from "@/views/Components/ui/Button.vue";
 import Datatable from "@/views/Components/Datatable/Datatable.vue";
 import Pill from "@/views/Components/ui/Pill.vue";
 import GrayButton from "@/views/Components/ui/GrayButton.vue";

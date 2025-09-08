@@ -191,8 +191,8 @@
       </template>
       <template #footer>
         <div class="flex justify-end space-x-3 discard_merge_alert_footer">
-          <button @click="showChangeStatusModal = false" type="button" class="cancel_btn">Cancel</button>
-          <button @click="updateStatus" :disabled="!selectedStatus" type="button" class="px-4 py-2 text-sm approve_btn" style="color: white">Update</button>
+          <Button type="gray-btn" :onClick="() => showChangeStatusModal = false">Cancel</Button>
+          <Button type="blue-btn" :onClick="updateStatus" :disabled="!selectedStatus">Update</Button>
         </div>
       </template>
     </UniversalCenteredModal>
@@ -212,7 +212,7 @@
       </template>
       <template #footer>
         <div class="flex justify-end">
-          <button @click="showStatusSuccessModal = false" type="button" class="px-4 py-2 text-sm approve_btn" style="color: white">OK</button>
+          <Button type="blue-btn" :onClick="() => showStatusSuccessModal = false" classStyle="px-4 py-2">OK</Button>
         </div>
       </template>
     </UniversalCenteredModal>

@@ -148,7 +148,7 @@
         </div>
   
         <!-- Activities Tab -->
-        <div v-else-if="activeTab === 'activities'" class="py-6">
+        <div v-else-if="activeTab === 'activities'" class="py-0">
           <Activities :activities="orderActivities" :order-ref="orderData?.order_no || ''" />
         </div>
       </div>
@@ -180,9 +180,9 @@
       <!-- Footer buttons -->
       <template #footer="{ closeModal }">
         <div class="flex justify-end space-x-3">
-          <button @click="closeModal" type="button" class="approve_btn">
+          <Button type="blue-btn" :onClick="closeModal" classStyle="px-4 py-2">
             Close
-          </button>
+          </Button>
         </div>
       </template>
     </SideBarModal>
@@ -194,6 +194,7 @@
   import OrderHeader from '@/views/Components/ui/OrderHeader.vue';
   import Activities from '@/views/Components/Activities.vue';
   import Pill from '@/views/Components/ui/Pill.vue';
+  import Button from '@/views/Components/ui/Button.vue';
   import Datatable from '@/views/Components/Datatable/Datatable.vue';
   import dayjs from 'dayjs';
   

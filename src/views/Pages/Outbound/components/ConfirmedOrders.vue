@@ -209,12 +209,12 @@
 
       <template #footer>
         <div class="flex justify-end space-x-3 discard_merge_alert_footer">
-          <button @click="showChangeStatusModal = false" type="button" class="cancel_btn">
+          <Button type="gray-btn" :onClick="() => showChangeStatusModal = false">
             Cancel
-          </button>
-          <button @click="updateStatus" :disabled="!selectedStatus" type="button" class="px-4 py-2 text-sm approve_btn" style="color: white">
+          </Button>
+          <Button type="blue-btn" :onClick="updateStatus" :disabled="!selectedStatus">
             Update
-          </button>
+          </Button>
         </div>
       </template>
     </UniversalCenteredModal>

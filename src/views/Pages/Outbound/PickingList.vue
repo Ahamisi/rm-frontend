@@ -12,11 +12,11 @@
     <!-- Header -->
     <div class="px-6 py-4 bg-white flex items-center justify-between">
       <!-- Back Button (Far Left) -->
-      <button @click="goBack" class="text-[#44546F] hover:text-gray-800">
+      <Button type="gray-btn" :onClick="goBack" classStyle="text-[#44546F] hover:text-gray-800 p-1">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" clip-rule="evenodd" d="M9.0047 10.9951L13.5977 6.40205C13.6893 6.3086 13.7985 6.23422 13.919 6.18324C14.0395 6.13225 14.1689 6.10565 14.2998 6.10499C14.4306 6.10433 14.5603 6.12962 14.6813 6.17939C14.8023 6.22915 14.9123 6.30242 15.0048 6.39494C15.0973 6.48747 15.1706 6.59742 15.2204 6.71844C15.2701 6.83945 15.2954 6.96913 15.2948 7.09998C15.2941 7.23083 15.2675 7.36025 15.2165 7.48076C15.1655 7.60126 15.0912 7.71047 14.9977 7.80205L11.0977 11.7021L14.9977 15.6021C15.1803 15.7883 15.2819 16.0392 15.2806 16.3C15.2793 16.5608 15.1751 16.8106 14.9907 16.995C14.8062 17.1795 14.5565 17.2837 14.2956 17.285C14.0348 17.2863 13.784 17.1846 13.5977 17.0021L9.0047 12.4101C8.81723 12.2225 8.71191 11.9682 8.71191 11.7031C8.71191 11.4379 8.81723 11.1836 9.0047 10.9961V10.9951Z" fill="#44546F"/>
         </svg>
-      </button>
+      </Button>
       
       <!-- Center Title -->
       <div class="absolute left-1/2 -translate-x-1/2 flex items-center gap-3">
@@ -33,18 +33,20 @@
       
       <!-- Confirm Buttons (Far Right) -->
       <div class="flex items-center gap-3">
-        <button 
-          @click="confirmPickingList"
-          class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
+        <Button 
+          type="gray-btn"
+          :onClick="confirmPickingList"
+          classStyle="px-4 py-2"
         >
           Confirm Picking List
-        </button>
-        <button 
-          @click="confirmPickingListAndCheckOut"
-          class="px-4 py-2 text-sm font-medium bg-[#0C66E4] text-white rounded-md hover:bg-[#0C66E4]/80"
+        </Button>
+        <Button 
+          type="blue-btn"
+          :onClick="confirmPickingListAndCheckOut"
+          classStyle="px-4 py-2"
         >
           Confirm Picking List & CheckOut
-        </button>
+        </Button>
       </div>
     </div>
 
@@ -185,8 +187,8 @@
               <input 
                 type="checkbox" 
                 :checked="selectedItems.includes(col.props.row.id)"
-                @change="toggleItemSelection(col.props.row.id)"
-                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                disabled
+                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2 cursor-not-allowed opacity-60"
               />
             </span>
             
@@ -197,9 +199,13 @@
             
             <!-- Scan column -->
             <span v-else-if="col.props.column.field === 'scan'">
-              <button class="px-3 py-1 text-sm font-medium bg-[#091E420F] rounded-md text-[#172B4D]">
-                 scan shelf for {{ col.props.row.id }}
-              </button>
+              <Button 
+                type="gray-btn" 
+                :onClick="() => scanShelf(col.props.row.id, col.props.row.batch_no)"
+                classStyle="px-3 py-1 text-sm whitespace-nowrap"
+              >
+                Scan shelf for {{ col.props.row.batch_no }}
+              </Button>
             </span>
             
             <!-- Default -->
@@ -212,106 +218,65 @@
     </div>
 
     <!-- Packaging Modal -->
-    <div v-if="showPackagingModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div class="bg-white rounded-lg shadow-xl w-[500px] mx-4">
-        <!-- Modal Header -->
-        <div class="flex items-center justify-between p-6 border-b border-gray-200">
-          <h3 class="text-lg font-medium text-[#44546F]">How was this packaged?</h3>
-          <button @click="showPackagingModal = false" class="text-gray-400 hover:text-[#44546F]">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-        </div>
-        
-        <!-- Modal Body -->
-        <div class="p-6">
-          <div class="bg-[#CCE0FF] p-4 rounded-lg mb-6">
-            <p class="text-sm text-[#172B4D]">
-              Please enter the number of cartons or nylons used to package this order.
-            </p>
-          </div>
-          
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">No. of Cartons</label>
-              <input 
-                v-model="cartonCount"
-                type="number" 
-                min="0"
-                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="0"
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">No of Nylons</label>
-              <input 
-                v-model="nylonCount"
-                type="number" 
-                min="0"
-                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="0"
-              />
-            </div>
-          </div>
-        </div>
-        
-        <!-- Modal Footer -->
-        <div class="flex justify-end p-6 border-t border-gray-200">
-          <button 
-            @click="proceedToConfirm"
-            class="px-4 py-2 text-sm font-medium bg-[#0C66E4] text-white rounded-md hover:bg-[#0C66E4]/80"
-          >
-            Proceed
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Confirm Picking List Modal -->
-    <div v-if="showConfirmModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div class="bg-white rounded-lg shadow-xl w-[500px] mx-4">
-        <!-- Modal Header -->
-        <div class="flex items-center justify-between p-6 border-b border-gray-200">
-          <div class="flex items-center gap-3">
-            <div class="w-8 h-8 flex items-center justify-center">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M11.0616 4.96699C11.5776 3.99299 12.4196 3.98899 12.9376 4.96699L20.0616 18.425C20.5776 19.399 20.1066 20.196 19.0046 20.196H4.99458C3.89258 20.196 3.41958 19.403 3.93758 18.425L11.0616 4.96699ZM11.2925 14.7071C11.48 14.8946 11.7344 15 11.9996 15C12.2648 15 12.5192 14.8946 12.7067 14.7071C12.8942 14.5196 12.9996 14.2652 12.9996 14V8.99998C12.9996 8.73477 12.8942 8.48041 12.7067 8.29288C12.5192 8.10534 12.2648 7.99998 11.9996 7.99998C11.7344 7.99998 11.48 8.10534 11.2925 8.29288C11.1049 8.48041 10.9996 8.73477 10.9996 8.99998V14C10.9996 14.2652 11.1049 14.5196 11.2925 14.7071ZM11.2925 17.7071C11.48 17.8946 11.7344 18 11.9996 18C12.2648 18 12.5192 17.8946 12.7067 17.7071C12.8942 17.5196 12.9996 17.2652 12.9996 17C12.9996 16.7348 12.8942 16.4804 12.7067 16.2929C12.5192 16.1053 12.2648 16 11.9996 16C11.7344 16 11.48 16.1053 11.2925 16.2929C11.1049 16.4804 10.9996 16.7348 10.9996 17C10.9996 17.2652 11.1049 17.5196 11.2925 17.7071Z" fill="#E56910"/>
-              </svg>
-            </div>
-            <h3 class="text-lg font-medium text-[#44546F]">Confirm Picking List</h3>
-          </div>
-          <button @click="showConfirmModal = false" class="text-gray-400 hover:text-[#44546F]">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-        </div>
-        
-        <!-- Modal Body -->
-        <div class="p-6">
-          <p class="text-[#44546F]">
-            You are about to confirm the picking list for order <strong>#REF: {{ orderRef }}</strong>. Please ensure all items have been properly scanned and verified.
+    <UniversalCenteredModal 
+      :show="showPackagingModal" 
+      title="How was this packaged?"
+      @close="showPackagingModal = false"
+    >
+      <template #body>
+        <div class="bg-[#CCE0FF] p-4 rounded-lg mb-6">
+          <p class="text-sm text-[#172B4D]">
+            Please enter the number of cartons or nylons used to package this order.
           </p>
         </div>
         
-        <!-- Modal Footer -->
-        <div class="flex items-center justify-end gap-3 p-6 border-t border-gray-200">
-          <button 
-            @click="showConfirmModal = false"
-            class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
-          >
-            Cancel
-          </button>
-          <button 
-            @click="handleConfirmation"
-            class="px-4 py-2 text-sm font-medium bg-[#F5CD47] text-[#172B4D] rounded-md hover:bg-[#F5CD47]/80"
-          >
-            Confirm
-          </button>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">No. of Cartons</label>
+            <input 
+              v-model="cartonCount"
+              type="number" 
+              min="0"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="0"
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">No of Nylons</label>
+            <input 
+              v-model="nylonCount"
+              type="number" 
+              min="0"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="0"
+            />
+          </div>
         </div>
-      </div>
-    </div>
+      </template>
+      
+      <template #footer>
+        <div class="flex justify-end">
+          <Button 
+            type="blue-btn"
+            :onClick="proceedToConfirm"
+            classStyle="px-4 py-2"
+          >
+            Proceed
+          </Button>
+        </div>
+      </template>
+    </UniversalCenteredModal>
+
+    <!-- Confirm Picking List Modal -->
+    <WarningConfirmationModal
+      :show="showConfirmModal"
+      title="Confirm Picking List"
+      :message="`You are about to confirm the picking list for order #REF: ${orderRef}. Please ensure all items have been properly scanned and verified.`"
+      confirmText="Confirm"
+      cancelText="Cancel"
+      @close="showConfirmModal = false"
+      @confirm="handleConfirmation"
+    />
 
     <!-- Success Toast -->
     <SuccessAlertToast 
@@ -327,6 +292,9 @@
 import { ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import Datatable from '@/views/Components/Datatable/Datatable.vue'
+import Button from '@/views/Components/ui/Button.vue'
+import UniversalCenteredModal from '@/views/Components/UniversalCenteredModal.vue'
+import WarningConfirmationModal from '@/views/Components/ui/WarningConfirmationModal.vue'
 // @ts-ignore
 import SuccessAlertToast from '@/views/Components/SuccessAlertToast.vue'
 
@@ -352,7 +320,7 @@ const pickingItems = ref([
     description: 'These lozenges are suitable for adults and children over 12 years old.',
     product_name: 'STREPSILS INTENSIVE HONEY & LEMON LOZENGES X 16',
     quantity: 71,
-    batch_no: '4C452012',
+    batch_no: '24001',
     expiry_date: '5/21/2024',
     warehouse_shelf: 'A1-B2-C3',
     scan: 'Scan'
@@ -363,7 +331,7 @@ const pickingItems = ref([
     description: 'Pain relief tablets for headaches and fever.',
     product_name: 'PARACETAMOL 500MG TABLETS X 20',
     quantity: 45,
-    batch_no: 'PAR2024001',
+    batch_no: '24002',
     expiry_date: '12/25/2025',
     warehouse_shelf: 'A2-C1-D2',
     scan: 'Scan'
@@ -374,7 +342,7 @@ const pickingItems = ref([
     description: 'Antibiotic capsules for bacterial infections.',
     product_name: 'AMOXICILLIN 250MG CAPSULES X 21',
     quantity: 30,
-    batch_no: 'AMX2024002',
+    batch_no: '24003',
     expiry_date: '8/15/2025',
     warehouse_shelf: 'B1-A3-E1',
     scan: 'Scan'
@@ -385,7 +353,7 @@ const pickingItems = ref([
     description: 'Anti-inflammatory tablets for pain and swelling.',
     product_name: 'IBUPROFEN 400MG TABLETS X 30',
     quantity: 25,
-    batch_no: 'IBU2024003',
+    batch_no: '24004',
     expiry_date: '10/30/2025',
     warehouse_shelf: 'C2-B4-F2',
     scan: 'Scan'
@@ -396,7 +364,7 @@ const pickingItems = ref([
     description: 'Cough syrup for dry and productive cough.',
     product_name: 'BENYLIN COUGH SYRUP 100ML',
     quantity: 18,
-    batch_no: 'BEN2024004',
+    batch_no: '24005',
     expiry_date: '6/20/2025',
     warehouse_shelf: 'D1-C2-A4',
     scan: 'Scan'
@@ -407,7 +375,7 @@ const pickingItems = ref([
     description: 'Vitamin C tablets for immune system support.',
     product_name: 'VITAMIN C 1000MG TABLETS X 30',
     quantity: 60,
-    batch_no: 'VTC2024005',
+    batch_no: '24006',
     expiry_date: '4/10/2026',
     warehouse_shelf: 'E2-D3-B1',
     scan: 'Scan'
@@ -418,7 +386,7 @@ const pickingItems = ref([
     description: 'Antacid tablets for heartburn and indigestion.',
     product_name: 'GAVISCON TABLETS X 24',
     quantity: 35,
-    batch_no: 'GAV2024006',
+    batch_no: '24007',
     expiry_date: '9/15/2025',
     warehouse_shelf: 'F1-E2-C3',
     scan: 'Scan'
@@ -429,7 +397,7 @@ const pickingItems = ref([
     description: 'Antiseptic cream for cuts and wounds.',
     product_name: 'SAVLON ANTISEPTIC CREAM 30G',
     quantity: 22,
-    batch_no: 'SAV2024007',
+    batch_no: '24008',
     expiry_date: '11/28/2025',
     warehouse_shelf: 'G2-F1-D4',
     scan: 'Scan'
@@ -499,13 +467,27 @@ const goBack = () => {
   router.push({ name: 'outbound.order-fulfillment' })
 }
 
-const toggleItemSelection = (itemId: number) => {
-  const index = selectedItems.value.indexOf(itemId)
-  if (index > -1) {
-    selectedItems.value.splice(index, 1)
-  } else {
-    selectedItems.value.push(itemId)
-  }
+const scanShelf = (itemId: number, batchNo: string) => {
+  // Simulate scanning process
+  console.log(`🔍 Scanning shelf for item ${itemId} with batch ${batchNo}...`)
+  
+  // Simulate a successful scan after a brief delay
+  setTimeout(() => {
+    // Add item to selected items (auto-check the checkbox)
+    if (!selectedItems.value.includes(itemId)) {
+      selectedItems.value.push(itemId)
+      console.log(`✅ Scan successful! Item ${itemId} (${batchNo}) checked.`)
+      
+      // Show success toast
+      toastMessage.value = `Successfully scanned ${batchNo}`
+      showToast.value = true
+      
+      // Hide toast after 2 seconds
+      setTimeout(() => {
+        showToast.value = false
+      }, 2000)
+    }
+  }, 500) // 500ms delay to simulate scanning
 }
 
 const startConfirmFlow = (checkOut: boolean) => {

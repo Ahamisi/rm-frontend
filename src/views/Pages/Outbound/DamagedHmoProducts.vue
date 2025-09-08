@@ -19,16 +19,16 @@
         :key="childKey"
       >
         <template #header_actions>
-          <button 
-            @click="openCreateModal"
-            class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
+          <Button 
+            type="blue-btn"
+            :onClick="openCreateModal"
+            classStyle="px-4 py-2"
           >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-             <path fill-rule="evenodd" clip-rule="evenodd" d="M13 11V7C13 6.73478 12.8946 6.48043 12.7071 6.29289C12.5196 6.10536 12.2652 6 12 6C11.7348 6 11.4804 6.10536 11.2929 6.29289C11.1054 6.48043 11 6.73478 11 7V11H7C6.73478 11 6.48043 11.1054 6.29289 11.2929C6.10536 11.4804 6 11.7348 6 12C6 12.2652 6.10536 12.5196 6.29289 12.7071C6.48043 12.8946 6.73478 13 7 13H11V17C11 17.2652 11.1054 17.5196 11.2929 17.7071C11.4804 17.8946 11.7348 18 12 18C12.2652 18 12.5196 17.8946 12.7071 17.7071C12.8946 17.5196 13 17.2652 13 17V13H17C17.2652 13 17.5196 12.8946 17.7071 12.7071C17.8946 12.5196 18 12.2652 18 12C18 11.7348 17.8946 11.4804 17.7071 11.2929C17.5196 11.1054 17.2652 11 17 11H13Z" fill="white"/>
-          </svg>
-
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <path fill-rule="evenodd" clip-rule="evenodd" d="M13 11V7C13 6.73478 12.8946 6.48043 12.7071 6.29289C12.5196 6.10536 12.2652 6 12 6C11.7348 6 11.4804 6.10536 11.2929 6.29289C11.1054 6.48043 11 6.73478 11 7V11H7C6.73478 11 6.48043 11.1054 6.29289 11.2929C6.10536 11.4804 6 11.7348 6 12C6 12.2652 6.10536 12.5196 6.29289 12.7071C6.48043 12.8946 6.73478 13 7 13H11V17C11 17.2652 11.1054 17.5196 11.2929 17.7071C11.4804 17.8946 11.7348 18 12 18C12.2652 18 12.5196 17.8946 12.7071 17.7071C12.8946 17.5196 13 17.2652 13 17V13H17C17.2652 13 17.5196 12.8946 17.7071 12.7071C17.8946 12.5196 18 12.2652 18 12C18 11.7348 17.8946 11.4804 17.7071 11.2929C17.5196 11.1054 17.2652 11 17 11H13Z" fill="white"/>
+            </svg>
             Create Damaged Product
-          </button>
+          </Button>
         </template>
 
         <template #column="col">
@@ -111,11 +111,9 @@
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Date Damaged</label>
-            <input
-              type="date"
+            <DateInput
               v-model="form.date_damaged"
-              class="w-full px-3 py-2 border-2 rounded-lg text-sm text-[#172B4D] focus:outline-none focus:border-blue-600 overflow-hidden text-ellipsis"
-              style="border-color: #091E4224; color: #172B4D !important;"
+              placeholder="dd/mm/yyyy"
             />
           </div>
           <div>
@@ -184,10 +182,10 @@
 
           <!-- Cancel and Save/Update buttons -->
           <div class="flex space-x-3">
-            <button @click="closeModal" class="cancel_btn">Cancel</button>
-            <button @click="saveProduct" class="create_btn">
+            <Button type="gray-btn" :onClick="closeModal">Cancel</Button>
+            <Button type="blue-btn" :onClick="saveProduct">
               {{ showEditModal ? 'Update' : 'Create' }}
-            </button>
+            </Button>
           </div>
         </div>
       </template>
@@ -218,6 +216,8 @@ import Datatable from "@/views/Components/Datatable/Datatable.vue";
 import SuccessAlertToast from "@/views/Components/SuccessAlertToast.vue";
 import SideBarModal from "@/views/Components/SideBarModal.vue";
 import SelectField from "@/views/Components/ui/SelectField.vue";
+import DateInput from "@/views/Components/ui/DateInput.vue";
+import Button from "@/views/Components/ui/Button.vue";
 import DeleteConfirmationModal from "@/views/Components/ui/DeleteConfirmationModal.vue";
 import { ref, computed } from 'vue';
 import type { TableColumn } from '@/types';

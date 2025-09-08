@@ -7,14 +7,14 @@
     <PageTitle :title="getTitle" />
 
     <div class="flex flex-wrap items-center gap-2 mb-8 md:justify-between create_grn_header_wrapper pt-[12px]">
-      <button @click="goBack" class="flex items-center rounded hover:bg-gray-200">
+      <Button type="gray-btn" :onClick="goBack" classStyle="flex items-center rounded hover:bg-gray-200">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" clip-rule="evenodd"
             d="M9.0047 10.9951L13.5977 6.40205C13.6893 6.3086 13.7985 6.23422 13.919 6.18324C14.0395 6.13225 14.1689 6.10565 14.2998 6.10499C14.4306 6.10433 14.5603 6.12962 14.6813 6.17939C14.8023 6.22915 14.9123 6.30242 15.0048 6.39494C15.0973 6.48747 15.1706 6.59742 15.2204 6.71844C15.2701 6.83945 15.2954 6.96913 15.2948 7.09998C15.2941 7.23083 15.2675 7.36025 15.2165 7.48076C15.1655 7.60126 15.0912 7.71047 14.9977 7.80205L11.0977 11.7021L14.9977 15.6021C15.1803 15.7883 15.2819 16.0392 15.2806 16.3C15.2793 16.5608 15.1751 16.8106 14.9907 16.995C14.8062 17.1795 14.5565 17.2837 14.2956 17.285C14.0348 17.2863 13.784 17.1846 13.5977 17.0021L9.0047 12.4101C8.81723 12.2225 8.71191 11.9682 8.71191 11.7031C8.71191 11.4379 8.81723 11.1836 9.0047 10.9961V10.9951Z"
             fill="#44546F" />
         </svg>
         <span class="text-xs">Back</span>
-      </button>
+      </Button>
 
       <div class="flex items-center gap-2">
         <h3>Edit Order</h3>
@@ -153,9 +153,9 @@
                     <!-- Edit mode actions - Update and X buttons -->
                     <div v-else class="flex space-x-2 justify-center">
                       <!-- <span class="px-2 py-1 text-xs text-gray-600 bg-gray-100 rounded">Edit Order Quantity</span> -->
-                      <button @click="updateQuantity(index)" class="px-2 py-1 text-xs text-white bg-blue-600 rounded hover:bg-blue-700">
+                      <Button type="blue-btn" @click="updateQuantity(index)" class="px-2 py-1 text-xs text-white bg-blue-600 rounded hover:bg-blue-700" style="color: white !important">
                         Update
-                      </button>
+                      </Button>
                       <button @click="cancelEditQuantity(index)" class="px-1 py-1 text-gray-500 hover:text-gray-700">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M12 4L4 12M4 4l8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -176,9 +176,9 @@
                   <td class="px-2 py-3 text-center bg-red-50 border-l border-gray-200">
                     <div class="flex space-x-2 justify-center">
                       <!-- <span class="px-2 py-1 text-xs text-white text-[#44546F] rounded">Item Unavailable</span> -->
-                      <button @click="confirmItemUnavailable" class="px-2 py-1 text-xs text-white text-[#44546F] bg-red-700 rounded hover:bg-red-700">
+                      <Button type="red-btn" @click="confirmItemUnavailable" classStyle="px-2 py-1 text-xs text-white text-[#44546F] bg-red-700 rounded hover:bg-red-700" style="color: white !important">
                         Confirm
-                      </button>
+                      </Button>
                       <button @click="cancelItemUnavailable" class="px-1 py-1 text-gray-500 hover:text-gray-700">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M12 4L4 12M4 4l8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -199,9 +199,9 @@
                   <td class="px-2 py-3 text-center bg-red-50 border-l border-gray-200">
                     <div class="flex space-x-2 justify-center">
                       <!-- <span class="px-2 py-1 text-xs text-white bg-blue-600 rounded">Return to Stock</span> -->
-                      <button @click="confirmReturnToStock" class="px-2 py-1 text-xs text-white text-[#44546F] bg-red-700 rounded hover:bg-red-700">
+                      <Button type="red-btn" @click="confirmReturnToStock" classStyle="px-2 py-1 text-xs text-white text-[#44546F] bg-red-700 rounded hover:bg-red-700" style="color: white !important">
                         Confirm
-                      </button>
+                      </Button>
                       <button @click="cancelReturnToStock" class="px-1 py-1 text-gray-500 hover:text-gray-700">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M12 4L4 12M4 4l8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -252,12 +252,12 @@
 
       <template #footer>
         <div class="flex justify-end space-x-3">
-          <button @click="showAddBatchModal = false" class="cancel_btn">
+          <Button type="gray-btn" :onClick="() => showAddBatchModal = false">
             Cancel
-          </button>
-          <button @click="addBatch" class="create_btn">
+          </Button>
+          <Button type="blue-btn" :onClick="addBatch">
             Add
-          </button>
+          </Button>
         </div>
       </template>
     </SideBarModal>
@@ -280,12 +280,12 @@
 
       <template #footer>
         <div class="flex justify-end space-x-3 discard_merge_alert_footer">
-          <button @click="showConfirmUpdate = false" type="button" class="cancel_btn">
+          <Button type="gray-btn" :onClick="() => showConfirmUpdate = false">
             Cancel
-          </button>
-          <button @click="updateOrder" type="button" class="px-4 py-2 text-sm approve_btn" style="color: white">
+          </Button>
+          <Button type="blue-btn" :onClick="updateOrder" classStyle="px-4 py-2">
             Update Order
-          </button>
+          </Button>
         </div>
       </template>
     </UniversalCenteredModal>
@@ -311,6 +311,7 @@ import SideBarModal from "@/views/Components/SideBarModal.vue";
 import SelectField from "@/views/Components/ui/SelectField.vue";
 import SuccessModal from "@/views/Components/procurement/ui/SuccessModal.vue";
 import GrayButton from "@/views/Components/ui/GrayButton.vue";
+import Button from '@/views/Components/ui/Button.vue'
 import { api } from "@/api";
 
 const route = useRoute();

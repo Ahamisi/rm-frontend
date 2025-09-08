@@ -21,27 +21,28 @@
         <template #header_actions>
           <div class="flex items-center gap-3">
             <!-- Download Returns Report -->
-            <button 
-              @click="downloadReport"
-              class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
+            <Button 
+              type="gray-btn"
+              :onClick="downloadReport"
+              classStyle="px-4 py-2"
             >
               <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M17.3 8V6.56C17.3 5.66392 17.3 5.21587 17.1256 4.87362C16.9722 4.57256 16.7274 4.32779 16.4264 4.17439C16.0841 4 15.6361 4 14.74 4H10.26C9.36392 4 8.91587 4 8.57362 4.17439C8.27256 4.32779 8.02779 4.57256 7.87439 4.87362C7.7 5.21587 7.7 5.66392 7.7 6.56V8M7.7 16.8C6.95602 16.8 6.58403 16.8 6.27883 16.7182C5.45061 16.4963 4.8037 15.8494 4.58178 15.0212C4.5 14.716 4.5 14.344 4.5 13.6V11.84C4.5 10.4959 4.5 9.82381 4.76158 9.31042C4.99168 8.85883 5.35883 8.49168 5.81042 8.26158C6.32381 8 6.99587 8 8.34 8H16.66C18.0041 8 18.6762 8 19.1896 8.26158C19.6412 8.49168 20.0083 8.85883 20.2384 9.31042C20.5 9.82381 20.5 10.4959 20.5 11.84V13.6C20.5 14.344 20.5 14.716 20.4182 15.0212C20.1963 15.8494 19.5494 16.4963 18.7212 16.7182C18.416 16.8 18.044 16.8 17.3 16.8M14.9 10.8H17.3M10.26 20H14.74C15.6361 20 16.0841 20 16.4264 19.8256C16.7274 19.6722 16.9722 19.4274 17.1256 19.1264C17.3 18.7841 17.3 18.3361 17.3 17.44V16.16C17.3 15.2639 17.3 14.8159 17.1256 14.4736C16.9722 14.1726 16.7274 13.9278 16.4264 13.7744C16.0841 13.6 15.6361 13.6 14.74 13.6H10.26C9.36392 13.6 8.91587 13.6 8.57362 13.7744C8.27256 13.9278 8.02779 14.1726 7.87439 14.4736C7.7 14.8159 7.7 15.2639 7.7 16.16V17.44C7.7 18.3361 7.7 18.7841 7.87439 19.1264C8.02779 19.4274 8.27256 19.6722 8.57362 19.8256C8.91587 20 9.36392 20 10.26 20Z" stroke="#44546F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
               Download Returns Report
-            </button>
+            </Button>
 
             <!-- Create HMO Product Return -->
-            <button 
-              @click="openCreateModal"
-              class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
+            <Button 
+              type="blue-btn"
+              :onClick="openCreateModal"
+              classStyle="px-4 py-2"
             >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M13 11V7C13 6.73478 12.8946 6.48043 12.7071 6.29289C12.5196 6.10536 12.2652 6 12 6C11.7348 6 11.4804 6.10536 11.2929 6.29289C11.1054 6.48043 11 6.73478 11 7V11H7C6.73478 11 6.48043 11.1054 6.29289 11.2929C6.10536 11.4804 6 11.7348 6 12C6 12.2652 6.10536 12.5196 6.29289 12.7071C6.48043 12.8946 6.73478 13 7 13H11V17C11 17.2652 11.1054 17.5196 11.2929 17.7071C11.4804 17.8946 11.7348 18 12 18C12.2652 18 12.5196 17.8946 12.7071 17.7071C12.8946 17.5196 13 17.2652 13 17V13H17C17.2652 13 17.5196 12.8946 17.7071 12.7071C17.8946 12.5196 18 12.2652 18 12C18 11.7348 17.8946 11.4804 17.7071 11.2929C17.5196 11.1054 17.2652 11 17 11H13Z" fill="white"/>
               </svg>
-
               Create HMO Product Return
-            </button>
+            </Button>
           </div>
         </template>
 
@@ -167,8 +168,8 @@
 
       <template #footer>
         <div class="flex justify-end space-x-3">
-          <button @click="closeCreateModal" class="cancel_btn">Cancel</button>
-          <button @click="showConfirmation" class="create_btn">Create Product Return</button>
+          <Button type="gray-btn" :onClick="closeCreateModal">Cancel</Button>
+          <Button type="blue-btn" :onClick="showConfirmation">Create Product Return</Button>
         </div>
       </template>
     </SideBarModal>
@@ -202,12 +203,8 @@
 
         <!-- Footer -->
         <div class="flex justify-end space-x-3">
-          <button @click="cancelConfirmation" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">
-            Cancel
-          </button>
-          <button @click="createReturn" class="px-4 py-2 text-sm font-medium text-[#172B4D] bg-yellow-500 rounded-md hover:bg-yellow-600">
-            Create Product Return
-          </button>
+          <Button type="gray-btn" :onClick="cancelConfirmation">Cancel</Button>
+          <Button type="yellow-btn" :onClick="createReturn">Create Product Return</Button>
         </div>
       </div>
     </div>
@@ -233,9 +230,9 @@
         </p>
 
         <!-- Done Button -->
-        <button @click="closeSuccessModal" class="px-6 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">
+        <Button type="blue-btn" :onClick="closeSuccessModal" classStyle="px-6 py-2">
           Done
-        </button>
+        </Button>
       </div>
     </div>
 
@@ -255,6 +252,7 @@ import Datatable from "@/views/Components/Datatable/Datatable.vue";
 import SuccessAlertToast from "@/views/Components/SuccessAlertToast.vue";
 import SideBarModal from "@/views/Components/SideBarModal.vue";
 import SelectField from "@/views/Components/ui/SelectField.vue";
+import Button from "@/views/Components/ui/Button.vue";
 import { ref, computed } from 'vue';
 import type { TableColumn } from '@/types';
 

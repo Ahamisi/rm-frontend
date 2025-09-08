@@ -6,7 +6,7 @@
 				<LucideSearch class="w-4 h-4 text-gray-600" />
 				<InputBox :model-value="filters.searchTerm" @update:modelValue="emit('onSearch', $event)"
 					placeholder="Search"
-					custom-styles="bg-transparent outline-none w-full text-[12px] font-[400] text-[#172B4D] dataTableSearch" />
+					custom-styles="bg-transparent outline-none w-full text-[12px] font-[400] text-[#172B4D] text-medium dataTableSearch" />
 			</div>
 
 			<!-- Filter Dropdown -->
@@ -31,17 +31,13 @@
 									<div>
 										<label class="label">From</label>
 										<div class="input-container">
-											<input type="date" v-model="filters.filterValues.from_date"
-												class="text-[12px] font-[400] text-[#172B4D] bg-white input" ref="fromDateInputRef"
-												@click="() => $refs.fromDateInputRef.showPicker ? $refs.fromDateInputRef.showPicker() : $refs.fromDateInputRef.focus()" />
+											<DateInput v-model="filters.filterValues.from_date" placeholder="dd/mm/yyyy" />
 										</div>
 									</div>
 									<div>
 										<label class="label">To</label>
 										<div class="input-container">
-											<input type="date" v-model="filters.filterValues.to_date"
-												class="text-[12px] font-[400] text-[#172B4D] bg-white input" ref="toDateInputRef"
-												@click="() => $refs.toDateInputRef.showPicker ? $refs.toDateInputRef.showPicker() : $refs.toDateInputRef.focus()" />
+											<DateInput v-model="filters.filterValues.to_date" placeholder="dd/mm/yyyy" />
 										</div>
 									</div>
 								</div>
@@ -51,15 +47,14 @@
 									<label class="label">{{ filter.label }}</label>
 									<div class="input-container" v-if="filter.type === 'text'">
 										<input type="text" v-model="filters.filterValues[filter.field]"
-											class="text-[12px] font-[400] text-[#172B4D] bg-white input" />
+											class="text-[12px] font-[400] text-[#172B4D] text-medium bg-white input" />
 									</div>
 									<div class="input-container" v-if="filter.type === 'number'">
 										<input type="number" v-model="filters.filterValues[filter.field]"
-											class="text-[12px] font-[400] text-[#172B4D] bg-white input" />
+											class="text-[12px] font-[400] text-[#172B4D] text-medium bg-white input" />
 									</div>
 									<div class="input-container" v-if="filter.type === 'date'">
-										<input type="date" v-model="filters.filterValues[filter.field]"
-											class="text-[12px] font-[400] text-[#172B4D] bg-white input" />
+										<DateInput v-model="filters.filterValues[filter.field]" placeholder="dd/mm/yyyy" />
 									</div>
 									<div class="input-container" v-if="filter.type === 'select'">
 										<UiSelectField :model-value="filters.filterValues[filter.field]"
@@ -78,12 +73,12 @@
 											<div>
 												<label class="label">From</label>
 												<input type="date" v-model="filters.filterValues[filter.field][0]"
-													class="text-[12px] font-[400] text-[#172B4D] bg-white input" />
+													class="text-[12px] font-[400] text-[#172B4D] text-medium bg-white input" />
 											</div>
 											<div>
 												<label class="label">To</label>
 												<input type="date" v-model="filters.filterValues[filter.field][1]"
-													class="text-[12px] font-[400] text-[#172B4D] bg-white input" />
+													class="text-[12px] font-[400] text-[#172B4D] text-medium bg-white input" />
 											</div>
 										</div>
 									</div>
@@ -130,7 +125,7 @@
 										<circle cx="12" cy="12.5" r="2" fill="#626F86" />
 									</svg>
 								</span>
-								<span class="text-[12px] font-[400] text-[#172B4D]">
+								<span class="medium-text text-[#172B4D]">
 									{{ item.label }}
 								</span>
 							</li>
@@ -142,7 +137,7 @@
 										<circle cx="12" cy="12.5" r="2" fill="#626F86" />
 									</svg>
 								</span>
-								<span class="text-[12px] font-[400] text-[#172B4D]">
+								<span class="medium-text text-[#172B4D]">
 									More ({{ group.items.length - 4 }})
 								</span>
 								<span class="ml-auto mr-3">
@@ -172,7 +167,7 @@
 												<circle cx="12" cy="12.5" r="2" fill="#626F86" />
 											</svg>
 										</span>
-										<span class="text-[12px] font-[400] text-[#172B4D]">
+										<span class="medium-text text-[#172B4D]">
 											{{ item.label }}
 										</span>
 									</div>
@@ -243,6 +238,7 @@ import InputBox from "@/views/Components/procurement/InputBox.vue";
 import { useFilterModal } from "@/views/Composables/procurement/useFilterModal";
 import SearchDropdown from "@/views/Components/procurement/SearchDropdown.vue";
 import UiSelectField from "@/views/Components/procurement/ui/SelectField.vue";
+import DateInput from "@/views/Components/ui/DateInput.vue";
 import vSelect from "vue-select";
 import { onClickOutside } from "@vueuse/core";
 import dayjs from "dayjs";

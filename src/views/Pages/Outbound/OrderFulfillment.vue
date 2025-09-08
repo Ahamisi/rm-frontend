@@ -17,10 +17,11 @@
     <!-- Header -->
     <div class="px-6 py-3 bg-white flex items-center justify-end flex-shrink-0">
       <!-- Check In/Out Button -->
-      <button 
+      <Button 
         v-if="!isCheckedIn"
-        @click="showCheckInModal = true"
-        class="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-[#0C66E4] text-white rounded-md hover:bg-[#0C66E4]/80"
+        type="blue-btn"
+        :onClick="() => showCheckInModal = true"
+        classStyle="px-4 py-2"
       >
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" clip-rule="evenodd" d="M5 14C5 12.895 5.902 12 7.009 12H14.991C16.101 12 17 12.894 17 14.006V18.446C17 21.851 5 21.851 5 18.446V14Z" fill="white"/>
@@ -28,25 +29,23 @@
           <path d="M17.293 9.293C17.1975 9.38525 17.1213 9.49559 17.0689 9.6176C17.0165 9.7396 16.9889 9.87082 16.9877 10.0036C16.9866 10.1364 17.0119 10.2681 17.0622 10.391C17.1125 10.5139 17.1867 10.6255 17.2806 10.7194C17.3745 10.8133 17.4862 10.8875 17.609 10.9378C17.7319 10.9881 17.8636 11.0134 17.9964 11.0123C18.1292 11.0111 18.2604 10.9835 18.3824 10.9311C18.5044 10.8787 18.6148 10.8025 18.707 10.707L20.703 8.711C20.7972 8.61807 20.8719 8.50737 20.9229 8.38531C20.974 8.26326 21.0002 8.13229 21.0002 8C21.0002 7.86771 20.974 7.73674 20.9229 7.61469C20.8719 7.49263 20.7972 7.38193 20.703 7.289L18.707 5.293C18.5184 5.11084 18.2658 5.01005 18.0036 5.01233C17.7414 5.0146 17.4906 5.11977 17.3052 5.30518C17.1198 5.49059 17.0146 5.7414 17.0123 6.0036C17.01 6.2658 17.1108 6.5184 17.293 6.707L18.586 8L17.293 9.293Z" fill="white"/>
         </svg>
         Check In
-      </button>
+      </Button>
       
-      <button 
+      <Button 
         v-else
-        @click="attemptCheckOut"
-        :class="[
-          'flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md',
-          canCheckOut 
-            ? 'bg-[#0C66E4] text-white hover:bg-[#0C66E4]/80' 
-            : 'bg-gray-400 text-white hover:bg-gray-500'
-        ]"
+        :type="canCheckOut ? 'blue-btn' : 'gray-btn'"
+        :onClick="attemptCheckOut"
+        classStyle="px-4 py-2"
+        :disabled="!canCheckOut"
+        style="color: #091E424F !important; fill-opacity: 0.31 !important;"
       >
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M5 14C5 12.895 5.902 12 7.009 12H14.991C16.101 12 17 12.894 17 14.006V18.446C17 21.851 5 21.851 5 18.446V14Z" fill="white"/>
-          <path d="M11 11C13.2091 11 15 9.20914 15 7C15 4.79086 13.2091 3 11 3C8.79086 3 7 4.79086 7 7C7 9.20914 8.79086 11 11 11Z" fill="white"/>
-          <path d="M17.293 9.293C17.1975 9.38525 17.1213 9.49559 17.0689 9.6176C17.0165 9.7396 16.9889 9.87082 16.9877 10.0036C16.9866 10.1364 17.0119 10.2681 17.0622 10.391C17.1125 10.5139 17.1867 10.6255 17.2806 10.7194C17.3745 10.8133 17.4862 10.8875 17.609 10.9378C17.7319 10.9881 17.8636 11.0134 17.9964 11.0123C18.1292 11.0111 18.2604 10.9835 18.3824 10.9311C18.5044 10.8787 18.6148 10.8025 18.707 10.707L20.703 8.711C20.7972 8.61807 20.8719 8.50737 20.9229 8.38531C20.974 8.26326 21.0002 8.13229 21.0002 8C21.0002 7.86771 20.974 7.73674 20.9229 7.61469C20.8719 7.49263 20.7972 7.38193 20.703 7.289L18.707 5.293C18.5184 5.11084 18.2658 5.01005 18.0036 5.01233C17.7414 5.0146 17.4906 5.11977 17.3052 5.30518C17.1198 5.49059 17.0146 5.7414 17.0123 6.0036C17.01 6.2658 17.1108 6.5184 17.293 6.707L18.586 8L17.293 9.293Z" fill="white"/>
-        </svg>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M20.99 6C20.9909 6.12978 20.9661 6.25846 20.917 6.3786C20.8679 6.49874 20.7955 6.60798 20.704 6.7L19.371 7.969L20.655 9.269C20.7934 9.38673 20.8964 9.54055 20.9526 9.71335C21.0088 9.88614 21.0159 10.0711 20.9732 10.2477C20.9305 10.4243 20.8396 10.5856 20.7107 10.7137C20.5818 10.8417 20.4199 10.9315 20.243 10.973C20.0663 11.0152 19.8814 11.0079 19.7085 10.952C19.5357 10.8961 19.3815 10.7937 19.263 10.656L17.287 8.687C17.1034 8.50291 17.0003 8.25351 17.0003 7.9935C17.0003 7.73349 17.1034 7.48409 17.287 7.3L19.322 5.272C19.463 5.13804 19.6403 5.04858 19.8319 5.01479C20.0234 4.981 20.2207 5.00437 20.399 5.082C20.764 5.242 20.996 5.604 20.99 6ZM5 14C5 12.895 5.902 12 7.009 12H14.991C16.101 12 17 12.894 17 14.006V18.446C17 21.851 5 21.851 5 18.446V14Z" fill="#091E42" fill-opacity="0.31"/>
+        <path d="M11 11C13.2091 11 15 9.20914 15 7C15 4.79086 13.2091 3 11 3C8.79086 3 7 4.79086 7 7C7 9.20914 8.79086 11 11 11Z" fill="#091E42" fill-opacity="0.31"/>
+      </svg>
+
         Check Out
-      </button>
+      </Button>
     </div>
 
     <!-- Success Toast Modal -->
@@ -103,17 +102,14 @@
           <p class="text-gray-600 mb-6">
             You are currently checked out! Please check in to review new orders for processing.
           </p>
-          <button 
-            @click="showCheckInModal = true"
-            class="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-[#0C66E4] text-white rounded-md hover:bg-[#0C66E4]/80 mx-auto"
-          >
+          <Button type="blue-btn" :onClick="() => showCheckInModal = true" classStyle="px-4 py-2 mx-auto">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" clip-rule="evenodd" d="M5 14C5 12.895 5.902 12 7.009 12H14.991C16.101 12 17 12.894 17 14.006V18.446C17 21.851 5 21.851 5 18.446V14Z" fill="white"/>
               <path d="M11 11C13.2091 11 15 9.20914 15 7C15 4.79086 13.2091 3 11 3C8.79086 3 7 4.79086 7 7C7 9.20914 8.79086 11 11 11Z" fill="white"/>
               <path d="M17.293 9.293C17.1975 9.38525 17.1213 9.49559 17.0689 9.6176C17.0165 9.7396 16.9889 9.87082 16.9877 10.0036C16.9866 10.1364 17.0119 10.2681 17.0622 10.391C17.1125 10.5139 17.1867 10.6255 17.2806 10.7194C17.3745 10.8133 17.4862 10.8875 17.609 10.9378C17.7319 10.9881 17.8636 11.0134 17.9964 11.0123C18.1292 11.0111 18.2604 10.9835 18.3824 10.9311C18.5044 10.8787 18.6148 10.8025 18.707 10.707L20.703 8.711C20.7972 8.61807 20.8719 8.50737 20.9229 8.38531C20.974 8.26326 21.0002 8.13229 21.0002 8C21.0002 7.86771 20.974 7.73674 20.9229 7.61469C20.8719 7.49263 20.7972 7.38193 20.703 7.289L18.707 5.293C18.5184 5.11084 18.2658 5.01005 18.0036 5.01233C17.7414 5.0146 17.4906 5.11977 17.3052 5.30518C17.1198 5.49059 17.0146 5.7414 17.0123 6.0036C17.01 6.2658 17.1108 6.5184 17.293 6.707L18.586 8L17.293 9.293Z" fill="white"/>
             </svg>
             Check In
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -129,10 +125,7 @@
           <p class="text-gray-600 mb-6">
             Waiting for new orders... Please stay on this page and reload the page in 5 minutes if needed.
           </p>
-          <button 
-            @click="refreshOrders"
-            class="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-[#0C66E4] text-white rounded-md hover:bg-[#0C66E4]/80 mx-auto"
-          >
+          <Button type="blue-btn" :onClick="refreshOrders" classStyle="px-4 py-2 mx-auto">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M7.99955 6.003V8.998C7.99955 9.26322 8.1049 9.51757 8.29244 9.70511C8.47998 9.89264 8.73433 9.998 8.99955 9.998C9.26476 9.998 9.51912 9.89264 9.70665 9.70511C9.89419 9.51757 9.99955 9.26322 9.99955 8.998V5.102C9.99955 4.494 9.50655 4 8.89955 4H4.99955C4.73393 4 4.4792 4.10551 4.29138 4.29333C4.10356 4.48115 3.99805 4.73589 3.99805 5.0015C3.99805 5.26711 4.10356 5.52185 4.29138 5.70967C4.4792 5.89748 4.73393 6.003 4.99955 6.003H7.99955Z" fill="white"/>
               <path d="M9.42755 18.018C7.35055 16.989 5.99955 14.807 5.99955 12.37C5.99955 10.104 7.16655 8.051 9.01955 6.945C9.49955 6.659 9.66555 6.023 9.39055 5.524C9.3287 5.40677 9.24369 5.30331 9.14067 5.21991C9.03765 5.13651 8.91877 5.0749 8.79124 5.0388C8.6637 5.00271 8.53016 4.99289 8.39871 5.00994C8.26727 5.027 8.14066 5.07056 8.02655 5.138C5.55655 6.611 3.99955 9.35 3.99955 12.37C3.99955 15.618 5.80155 18.528 8.56955 19.899C9.06755 20.146 9.66455 19.925 9.90155 19.406C10.1385 18.886 9.92655 18.265 9.42755 18.018Z" fill="white"/>
@@ -140,7 +133,7 @@
               <path fill-rule="evenodd" clip-rule="evenodd" d="M14.0965 4.596C13.8595 5.116 14.0715 5.736 14.5705 5.983C16.6475 7.012 17.9985 9.193 17.9985 11.63C17.9985 13.896 16.8315 15.95 14.9775 17.055C14.7452 17.1988 14.5771 17.4265 14.5082 17.6909C14.4393 17.9553 14.4749 18.2361 14.6075 18.475C14.8815 18.975 15.4925 19.148 15.9715 18.862C18.4415 17.389 19.9985 14.65 19.9985 11.63C19.9985 8.382 18.1965 5.472 15.4285 4.102C15.296 4.03537 15.1499 4.00045 15.0015 4C14.8094 4.00188 14.6218 4.05909 14.4613 4.16479C14.3008 4.27049 14.1742 4.4202 14.0965 4.596Z" fill="white"/>
             </svg>
             Refresh
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -180,18 +173,15 @@
               
               <!-- Action Buttons on Right -->
               <div class="flex gap-2 pb-2">
-                <button 
-                  @click="pickOrder"
-                  class="px-4 py-2 text-sm font-medium bg-[#0C66E4] text-white rounded-md hover:bg-[#0C66E4]/80"
-                >
+                <Button type="blue-btn" :onClick="pickOrder" classStyle="px-4 py-2">
                   Pick Order
-                </button>
-                <button class="px-4 py-2 text-sm font-medium text-[#44546F] bg-gray-100 rounded-md hover:bg-gray-200">
+                </Button>
+                <Button type="gray-btn" classStyle="px-4 py-2">
                   Download Waybill
-                </button>
-                <button class="px-4 py-2 text-sm font-medium text-[#44546F] bg-gray-100 rounded-md hover:bg-gray-200">
+                </Button>
+                <Button type="gray-btn" classStyle="px-4 py-2">
                   Download Invoice
-                </button>
+                </Button>
               </div>
             </div>
           </div>
@@ -311,6 +301,7 @@ import { useRouter } from 'vue-router'
 import LoadingState from '@/views/Components/procurement/state/LoadingState.vue'
 import Activities from '@/views/Components/Activities.vue'
 import Datatable from '@/views/Components/Datatable/Datatable.vue'
+import Button from '@/views/Components/ui/Button.vue'
 import WarningConfirmationModal from '@/views/Components/ui/WarningConfirmationModal.vue'
 import WarningAlertToast from '@/views/Components/WarningAlertToast.vue'
 // @ts-ignore

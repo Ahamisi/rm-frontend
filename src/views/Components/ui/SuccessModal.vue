@@ -1,7 +1,7 @@
 <template>
   <!-- Custom Success Modal - No header, keep footer border -->
   <Transition name="modal" appear>
-    <div v-if="show" class="fixed inset-0 bg-black/50 z-[99999999999999] flex items-center justify-center">
+    <div v-if="show" class="fixed inset-0 bg-black/50 z-[999999999999999] flex items-center justify-center">
       <div class="rounded-lg bg-white w-[380px] max-w-[90vw] mx-auto shadow-lg">
         <!-- Modal Body - No header section -->
         <div class="p-8">
@@ -28,12 +28,13 @@
         <!-- Footer with Done Button -->
         <div class="p-4">
           <div class="flex justify-end">
-            <button 
-              @click="$emit('close')"
-              class="px-6 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            <Button 
+              type="blue-btn"
+              :onClick="() => $emit('close')"
+              classStyle="px-6 py-2"
             >
               Done
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -42,6 +43,8 @@
 </template>
 
 <script setup lang="ts">
+import Button from '@/views/Components/ui/Button.vue'
+
 defineProps<{
   show: boolean;
   title: string;
