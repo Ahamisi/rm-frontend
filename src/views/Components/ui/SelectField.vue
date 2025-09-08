@@ -2,7 +2,7 @@
   <div class="relative w-full" ref="dropdownRef">
     <!-- Select Field -->
     <div 
-      class="flex items-center justify-between w-full px-3 py-2 bg-white border-2 rounded-lg cursor-pointer h-auto"
+      class="flex items-center justify-between w-full px-2 py-2 bg-white border-2 rounded-lg cursor-pointer h-auto"
       style="border-color: #091E4224;"
       :class="isFocused ? 'border-blue-600' : ''"
     >
@@ -14,7 +14,7 @@
           <input 
             :placeholder="placeholder"
             class="w-full appearance-none outline-none bg-transparent text-sm text-[#172B4D] border-none p-0 m-0 h-[20px] leading-[20px]"
-            style="box-shadow: none; border: none; color: #172B4D !important;"
+            style="box-shadow: none; border: none; color: #172B4D !important; padding: 0 !important;"
             v-model="searchTerm"
             @focus="handleFocus" 
             @blur="handleBlur"
