@@ -91,6 +91,7 @@
             :options="availableAdmins"
             labelField="name"
             placeholder="Select team admins"
+            :key="`admins-${formKey}`"
           />
         </div>
 
@@ -102,6 +103,7 @@
             :options="availableShelves"
             labelField="name"
             placeholder="Select stock count shelves"
+            :key="`shelves-${formKey}`"
           />
         </div>
       </div>
@@ -178,7 +180,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import Datatable from '@/views/Components/Datatable/Datatable.vue'
 import SideBarModal from '@/views/Components/SideBarModal.vue'
@@ -203,25 +205,33 @@ const childKey = ref(0)
 const editingTeamId = ref(null)
 const teamToDelete = ref<any>(null)
 const deletedTeamName = ref('')
+const formKey = ref(0) // Add a key to force component re-render
 
 // Teams data with mock admin and shelf assignments
 const teams = ref([
   { 
     id: 15, 
     name: 'Team A (Azeez)', 
-    users: 0, 
-    shelves: 0,
-    admins: [],
-    assignedShelves: []
+    users: 3, 
+    shelves: 2,
+    admins: [
+      { id: 1, name: 'David Otun' },
+      { id: 2, name: 'Basit Adeagbo' },
+      { id: 3, name: 'Isah Ibrahim' }
+    ],
+    assignedShelves: [
+      { id: 1, name: 'Shelf A1' },
+      { id: 2, name: 'Shelf A2' }
+    ]
   },
   { 
     id: 14, 
     name: 'Team B (David)', 
-    users: 4, 
+    users: 2, 
     shelves: 2,
     admins: [
-      { id: 1, name: 'John Doe' },
-      { id: 2, name: 'Jane Smith' }
+      { id: 4, name: 'John Doe' },
+      { id: 5, name: 'Jane Smith' }
     ],
     assignedShelves: [
       { id: 1, name: 'Shelf A1' },
@@ -401,10 +411,13 @@ const teamColumns = ref([
 // Mock data for dropdowns
 
 const availableAdmins = ref([
-  { id: 1, name: 'John Doe' },
-  { id: 2, name: 'Jane Smith' },
-  { id: 3, name: 'Mike Johnson' },
-  { id: 4, name: 'Sarah Wilson' }
+  { id: 1, name: 'David Otun' },
+  { id: 2, name: 'Basit Adeagbo' },
+  { id: 3, name: 'Isah Ibrahim' },
+  { id: 4, name: 'John Doe' },
+  { id: 5, name: 'Jane Smith' },
+  { id: 6, name: 'Mike Johnson' },
+  { id: 7, name: 'Sarah Wilson' }
 ])
 
 const availableShelves = ref([
@@ -487,6 +500,9 @@ const createTeam = () => {
   // Store the team name for success message before resetting
   const teamName = newTeam.value.name
   
+  // Set isDiscarding flag to prevent warning modal
+  isDiscarding.value = true
+  
   // Reset form and editing state
   resetForm()
   
@@ -501,21 +517,39 @@ const createTeam = () => {
     ? `The stock count team "${teamName}" has been successfully updated.`
     : `The stock count team "${teamName}" has been successfully added to the system.`
   showCreateSuccessModal.value = true
+  
+  // Reset the flag after a delay to ensure modal transitions are complete
+  setTimeout(() => {
+    isDiscarding.value = false
+  }, 1000)
 }
 
-const editTeam = (team: any) => {
-  // Populate form with team data for editing
-  const teamData = {
+const editTeam = async (team: any) => {
+  // First reset the form completely
+  resetForm()
+  
+  // Set editing mode first
+  editingTeamId.value = team.id
+  
+  // Increment form key to force component re-render
+  formKey.value++
+  
+  // Wait for next tick to ensure components are re-rendered with new keys
+  await nextTick()
+  
+  // Then populate the form with existing data
+  newTeam.value = {
     name: team.name,
-    admins: team.admins || [],
-    shelves: team.assignedShelves || []
+    admins: team.admins || [], // Pre-fill existing admins
+    shelves: team.assignedShelves || [] // Pre-fill existing shelves
   }
   
-  newTeam.value = { ...teamData }
-  originalTeam.value = { ...teamData } // Store original for change detection
+  originalTeam.value = { 
+    name: team.name,
+    admins: team.admins || [], // Store original for change detection
+    shelves: team.assignedShelves || [] // Store original for change detection
+  }
   
-  // Set editing mode
-  editingTeamId.value = team.id
   showCreateModal.value = true
   
   console.log('Edit team:', team)

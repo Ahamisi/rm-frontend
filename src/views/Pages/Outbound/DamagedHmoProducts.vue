@@ -78,8 +78,8 @@
     <SideBarModal
       :isOpen="showCreateModal || showEditModal"
       :title="showEditModal ? 'Edit Damaged HMO Products' : 'Create Damaged HMO Products'"
-      @update:isOpen="closeModal"
-      @close="closeModal"
+      @update:isOpen="handleSideBarUpdate"
+      @close="handleSideBarClose"
       width="45vw"
     >
       <div class="space-y-4 px-6 mt-4">
@@ -172,17 +172,17 @@
           <button 
             v-if="showEditModal"
             @click="confirmDelete"
-            class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white text-[#44546F] rounded-md hover:bg-red-700"
+            class="flex items-center justify-center w-10 h-10 bg-[#C9372C] rounded-md hover:bg-[#A92E24] transition-colors duration-200"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M5 5C4.73478 5 4.48043 5.10536 4.29289 5.29289C4.10536 5.48043 4 5.73478 4 6V7H20V6C20 5.73478 19.8946 5.48043 19.7071 5.29289C19.5196 5.10536 19.2652 5 19 5H5ZM16.15 20H7.845C7.60844 19.9999 7.37956 19.916 7.19904 19.7631C7.01851 19.6102 6.89803 19.3983 6.859 19.165L5 8H19L17.136 19.166C17.0969 19.3992 16.9764 19.611 16.7959 19.7637C16.6153 19.9165 16.3865 20.0002 16.15 20ZM9 4.5C8.99998 4.36894 9.05142 4.2431 9.14325 4.14959C9.23508 4.05608 9.35996 4.00236 9.491 4H14.509C14.64 4.00236 14.7649 4.05608 14.8567 4.14959C14.9486 4.2431 15 4.36894 15 4.5V5H9V4.5Z" fill="white"/>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M7 7H17C17.2652 7 17.5196 7.10536 17.7071 7.29289C17.8946 7.48043 18 7.73478 18 8C18 8.26522 17.8946 8.51957 17.7071 8.70711C17.5196 8.89464 17.2652 9 17 9H7C6.73478 9 6.48043 8.89464 6.29289 8.70711C6.10536 8.51957 6 8.26522 6 8C6 7.73478 6.10536 7.48043 6.29289 7.29289C6.48043 7.10536 6.73478 7 7 7ZM9.78 18C9.55707 18 9.34054 17.9255 9.16479 17.7883C8.98905 17.6512 8.86417 17.4592 8.81 17.243L7.156 10.62C7.13782 10.5465 7.13659 10.4697 7.15239 10.3957C7.1682 10.3216 7.20064 10.252 7.24726 10.1923C7.29387 10.1326 7.35345 10.0843 7.42149 10.0509C7.48953 10.0176 7.56424 10.0002 7.64 10H16.36C16.4359 10 16.5109 10.0173 16.5791 10.0507C16.6474 10.084 16.7072 10.1324 16.7539 10.1922C16.8007 10.2521 16.8332 10.3218 16.8489 10.3961C16.8647 10.4704 16.8634 10.5473 16.845 10.621L15.189 17.243C15.1348 17.4592 15.01 17.6512 14.8342 17.7883C14.6585 17.9255 14.4419 18 14.219 18H9.781H9.78ZM11 6H13C13.2652 6 13.5196 6.10536 13.7071 6.29289C13.8946 6.48043 14 6.73478 14 7H10C10 6.73478 10.1054 6.48043 10.2929 6.29289C10.4804 6.10536 10.7348 6 11 6Z" fill="white"/>
             </svg>
           </button>
           <div v-else></div>
 
           <!-- Cancel and Save/Update buttons -->
           <div class="flex space-x-3">
-            <Button type="gray-btn" :onClick="closeModal">Cancel</Button>
+            <Button type="gray-btn" :onClick="() => showDiscardModal = true">Cancel</Button>
             <Button type="blue-btn" :onClick="saveProduct">
               {{ showEditModal ? 'Update' : 'Create' }}
             </Button>
@@ -198,6 +198,16 @@
       :confirmText="'Delete Product'"
       @confirm="executeDelete"
       @cancel="cancelDelete"
+    />
+
+    <!-- Discard Changes Modal -->
+    <WarningConfirmationModal
+      :show="showDiscardModal"
+      title="Discard Changes?"
+      :processName="modalProcessName"
+      confirm-text="Discard Changes"
+      @close="showDiscardModal = false"
+      @confirm="handleDiscardConfirm"
     />
 
     <!-- Success Toast -->
@@ -219,6 +229,7 @@ import SelectField from "@/views/Components/ui/SelectField.vue";
 import DateInput from "@/views/Components/ui/DateInput.vue";
 import Button from "@/views/Components/ui/Button.vue";
 import DeleteConfirmationModal from "@/views/Components/ui/DeleteConfirmationModal.vue";
+import WarningConfirmationModal from "@/views/Components/ui/WarningConfirmationModal.vue";
 import { ref, computed } from 'vue';
 import type { TableColumn } from '@/types';
 
@@ -231,6 +242,8 @@ const toastMessage = ref('');
 const showCreateModal = ref(false);
 const showEditModal = ref(false);
 const showDeleteModal = ref(false);
+const showDiscardModal = ref(false);
+const isDiscarding = ref(false);
 const selectedProduct = ref<any>(null);
 
 // Computed properties
@@ -238,6 +251,10 @@ const deleteMessage = computed(() => {
   return selectedProduct.value 
     ? `You are about to delete this damaged HMO product "${selectedProduct.value.product_name}".`
     : 'You are about to delete this damaged HMO product.';
+});
+
+const modalProcessName = computed(() => {
+  return showEditModal.value ? 'Edit Damaged HMO Product' : 'Create Damaged HMO Product';
 });
 
 // Form data
@@ -472,7 +489,6 @@ const saveProduct = () => {
 };
 
 const confirmDelete = () => {
-  showEditModal.value = false;
   showDeleteModal.value = true;
 };
 
@@ -487,11 +503,54 @@ const executeDelete = () => {
     damagedProducts.value.splice(index, 1);
   }
   
+  // Set isDiscarding flag to prevent warning modal
+  isDiscarding.value = true;
+  
   toastMessage.value = 'Damaged Product Deleted Successfully';
   showToast.value = true;
   showDeleteModal.value = false;
   selectedProduct.value = null;
   childKey.value++;
+  
+  // Close the sidebar modal
+  showCreateModal.value = false;
+  showEditModal.value = false;
+  resetForm();
+  
+  // Reset the flag after a longer delay to ensure modal transitions are complete
+  setTimeout(() => {
+    isDiscarding.value = false;
+  }, 1000);
+};
+
+// Handle discard confirm - close both modals
+const handleDiscardConfirm = () => {
+  isDiscarding.value = true;
+  // Close the warning modal first
+  showDiscardModal.value = false;
+  // Then close the sidebar modal
+  closeModal();
+  // Reset the flag after a short delay
+  setTimeout(() => {
+    isDiscarding.value = false;
+  }, 500);
+};
+
+// Handle sidebar close - only show discard modal if not already processing
+const handleSideBarClose = () => {
+  // Only show discard modal if we're not in the middle of a discard operation
+  if (!isDiscarding.value) {
+    showDiscardModal.value = true;
+  }
+};
+
+// Handle sidebar update:isOpen event - this gets triggered when modal closes programmatically
+const handleSideBarUpdate = (isOpen: boolean) => {
+  // If modal is being closed programmatically and we're not discarding, don't show warning
+  if (!isOpen && !isDiscarding.value) {
+    // Only show discard modal if user is actively trying to close (not programmatic)
+    // We'll let the close button handle this instead
+  }
 };
 
 </script>

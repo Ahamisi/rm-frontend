@@ -111,10 +111,8 @@
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Expiry Date</label>
-            <input
-              type="date"
+            <DateInput
               v-model="approveForm.expiry_date"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div>
@@ -239,6 +237,7 @@ import RejectConfirmationModal from '@/views/Components/ui/RejectConfirmationMod
 import WarningConfirmationModal from '@/views/Components/ui/WarningConfirmationModal.vue';
 import SuccessModal from '@/views/Components/ui/SuccessModal.vue';
 import GrayButton from '@/views/Components/ui/GrayButton.vue';
+import DateInput from '@/views/Components/ui/DateInput.vue';
 
 const childKey = ref(0);
 

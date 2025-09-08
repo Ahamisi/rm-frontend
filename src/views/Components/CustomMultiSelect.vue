@@ -12,12 +12,12 @@
           v-if="isOpen"
           v-model="searchTerm"
           :placeholder="placeholder"
-          class="w-full appearance-none outline-none bg-transparent text-sm text-gray-700 border-none p-0 m-0 h-[20px] leading-[20px]"
-          style="box-shadow: none; border: none;"
+          class="w-full appearance-none outline-none bg-transparent text-sm border-none p-0 m-0 h-[20px] leading-[20px]"
+          style="box-shadow: none; border: none; padding: 0 !important; color: rgb(98, 111, 134);"
           @blur="handleBlur"
           ref="searchInput"
         />
-        <span v-else class="text-sm text-gray-700 h-[20px] leading-[20px] block">
+        <span v-else class="text-sm h-[20px] leading-[20px] block" style="color: #626F86;">
           {{ placeholder }}
         </span>
       </div>
@@ -103,12 +103,12 @@ const selectedItems = ref<Option[]>([])
 
 // Watch for modelValue changes
 watch(() => props.modelValue, (newValue) => {
-  if (newValue && Array.isArray(newValue)) {
+  if (newValue && Array.isArray(newValue) && newValue.length > 0) {
     selectedItems.value = [...newValue]
   } else {
     selectedItems.value = []
   }
-}, { immediate: true })
+}, { immediate: true, deep: true })
 
 // Filtered options based on search and excluding selected items
 const filteredOptions = computed(() => {

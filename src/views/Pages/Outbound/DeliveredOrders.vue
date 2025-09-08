@@ -304,7 +304,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import PageTitle from '@/views/Components/header/PageTitle.vue';
 import Datatable from '@/views/Components/Datatable/Datatable.vue';
 import SideBarModal from '@/views/Components/SideBarModal.vue';
@@ -509,6 +509,16 @@ const viewOrderActivities = (order: any) => {
   modalActiveTab.value = 'activities';
   isOrderDetailsModalOpen.value = true;
 };
+
+// Prevent body scroll when component is mounted
+onMounted(() => {
+  document.body.style.overflowY = 'hidden';
+});
+
+// Restore body scroll when component is unmounted
+onUnmounted(() => {
+  document.body.style.overflowY = 'auto';
+});
 </script>
 
 <style>

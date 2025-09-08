@@ -166,10 +166,8 @@
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Expiry Date</label>
-            <input
+            <DateInput
               v-model="newStockCountForm.expiry_date"
-              type="date"
-              class="w-full"
             />
           </div>
           <div>
@@ -221,6 +219,7 @@ import GrayButton from "@/views/Components/ui/GrayButton.vue";
 import Button from "@/views/Components/ui/Button.vue";
 import { ref, computed } from 'vue';
 import SelectField from "@/views/Components/ui/SelectField.vue";
+import DateInput from "@/views/Components/ui/DateInput.vue";
 import type { Option } from '@/types';
 import UnapprovedStockCount from './components/UnapprovedStockCount.vue';
 import ApprovedStockCount from './components/ApprovedStockCount.vue';

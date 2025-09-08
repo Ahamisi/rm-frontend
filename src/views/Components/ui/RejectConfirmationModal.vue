@@ -21,7 +21,7 @@
         <div>
           <p class="text-[#44546F] text-[14px] font-[400] mb-2" v-html="formatMessage(message)">
           </p>
-          <p class="text-[#44546F] text-[12px] font-[400]" v-html="formatMessage(subMessage || 'This action will permanently delete this stock count from the system.')">
+          <p v-if="subMessage" class="text-[#44546F] text-[12px] font-[400]" v-html="formatMessage(subMessage)">
           </p>
         </div>
       </div>
