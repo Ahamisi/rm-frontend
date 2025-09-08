@@ -40,6 +40,7 @@
   - gray-btn: Secondary actions (Cancel, View)
   - red-btn: Destructive actions (Delete, Remove)
   - yellow-btn: Warning actions (Discard, Reset)
+  - transparent-btn: Transparent actions (Back, Close) - transparent background with gray hover
 -->
 <template>
   <component
@@ -59,7 +60,7 @@
 import { computed } from 'vue'
 
 interface Props {
-  type: "gray-btn" | "blue-btn" | "yellow-btn" | "red-btn"
+  type: "gray-btn" | "blue-btn" | "yellow-btn" | "red-btn" | "transparent-btn"
   disabled?: boolean
   onClick?: () => void
   classStyle?: string
@@ -156,6 +157,15 @@ const handleClick = (event: Event) => {
 
 .yellow-btn:hover:not(:disabled) {
   background: rgba(206, 172, 60, 1);
+}
+
+.transparent-btn {
+  background: transparent;
+  color: rgba(68, 84, 111, 1);
+}
+
+.transparent-btn:hover:not(:disabled) {
+  background: rgba(8, 25, 55, 0.16);
 }
 
 /* Link styling */

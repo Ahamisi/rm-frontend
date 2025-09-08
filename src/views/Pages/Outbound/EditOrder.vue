@@ -2,12 +2,12 @@
   <div class="fixed top-0 left-0 flex items-center justify-center w-full h-screen bg-black bg-opacity-50" v-if="loading">
     <LoadingState />
   </div>
-  <div class="px-6 erp_dashboard_wrapper">
-    <!-- Header -->
-    <PageTitle :title="getTitle" />
+  <div class="erp_dashboard_wrapper">
+    <!-- Breadcrumb -->
+    <Breadcrumb :items="breadcrumbItems" />
 
-    <div class="flex flex-wrap items-center gap-2 mb-8 md:justify-between create_grn_header_wrapper pt-[12px]">
-      <Button type="gray-btn" :onClick="goBack" classStyle="flex items-center rounded hover:bg-gray-200">
+    <div class="flex flex-wrap items-center gap-2 mb-8 md:justify-between create_grn_header_wrapper pt-[12px] px-6">
+      <Button type="transparent-btn" :onClick="goBack" classStyle="flex items-center rounded hover:bg-gray-200">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" clip-rule="evenodd"
             d="M9.0047 10.9951L13.5977 6.40205C13.6893 6.3086 13.7985 6.23422 13.919 6.18324C14.0395 6.13225 14.1689 6.10565 14.2998 6.10499C14.4306 6.10433 14.5603 6.12962 14.6813 6.17939C14.8023 6.22915 14.9123 6.30242 15.0048 6.39494C15.0973 6.48747 15.1706 6.59742 15.2204 6.71844C15.2701 6.83945 15.2954 6.96913 15.2948 7.09998C15.2941 7.23083 15.2675 7.36025 15.2165 7.48076C15.1655 7.60126 15.0912 7.71047 14.9977 7.80205L11.0977 11.7021L14.9977 15.6021C15.1803 15.7883 15.2819 16.0392 15.2806 16.3C15.2793 16.5608 15.1751 16.8106 14.9907 16.995C14.8062 17.1795 14.5565 17.2837 14.2956 17.285C14.0348 17.2863 13.784 17.1846 13.5977 17.0021L9.0047 12.4101C8.81723 12.2225 8.71191 11.9682 8.71191 11.7031C8.71191 11.4379 8.81723 11.1836 9.0047 10.9961V10.9951Z"
@@ -36,7 +36,7 @@
     </div>
 
     <!-- Combined Delivery Price and Products Section -->
-    <div class="p-4 rounded-xl items_wrapper">
+    <div class="p-4 rounded-xl items_wrapper mx-6">
       <!-- Header with actions -->
       <div class="flex justify-between items-start mb-6">
         <div>
@@ -85,7 +85,7 @@
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-              <tr v-for="(item, index) in order.items" :key="item.id" class="bg-gray-50">
+              <tr v-for="(item, index) in order.items" :key="item.id" class="bg-white">
                 <!-- Normal row -->
                 <template v-if="itemUnavailableIndex !== index && returnToStockIndex !== index">
                   <td class="px-2 py-3 tracking-wider text-left">{{ item.id }}</td>
@@ -96,7 +96,7 @@
                       </button>
                     </Tooltip>
                   </td>
-                  <td class="px-2 py-3 tracking-wider text-left">
+                  <td :class="['px-2 tracking-wider text-left', editingQuantity === index ? 'py-2' : 'py-3']">
                     <!-- Normal quantity display -->
                     <span v-if="editingQuantity !== index" @click="startEditQuantity(index)" class="cursor-pointer hover:bg-gray-100 px-2 py-1 rounded">
                       {{ item.quantity }}
@@ -108,7 +108,7 @@
                       v-model="item.quantity" 
                       type="number" 
                       min="1"
-                      class="w-[60%] px-2 pb-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      class="w-[50%] h-[30px] px-2 pb-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                       @keyup.enter="updateQuantity(index)"
                       @keyup.escape="cancelEditQuantity(index)"
                       :id="`quantityInput-${index}`"
@@ -300,7 +300,7 @@
 </template>
 
 <script setup lang="ts">
-import PageTitle from "@/views/Components/header/PageTitle.vue";
+import Breadcrumb from "@/views/Components/ui/Breadcrumb.vue";
 import { ref, onMounted, computed, nextTick } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useToast } from "vue-toastification";
@@ -353,7 +353,11 @@ const returnToStockIndex = ref(null);
 const itemToDelete = ref(null);
 const itemToReturn = ref(null);
 
-const getTitle = computed(() => `All Orders / Confirmed Orders / ${order.value?.order_no}`);
+const breadcrumbItems = computed(() => [
+  { label: 'Order Fulfillment', to: { name: 'outbound.order-fulfillment' } },
+  { label: 'All Orders', to: { name: 'outbound.orders' } },
+  { label: `Edit Order - ${order.value?.order_no || 'Loading...'}` }
+]);
 
 // Load order data
 onMounted(async () => {
