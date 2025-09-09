@@ -32,12 +32,13 @@
       </OrderHeader>
       
       <!-- Right: Update button -->
-      <button 
-        @click="updateLogBook"
-        class="px-4 py-2 text-sm font-medium bg-[#0C66E4] text-white rounded-md hover:bg-[#0C66E4]/80"
+      <Button 
+        type="blue-btn"
+        :onClick="updateLogBook"
+        classStyle="px-4 py-2 text-sm font-medium bg-[#0C66E4] text-white rounded-md hover:bg-[#0C66E4]/80"
       >
         Update
-      </button>
+      </Button>
     </div>
 
     <!-- Success Toast Modal -->
