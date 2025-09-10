@@ -252,6 +252,7 @@ import type { TableColumn, FilterFields, FilterField, Option } from '@/types';
 import dayjs from 'dayjs';
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import Button from '@/views/Components/ui/Button.vue';
 
 // Router
 const router = useRouter();

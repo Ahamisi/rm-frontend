@@ -105,11 +105,10 @@
 					</div>
 				</template>
 				<div ref="sortRef" class="menu-container">
-					<div v-for="(group, index) in filterGroups" :key="index" class="group"
-						:class="index == 0 ? 'border-b' : ''">
+					<div v-for="(group, index) in filterGroups" :key="index" class="group">
 						<ul class="sort-menu">
 							<!-- Show first 4 items -->
-							<li v-for="(item, itemIndex) in group.items.slice(0, 4)" class="flex items-center cursor-pointer hover:bg-gray-100 medium-text font-medium" :key="item.value"
+							<li v-for="(item, itemIndex) in group.items.slice(0, 4)" class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-gray-100" :key="item.value"
 								@click="selectOption(item.value); sortModalOpen = false;">
 								<span class="group-title">
 									<svg :style="{
@@ -125,19 +124,19 @@
 										<circle cx="12" cy="12.5" r="2" fill="#626F86" />
 									</svg>
 								</span>
-								<span class="medium-text text-[#172B4D]">
+								<span class="text-xs text-[#172B4D]" style="font-family: 'SF Pro Display', sans-serif;">
 									{{ item.label }}
 								</span>
 							</li>
 							<!-- Show "More" option if there are more than 4 items -->
-							<li v-if="group.items.length > 4" class="flex items-center cursor-pointer relative hover:bg-gray-100 medium-text font-medium" 
+							<li v-if="group.items.length > 4" class="flex items-center gap-2 px-4 py-2 cursor-pointer relative hover:bg-gray-100" 
 								@click.stop="toggleMoreItems(index)">
 								<span class="group-title">
 									<svg style="visibility: hidden;" width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
 										<circle cx="12" cy="12.5" r="2" fill="#626F86" />
 									</svg>
 								</span>
-								<span class="medium-text text-[#172B4D]">
+								<span class="text-xs text-[#172B4D]" style="font-family: 'SF Pro Display', sans-serif;">
 									More ({{ group.items.length - 4 }})
 								</span>
 								<span class="ml-auto mr-3">
@@ -148,12 +147,12 @@
 								
 								<!-- More items dropdown as separate card -->
 								<div v-if="showMoreItems[index]" 
-									class="absolute left-full top-0 ml-2 bg-white shadow-lg rounded-md border border-gray-200 py-1 z-50 min-w-[200px]"
+									class="absolute left-full top-0 ml-2 bg-white shadow-lg rounded-md border border-gray-200 z-50 min-w-[200px]"
 									@click.stop>
 									<div v-for="item in group.items.slice(4)" :key="item.value"
-										class="flex items-center px-3 py-2 cursor-pointer hover:bg-gray-100 medium-text font-medium"
+										class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-gray-100"
 										@click="selectOption(item.value); sortModalOpen = false; showMoreItems[index] = false;">
-										<span class="group-title mr-2">
+										<span class="group-title">
 											<svg :style="{
 												visibility:
 													group.label === 'Sort Order'
@@ -167,7 +166,7 @@
 												<circle cx="12" cy="12.5" r="2" fill="#626F86" />
 											</svg>
 										</span>
-										<span class="medium-text text-[#172B4D]">
+										<span class="text-xs text-[#172B4D]" style="font-family: 'SF Pro Display', sans-serif;">
 											{{ item.label }}
 										</span>
 									</div>
@@ -549,6 +548,7 @@ const resetFilterValue = (key) => {
 .menu-container {
 	/* @apply bg-white shadow-lg rounded-md w-fit py-0.5 border border-gray-200; */
 	min-width: 12.5em;
+	max-width: 115px;
 }
 
 .group {
