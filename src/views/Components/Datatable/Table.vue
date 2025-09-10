@@ -1,5 +1,5 @@
 <template>
-	<div class="bg-white border text-lightBlack border-[#091E4224] rounded-xl shadow-sm overflow-x-auto">
+	<div class="bg-white border text-lightBlack border-[#091E4224] rounded-xl shadow-sm overflow-x-auto overflow-y-visible">
 		<table class="w-full table-auto" :id="tableId">
 			<thead>
 				<tr class="text-left bg-gray-100 text-[12px] font-[500] text-[#172B4D]">

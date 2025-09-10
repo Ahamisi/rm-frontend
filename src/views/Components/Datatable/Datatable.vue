@@ -1,36 +1,42 @@
 <template>
-	<div>
-		<div class="flex flex-wrap items-baseline justify-between gap-3">
-			<div class="flex flex-wrap">
-				<slot name="header_search"></slot>
-				<DatatableHeader :key="childKey" v-bind="headerProps" @onSearch="onSearchWithEmit"
-					@onFilterChange="onFilterChangeWithEmit" @print="handlePrint" @export="handleDownload"
-					@onSortChange="onSortChangeWithEmit" />
+	<div class="flex flex-col h-full">
+		<div class="flex-shrink-0">
+			<div class="flex flex-wrap items-baseline justify-between gap-3">
+				<div class="flex flex-wrap">
+					<slot name="header_search"></slot>
+					<DatatableHeader :key="childKey" v-bind="headerProps" @onSearch="onSearchWithEmit"
+						@onFilterChange="onFilterChangeWithEmit" @print="handlePrint" @export="handleDownload"
+						@onSortChange="onSortChangeWithEmit" />
+				</div>
+				<slot name="header_actions"></slot>
 			</div>
-			<slot name="header_actions"></slot>
 		</div>
 
-		<div class="">
-			<div class="">
+		<div class="flex-1 flex flex-col min-h-0">
+			<div class="flex-1 flex flex-col min-h-0">
 				<!-- <div v-if="loading" class="h-[500px]">
 					<LoadingState></LoadingState>
 				</div> -->
 				<!-- <div v-else> -->
-				<div>
-					<DatatableTable :items="items" :columns="columns" :server-params="serverParams" :loading="loading"
-						:page-name="pageName" :table-id="`table-${_uid}`" @sort="sort">
-						<template #tableHeader>
-							<slot name="tableHeader" />
-						</template>
-						<template #tableRow="{ row }">
-							<slot name="tableRow" :row="row" />
-						</template>
-						<template #column="slotProps">
-							<slot name="column" v-bind="slotProps" />
-						</template>
-					</DatatableTable>
-					<CustomPagination v-model:currentPage="currentPage" :totalPages="pagination.total" :key="childKey"
-						@update:current-page="navigate" />
+				<div class="flex-1 flex flex-col min-h-0">
+					<div class="flex-1 overflow-auto datatable-container">
+						<DatatableTable :items="items" :columns="columns" :server-params="serverParams" :loading="loading"
+							:page-name="pageName" :table-id="`table-${_uid}`" @sort="sort">
+							<template #tableHeader>
+								<slot name="tableHeader" />
+							</template>
+							<template #tableRow="{ row }">
+								<slot name="tableRow" :row="row" />
+							</template>
+							<template #column="slotProps">
+								<slot name="column" v-bind="slotProps" />
+							</template>
+						</DatatableTable>
+						<div class="flex-shrink-0">
+							<CustomPagination v-model:currentPage="currentPage" :totalPages="pagination.total" :key="childKey"
+								@update:current-page="navigate" />
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

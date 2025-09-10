@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="h-full flex flex-col">
 
     <!-- Loading State -->
     <div v-if="loading" class="fixed top-0 left-0 z-[9999999] flex items-center justify-center w-full h-full bg-black bg-opacity-50">
@@ -7,6 +7,7 @@
     </div>
 
             <!-- Datatable -->
+        <div class="flex-1 flex flex-col min-h-0">
         <Datatable 
           :url="ordersUrl" 
           :filterByDate="true" 
@@ -95,6 +96,7 @@
                     </span>
       </template>
     </Datatable>
+        </div>
 
     <!-- Order Details Modal -->
     <OrderDetailsModal

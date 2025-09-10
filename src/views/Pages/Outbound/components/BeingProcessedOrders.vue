@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="h-full flex flex-col">
+    <div class="flex-1 flex flex-col min-h-0">
     <Datatable 
       :url="ordersUrl" 
       :filterByDate="true" 
@@ -148,7 +149,8 @@
         
         <span v-else>{{ col.props.row[col.props.column.field] }}</span>
       </template>
-    </Datatable>
+      </Datatable>
+    </div>
 
     <!-- Order Details Modal -->
     <OrderDetailsModal

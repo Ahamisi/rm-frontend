@@ -1,10 +1,10 @@
 <template>
-  <div class="min-h-screen font-sans bg-bg-sunken">
+  <div class="h-screen font-sans bg-bg-sunken flex flex-col">
     <AppHeader @changeDepartment="updateDepartment" />
-    <div class="flex flex-col overflow-hidden min-h-[calc(100vh-64px)]">
+    <div class="flex flex-col flex-1 min-h-0">
       <Navigation :department="selectedDepartment" />
 
-      <main class="flex-1 overflow-y-auto bg-white">
+      <main class="flex-1 bg-white min-h-0">
         <slot />
       </main>
     </div>

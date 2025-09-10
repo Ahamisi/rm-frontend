@@ -6,19 +6,20 @@
     
 
     <!-- Content -->
-    <div class="p-6 pt-0 bg-white min-h-screen">
+    <div class="p-6 pt-0 bg-white h-[calc(100vh-190px)] flex flex-col">
       <!-- Teams Datatable -->
-      <Datatable
-        :items="teams"
-        :columns="teamColumns"
-        :searchable="true"
-        :filterByDate="false"
-        :printable="false"
-        :exportable="false"
-        :filterFields="{}"
-        pageName="StockCountTeams"
-        :key="childKey"
-      >
+      <div class="flex-1 flex flex-col min-h-0">
+        <Datatable
+          :items="teams"
+          :columns="teamColumns"
+          :searchable="true"
+          :filterByDate="false"
+          :printable="false"
+          :exportable="false"
+          :filterFields="{}"
+          pageName="StockCountTeams"
+          :key="childKey"
+        >
         <template #header_actions>
           <Button 
             type="blue-btn"
@@ -60,7 +61,8 @@
             {{ (col.props?.formattedRow as any)?.[col.props?.column?.field || ''] || '' }}
           </span>
         </template>
-      </Datatable>
+        </Datatable>
+      </div>
     </div>
 
     <!-- Create/Edit Team SideBarModal -->

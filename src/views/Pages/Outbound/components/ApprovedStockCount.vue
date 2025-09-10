@@ -1,16 +1,17 @@
 <template>
-  <div class="mt-4">
-    <Datatable
-      :items="approvedStockItems"
-      :columns="approvedStockCountColumns"
-      :searchable="true"
-      :filterByDate="false"
-      :printable="false"
-      :exportable="false"
-      :filterFields="{}"
-      pageName="ApprovedStockCount"
-      :key="childKey"
-    >
+  <div class="mt-4 h-full flex flex-col">
+    <div class="flex-1 flex flex-col min-h-0">
+      <Datatable
+        :items="approvedStockItems"
+        :columns="approvedStockCountColumns"
+        :searchable="true"
+        :filterByDate="false"
+        :printable="false"
+        :exportable="false"
+        :filterFields="{}"
+        pageName="ApprovedStockCount"
+        :key="childKey"
+      >
       <template #header_actions>
         <button 
           @click="downloadApprovedStockCount"
@@ -45,7 +46,8 @@
           <span class="text-sm">{{ col.props?.formattedRow?.approved_by }}</span>
         </div>
       </template>
-    </Datatable>
+      </Datatable>
+    </div>
   </div>
 </template>
 

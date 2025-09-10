@@ -1,16 +1,17 @@
 <template>
-  <div class="mt-4">
-    <Datatable
-      :items="unapprovedStockItems"
-      :columns="stockCountColumns"
-      :searchable="true"
-      :filterByDate="false"
-      :printable="false"
-      :exportable="false"
-      :filterFields="{}"
-      pageName="UnapprovedStockCount"
-      :key="childKey"
-    >
+  <div class="mt-4 h-full flex flex-col">
+    <div class="flex-1 flex flex-col min-h-0">
+      <Datatable
+        :items="unapprovedStockItems"
+        :columns="stockCountColumns"
+        :searchable="true"
+        :filterByDate="false"
+        :printable="false"
+        :exportable="false"
+        :filterFields="{}"
+        pageName="UnapprovedStockCount"
+        :key="childKey"
+      >
       <template #header_actions>
         <GrayButton @click="downloadUnapprovedStockCount">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -66,7 +67,8 @@
           {{ (col.props?.formattedRow as any)?.[col.props?.column?.field || ''] || '' }}
         </span>
       </template>
-    </Datatable>
+      </Datatable>
+    </div>
 
     <!-- Approve Stock Count SideBarModal -->
     <SideBarModal

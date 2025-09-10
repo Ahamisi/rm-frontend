@@ -35,11 +35,11 @@
       </Tabs>
     </div>
     <!-- contents -->
-    <div class="px-6 mt-0 bg-white tab_contents min-h-[calc(100vh-190px)]">
-      <div class="" v-if="activeTab === 'Unapproved Stock Count'">
+    <div class="px-6 mt-0 bg-white tab_contents h-[calc(100vh-190px)] flex flex-col">
+      <div class="flex-1 flex flex-col min-h-0" v-if="activeTab === 'Unapproved Stock Count'">
         <UnapprovedStockCount />
       </div>
-      <div class="" v-else-if="activeTab === 'Approved Stock Count'">
+      <div class="flex-1 flex flex-col min-h-0" v-else-if="activeTab === 'Approved Stock Count'">
         <ApprovedStockCount />
       </div>
     </div>

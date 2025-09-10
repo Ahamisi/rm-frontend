@@ -33,5 +33,68 @@ const layout = computed(() => {
 </script>
 
 <style>
-/* Global styles */
+/* Global styles - Disable vertical scrolling on web, enabled on mobile */
+html, body {
+  overflow-y: hidden;
+}
+
+/* Enable scrolling on mobile devices */
+@media (max-width: 768px) {
+  html, body {
+    overflow-y: auto;
+  }
+}
+
+/* Ensure the app container takes full height */
+#app {
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Universal datatable scrolling fix */
+.datatable-container {
+  max-height: calc(100vh - 300px) !important;
+  overflow-y: auto !important;
+}
+
+/* Ensure tables have proper scrolling */
+.overflow-auto {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e0 #f7fafc;
+}
+
+.overflow-auto::-webkit-scrollbar {
+  width: 8px;
+}
+
+.overflow-auto::-webkit-scrollbar-track {
+  background: #f7fafc;
+  border-radius: 4px;
+}
+
+.overflow-auto::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+  border-radius: 4px;
+}
+
+.overflow-auto::-webkit-scrollbar-thumb:hover {
+  background: #a0aec0;
+}
+
+/* Ensure table content is fully visible */
+table {
+  min-height: auto !important;
+}
+
+/* Fix for pages with tabs */
+.tab_contents {
+  height: calc(100vh - 190px) !important;
+  overflow: hidden !important;
+}
+
+/* Fix for pages without tabs */
+.erp_dashboard_wrapper > div:last-child {
+  height: calc(100vh - 190px) !important;
+  overflow: hidden !important;
+}
 </style>
