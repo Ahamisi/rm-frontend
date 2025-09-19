@@ -11,7 +11,7 @@
           fill="#44546F" />
       </svg>
       <span class="text-xs">Back</span>
-    </a>
+    </button>
 
     <!-- Center: Title with Icon and Subtitle -->
     <div class="flex items-center gap-2">
