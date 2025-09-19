@@ -141,6 +141,51 @@ const navigation: Record<string, any[]> = {
       ]
     },
   ],
+  compliance: [
+    { label: "Dashboard", url: { name: "compliance.dashboard" }, icon: LayoutDashboard },
+    { label: "KYC Verification", url: { name: "compliance.kyc" }, icon: FileText },
+    { 
+      label: "Products Management", 
+      icon: PackageSearch,
+      dropdown: [
+        { title: "All Products", route: { name: "compliance.products" } },
+        { title: "Damaged Products", route: { name: "compliance.products.damaged" } },
+        { title: "Quarantined Products", route: { name: "compliance.products.quarantined" } }
+      ]
+    },
+    { 
+      label: "Orders & Fulfilment", 
+      icon: Truck,
+      dropdown: [
+        { title: "Orders", route: { name: "compliance.orders" } },
+        { title: "Delivered Orders", route: { name: "compliance.orders.delivered" } },
+        { title: "Inventory Order Issues", route: { name: "compliance.orders.issues" } }
+      ]
+    },
+    { 
+      label: "Business Programs", 
+      icon: CreditCard,
+      dropdown: [
+        { title: "Deals", route: { name: "compliance.deals" } },
+        { title: "Loans", route: { name: "compliance.loans" } },
+        { title: "Loyalty Program Progress", route: { name: "compliance.loyalty" } }
+      ]
+    },
+    { 
+      label: "Report", 
+      icon: FileText,
+      dropdown: [
+        { title: "Expiry Report", route: { name: "compliance.reports.expiry" } },
+        { title: "Stock Quantity Report", route: { name: "compliance.reports.stock" } }
+      ]
+    },
+    { label: "More Actions", url: "/compliance", icon: FileText, useThreeDots: true, dropdown: [
+        { title: "All Customers", route: { name: "compliance.customers" } },
+        { title: "Returned Products", route: { name: "compliance.products.returned" } },
+        { title: "Pending Product Returns", route: { name: "compliance.products.pending-returns" } }
+      ]
+    },
+  ],
 }
 
 const navItems = computed(() => navigation[props.department]);

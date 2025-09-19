@@ -33,16 +33,9 @@ const layout = computed(() => {
 </script>
 
 <style>
-/* Global styles - Disable vertical scrolling on web, enabled on mobile */
+/* Global styles - Allow vertical scrolling */
 html, body {
-  overflow-y: hidden;
-}
-
-/* Enable scrolling on mobile devices */
-@media (max-width: 768px) {
-  html, body {
-    overflow-y: auto;
-  }
+  overflow-y: auto;
 }
 
 /* Ensure the app container takes full height */
@@ -86,6 +79,11 @@ table {
   min-height: auto !important;
 }
 
+.modal{
+  height: 100vh !important;
+  overflow: hidden;
+}
+
 /* Fix for pages with tabs */
 .tab_contents {
   height: calc(100vh - 190px) !important;
@@ -97,4 +95,6 @@ table {
   height: calc(100vh - 190px) !important;
   overflow: hidden !important;
 }
+
+
 </style>

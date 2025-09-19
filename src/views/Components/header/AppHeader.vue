@@ -288,6 +288,7 @@ const department_base_routes = [
   { name: "sales", route: "customer-success" },
   { name: "outbound", route: "outbound.dashboard" },
   { name: "logistics", route: "dashboard" }, // Placeholder route for now
+  { name: "compliance", route: "compliance.dashboard" },
 ];
 
 const hasRoute = (name: string): boolean => {

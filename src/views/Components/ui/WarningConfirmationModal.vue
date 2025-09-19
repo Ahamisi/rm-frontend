@@ -1,5 +1,5 @@
 <template>
-  <div v-if="show" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" style="z-index: 999999;">
+  <div v-if="show" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" style="z-index: 999999; height: 100vh !important;">
     <div class="bg-white rounded-[16px] shadow-xl w-[426px] max-w-[90vw] mx-4" :style="customWidth ? { width: customWidth, maxWidth: '90vw' } : {}">
       <!-- Modal Header -->
       <div class="flex items-center justify-between px-6 py-6 border-b border-gray-200">
@@ -20,14 +20,19 @@
       
       <!-- Modal Body -->
       <div class="px-6 py-6">
-        <p :class="[messageStyle || 'text-[#44546F] text-[14px] font-[400]']">
-          <template v-if="processName">
-            You are about to leave the "<span class="font-semibold">{{ processName }}</span>" process. Any unsaved information will be lost.
-          </template>
-          <template v-else>
-            <span v-html="formatMessage(message)"></span>
-          </template>
-        </p>
+        <template v-if="$slots.body">
+          <slot name="body"></slot>
+        </template>
+        <template v-else>
+          <p :class="[messageStyle || 'text-[#44546F] text-[14px] font-[400]']">
+            <template v-if="processName">
+              You are about to leave the "<span class="font-semibold">{{ processName }}</span>" process. Any unsaved information will be lost.
+            </template>
+            <template v-else>
+              <span v-html="formatMessage(message)"></span>
+            </template>
+          </p>
+        </template>
       </div>
       
       <!-- Modal Footer -->

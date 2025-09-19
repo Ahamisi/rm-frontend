@@ -228,11 +228,12 @@ export const mockHandlers: Record<string, (config: AxiosRequestConfig) => Promis
 
   'GET /users/departments': async () => {
     return createMockResponse([
-      { id: 1, name: 'Procurement', code: 'procurement' },
-      { id: 2, name: 'Inventory', code: 'inventory' },
-      { id: 3, name: 'Sales', code: 'sales' },
-      { id: 4, name: 'Inbound', code: 'inbound' },
-      { id: 5, name: 'Outbound', code: 'outbound' },
+      { id: 1, name: 'Procurement', code: 'procurement', icon: '@/views/Pages/procurement/redesign/ProcurementIcon.svg' },
+      { id: 2, name: 'Inventory', code: 'inventory', icon: '@/views/Pages/procurement/redesign/ProcurementIcon.svg' },
+      { id: 3, name: 'Sales', code: 'sales', icon: '@/views/Pages/procurement/redesign/CustomerSuccessIcon.svg' },
+      { id: 4, name: 'Inbound', code: 'inbound', icon: '@/views/Pages/procurement/redesign/InboundIcon.svg' },
+      { id: 5, name: 'Outbound', code: 'outbound', icon: '@/views/Pages/procurement/redesign/OutboundIcon.svg' },
+      { id: 6, name: 'Compliance', code: 'compliance', icon: '@/views/Pages/procurement/redesign/ComplianceIcon.svg' },
     ]);
   },
 
@@ -252,6 +253,16 @@ export const mockHandlers: Record<string, (config: AxiosRequestConfig) => Promis
   // Dashboard
   'GET /dashboard_stats': async () => {
     return createMockResponse(mockDashboardStats);
+  },
+
+  // Compliance Dashboard
+  'GET /compliance/dashboard/stats': async () => {
+    return createMockResponse({
+      total_audits: 1250,
+      pending_audits: 45,
+      completed_audits: 1205,
+      compliance_rate: 96.4,
+    });
   },
 
   // Products

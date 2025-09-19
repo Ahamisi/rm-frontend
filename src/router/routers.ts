@@ -283,6 +283,117 @@ const routes = [
         },
 	/** outbound routes end here */
 
+	/** compliance routes begin here */
+	{
+		path: "/compliance/dashboard",
+		name: "compliance.dashboard",
+		component: () => import("@/views/Pages/Compliance/Dashboard.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/compliance/products",
+		name: "compliance.products",
+		component: () => import("@/views/Pages/Compliance/Products/Index.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/compliance/products/view-changes/:productName",
+		name: "compliance.products.view-changes",
+		component: () => import("@/views/Pages/Compliance/Products/ViewChanges.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/compliance/products/damaged",
+		name: "compliance.products.damaged",
+		component: () => import("@/views/Pages/Compliance/Products/Damaged.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/compliance/products/quarantined",
+		name: "compliance.products.quarantined",
+		component: () => import("@/views/Pages/Compliance/Products/Quarantined.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/compliance/kyc",
+		name: "compliance.kyc",
+		component: () => import("@/views/Pages/Compliance/KYC.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/compliance/orders",
+		name: "compliance.orders",
+		component: () => import("@/views/Pages/Compliance/Orders/Index.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/compliance/orders/delivered",
+		name: "compliance.orders.delivered",
+		component: () => import("@/views/Pages/Compliance/Orders/Delivered.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/compliance/orders/issues",
+		name: "compliance.orders.issues",
+		component: () => import("@/views/Pages/Compliance/Orders/Issues.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/compliance/deals",
+		name: "compliance.deals",
+		component: () => import("@/views/Pages/Compliance/Programs/Deals.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/compliance/programs/deals/:id/analytics",
+		name: "compliance.deals.analytics",
+		component: () => import("@/views/Pages/Compliance/Programs/DealAnalytics.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/compliance/loans",
+		name: "compliance.loans",
+		component: () => import("@/views/Pages/Compliance/Programs/Loans.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/compliance/loyalty",
+		name: "compliance.loyalty",
+		component: () => import("@/views/Pages/Compliance/Programs/Loyalty.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/compliance/reports/expiry",
+		name: "compliance.reports.expiry",
+		component: () => import("@/views/Pages/Compliance/Reports/Expiry.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/compliance/reports/stock",
+		name: "compliance.reports.stock",
+		component: () => import("@/views/Pages/Compliance/Reports/Stock.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/compliance/customers",
+		name: "compliance.customers",
+		component: () => import("@/views/Pages/Compliance/Customers.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/compliance/products/returned",
+		name: "compliance.products.returned",
+		component: () => import("@/views/Pages/Compliance/Products/Returned.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/compliance/products/pending-returns",
+		name: "compliance.products.pending-returns",
+		component: () => import("@/views/Pages/Compliance/Products/PendingReturns.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	/** compliance routes end here */
+
 	{
 		path: "/admin/products",
 		name: "admin.products",

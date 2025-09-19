@@ -8,9 +8,9 @@
 							<th @click="handleSort(column)" :class="[
 								'px-4 py-3 h-[44px]',
 								column.sortable ? 'cursor-pointer' : '',
-								column.field === 'action' || column.field === 'actions' ? 'w-[100px] text-center' : ''
-							]">
-								<span class="inline-flex items-center text-left">
+								column.field === 'action' || column.field === 'actions' ? 'text-center' : ''
+							]" :style="getColumnStyle(column)">
+								<span class="inline-flex items-center" :class="column.field === 'action' || column.field === 'actions' ? 'justify-center' : 'text-left'">
 									{{ column.label }}
 									<UpDownIcon class="inline w-[12px] ml-1"
 										v-if="column.sortable && serverParams.sort?.field != column.field" />
@@ -109,7 +109,7 @@
 							:class="[
 								'px-4 py-3 h-[52px] align-middle text-[12px] font-[400] text-[#44546F]',
 								column.field === 'action' || column.field === 'actions' ? 'text-center' : ''
-							]">
+							]" :style="getColumnStyle(column)">
 							<slot name="column" :props="{ row, column, formattedRow: formattedRow(row, columns) }">
 								{{ getColumnValue(row, column) }}
 							</slot>
@@ -183,6 +183,25 @@ const formattedRow = (row: Record<string, any>, columns: TableColumn[]) => {
 
 const getColumnValue = (row: Record<string, any>, column: TableColumn) => {
 	return column.format ? column.format(get(row, column.field)) : get(row, column.field);
+};
+
+const getColumnStyle = (column: TableColumn) => {
+	// If a specific width is provided, use it
+	if (column.width) {
+		return { width: column.width };
+	}
+	
+	// For action columns, set default width of 100px on wide screens
+	if (column.field === 'action' || column.field === 'actions') {
+		return { 
+			width: '100px',
+			minWidth: '100px',
+			maxWidth: '100px'
+		};
+	}
+	
+	// For other columns, no specific width (let them auto-size)
+	return {};
 };
 
 // Watch items prop for debugging if needed

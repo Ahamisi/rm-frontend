@@ -1,8 +1,8 @@
 <template>
   <!-- Custom Success Modal - No header, keep footer border -->
   <Transition name="modal" appear>
-    <div v-if="show" class="fixed inset-0 bg-black/50 z-[999999999999999] flex items-center justify-center">
-      <div class="rounded-lg bg-white w-[380px] max-w-[90vw] mx-auto shadow-lg">
+    <div v-if="show" class="success-modal-overlay fixed inset-0 bg-black/50 z-[999999999999999] flex items-center justify-center" style="height: 100vh !important; overflow: hidden !important;">
+      <div class="success-modal-content rounded-lg bg-white w-[380px] max-w-[90vw] mx-auto shadow-lg">
         <!-- Modal Body - No header section -->
         <div class="p-8">
           <div class="text-center">
@@ -84,6 +84,25 @@ defineEmits<{
 .modal-enter-from > div > div,
 .modal-leave-to > div > div {
   transform: scale(0.95) translateY(-20px);
+}
+
+/* Ensure success modal takes precedence over all other elements */
+.success-modal-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 999999999999999 !important;
+  overflow: hidden !important;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.success-modal-content {
+  position: relative !important;
+  z-index: 1000000000000000 !important;
 }
 
 /* Responsive styles */
