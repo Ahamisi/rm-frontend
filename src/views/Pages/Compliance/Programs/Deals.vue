@@ -77,21 +77,19 @@
                     <!-- Deal Details -->
                     <div class="space-y-4">
                         
-                        <!-- Title (Full Width) -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Title</label>
-                            <input 
-                                v-model="dealFromData.title"
-                                type="text" 
-                                placeholder="Enter a deal title"
-                                class="w-full px-3 py-2 border-2 rounded-lg text-sm text-[#172B4D] focus:outline-none focus:border-blue-600 overflow-hidden text-ellipsis"
-                                style="border-color: #091E4224; color: #172B4D !important;"
-                                required
-                            />
-                        </div>
-
-                        <!-- Deal Type and Product (Two Columns) -->
+                        <!-- Title and Deal Type (Two Columns) -->
                         <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Title</label>
+                                <input 
+                                    v-model="dealFromData.title"
+                                    type="text" 
+                                    placeholder="Enter a deal title"
+                                    class="w-full px-3 py-2 border-2 rounded-lg text-sm text-[#172B4D] focus:outline-none focus:border-blue-600 overflow-hidden text-ellipsis"
+                                    style="border-color: #091E4224; color: #172B4D !important;"
+                                    required
+                                />
+                            </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Deal Type</label>
                                 <SelectField
@@ -103,6 +101,10 @@
                                     @update:modelValue="(val: any) => dealFromData.type = val?.id || 0"
                                 />
                             </div>
+                        </div>
+
+                        <!-- Product and Product Batch (Two Columns) -->
+                        <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Product</label>
                                 <SelectField
@@ -114,11 +116,8 @@
                                     @update:modelValue="(val: any) => dealFromData.product_id = val?.id?.toString() || ''"
                                 />
                             </div>
-                        </div>
-
-                        <!-- Product Batch (Full Width) -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Product Batch</label>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Product Batch</label>
                                 <SelectField
                                     :modelValue="batchOptions.find(opt => opt.id.toString() === dealFromData.batch_id) || null"
                                     :options="batchOptions"
@@ -127,6 +126,7 @@
                                     placeholder="Select a product batch"
                                     @update:modelValue="(val: any) => dealFromData.batch_id = val?.id?.toString() || ''"
                                 />
+                            </div>
                         </div>
 
                         <!-- Description (Full Width) -->
@@ -146,20 +146,22 @@
                     <div class="space-y-4">
                         <h3 class="text-lg font-medium text-gray-900 border-b border-gray-200 pb-2">Product Quantity</h3>
                         
-                        <!-- Quantity fields in two columns -->
+                        <!-- Quantity to Buy (Full Width) -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Quantity to Buy</label>
+                            <input 
+                                v-model.number="dealFromData.buy"
+                                type="number" 
+                                min="0"
+                                placeholder="0"
+                                class="w-full px-3 py-2 border-2 rounded-lg text-sm text-[#172B4D] focus:outline-none focus:border-blue-600 overflow-hidden text-ellipsis"
+                                style="border-color: #091E4224; color: #172B4D !important;"
+                                required
+                            />
+                        </div>
+
+                        <!-- Quantity to Set Aside and Min Required Quantity (Two Columns) -->
                         <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Quantity to Buy</label>
-                                <input 
-                                    v-model.number="dealFromData.buy"
-                                    type="number" 
-                                    min="0"
-                                    placeholder="0"
-                                    class="w-full px-3 py-2 border-2 rounded-lg text-sm text-[#172B4D] focus:outline-none focus:border-blue-600 overflow-hidden text-ellipsis"
-                                    style="border-color: #091E4224; color: #172B4D !important;"
-                                    required
-                                />
-                            </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Quantity to Set Aside for Deal</label>
                                 <input 
@@ -172,20 +174,18 @@
                                     required
                                 />
                             </div>
-                        </div>
-
-                        <!-- Min Required Quantity (Full Width) -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Min. Required Quantity</label>
-                            <input 
-                                v-model.number="dealFromData.get"
-                                type="number" 
-                                min="0"
-                                placeholder="0"
-                                class="w-full px-3 py-2 border-2 rounded-lg text-sm text-[#172B4D] focus:outline-none focus:border-blue-600 overflow-hidden text-ellipsis"
-                                style="border-color: #091E4224; color: #172B4D !important;"
-                                required
-                            />
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Min. Required Quantity</label>
+                                <input 
+                                    v-model.number="dealFromData.get"
+                                    type="number" 
+                                    min="0"
+                                    placeholder="0"
+                                    class="w-full px-3 py-2 border-2 rounded-lg text-sm text-[#172B4D] focus:outline-none focus:border-blue-600 overflow-hidden text-ellipsis"
+                                    style="border-color: #091E4224; color: #172B4D !important;"
+                                    required
+                                />
+                            </div>
                         </div>
 
                         <!-- Set Active Checkbox -->
@@ -229,21 +229,19 @@
             <form @submit.prevent="updateDeal" class="space-y-6 p-6">
                     <!-- Deal Details -->
                     <div class="space-y-4">
-                        <!-- Title (Full Width) -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Title</label>
-                            <input 
-                                v-model="dealFromData.title"
-                                type="text" 
-                                placeholder="Enter a deal title"
-                                class="w-full px-3 py-2 border-2 rounded-lg text-sm text-[#172B4D] focus:outline-none focus:border-blue-600 overflow-hidden text-ellipsis"
-                                style="border-color: #091E4224; color: #172B4D !important;"
-                                required
-                            />
-                        </div>
-
-                        <!-- Deal Type and Product (Two Columns) -->
+                        <!-- Title and Deal Type (Two Columns) -->
                         <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Title</label>
+                                <input 
+                                    v-model="dealFromData.title"
+                                    type="text" 
+                                    placeholder="Enter a deal title"
+                                    class="w-full px-3 py-2 border-2 rounded-lg text-sm text-[#172B4D] focus:outline-none focus:border-blue-600 overflow-hidden text-ellipsis"
+                                    style="border-color: #091E4224; color: #172B4D !important;"
+                                    required
+                                />
+                            </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Deal Type</label>
                                 <SelectField
@@ -255,6 +253,10 @@
                                     @update:modelValue="(val: any) => dealFromData.type = val?.id || 0"
                                 />
                             </div>
+                        </div>
+
+                        <!-- Product and Product Batch (Two Columns) -->
+                        <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Product</label>
                                 <SelectField
@@ -266,19 +268,17 @@
                                     @update:modelValue="(val: any) => dealFromData.product_id = val?.id?.toString() || ''"
                                 />
                             </div>
-                        </div>
-
-                        <!-- Product Batch (Full Width) -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Product Batch</label>
-                            <SelectField
-                                :modelValue="batchOptions.find(opt => opt.id.toString() === dealFromData.batch_id) || null"
-                                :options="batchOptions"
-                                labelField="name"
-                                valueField="id"
-                                placeholder="Select a product batch"
-                                @update:modelValue="(val: any) => dealFromData.batch_id = val?.id?.toString() || ''"
-                            />
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Product Batch</label>
+                                <SelectField
+                                    :modelValue="batchOptions.find(opt => opt.id.toString() === dealFromData.batch_id) || null"
+                                    :options="batchOptions"
+                                    labelField="name"
+                                    valueField="id"
+                                    placeholder="Select a product batch"
+                                    @update:modelValue="(val: any) => dealFromData.batch_id = val?.id?.toString() || ''"
+                                />
+                            </div>
                         </div>
 
                         <!-- Description (Full Width) -->
@@ -298,20 +298,22 @@
                     <div class="space-y-4">
                         <h3 class="text-lg font-medium text-gray-900 border-b border-gray-200 pb-2">Product Quantity</h3>
                         
-                        <!-- Quantity fields in two columns -->
+                        <!-- Quantity to Buy (Full Width) -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Quantity to Buy</label>
+                            <input 
+                                v-model.number="dealFromData.buy"
+                                type="number" 
+                                min="0"
+                                placeholder="0"
+                                class="w-full px-3 py-2 border-2 rounded-lg text-sm text-[#172B4D] focus:outline-none focus:border-blue-600 overflow-hidden text-ellipsis"
+                                style="border-color: #091E4224; color: #172B4D !important;"
+                                required
+                            />
+                        </div>
+
+                        <!-- Quantity to Set Aside and Min Required Quantity (Two Columns) -->
                         <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Quantity to Buy</label>
-                                <input 
-                                    v-model.number="dealFromData.buy"
-                                    type="number" 
-                                    min="0"
-                                    placeholder="0"
-                                    class="w-full px-3 py-2 border-2 rounded-lg text-sm text-[#172B4D] focus:outline-none focus:border-blue-600 overflow-hidden text-ellipsis"
-                                    style="border-color: #091E4224; color: #172B4D !important;"
-                                    required
-                                />
-                            </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Quantity to Set Aside for Deal</label>
                                 <input 
@@ -324,20 +326,18 @@
                                     required
                                 />
                             </div>
-                        </div>
-
-                        <!-- Min Required Quantity (Full Width) -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Min. Required Quantity</label>
-                            <input 
-                                v-model.number="dealFromData.get"
-                                type="number" 
-                                min="0"
-                                placeholder="0"
-                                class="w-full px-3 py-2 border-2 rounded-lg text-sm text-[#172B4D] focus:outline-none focus:border-blue-600 overflow-hidden text-ellipsis"
-                                style="border-color: #091E4224; color: #172B4D !important;"
-                                required
-                            />
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Min. Required Quantity</label>
+                                <input 
+                                    v-model.number="dealFromData.get"
+                                    type="number" 
+                                    min="0"
+                                    placeholder="0"
+                                    class="w-full px-3 py-2 border-2 rounded-lg text-sm text-[#172B4D] focus:outline-none focus:border-blue-600 overflow-hidden text-ellipsis"
+                                    style="border-color: #091E4224; color: #172B4D !important;"
+                                    required
+                                />
+                            </div>
                         </div>
 
                         <!-- Set Active Checkbox -->
@@ -357,7 +357,7 @@
                 <div class="flex justify-between">
                     <Button 
                         type="red-btn" 
-                        :onClick="() => isDeleteDealWarningModalOpen = true"
+                        :onClick="() => openDeleteFromEditModal()"
                         classStyle=""
                         htmlType="button"
                     >
@@ -656,6 +656,18 @@ const openEditModal = async (deal: Deal) => {
 const openDeleteWarningModal = (deal: Deal) => {
     deleteDealFromData.value = deal
     isDeleteDealWarningModalOpen.value = true
+}
+
+const openDeleteFromEditModal = () => {
+    // Get the current deal being edited
+    const currentDeal = mockDeals.value.find(d => d.id === editingDealId.value)
+    if (currentDeal) {
+        // Close the edit modal first
+        isEditDealModalOpen.value = false
+        // Set the deal to delete and open confirmation modal
+        deleteDealFromData.value = currentDeal
+        isDeleteDealWarningModalOpen.value = true
+    }
 }
 
 const handleDeleteConfirm = () => {

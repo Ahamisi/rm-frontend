@@ -2,7 +2,7 @@
     <div class="erp_dashboard_wrapper">
         <div class="grey_bg">
             <!-- Header -->
-            <PageTitle title="Report / Expiry Report / Expired" class="px-6" />
+            <PageTitle :title="dynamicTitle" class="px-6" />
 
             <!-- tabs -->
             <Tabs :tabs="expiryTabs" @tab-changed="handleTabChange" :defaultTab="activeTab">
@@ -39,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, nextTick } from 'vue'
+import { ref, nextTick, computed } from 'vue'
 import Datatable from '@/views/Components/Datatable/Datatable.vue'
 import PageTitle from '@/views/Components/header/PageTitle.vue'
 import Tabs from '@/views/Components/Tabs.vue'
@@ -58,6 +58,26 @@ interface ExpiryData {
 // Tab state
 const activeTab = ref('Expired')
 const childKey = ref(0)
+
+// Dynamic title based on active tab
+const dynamicTitle = computed(() => {
+    const baseTitle = 'Report / Expiry Report'
+    
+    switch (activeTab.value) {
+        case 'Expired':
+            return `${baseTitle} / Expired`
+        case '3 Months':
+            return `${baseTitle} / 3 Months`
+        case '6 Months':
+            return `${baseTitle} / 6 Months`
+        case '1 Year':
+            return `${baseTitle} / 1 Year`
+        case '1 Year and 6 Months':
+            return `${baseTitle} / 1 Year and 6 Months`
+        default:
+            return baseTitle
+    }
+})
 
 // Tab configuration
 const expiryTabs = ref([

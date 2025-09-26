@@ -2,7 +2,7 @@
   <div class="erp_dashboard_wrapper">
     <div class="grey_bg">
       <!-- Header -->
-      <PageTitle title="Orders & Fulfilment / All Orders / New" class="px-6" />
+      <Breadcrumb :items="breadcrumbItems" background="gray" />
 
       <!-- tabs -->
       <Tabs :tabs="mainTabs" @tab-changed="handleTabChange" :defaultTab="activeTab" />
@@ -54,8 +54,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import PageTitle from '@/views/Components/header/PageTitle.vue'
+import { ref, computed } from 'vue'
+import Breadcrumb from '@/views/Components/ui/Breadcrumb.vue'
 import Tabs from '@/views/Components/Tabs.vue'
 import OrderDetailsModal from '@/views/Components/ui/OrderDetailsModal.vue'
 import NewOrders from '@/views/Pages/Compliance/Orders/components/NewOrders.vue'
@@ -73,6 +73,13 @@ import Cancelled from '@/views/Pages/Compliance/Orders/components/Cancelled.vue'
 const activeTab = ref('New')
 const isOrderDetailsModalOpen = ref(false)
 const selectedOrder = ref(null)
+
+// Dynamic breadcrumb items
+const breadcrumbItems = computed(() => [
+  { label: 'Orders & Fulfilment' },
+  { label: 'All Orders' },
+  { label: activeTab.value }
+])
 
 // Mock data for order details modal
 const orderItems = ref([

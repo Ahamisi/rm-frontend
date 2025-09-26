@@ -1,7 +1,6 @@
 <template>
-    <div class="min-h-screen bg-gray-50">
+    <div class="deal-analytics-page">
         <!-- Page Title -->
-
         <div>
             <PageTitle :title="breadcrumbTitle" class="px-6" />
         </div>
@@ -13,105 +12,104 @@
             :showIcon="false"
         />
 
-        <!-- Summary Cards and Chart -->
-        <div class="px-6">
+        <!-- Scrollable Content Area -->
+        <div class="px-6 pb-8">
+            <!-- Summary Cards and Chart -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 items-stretch">
                 <!-- Left Column - Summary Cards -->
                 <div class="flex flex-col space-y-6">
-                    <!-- First Row - Two Cards -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- First Row - Two Cards Side by Side -->
+                    <div class="grid grid-cols-2 gap-6">
                         <!-- Total Remaining -->
                         <div class="p-6 rounded-lg border flex-1 flex flex-col justify-center" style="border-color: #091E420F; min-height: 120px;">
-                            <p class="text-sm  text-gray-600">Total Remaining</p>
+                            <p class="text-sm text-gray-600">Total Remaining</p>
                             <p class="text-md text-gray-900">{{ dealAnalytics.totalRemaining }}</p>
                         </div>
 
                         <!-- Total Sold -->
                         <div class="p-6 rounded-lg border flex-1 flex flex-col justify-center" style="border-color: #091E420F; min-height: 120px;">
-                            <p class="text-sm  text-gray-600">Total Sold</p>
+                            <p class="text-sm text-gray-600">Total Sold</p>
                             <p class="text-md text-gray-900">{{ dealAnalytics.totalSold }}</p>
                         </div>
                     </div>
 
                     <!-- Second Row - Full Width Card -->
                     <div class="p-6 rounded-lg border flex-1 flex flex-col justify-center" style="border-color: #091E420F; min-height: 120px;">
-                        <p class="text-sm  text-gray-600">Total Quantity</p>
+                        <p class="text-sm text-gray-600">Total Quantity</p>
                         <p class="text-md text-gray-900">{{ dealAnalytics.totalQuantity }}</p>
                     </div>
                 </div>
 
-                <!-- Right Column - Chart -->
+                <!-- Right Column - Full Chart -->
                 <div class="p-6 rounded-lg border h-full flex flex-col" style="border-color: #091E420F;">
-                <h3 class="text-md text-gray-900 mb-2">Deal Stock</h3>
-                <p class="text-sm text-gray-600 mb-6">Ratio of sold vs available deal stock</p>
-                
-                <!-- Donut Chart SVG -->
-                <div class="flex justify-center">
-                    <svg width="200" height="200" viewBox="0 0 200 200" class="transform -rotate-90">
-                        <!-- Define pattern for striped shredded effect -->
-                        <defs>
-                            <pattern id="shreddedPattern" x="0" y="0" width="4" height="20" patternUnits="userSpaceOnUse">
-                                <rect x="0" y="0" width="2" height="20" fill="#B8C4FF" opacity="0.8"/>
-                                <rect x="2" y="0" width="2" height="20" fill="transparent"/>
-                            </pattern>
-                        </defs>
-                        
-                        <!-- Sold segment (40%) - left side -->
-                        <circle
-                            cx="100"
-                            cy="100"
-                            r="80"
-                            fill="none"
-                            stroke="#6C88FF"
-                            stroke-width="30"
-                            stroke-dasharray="201 503"
-                            stroke-dashoffset="0"
-                        />
-                        
-                        <!-- Available segment (60%) with striped pattern - right side -->
-                        <circle
-                            cx="100"
-                            cy="100"
-                            r="80"
-                            fill="none"
-                            stroke="url(#shreddedPattern)"
-                            stroke-width="30"
-                            stroke-dasharray="302 503"
-                            stroke-dashoffset="-201"
-                        />
-                        
-                        <!-- Percentage label in center -->
-                        <text x="100" y="105" text-anchor="middle" class="transform rotate-90" fill="#6C88FF" font-size="24" font-weight="bold">40%</text>
-                    </svg>
-                </div>
-                
-                <!-- Chart Legend - Centered -->
-                <div class="mt-6 flex justify-center">
-                    <div class="flex items-center space-x-6">
-                        <div class="flex items-center">
-                            <div class="w-4 h-4 rounded-full mr-2" style="background-color: #6C88FF;"></div>
-                            <span class="text-sm text-gray-700">Sold</span>
-                        </div>
-                        <div class="flex items-center">
-                            <div class="w-4 h-4 rounded-full mr-2" style="background-color: #B8C4FF; opacity: 0.8;"></div>
-                            <span class="text-sm text-gray-700">Available</span>
+                    <h3 class="text-md text-gray-900 mb-2">Deal Stock</h3>
+                    <p class="text-sm text-gray-600 mb-6">Ratio of sold vs available deal stock</p>
+                    
+                    <!-- Donut Chart SVG -->
+                    <div class="flex justify-center">
+                        <svg width="200" height="200" viewBox="0 0 200 200" class="transform -rotate-90">
+                            <!-- Define pattern for striped shredded effect -->
+                            <defs>
+                                <pattern id="shreddedPattern" x="0" y="0" width="4" height="20" patternUnits="userSpaceOnUse">
+                                    <rect x="0" y="0" width="2" height="20" fill="#B8C4FF" opacity="0.8"/>
+                                    <rect x="2" y="0" width="2" height="20" fill="transparent"/>
+                                </pattern>
+                            </defs>
+                            
+                            <!-- Sold segment (40%) - left side -->
+                            <circle
+                                cx="100"
+                                cy="100"
+                                r="80"
+                                fill="none"
+                                stroke="#6C88FF"
+                                stroke-width="30"
+                                stroke-dasharray="201 503"
+                                stroke-dashoffset="0"
+                            />
+                            
+                            <!-- Available segment (60%) with striped pattern - right side -->
+                            <circle
+                                cx="100"
+                                cy="100"
+                                r="80"
+                                fill="none"
+                                stroke="url(#shreddedPattern)"
+                                stroke-width="30"
+                                stroke-dasharray="302 503"
+                                stroke-dashoffset="-201"
+                            />
+                            
+                            <!-- Percentage label in center -->
+                            <text x="100" y="105" text-anchor="middle" class="transform rotate-90" fill="#6C88FF" font-size="24" font-weight="bold">40%</text>
+                        </svg>
+                    </div>
+                    
+                    <!-- Chart Legend - Centered -->
+                    <div class="mt-6 flex justify-center">
+                        <div class="flex items-center space-x-6">
+                            <div class="flex items-center">
+                                <div class="w-4 h-4 rounded-full mr-2" style="background-color: #6C88FF;"></div>
+                                <span class="text-sm text-gray-700">Sold</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-4 h-4 rounded-full mr-2" style="background-color: #B8C4FF; opacity: 0.8;"></div>
+                                <span class="text-sm text-gray-700">Available</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-                </div>
             </div>
-        </div>
 
-        <!-- Transaction Table -->
-        <div class="px-6">
-                <div class="max-h-96 overflow-y-auto">
-                    <Datatable 
-                        :items="transactions" 
-                        :filterByDate="false" 
-                        :filterFields="filterFields" 
-                        :columns="transactionColumns" 
-                        pageName="Deal Transactions"
-                    />
+            <!-- Transaction Table -->
+            <div class="mb-8">
+                <Datatable 
+                    :items="transactions" 
+                    :filterByDate="false" 
+                    :filterFields="filterFields" 
+                    :columns="transactionColumns" 
+                    pageName="Deal Transactions"
+                />
             </div>
         </div>
     </div>
@@ -215,7 +213,29 @@ const transactionColumns = ref<TableColumn[]>([
     }
 ])
 
-const filterFields = ref<FilterFields<FilterField>>({})
+const filterFields = ref<FilterFields<FilterField>>({
+    user: {
+        field: 'user',
+        label: 'User',
+        type: 'select',
+        options: [
+            { id: 'Arogundade Aminat', name: 'Arogundade Aminat' },
+            { id: 'Samuel Adegoke', name: 'Samuel Adegoke' }
+        ]
+    },
+    quantity: {
+        field: 'quantity',
+        label: 'Quantity Range',
+        type: 'range',
+        min: 0,
+        max: 2000
+    },
+    date: {
+        field: 'date',
+        label: 'Date',
+        type: 'date'
+    }
+})
 
 // Computed - removed filteredTransactions since Datatable handles filtering internally
 
@@ -242,3 +262,50 @@ onMounted(() => {
     loadDealData()
 })
 </script>
+
+<style scoped>
+/* Override body scroll hidden for this page */
+.deal-analytics-page {
+    min-height: 100vh;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+}
+
+/* Ensure the page can scroll properly */
+.deal-analytics-page * {
+    box-sizing: border-box;
+}
+
+/* Override any parent container restrictions */
+:deep(.erp_dashboard_wrapper) {
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 100vh !important;
+}
+
+/* Make sure the body can scroll when this page is active */
+:global(body) {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+}
+
+/* Override main element styles that prevent scrolling */
+:global(main) {
+    min-height: auto !important;
+    height: auto !important;
+    overflow: scroll !important;
+    flex: none !important;
+}
+
+/* Override main element styles that prevent scrolling */
+:global(#app) {
+    overflow-y: scroll !important;
+}
+
+
+/* Override parent flex container */
+:global(.flex-1) {
+    min-height: auto !important;
+    height: auto !important;
+}
+</style>

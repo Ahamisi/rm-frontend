@@ -45,7 +45,7 @@
           {{ cancelText || 'Cancel' }}
         </Button>
         <Button 
-          type="yellow-btn"
+          :type="confirmButtonType || 'yellow-btn'"
           :onClick="() => $emit('confirm')"
           classStyle="px-4 py-2"
         >
@@ -70,6 +70,7 @@ defineProps<{
   width?: 'default' | 'lg';
   customWidth?: string;
   processName?: string;
+  confirmButtonType?: string;
 }>();
 
 // Function to automatically bold text within quotes

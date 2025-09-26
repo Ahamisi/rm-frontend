@@ -2,7 +2,7 @@
     <div class="erp_dashboard_wrapper">
         <div class="grey_bg">
             <!-- Header -->
-            <PageTitle title="Business Programs / Loyalty Program Progress" class="px-6" />
+            <PageTitle :title="dynamicTitle" class="px-6" />
 
             <!-- tabs -->
             <Tabs :tabs="loyaltyTabs" @tab-changed="handleTabChange" :defaultTab="activeTab" />
@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, nextTick } from 'vue'
+import { ref, nextTick, computed } from 'vue'
 import Datatable from '@/views/Components/Datatable/Datatable.vue'
 import PageTitle from '@/views/Components/header/PageTitle.vue'
 import Tabs from '@/views/Components/Tabs.vue'
@@ -65,6 +65,16 @@ interface BonusData {
 // Tab state
 const activeTab = ref('Progress')
 const childKey = ref(0)
+
+// Dynamic title based on active tab
+const dynamicTitle = computed(() => {
+    if (activeTab.value === 'Progress') {
+        return 'Business Programs / Loyalty Program / Progress'
+    } else if (activeTab.value === 'Bonus') {
+        return 'Business Programs / Loyalty Program / Bonus'
+    }
+    return 'Business Programs / Loyalty Program'
+})
 
 // Tab configuration
 const loyaltyTabs = ref([

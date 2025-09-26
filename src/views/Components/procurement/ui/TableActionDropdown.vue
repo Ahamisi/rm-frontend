@@ -9,7 +9,10 @@
         <!-- Dropdown Menu -->
         <teleport to="body">
             <div v-if="isCurrentDropdownOpen" :style="dropdownStyle"
-                class="absolute z-50 bg-white border border-gray-200 rounded shadow-lg w-fit dropdown-menu min-w-48">
+                :class="[
+                    'absolute z-50 bg-white border border-gray-200 rounded shadow-lg w-fit dropdown-menu',
+                    props.wide ? 'min-w-64' : 'min-w-48'
+                ]">
                 <ul class="text-sm text-gray-700" :class="{ 'divide-y divide-gray-200': !props.noDividers }">
                     <slot :selectedItem="rowData" :closeDropdown="closeDropdown">
                         <!-- Default menu items if no slot content provided -->
@@ -38,6 +41,7 @@ const props = defineProps<{
     menuItems?: MenuItem[];
     dropdownId?: string;
     noDividers?: boolean;
+    wide?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -88,7 +92,7 @@ const updateDropdownPosition = () => {
     const viewportHeight = window.innerHeight;
     const viewportWidth = window.innerWidth;
     const dropdownHeight = 200; // Estimated dropdown height
-    const dropdownWidth = 192; // min-w-48 = 192px (12rem * 16px)
+    const dropdownWidth = props.wide ? 256 : 192; // min-w-64 = 256px or min-w-48 = 192px
     
     const spaceBelow = viewportHeight - rect.bottom;
     const spaceAbove = rect.top;

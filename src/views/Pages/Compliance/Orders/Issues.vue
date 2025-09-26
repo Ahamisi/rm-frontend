@@ -7,8 +7,8 @@
     
     <!-- Contents -->
     <div class="px-6 mt-0 bg-white min-h-[calc(100vh-190px)]">
-      <Datatable 
-        :url="issuesUrl" 
+      <Datatable
+        :items="orderIssues"
         :filterByDate="true" 
         :searchable="true"
         :sortable="true"
@@ -20,7 +20,7 @@
         :key="datatableKey"
       >
         <template #header_actions>
-          <Button 
+          <!-- <Button 
             type="blue-btn"
             :onClick="openCreateIssueModal"
             classStyle="px-4 py-2"
@@ -29,79 +29,57 @@
                <path fillRule="evenodd" clipRule="evenodd" d="M13 11V7C13 6.73478 12.8946 6.48043 12.7071 6.29289C12.5196 6.10536 12.2652 6 12 6C11.7348 6 11.4804 6.10536 11.2929 6.29289C11.1054 6.48043 11 6.73478 11 7V11H7C6.73478 11 6.48043 11.1054 6.29289 11.2929C6.10536 11.4804 6 11.7348 6 12C6 12.2652 6.10536 12.5196 6.29289 12.7071C6.48043 12.8946 6.73478 13 7 13H11V17C11 17.2652 11.1054 17.5196 11.2929 17.7071C11.4804 17.8946 11.7348 18 12 18C12.2652 18 12.5196 17.8946 12.7071 17.7071C12.8946 17.5196 13 17.2652 13 17V13H17C17.2652 13 17.5196 12.8946 17.7071 12.7071C17.8946 12.5196 18 12.2652 18 12C18 11.7348 17.8946 11.4804 17.7071 11.2929C17.5196 11.1054 17.2652 11 17 11H13Z" fill="white"/>
             </svg>
             Report Issue
-          </Button>
+          </Button> -->
         </template>
 
-      <template #column="col">
-        <!-- ID -->
-        <span v-if="col.props.column.field === 'id'">
-          <span class="font-medium">{{ col.props.row.id }}</span>
-        </span>
-        
-        <!-- Order Number -->
-        <span v-else-if="col.props.column.field === 'orderNumber'">
-          <span>{{ col.props.row.orderNumber }}</span>
-        </span>
-        
-        <!-- Issue Type -->
-        <span v-else-if="col.props.column.field === 'issueType'">
-          <span class="text-gray-700">{{ col.props.row.issueType }}</span>
-        </span>
-        
-        <!-- Priority -->
-        <span v-else-if="col.props.column.field === 'priority'">
-          <span :class="getPriorityClass(col.props.row.priority)"
-                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium">
-            {{ col.props.row.priority }}
-          </span>
-        </span>
-        
-        <!-- Status -->
-        <span v-else-if="col.props.column.field === 'status'">
-          <span :class="getStatusClass(col.props.row.status)"
-                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium">
-            {{ col.props.row.status }}
-          </span>
-        </span>
-        
-        <!-- Assigned -->
-        <span v-else-if="col.props.column.field === 'assigned'">
-          <div v-if="col.props.row.assigned" class="flex items-center space-x-2">
-            <div class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium"
-                 :style="{ backgroundColor: getAvatarColor(col.props.row.assigned), color: 'white' }">
-              {{ getInitials(col.props.row.assigned) }}
-            </div>
-            <span class="text-gray-700">{{ col.props.row.assigned }}</span>
+        <template #column="col">
+        <!-- Tags Column -->
+        <span v-if="col.props?.column?.field === 'tags'">
+          <div class="flex flex-wrap gap-1">
+            <Pill 
+              v-for="tag in col.props.formattedRow[col.props.column.field]" 
+              :key="tag" 
+              :type="getPillType(tag)"
+              :text="tag"
+              :showIcon="false"
+            />
           </div>
-          <span v-else class="text-red-600">Unassigned</span>
-        </span>
-        
-        <!-- Created Date -->
-        <span v-else-if="col.props.column.field === 'createdDate'">
-          <span class="text-gray-700">{{ formatDate(col.props.row.createdDate) }}</span>
-        </span>
-        
-        <!-- Action -->
-        <span v-else-if="col.props.column.field === 'action'">
-          <TableActionDropdown :rowData="col.props.row">
+          </span>
+
+        <!-- Assigned Column -->
+          <span v-else-if="col.props?.column?.field === 'assigned'">
+          <div v-if="col.props.formattedRow[col.props.column.field]" class="flex items-center gap-2">
+              <div class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium"
+                 :style="{ backgroundColor: getAvatarColor(col.props.formattedRow[col.props.column.field]), color: 'white' }">
+              {{ getInitials(col.props.formattedRow[col.props.column.field]) }}
+              </div>
+            <span>{{ col.props.formattedRow[col.props.column.field] }}</span>
+            </div>
+            <span v-else class="text-gray-400">Unassigned</span>
+          </span>
+
+          <!-- Action Column -->
+          <span v-else-if="col.props?.column?.field === 'action'">
+          <TableActionDropdown :rowData="col.props.formattedRow">
             <template #default="{ selectedItem, closeDropdown }">
-              <!-- View Issue -->
-              <li @click="viewIssue(selectedItem); closeDropdown()" 
+              <!-- View Order -->
+              <li @click="viewOrder(selectedItem); closeDropdown()" 
                   class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-gray-100 medium-text">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M12 18C7.464 18 4.001 13.74 4.001 12C4.001 9.999 7.46 6 12.001 6C16.377 6 19.999 9.973 19.999 12C19.999 13.74 16.537 18 12.001 18H12ZM12.001 4C6.48 4 2 8.841 2 12C2 15.086 6.576 20 12 20C17.423 20 22 15.086 22 12C22 8.841 17.52 4 12 4" fill="#626F86"/>
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M11.977 13.984C10.874 13.984 9.977 13.087 9.977 11.984C9.977 10.881 10.874 9.984 11.977 9.984C13.081 9.984 13.977 10.881 13.977 11.984C13.977 13.087 13.081 13.984 11.977 13.984ZM11.977 7.984C9.771 7.984 7.977 9.778 7.977 11.984C7.977 14.19 9.771 15.984 11.977 15.984C14.184 15.984 15.977 14.19 15.977 11.984C15.977 9.778 14.184 7.984 11.977 7.984Z" fill="#626F86"/>
                 </svg>
-                View Issue
+                View Order
               </li>
               
-              <!-- Edit Issue -->
-              <li @click="editIssue(selectedItem); closeDropdown()" 
+              <!-- Unassign -->
+              <li v-if="selectedItem.assigned" @click="unassignOrder(selectedItem); closeDropdown()" 
                   class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-gray-100 medium-text">
-                <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M4.02 19.73C3.98689 19.892 3.99446 20.0597 4.04204 20.218C4.08962 20.3764 4.17572 20.5205 4.29263 20.6374C4.40955 20.7543 4.55363 20.8404 4.71198 20.888C4.87033 20.9355 5.038 20.9431 5.2 20.91L9.01 20.13L4.8 15.92L4.02 19.73ZM9.941 17.11L7.821 14.99L16.306 6.5H16.308L18.429 8.621L9.94 17.111L9.941 17.11ZM19.844 7.207L17.724 5.085C17.5381 4.89908 17.3173 4.7517 17.0743 4.65131C16.8313 4.55092 16.5709 4.4995 16.308 4.5C15.796 4.5 15.284 4.695 14.893 5.085L5.136 14.843L10.086 19.793L19.843 10.035C20.2179 9.65995 20.4286 9.15133 20.4286 8.621C20.4286 8.09068 20.2179 7.58206 19.843 7.207H19.844Z" fill="#626F86"/>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M20.99 6C20.9909 6.12978 20.9661 6.25846 20.917 6.3786C20.8679 6.49874 20.7955 6.60798 20.704 6.7L19.371 7.969L20.655 9.269C20.7934 9.38673 20.8964 9.54055 20.9526 9.71335C21.0088 9.88614 21.0159 10.0711 20.9732 10.2477C20.9305 10.4243 20.8396 10.5856 20.7107 10.7137C20.5818 10.8417 20.4199 10.9315 20.243 10.973C20.0663 11.0152 19.8814 11.0079 19.7085 10.952C19.5357 10.8961 19.3815 10.7937 19.263 10.656L17.287 8.687C17.1034 8.50291 17.0003 8.25351 17.0003 7.9935C17.0003 7.73349 17.1034 7.48409 17.287 7.3L19.322 5.272C19.463 5.13804 19.6403 5.04858 19.8319 5.01479C20.0234 4.981 20.2207 5.00437 20.399 5.082C20.764 5.242 20.996 5.604 20.99 6ZM5 14C5 12.895 5.902 12 7.009 12H14.991C16.101 12 17 12.894 17 14.006V18.446C17 21.851 5 21.851 5 18.446V14Z" fill="#626F86"/>
+                  <path d="M11 11C13.2091 11 15 9.20914 15 7C15 4.79086 13.2091 3 11 3C8.79086 3 7 4.79086 7 7C7 9.20914 8.79086 11 11 11Z" fill="#626F86"/>
                 </svg>
-                Edit Issue
+                Unassign
               </li>
               
               <!-- Change Status -->
@@ -116,23 +94,34 @@
                 Change Status
               </li>
               
-              <!-- Assign/Unassign -->
-              <li @click="toggleAssign(selectedItem); closeDropdown()" 
+              <!-- Time Tracker -->
+              <li @click="openTimeTracker(selectedItem); closeDropdown()" 
                   class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-gray-100 medium-text">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="#626F86"/>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12 4C7.588 4 4 7.588 4 12C4 16.412 7.588 20 12 20C16.412 20 20 16.412 20 12C20 7.588 16.412 4 12 4ZM12 18.222C10.3505 18.2199 8.76911 17.5637 7.60272 16.3973C6.43633 15.2309 5.78012 13.6495 5.778 12C5.78012 10.3505 6.43633 8.76911 7.60272 7.60272C8.76911 6.43633 10.3505 5.78012 12 5.778C13.6495 5.78012 15.2309 6.43633 16.3973 7.60272C17.5637 8.76911 18.2199 10.3505 18.222 12C18.2199 13.6495 17.5637 15.2309 16.3973 16.3973C15.2309 17.5637 13.6495 18.2199 12 18.222ZM12.889 11.632V8.448C12.889 7.959 12.489 7.559 12 7.559C11.511 7.559 11.111 7.959 11.111 8.449V12.004C11.111 12.252 11.214 12.475 11.379 12.637L13.574 14.831C13.741 14.9972 13.9669 15.0904 14.2025 15.0904C14.4381 15.0904 14.664 14.9972 14.831 14.831C14.9969 14.6641 15.0899 14.4383 15.0899 14.203C15.0899 13.9677 14.9969 13.7419 14.831 13.575L12.889 11.632Z" fill="#626F86"/>
                 </svg>
-                {{ selectedItem.assigned ? 'Unassign' : 'Assign' }}
+                Time Tracker
+              </li>
+              
+              <!-- Activity Log -->
+              <li @click="openActivityLog(selectedItem); closeDropdown()" 
+                  class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-gray-100 medium-text">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M17 10.005V19H7V5H12.99V7.49C12.99 7.88782 13.148 8.26936 13.4293 8.55066C13.7106 8.83196 14.0922 8.99 14.49 8.99H18.99V8.468C18.99 8.171 18.858 7.89 18.631 7.7L13.557 3.464C13.197 3.164 12.744 3 12.275 3H7C6.46957 3 5.96086 3.21071 5.58579 3.58579C5.21071 3.96086 5 4.46957 5 5V19C5 19.5304 5.21071 20.0391 5.58579 20.4142C5.96086 20.7893 6.46957 21 7 21H17C17.5304 21 18.0391 20.7893 18.4142 20.4142C18.7893 20.0391 19 19.5304 19 19V10.005H17Z" fill="#626F86"/>
+                  <path d="M15 12H9C8.44772 12 8 12.4477 8 13C8 13.5523 8.44772 14 9 14H15C15.5523 14 16 13.5523 16 13C16 12.4477 15.5523 12 15 12Z" fill="#626F86"/>
+                  <path d="M11 15H9C8.44772 15 8 15.4477 8 16C8 16.5523 8.44772 17 9 17H11C11.5523 17 12 16.5523 12 16C12 15.4477 11.5523 15 11 15Z" fill="#626F86"/>
+                </svg>
+                Activity Log
               </li>
             </template>
           </TableActionDropdown>
-        </span>
-        
+          </span>
+
         <!-- Default -->
-        <span v-else>
+          <span v-else>
           {{ col.props.row[col.props.column.field] }}
-        </span>
-      </template>
+          </span>
+        </template>
       </Datatable>
     </div>
 
@@ -219,6 +208,62 @@
         @issue-updated="handleIssueUpdate"
       />
     </SideBarModal>
+
+    <!-- Order Details Modal -->
+    <OrderDetailsModal
+      :isOpen="isOrderDetailsModalOpen"
+      :orderData="selectedOrder"
+      :orderItems="orderItems"
+      :orderActivities="orderActivities"
+      :initialActiveTab="modalActiveTab"
+      @close="isOrderDetailsModalOpen = false"
+    />
+
+    <!-- Time Tracker Modal -->
+    <TimeTrackerModal
+      :isOpen="showTimeTrackerModal"
+      :orderRef="selectedOrder.orderNo || '1656493689-254'"
+      :stages="timeTrackerStages"
+      @close="showTimeTrackerModal = false"
+    />
+
+    <!-- Update Order Status Modal -->
+    <UniversalCenteredModal
+      :show="showStatusUpdateModal"
+      @close="showStatusUpdateModal = false"
+    >
+      <template #header>
+        <h3 class="text-lg font-semibold text-gray-900">Update Order Status</h3>
+      </template>
+      
+      <template #body>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+            <SelectField
+              v-model="selectedStatus"
+              :options="statusOptions"
+              labelField="name"
+              valueField="id"
+              placeholder="Select a status"
+            />
+          </div>
+        </div>
+      </template>
+      
+      <template #footer>
+        <Button type="gray-btn" :onClick="() => showStatusUpdateModal = false">Cancel</Button>
+        <Button type="blue-btn" :onClick="updateOrderStatus">Update</Button>
+      </template>
+    </UniversalCenteredModal>
+
+    <!-- Success Toast -->
+    <SuccessAlertToast 
+      :message="toastMessage" 
+      :duration="3000" 
+      :isVisible="showToast" 
+      @close="showToast = false" 
+    />
   </div>
 </template>
 
@@ -230,6 +275,11 @@ import SideBarModal from '@/views/Components/SideBarModal.vue'
 import SelectField from '@/views/Components/ui/SelectField.vue'
 import Button from '@/views/Components/ui/Button.vue'
 import TableActionDropdown from '@/views/Components/procurement/ui/TableActionDropdown.vue'
+import OrderDetailsModal from '@/views/Components/ui/OrderDetailsModal.vue'
+import TimeTrackerModal from '@/views/Components/TimeTrackerModal.vue'
+import UniversalCenteredModal from '@/views/Components/UniversalCenteredModal.vue'
+import Pill from '@/views/Components/ui/Pill.vue'
+import SuccessAlertToast from '@/views/Components/SuccessAlertToast.vue'
 import IssueDetails from './components/IssueDetails.vue'
 import type { TableColumn, FilterFields, FilterField } from '@/types'
 import dayjs from 'dayjs'
@@ -240,6 +290,18 @@ const showCreateModal = ref(false)
 const showEditModal = ref(false)
 const isIssueDetailsModalOpen = ref(false)
 const selectedIssue = ref<any>(null)
+
+// Modal states
+const isOrderDetailsModalOpen = ref(false)
+const showTimeTrackerModal = ref(false)
+const showStatusUpdateModal = ref(false)
+const selectedOrder = ref<any>({})
+const modalActiveTab = ref('details')
+const selectedStatus = ref<any>(null)
+
+// Toast states
+const showToast = ref(false)
+const toastMessage = ref('')
 
 // API URL for issues
 const issuesUrl = '/compliance/orders/issues'
@@ -287,13 +349,16 @@ const form = ref<FormData>({
 
 // Table columns configuration
 const issueColumns = ref<TableColumn[]>([
-  { field: 'id', label: 'ID', sortable: true },
-  { field: 'orderNumber', label: 'Order No.', sortable: true },
-  { field: 'issueType', label: 'Issue Type', sortable: true },
-  { field: 'priority', label: 'Priority', sortable: false },
-  { field: 'status', label: 'Status', sortable: false },
-  { field: 'assigned', label: 'Assigned', sortable: false },
-  { field: 'createdDate', label: 'Created Date', sortable: true },
+  { field: 'orderNo', label: 'Order No.', sortable: true },
+  { field: 'customerName', label: 'Customer Name', sortable: true },
+  { field: 'storeName', label: 'Store Name', sortable: true },
+  { field: 'state', label: 'State', sortable: true },
+  { field: 'payment', label: 'Payment', sortable: true },
+  { field: 'orderDate', label: 'Order Date', sortable: true },
+  { field: 'deliveryDate', label: 'Delivery Date', sortable: true },
+  { field: 'totalAmount', label: 'Total Amount', sortable: true },
+  { field: 'tags', label: 'Tags', sortable: false },
+  { field: 'assigned', label: 'Assigned', sortable: true },
   { field: 'action', label: 'Action', sortable: false }
 ])
 
@@ -313,57 +378,99 @@ const priorityOptions = ref([
   { id: 4, name: 'Critical' }
 ])
 
+const statusOptions = ref([
+  { id: 1, name: 'New' },
+  { id: 2, name: 'Confirmed' },
+  { id: 3, name: 'Being Processed' },
+  { id: 4, name: 'Picked & Packed' },
+  { id: 5, name: 'Awaiting Shipment' },
+  { id: 6, name: 'Shipped to Hub' },
+  { id: 7, name: 'At Hub' },
+  { id: 8, name: 'Shipped via Third Party' },
+  { id: 9, name: 'Shipped to Customer' },
+  { id: 10, name: 'Delivered' },
+  { id: 11, name: 'Cancelled' }
+])
+
 // Mock data for order issues
 const orderIssues = ref([
   {
     id: 1,
-    orderNumber: 'RHPO-1651244 100',
-    issueType: 'Inventory Shortage',
-    priority: 'High',
-    status: 'Open',
-    assigned: 'Esther Joel' as string | null,
-    createdDate: '5/20/2024',
-    description: 'Product out of stock in warehouse'
+    orderNo: 'RHPO-1651244 214',
+    customerName: 'Fidson Healthcare',
+    storeName: 'Emeka Pharmacy',
+    state: 'Lagos',
+    payment: 'Trade',
+    orderDate: '5/21/2024',
+    deliveryDate: '5/21/2024',
+    totalAmount: '₦2,055,043.00',
+    tags: ['Cash and Carry', 'Controlled'],
+    assigned: null as string | null
   },
   {
     id: 2,
-    orderNumber: 'RHPO-1651244 101',
-    issueType: 'Product Damage',
-    priority: 'Medium',
-    status: 'In Progress',
-    assigned: 'Femi Babalola' as string | null,
-    createdDate: '5/19/2024',
-    description: 'Package arrived damaged'
+    orderNo: 'RHPO-1651244 215',
+    customerName: 'EVANS THERAPEUTICS L..',
+    storeName: 'Emma Bros Pharmacy',
+    state: 'Lagos',
+    payment: 'Trade',
+    orderDate: '5/21/2024',
+    deliveryDate: '5/21/2024',
+    totalAmount: '₦2,055,043.00',
+    tags: ['Cash and Carry', 'Hospital'],
+    assigned: null as string | null
   },
   {
     id: 3,
-    orderNumber: 'RHPO-1651244 102',
-    issueType: 'Delivery Delay',
-    priority: 'Critical',
-    status: 'Open',
-    assigned: null as string | null,
-    createdDate: '5/18/2024',
-    description: 'Delivery delayed due to weather conditions'
+    orderNo: 'RHPO-1651244 216',
+    customerName: 'Emzor Pharmaceuticals',
+    storeName: 'Xela pharmacy',
+    state: 'Lagos',
+    payment: 'Trade',
+    orderDate: '5/21/2024',
+    deliveryDate: '5/21/2024',
+    totalAmount: '₦2,055,043.00',
+    tags: ['Cash and Carry', 'Controlled'],
+    assigned: 'Esther Joel' as string | null
   },
   {
     id: 4,
-    orderNumber: 'RHPO-1651244 103',
-    issueType: 'Quality Issue',
-    priority: 'High',
-    status: 'Resolved',
-    assigned: 'Sarah Badmus' as string | null,
-    createdDate: '5/17/2024',
-    description: 'Product quality below standards'
+    orderNo: 'RHPO-1651244 217',
+    customerName: 'Fidson Healthcare',
+    storeName: 'Emeka Pharmacy',
+    state: 'Lagos',
+    payment: 'Trade',
+    orderDate: '5/21/2024',
+    deliveryDate: '5/21/2024',
+    totalAmount: '₦2,055,043.00',
+    tags: ['Cash and Carry', 'Controlled'],
+    assigned: 'Sarah Badmus' as string | null
   },
   {
     id: 5,
-    orderNumber: 'RHPO-1651244 104',
-    issueType: 'System Error',
-    priority: 'Low',
-    status: 'Closed',
-    assigned: 'Josh Michael' as string | null,
-    createdDate: '5/16/2024',
-    description: 'System error during order processing'
+    orderNo: 'RHPO-1651244 218',
+    customerName: 'EVANS THERAPEUTICS L..',
+    storeName: 'Emma Bros Pharmacy',
+    state: 'Lagos',
+    payment: 'Trade',
+    orderDate: '5/21/2024',
+    deliveryDate: '5/21/2024',
+    totalAmount: '₦2,055,043.00',
+    tags: ['Cash and Carry', 'Hospital'],
+    assigned: 'Josh Michael' as string | null
+  },
+  {
+    id: 6,
+    orderNo: 'RHPO-1651244 219',
+    customerName: 'Emzor Pharmaceuticals',
+    storeName: 'Xela pharmacy',
+    state: 'Lagos',
+    payment: 'Trade',
+    orderDate: '5/21/2024',
+    deliveryDate: '5/21/2024',
+    totalAmount: '₦2,055,043.00',
+    tags: ['Cash and Carry', 'Controlled'],
+    assigned: 'Femi Babalola' as string | null
   }
 ])
 
@@ -497,19 +604,101 @@ const getInitials = (name: string) => {
   return parts[0][0].toUpperCase()
 }
 
-const changeStatus = (issue: any) => {
-  console.log('Change status for issue:', issue)
-  // TODO: Implement status change modal
+const changeStatus = (order: any) => {
+  selectedOrder.value = order
+  selectedStatus.value = null
+  showStatusUpdateModal.value = true
 }
 
-const toggleAssign = (issue: any) => {
-  console.log('Toggle assign for issue:', issue)
-  // TODO: Implement assign/unassign functionality
+const updateOrderStatus = () => {
+  if (selectedStatus.value) {
+    console.log('Updating order status:', selectedOrder.value.orderNo, 'to', selectedStatus.value.name)
+    // TODO: Implement actual status update logic
+    showStatusUpdateModal.value = false
+    selectedStatus.value = null
+  }
 }
+
+const unassignOrder = (order: any) => {
+  console.log('Unassign order:', order)
+  toastMessage.value = 'Order unassigned successfully'
+  showToast.value = true
+}
+
+const viewOrder = (order: any) => {
+  selectedOrder.value = order
+  modalActiveTab.value = 'details'
+  isOrderDetailsModalOpen.value = true
+}
+
+const openTimeTracker = (order: any) => {
+  selectedOrder.value = order
+  showTimeTrackerModal.value = true
+}
+
+const openActivityLog = (order: any) => {
+  selectedOrder.value = order
+  modalActiveTab.value = 'activities'
+  isOrderDetailsModalOpen.value = true
+}
+
+// Mock data for modals
+const orderItems = ref([
+  {
+    id: 1,
+    productName: 'Paracetamol 500mg',
+    quantity: 100,
+    unitPrice: 50.00,
+    totalPrice: 5000.00
+  },
+  {
+    id: 2,
+    productName: 'Amoxicillin 250mg',
+    quantity: 50,
+    unitPrice: 75.00,
+    totalPrice: 3750.00
+  }
+])
+
+const orderActivities = ref([
+  {
+    id: 1,
+    action: 'Order Created',
+    user: 'System',
+    timestamp: '2024-05-21 10:30:00',
+    details: 'Order was created in the system'
+  },
+  {
+    id: 2,
+    action: 'Payment Confirmed',
+    user: 'John Doe',
+    timestamp: '2024-05-21 10:35:00',
+    details: 'Payment has been confirmed'
+  }
+])
+
+const timeTrackerStages = ref([
+  { id: 1, department: 'Accounting', process: 'New Order → Order Confirmed', time: '1-2 hours', color: '#E56910' },
+  { id: 2, department: 'Inventory', process: 'Order Confirmed → Being Processed', time: '1 minute', color: '#1D7AFC' },
+  { id: 3, department: 'Inventory', process: 'Being Processed → Picked and Packed', time: '2 minutes', color: '#1D7AFC' },
+  { id: 4, department: 'Inventory', process: 'Picked and Packed → Awaiting Shipment', time: '2 minutes', color: '#1D7AFC' },
+  { id: 5, department: 'Logistics', process: 'Awaiting Shipment → Shipped for Delivery', time: '24 seconds', color: '#22A06B' },
+  { id: 6, department: 'Logistics', process: 'Shipped for Delivery → Items Delivered', time: '2 seconds', color: '#22A06B' }
+])
 
 // Utility functions
 const formatDate = (date: string) => {
   return dayjs(date).format('DD/MM/YYYY')
+}
+
+const getPillType = (tag: string) => {
+  const tagTypeMap: { [key: string]: string } = {
+    'Cash and Carry': 'cash-and-carry',
+    'Controlled': 'controlled',
+    'Hospital': 'hospital',
+    'Unassigned': 'pending-tier'
+  }
+  return tagTypeMap[tag] || 'cash-and-carry'
 }
 </script>
 

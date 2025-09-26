@@ -2,7 +2,7 @@
   <div class="erp_dashboard_wrapper">
     <div class="">
       <!-- Header -->
-      <PageTitle title="Compliance / Damaged Products" class="px-6" />
+      <Breadcrumb :items="breadcrumbItems" background="white" />
     </div>
     
     <!-- Contents -->
@@ -221,7 +221,7 @@
 </template>
 
 <script setup lang="ts">
-import PageTitle from "@/views/Components/header/PageTitle.vue";
+import Breadcrumb from "@/views/Components/ui/Breadcrumb.vue";
 import Datatable from "@/views/Components/Datatable/Datatable.vue";
 import SuccessAlertToast from "@/views/Components/SuccessAlertToast.vue";
 import SideBarModal from "@/views/Components/SideBarModal.vue";
@@ -232,6 +232,12 @@ import DeleteConfirmationModal from "@/views/Components/ui/DeleteConfirmationMod
 import WarningConfirmationModal from "@/views/Components/ui/WarningConfirmationModal.vue";
 import { ref, computed } from 'vue';
 import type { TableColumn } from '@/types';
+
+// Breadcrumb items
+const breadcrumbItems = computed(() => [
+  { label: 'Compliance' },
+  { label: 'Damaged Products' }
+]);
 
 // Reactive variables
 const childKey = ref(0);
@@ -540,8 +546,45 @@ const handleDiscardConfirm = () => {
 const handleSideBarClose = () => {
   // Only show discard modal if we're not in the middle of a discard operation
   if (!isDiscarding.value) {
-    showDiscardModal.value = true;
+    // Check if there are any changes to discard
+    const hasChanges = checkForChanges();
+    if (hasChanges) {
+      showDiscardModal.value = true;
+    } else {
+      // No changes, just close the modal
+      closeModal();
+    }
   }
+};
+
+// Check if form has any changes
+const checkForChanges = () => {
+  // For create mode, check if any field has been filled
+  if (showCreateModal.value) {
+    return form.value.product !== null || 
+           form.value.quantity !== '' || 
+           form.value.date_damaged !== '' || 
+           form.value.batch_number !== null || 
+           form.value.damage_cause !== '' || 
+           form.value.comment !== '' || 
+           form.value.returnable !== false;
+  }
+  
+  // For edit mode, check if current form differs from original product data
+  if (showEditModal.value && selectedProduct.value) {
+    const original = selectedProduct.value;
+    const current = form.value;
+    
+    return (current.product?.name !== original.product_name) ||
+           (current.quantity !== original.quantity.toString()) ||
+           (current.date_damaged !== original.date_damaged.split('/').reverse().join('-')) ||
+           (current.batch_number?.name !== original.batch_no) ||
+           (current.damage_cause !== (original.damage_cause === '--' ? '' : original.damage_cause)) ||
+           (current.comment !== (original.comment === '--' ? '' : original.comment)) ||
+           (current.returnable !== (original.returnable !== '--'));
+  }
+  
+  return false;
 };
 
 // Handle sidebar update:isOpen event - this gets triggered when modal closes programmatically

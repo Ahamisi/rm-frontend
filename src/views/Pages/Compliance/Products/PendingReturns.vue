@@ -1,20 +1,18 @@
 <template>
   <div class="erp_dashboard_wrapper">
-    <div class="grey_bg">
+    <div class="grey_bg bg-[#f9fafb]">
       <!-- Header -->
-      <PageTitle title="Pending Product Return" class="px-6" />
+      <PageTitle :title="dynamicTitle" class="px-6" />
 
       <!-- Tabs -->
       <Tabs :tabs="statusTabs" @tab-changed="handleTabChange" :defaultTab="activeTab">
         <!-- Action Buttons in tabs line -->
         <div class="flex items-center gap-3 ml-auto mb-1">
           <Button type="gray-btn" :onClick="downloadReturnsReport" classStyle="px-4 py-2 flex items-center gap-2">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.89 22 5.99 22H18C19.1 22 20 21.1 20 20V8L14 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M14 2V8H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M16 13H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M16 17H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M10 9H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10.687 17.292C10.5956 17.1997 10.4868 17.1264 10.3669 17.0764C10.247 17.0264 10.1184 17.0007 9.9885 17.0007C9.8586 17.0007 9.72998 17.0264 9.61009 17.0764C9.49019 17.1264 9.3814 17.1997 9.29 17.292C9.10466 17.4792 9.0007 17.732 9.0007 17.9955C9.0007 18.259 9.10466 18.5118 9.29 18.699L11.254 20.679C11.3546 20.7807 11.4744 20.8613 11.6064 20.9164C11.7384 20.9715 11.88 20.9998 12.023 20.9998C12.166 20.9998 12.3076 20.9715 12.4396 20.9164C12.5716 20.8613 12.6914 20.7807 12.792 20.679L14.711 18.746C14.8966 18.5587 15.0008 18.3057 15.0008 18.042C15.0008 17.7783 14.8966 17.5253 14.711 17.338C14.6196 17.2455 14.5107 17.1721 14.3907 17.122C14.2708 17.0719 14.142 17.0462 14.012 17.0462C13.882 17.0462 13.7532 17.0719 13.6333 17.122C13.5133 17.1721 13.4044 17.2455 13.313 17.338L12.023 18.638L10.687 17.292Z" fill="#44546F"/>
+              <path d="M13.001 19.993L13 10.006C13 9.451 12.552 9 12 9C11.448 9 11 9.45 11 10.007L11.001 19.994C11.001 20.549 11.449 21 12.001 21C12.553 21 13.001 20.55 13.001 19.993Z" fill="#44546F"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M7.938 5.48C7.68111 5.4383 7.42125 5.41757 7.161 5.418C4.356 5.418 2 7.62 2 10.498C2 13.409 4.385 16 7.1 16H9.981V14.007H7.1C5.443 14.007 3.985 12.344 3.985 10.499C3.985 8.721 5.454 7.412 7.089 7.412H7.101C7.49 7.412 7.787 7.462 8.071 7.562L8.241 7.625C8.846 7.873 9.116 7.379 9.116 7.379L9.266 7.112C9.996 5.765 11.467 5.016 12.982 4.992C13.9871 5.00203 14.9543 5.37742 15.703 6.04812C16.4517 6.71882 16.9309 7.63901 17.051 8.637L17.097 8.977C17.097 8.977 17.168 9.502 17.762 9.502C17.775 9.502 17.774 9.507 17.785 9.507H18.039C19.175 9.507 20.015 10.466 20.015 11.665C20.015 12.872 19.028 14.007 17.945 14.007H13.981V16H17.945C20.105 16 22 13.955 22 11.665C22 9.665 20.688 8.002 18.862 7.591C18.155 4.884 15.809 3.039 12.976 3C11.001 3.02 9.075 3.9 7.938 5.48Z" fill="#44546F"/>
             </svg>
             Download Returns Report
           </Button>
@@ -33,7 +31,7 @@
     <div class="px-6 mt-0 bg-white tab_contents min-h-[calc(100vh-190px)]">
       <!-- Data Table -->
     <Datatable 
-      :items="pendingReturnsData" 
+      :items="filteredData" 
       :filterByDate="true" 
       :columns="pendingReturnsColumns" 
       :key="`pendingreturns-${activeTab}-${childKey}`"
@@ -66,6 +64,16 @@
           <span class="text-gray-700">{{ col.props.row.store_name }}</span>
         </span>
         
+        <!-- Driver (only for Approved tab) -->
+        <span v-else-if="col.props.column.field === 'driver'">
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center">
+              <span class="text-xs font-medium text-gray-600">{{ col.props.row.driver?.initials || 'D' }}</span>
+            </div>
+            <span class="text-gray-700">{{ col.props.row.driver?.name || 'No Driver' }}</span>
+          </div>
+        </span>
+        
         <!-- Reason -->
         <span v-else-if="col.props.column.field === 'reason'">
           <span class="text-gray-700">{{ col.props.row.reason }}</span>
@@ -74,6 +82,15 @@
         <!-- Items -->
         <span v-else-if="col.props.column.field === 'items'">
           <span class="text-gray-700">{{ col.props.row.items }}</span>
+        </span>
+        
+        <!-- Transit Status (only for Approved tab) -->
+        <span v-else-if="col.props.column.field === 'transit_status'">
+          <Pill 
+            :type="getTransitStatusType(col.props.row.transit_status)" 
+            :text="col.props.row.transit_status" 
+            :showIcon="false"
+          />
         </span>
         
         <!-- Total Amount -->
@@ -88,7 +105,8 @@
         
         <!-- Action -->
         <span v-else-if="col.props.column.field === 'actions'">
-          <TableActionDropdown :rowData="col.props.row" :key="col.props.row.id" :noDividers="true">
+          <!-- Show dropdown for New tab -->
+          <TableActionDropdown v-if="activeTab === 'New'" :rowData="col.props.row" :key="col.props.row.id" :noDividers="true">
             <template #default="{ selectedItem, closeDropdown }">
               <!-- View Product Return -->
               <li @click="viewProductReturn(selectedItem); closeDropdown()" 
@@ -103,8 +121,11 @@
               <!-- Change Status -->
               <li @click="changeStatus(selectedItem); closeDropdown()" 
                   class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-gray-100 medium-text">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M17 3C17.2626 2.73735 17.5744 2.52901 17.9176 2.38687C18.2608 2.24473 18.6286 2.17157 19 2.17157C19.3714 2.17157 19.7392 2.24473 20.0824 2.38687C20.4256 2.52901 20.7374 2.73735 21 3C21.2626 3.26264 21.471 3.57444 21.6131 3.9176C21.7553 4.26077 21.8284 4.62856 21.8284 5C21.8284 5.37143 21.7553 5.73923 21.6131 6.08239C21.471 6.42556 21.2626 6.73735 21 7L7.5 20.5L2 22L3.5 16.5L17 3Z" stroke="#626F86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7.99955 6.503V9.498C7.99955 9.76322 8.1049 10.0176 8.29244 10.2051C8.47998 10.3926 8.73433 10.498 8.99955 10.498C9.26476 10.498 9.51912 10.3926 9.70665 10.2051C9.89419 10.0176 9.99955 9.76322 9.99955 9.498V5.602C9.99955 4.994 9.50655 4.5 8.89955 4.5H4.99955C4.73393 4.5 4.4792 4.60551 4.29138 4.79333C4.10356 4.98115 3.99805 5.23589 3.99805 5.5015C3.99805 5.76711 4.10356 6.02185 4.29138 6.20967C4.4792 6.39748 4.73393 6.503 4.99955 6.503H7.99955Z" fill="#626F86"/>
+                  <path d="M9.42755 18.518C7.35055 17.489 5.99955 15.307 5.99955 12.87C5.99955 10.604 7.16655 8.551 9.01955 7.445C9.49955 7.159 9.66555 6.523 9.39055 6.024C9.3287 5.90677 9.24369 5.80331 9.14067 5.71991C9.03765 5.63651 8.91877 5.5749 8.79124 5.5388C8.6637 5.50271 8.53016 5.49289 8.39871 5.50994C8.26727 5.527 8.14066 5.57056 8.02655 5.638C5.55655 7.111 3.99955 9.85 3.99955 12.87C3.99955 16.118 5.80155 19.028 8.56955 20.399C9.06755 20.646 9.66455 20.425 9.90155 19.906C10.1385 19.386 9.92655 18.765 9.42755 18.518Z" fill="#626F86"/>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M13.9995 15.502V19.398C13.9995 20.006 14.4925 20.5 15.0995 20.5H18.9995C19.2652 20.5 19.5199 20.3945 19.7077 20.2067C19.8955 20.0188 20.001 19.7641 20.001 19.4985C20.001 19.2329 19.8955 18.9782 19.7077 18.7903C19.5199 18.6025 19.2652 18.497 18.9995 18.497H15.9995V15.502C15.9995 15.2368 15.8942 14.9824 15.7067 14.7949C15.5191 14.6074 15.2648 14.502 14.9995 14.502C14.7343 14.502 14.48 14.6074 14.2924 14.7949C14.1049 14.9824 13.9995 15.2368 13.9995 15.502Z" fill="#626F86"/>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M14.0965 5.096C13.8595 5.616 14.0715 6.236 14.5705 6.483C16.6475 7.512 17.9985 9.693 17.9985 12.13C17.9985 14.396 16.8315 16.45 14.9775 17.555C14.7452 17.6988 14.5771 17.9265 14.5082 18.1909C14.4393 18.4553 14.4749 18.7361 14.6075 18.975C14.8815 19.475 15.4925 19.648 15.9715 19.362C18.4415 17.889 19.9985 15.15 19.9985 12.13C19.9985 8.882 18.1965 5.972 15.4285 4.602C15.296 4.53537 15.1499 4.50045 15.0015 4.5C14.8094 4.50188 14.6218 4.55909 14.4613 4.66479C14.3008 4.77049 14.1742 4.9202 14.0965 5.096Z" fill="#626F86"/>
                 </svg>
                 Change Status
               </li>
@@ -128,6 +149,56 @@
               </li>
             </template>
           </TableActionDropdown>
+          
+          <!-- Show dropdown for At Warehouse tab (with Confirm Product Return) -->
+          <TableActionDropdown v-else-if="activeTab === 'At Warehouse'" :rowData="col.props.row" :key="col.props.row.id" :noDividers="true">
+            <template #default="{ selectedItem, closeDropdown }">
+              <!-- View Product Return -->
+              <li @click="viewProductReturn(selectedItem); closeDropdown()" 
+                  class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-gray-100 medium-text">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12 18C7.464 18 4.001 13.74 4.001 12C4.001 9.999 7.46 6 12.001 6C16.377 6 19.999 9.973 19.999 12C19.999 13.74 16.537 18 12.001 18H12ZM12.001 4C6.48 4 2 8.841 2 12C2 15.086 6.576 20 12 20C17.423 20 22 15.086 22 12C22 8.841 17.52 4 12 4" fill="#626F86"/>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M11.977 13.984C10.874 13.984 9.977 13.087 9.977 11.984C9.977 10.881 10.874 9.984 11.977 9.984C13.081 9.984 13.977 10.881 13.977 11.984C13.977 13.087 13.081 13.984 11.977 13.984ZM11.977 7.984C9.771 7.984 7.977 9.778 7.977 11.984C7.977 14.19 9.771 15.984 11.977 15.984C14.184 15.984 15.977 14.19 15.977 11.984C15.977 9.778 14.184 7.984 11.977 7.984Z" fill="#626F86"/>
+                </svg>
+                View Product Return
+              </li>
+              
+              <!-- Confirm Product Return -->
+              <li @click="confirmProductReturn(selectedItem); closeDropdown()" 
+                  class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-gray-100 medium-text">
+                <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7.35691 11.442C7.31059 11.3943 7.25517 11.3564 7.19393 11.3305C7.1327 11.3046 7.06689 11.2913 7.00041 11.2913C6.93393 11.2913 6.86812 11.3046 6.80689 11.3305C6.74565 11.3564 6.69023 11.3943 6.64391 11.442L5.94391 12.143C5.89697 12.1894 5.85964 12.2445 5.83408 12.3053C5.80851 12.3662 5.79521 12.4314 5.79493 12.4974C5.79465 12.5634 5.8074 12.6287 5.83245 12.6898C5.8575 12.7508 5.89436 12.8063 5.94091 12.853L9.64691 16.56C9.74032 16.6533 9.86678 16.7059 9.99879 16.7065C10.1308 16.7071 10.2577 16.6555 10.3519 16.563L18.0639 8.85101C18.1109 8.80465 18.1482 8.74931 18.1734 8.68828C18.1986 8.62725 18.2114 8.56177 18.2108 8.49574C18.2102 8.4297 18.1964 8.36445 18.1701 8.30386C18.1439 8.24326 18.1057 8.18856 18.0579 8.14301L17.3579 7.44301C17.3111 7.39602 17.2554 7.35874 17.1942 7.3333C17.1329 7.30786 17.0672 7.29477 17.0009 7.29477C16.9346 7.29477 16.8689 7.30786 16.8076 7.3333C16.7464 7.35874 16.6907 7.39602 16.6439 7.44301L10.3579 13.729C10.2631 13.8231 10.135 13.8759 10.0014 13.8759C9.86784 13.8759 9.73969 13.8231 9.64491 13.729L7.35691 11.442Z" fill="#626F86"/>
+                </svg>
+                Confirm Product Return
+              </li>
+              
+              <!-- Print Note -->
+              <li @click="printNote(selectedItem); closeDropdown()" 
+                  class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-gray-100 medium-text">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M16.8 8V6.56C16.8 5.66392 16.8 5.21587 16.6256 4.87362C16.4722 4.57256 16.2274 4.32779 15.9264 4.17439C15.5841 4 15.1361 4 14.24 4H9.76C8.86392 4 8.41587 4 8.07362 4.17439C7.77256 4.32779 7.52779 4.57256 7.37439 4.87362C7.2 5.21587 7.2 5.66392 7.2 6.56V8M7.2 16.8C6.45602 16.8 6.08403 16.8 5.77883 16.7182C4.95061 16.4963 4.3037 15.8494 4.08178 15.0212C4 14.716 4 14.344 4 13.6V11.84C4 10.4959 4 9.82381 4.26158 9.31042C4.49168 8.85883 4.85883 8.49168 5.31042 8.26158C5.82381 8 6.49587 8 7.84 8H16.16C17.5041 8 18.1762 8 18.6896 8.26158C19.1412 8.49168 19.5083 8.85883 19.7384 9.31042C20 9.82381 20 10.4959 20 11.84V13.6C20 14.344 20 14.716 19.9182 15.0212C19.6963 15.8494 19.0494 16.4963 18.2212 16.7182C17.916 16.8 17.544 16.8 16.8 16.8M14.4 10.8H16.8M9.76 20H14.24C15.1361 20 15.5841 20 15.9264 19.8256C16.2274 19.6722 16.4722 19.4274 16.6256 19.1264C16.8 18.7841 16.8 18.3361 16.8 17.44V16.16C16.8 15.2639 16.8 14.8159 16.6256 14.4736C16.4722 14.1726 16.2274 13.9278 15.9264 13.7744C15.5841 13.6 15.1361 13.6 14.24 13.6H9.76C8.86392 13.6 8.41587 13.6 8.07362 13.7744C7.77256 13.9278 7.52779 14.1726 7.37439 14.4736C7.2 14.8159 7.2 15.2639 7.2 16.16V17.44C7.2 18.3361 7.2 18.7841 7.37439 19.1264C7.52779 19.4274 7.77256 19.6722 8.07362 19.8256C8.41587 20 8.86392 20 9.76 20Z" stroke="#626F86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Print Note
+              </li>
+            </template>
+          </TableActionDropdown>
+          
+          <!-- Show individual buttons for Approved and Rejected tabs -->
+          <div v-else class="flex items-center gap-2">
+            <button @click="viewProductReturn(col.props.row)" 
+                    class="p-1 hover:bg-gray-100 rounded transition-colors">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 18C7.464 18 4.001 13.74 4.001 12C4.001 9.999 7.46 6 12.001 6C16.377 6 19.999 9.973 19.999 12C19.999 13.74 16.537 18 12.001 18H12ZM12.001 4C6.48 4 2 8.841 2 12C2 15.086 6.576 20 12 20C17.423 20 22 15.086 22 12C22 8.841 17.52 4 12 4" fill="#626F86"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M11.977 13.984C10.874 13.984 9.977 13.087 9.977 11.984C9.977 10.881 10.874 9.984 11.977 9.984C13.081 9.984 13.977 10.881 13.977 11.984C13.977 13.087 13.081 13.984 11.977 13.984ZM11.977 7.984C9.771 7.984 7.977 9.778 7.977 11.984C7.977 14.19 9.771 15.984 11.977 15.984C14.184 15.984 15.977 14.19 15.977 11.984C15.977 9.778 14.184 7.984 11.977 7.984Z" fill="#626F86"/>
+              </svg>
+            </button>
+            <button @click="printNote(col.props.row)" 
+                    class="p-1 hover:bg-gray-100 rounded transition-colors">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16.8 8V6.56C16.8 5.66392 16.8 5.21587 16.6256 4.87362C16.4722 4.57256 16.2274 4.32779 15.9264 4.17439C15.5841 4 15.1361 4 14.24 4H9.76C8.86392 4 8.41587 4 8.07362 4.17439C7.77256 4.32779 7.52779 4.57256 7.37439 4.87362C7.2 5.21587 7.2 5.66392 7.2 6.56V8M7.2 16.8C6.45602 16.8 6.08403 16.8 5.77883 16.7182C4.95061 16.4963 4.3037 15.8494 4.08178 15.0212C4 14.716 4 14.344 4 13.6V11.84C4 10.4959 4 9.82381 4.26158 9.31042C4.49168 8.85883 4.85883 8.49168 5.31042 8.26158C5.82381 8 6.49587 8 7.84 8H16.16C17.5041 8 18.1762 8 18.6896 8.26158C19.1412 8.49168 19.5083 8.85883 19.7384 9.31042C20 9.82381 20 10.4959 20 11.84V13.6C20 14.344 20 14.716 19.9182 15.0212C19.6963 15.8494 19.0494 16.4963 18.2212 16.7182C17.916 16.8 17.544 16.8 16.8 16.8M14.4 10.8H16.8M9.76 20H14.24C15.1361 20 15.5841 20 15.9264 19.8256C16.2274 19.6722 16.4722 19.4274 16.6256 19.1264C16.8 18.7841 16.8 18.3361 16.8 17.44V16.16C16.8 15.2639 16.8 14.8159 16.6256 14.4736C16.4722 14.1726 16.2274 13.9278 15.9264 13.7744C15.5841 13.6 15.1361 13.6 14.24 13.6H9.76C8.86392 13.6 8.41587 13.6 8.07362 13.7744C7.77256 13.9278 7.52779 14.1726 7.37439 14.4736C7.2 14.8159 7.2 15.2639 7.2 16.16V17.44C7.2 18.3361 7.2 18.7841 7.37439 19.1264C7.52779 19.4274 7.77256 19.6722 8.07362 19.8256C8.41587 20 8.86392 20 9.76 20Z" stroke="#626F86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
         </span>
         
         <!-- Default -->
@@ -184,6 +255,18 @@
       :confirmText="'Delete Product Return'"
       @confirm="confirmDelete"
       @cancel="showDeleteModal = false"
+    />
+
+    <!-- Confirm Product Return Modal -->
+    <WarningConfirmationModal
+      :show="showConfirmReturnModal"
+      title="Confirm Product Return?"
+      :message="`You are about to confirm this product return '${selectedReturn?.order_no}' as returned and add items back to inventory. This will take effect immediately.`"
+      confirmText="Confirm Product Return"
+      cancelText="Cancel"
+      confirmButtonType="yellow-btn"
+      @confirm="confirmReturn"
+      @close="showConfirmReturnModal = false"
     />
 
     <!-- Delete Success Modal -->
@@ -321,139 +404,13 @@
     </SideBarModal>
 
     <!-- Print Return Note Modal -->
-    <SideBarModal
+    <PrintNoteModal
       :isOpen="showPrintModal"
-      :title="'Print Return Note'"
-      :width="'medium'"
-      @close="showPrintModal = false"
-    >
-      <template #header>
-        <div class="flex items-center gap-2">
-          <span>Print Return Note</span>
-          <span class="text-sm text-gray-500">RTN-2024-{{ selectedReturn.order_no || '000000' }}</span>
-        </div>
-      </template>
-
-      <template #default>
-        <div class="p-6 space-y-6">
-          <!-- Company Branding -->
-          <div class="flex items-center gap-3 mb-6">
-            <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-green-500 rounded-lg flex items-center justify-center">
-              <span class="text-white font-bold text-lg">RH</span>
-            </div>
-            <span class="text-blue-600 font-semibold text-lg">REMEDIAL HEALTH</span>
-          </div>
-
-          <!-- Document Title -->
-          <div class="text-center mb-6">
-            <h1 class="text-2xl font-bold text-gray-900">Product Return Note</h1>
-          </div>
-
-          <!-- Return Details -->
-          <div class="space-y-4">
-            <div class="flex justify-between items-center">
-              <span class="text-gray-600">Return ID:</span>
-              <span class="font-medium">RTN-2024-{{ selectedReturn.order_no || '000000' }}</span>
-            </div>
-            
-            <div class="flex justify-between items-center">
-              <span class="text-gray-600">Date:</span>
-              <div class="flex items-center gap-2">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M8 2V5" stroke="#626F86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M16 2V5" stroke="#626F86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M3.5 9.09H20.5" stroke="#626F86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M21 8.5V17C21 20 19.5 22 16 22H8C4.5 22 3 20 3 17V8.5C3 5.5 4.5 3.5 8 3.5H16C19.5 3.5 21 5.5 21 8.5Z" stroke="#626F86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M15.6947 14.7H15.7037" stroke="#626F86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M15.6947 17.7H15.7037" stroke="#626F86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M11.9955 14.7H12.0045" stroke="#626F86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M11.9955 17.7H12.0045" stroke="#626F86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M8.29431 14.7H8.30329" stroke="#626F86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M8.29431 17.7H8.30329" stroke="#626F86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <span class="font-medium">{{ selectedReturn.date_created || '5/21/2024 - 11:13 AM' }}</span>
-              </div>
-            </div>
-
-            <div class="flex justify-between items-center">
-              <span class="text-gray-600">Customer's Name:</span>
-              <span class="font-medium">{{ selectedReturn.customer_name || 'Emeka Kalu' }}</span>
-            </div>
-
-            <div class="flex justify-between items-center">
-              <span class="text-gray-600">Store Name:</span>
-              <div class="flex items-center gap-2">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="#626F86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M9 22V12H15V22" stroke="#626F86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <span class="font-medium">{{ selectedReturn.store_name || 'Emeka Pharmacy' }}</span>
-              </div>
-            </div>
-
-            <div class="flex justify-between items-center">
-              <span class="text-gray-600">Reason:</span>
-              <span class="font-medium">{{ selectedReturn.reason || 'Customer Error' }}</span>
-            </div>
-          </div>
-
-          <!-- Product List Table -->
-          <div class="mt-8">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">Returned Products</h3>
-            <div class="overflow-x-auto">
-              <table class="w-full border-collapse border border-gray-300">
-                <thead>
-                  <tr class="bg-gray-50">
-                    <th class="border border-gray-300 px-4 py-2 text-left text-sm font-medium text-gray-700">Product Name</th>
-                    <th class="border border-gray-300 px-4 py-2 text-center text-sm font-medium text-gray-700">Quantity Delivered</th>
-                    <th class="border border-gray-300 px-4 py-2 text-right text-sm font-medium text-gray-700">Unit Price</th>
-                    <th class="border border-gray-300 px-4 py-2 text-right text-sm font-medium text-gray-700">Price Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="item in returnItems" :key="item.id">
-                    <td class="border border-gray-300 px-4 py-2 text-sm">{{ item.product_name }}</td>
-                    <td class="border border-gray-300 px-4 py-2 text-center text-sm">{{ item.quantity_delivered }}</td>
-                    <td class="border border-gray-300 px-4 py-2 text-right text-sm">₦{{ item.unit_price }}</td>
-                    <td class="border border-gray-300 px-4 py-2 text-right text-sm">₦{{ item.price_total }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- Total Refund Amount -->
-          <div class="mt-6 pt-4 border-t border-gray-200">
-            <div class="flex justify-between items-center">
-              <span class="text-lg font-semibold text-gray-900">Total Refund Amount</span>
-              <span class="text-lg font-bold text-gray-900">₦187,000.00</span>
-            </div>
-          </div>
-        </div>
-      </template>
-
-      <template #footer>
-        <div class="flex justify-between">
-          <Button 
-            type="gray-btn" 
-            :onClick="() => showPrintModal = false"
-            classStyle="px-4 py-2"
-          >
-            Close
-          </Button>
-          <Button 
-            type="blue-btn" 
-            :onClick="handlePrint"
-            classStyle="px-4 py-2 flex items-center gap-2"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M16.8 8V6.56C16.8 5.66392 16.8 5.21587 16.6256 4.87362C16.4722 4.57256 16.2274 4.32779 15.9264 4.17439C15.5841 4 15.1361 4 14.24 4H9.76C8.86392 4 8.41587 4 8.07362 4.17439C7.77256 4.32779 7.52779 4.57256 7.37439 4.87362C7.2 5.21587 7.2 5.66392 7.2 6.56V8M7.2 16.8C6.45602 16.8 6.08403 16.8 5.77883 16.7182C4.95061 16.4963 4.3037 15.8494 4.08178 15.0212C4 14.716 4 14.344 4 13.6V11.84C4 10.4959 4 9.82381 4.26158 9.31042C4.49168 8.85883 4.85883 8.49168 5.31042 8.26158C5.82381 8 6.49587 8 7.84 8H16.16C17.5041 8 18.1762 8 18.6896 8.26158C19.1412 8.49168 19.5083 8.85883 19.7384 9.31042C20 9.82381 20 10.4959 20 11.84V13.6C20 14.344 20 14.716 19.9182 15.0212C19.6963 15.8494 19.0494 16.4963 18.2212 16.7182C17.916 16.8 17.544 16.8 16.8 16.8M14.4 10.8H16.8M9.76 20H14.24C15.1361 20 15.5841 20 15.9264 19.8256C16.2274 19.6722 16.4722 19.4274 16.6256 19.1264C16.8 18.7841 16.8 18.3361 16.8 17.44V16.16C16.8 15.2639 16.8 14.8159 16.6256 14.4736C16.4722 14.1726 16.2274 13.9278 15.9264 13.7744C15.5841 13.6 15.1361 13.6 14.24 13.6H9.76C8.86392 13.6 8.41587 13.6 8.07362 13.7744C7.77256 13.9278 7.52779 14.1726 7.37439 14.4736C7.2 14.8159 7.2 15.2639 7.2 16.16V17.44C7.2 18.3361 7.2 18.7841 7.37439 19.1264C7.52779 19.4274 7.77256 19.6722 8.07362 19.8256C8.41587 20 8.86392 20 9.76 20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            Print
-          </Button>
-        </div>
-      </template>
-    </SideBarModal>
+      :returnData="selectedReturn"
+      :returnItems="returnItems"
+      @update:isOpen="showPrintModal = $event"
+      @print="handlePrint"
+    />
 
     <!-- Success Toast -->
     <SuccessAlertToast 
@@ -478,6 +435,9 @@ import SelectField from '@/views/Components/ui/SelectField.vue';
 import DeleteConfirmationModal from '@/views/Components/ui/DeleteConfirmationModal.vue';
 import SuccessModal from '@/views/Components/ui/SuccessModal.vue';
 import SideBarModal from '@/views/Components/SideBarModal.vue';
+import PrintNoteModal from '@/views/Components/ui/PrintNoteModal.vue';
+import Pill from '@/views/Components/ui/Pill.vue';
+import WarningConfirmationModal from '@/views/Components/ui/WarningConfirmationModal.vue';
 import { useDebounceFn } from '@vueuse/core';
 import type { TableColumn, Option } from '@/types';
 
@@ -495,6 +455,7 @@ const showDeleteSuccessModal = ref(false);
 const showPrintModal = ref(false);
 const showCreateModal = ref(false);
 const showCreateSuccessModal = ref(false);
+const showConfirmReturnModal = ref(false);
 const showSuccessToast = ref(false);
 const successMessage = ref('');
 
@@ -577,12 +538,36 @@ const createSuccessMessage = computed(() => {
   return 'The product return has been successfully added to the system.';
 });
 
-// Status tabs
-const statusTabs = ref([
-  { name: 'New', count: 25 },
-  { name: 'Approved', count: 25 },
-  { name: 'At Warehouse', count: 25 },
-  { name: 'Rejected', count: 25 }
+// Dynamic title based on active tab
+const dynamicTitle = computed(() => {
+  switch (activeTab.value) {
+    case 'New':
+      return 'More Actions / Pending Product Return / New';
+    case 'Approved':
+      return 'More Actions / Pending Product Return / Approved';
+    case 'At Warehouse':
+      return 'More Actions / Pending Product Return / At Warehouse';
+    case 'Rejected':
+      return 'More Actions / Pending Product Return / Rejected';
+    default:
+      return 'More Actions / Pending Product Return';
+  }
+});
+
+// Filtered data based on active tab
+const filteredData = computed(() => {
+  if (activeTab.value === 'All') {
+    return pendingReturnsData.value;
+  }
+  return pendingReturnsData.value.filter(item => item.status === activeTab.value);
+});
+
+// Status tabs with dynamic counts
+const statusTabs = computed(() => [
+  { name: 'New', count: pendingReturnsData.value.filter(item => item.status === 'New').length },
+  { name: 'Approved', count: pendingReturnsData.value.filter(item => item.status === 'Approved').length },
+  { name: 'At Warehouse', count: pendingReturnsData.value.filter(item => item.status === 'At Warehouse').length },
+  { name: 'Rejected', count: pendingReturnsData.value.filter(item => item.status === 'Rejected').length }
 ]);
 
 // Status options for the modal
@@ -595,6 +580,7 @@ const statusOptions = ref([
 
 // Mock data for pending returns
 const pendingReturnsData = ref([
+  // New status data
   {
     id: 87,
     order_no: '87',
@@ -604,7 +590,8 @@ const pendingReturnsData = ref([
     reason: 'Customer Error',
     items: 'UNIQUE 10% DEXTROSE IN WATER 500ML: ₦474.00 (x100)',
     total_amount: '₦47,400.00',
-    date_created: '16/01/2025'
+    date_created: '16/01/2025',
+    status: 'New'
   },
   {
     id: 54,
@@ -615,7 +602,8 @@ const pendingReturnsData = ref([
     reason: 'Customer Error',
     items: 'UNIQUE 10% DEXTROSE IN WATER 500ML: ₦474.00 (x100)',
     total_amount: '₦47,400.00',
-    date_created: '16/01/2025'
+    date_created: '16/01/2025',
+    status: 'New'
   },
   {
     id: 25,
@@ -626,7 +614,8 @@ const pendingReturnsData = ref([
     reason: 'Customer Error',
     items: 'UNIQUE 10% DEXTROSE IN WATER 500ML: ₦474.00 (x100)',
     total_amount: '₦47,400.00',
-    date_created: '16/01/2025'
+    date_created: '16/01/2025',
+    status: 'New'
   },
   {
     id: 30,
@@ -637,7 +626,8 @@ const pendingReturnsData = ref([
     reason: 'Customer Error',
     items: 'CETIDYN L CAPLET 5MG 5 x 10: ₦813.00 (x10)',
     total_amount: '₦47,400.00',
-    date_created: '16/01/2025'
+    date_created: '16/01/2025',
+    status: 'New'
   },
   {
     id: 51,
@@ -648,7 +638,8 @@ const pendingReturnsData = ref([
     reason: 'Customer Error',
     items: 'UNIQUE 10% DEXTROSE IN WATER 500ML: ₦474.00 (x100)',
     total_amount: '₦47,400.00',
-    date_created: '16/01/2025'
+    date_created: '16/01/2025',
+    status: 'New'
   },
   {
     id: 21,
@@ -659,7 +650,8 @@ const pendingReturnsData = ref([
     reason: 'Customer Error',
     items: 'CETIDYN L CAPLET 5MG 5 x 10: ₦813.00 (x10)',
     total_amount: '₦47,400.00',
-    date_created: '16/01/2025'
+    date_created: '16/01/2025',
+    status: 'New'
   },
   {
     id: 35,
@@ -670,7 +662,8 @@ const pendingReturnsData = ref([
     reason: 'Customer Error',
     items: 'DR MEYERS CALCITONE TABLETS X 100: ₦460.00 (x20)',
     total_amount: '₦47,400.00',
-    date_created: '16/01/2025'
+    date_created: '16/01/2025',
+    status: 'New'
   },
   {
     id: 23,
@@ -681,7 +674,8 @@ const pendingReturnsData = ref([
     reason: 'Customer Error',
     items: 'UNIQUE 10% DEXTROSE IN WATER 500ML: ₦474.00 (x100)',
     total_amount: '₦47,400.00',
-    date_created: '16/01/2025'
+    date_created: '16/01/2025',
+    status: 'New'
   },
   {
     id: 33,
@@ -692,7 +686,204 @@ const pendingReturnsData = ref([
     reason: 'Customer Error',
     items: 'CETIDYN L CAPLET 5MG 5 x 10: ₦813.00 (x10)',
     total_amount: '₦47,400.00',
-    date_created: '16/01/2025'
+    date_created: '16/01/2025',
+    status: 'New'
+  },
+  
+  // Approved status data
+  {
+    id: 101,
+    order_no: '101',
+    warehouse: 'LOS-WH1',
+    customer_name: 'Sarah Johnson',
+    store_name: 'Health Plus Pharmacy',
+    driver: { name: 'Dave Free', initials: 'DF' },
+    reason: 'Defective Product',
+    items: 'PANADOL EXTRA 500MG TABLETS: ₦1,200.00 (x50)',
+    transit_status: 'Pending Collection',
+    total_amount: '₦60,000.00',
+    date_created: '15/01/2025',
+    status: 'Approved'
+  },
+  {
+    id: 102,
+    order_no: '102',
+    warehouse: 'LOS-WH2',
+    customer_name: 'Michael Brown',
+    store_name: 'Care Medical Store',
+    driver: { name: 'Michael Raymond', initials: 'MR' },
+    reason: 'Wrong Item Delivered',
+    items: 'AMOXICILLIN 500MG CAPSULES: ₦800.00 (x30)',
+    transit_status: 'Pending Collection',
+    total_amount: '₦24,000.00',
+    date_created: '15/01/2025',
+    status: 'Approved'
+  },
+  {
+    id: 103,
+    order_no: '103',
+    warehouse: 'LOS-WH1',
+    customer_name: 'Grace Williams',
+    store_name: 'Wellness Pharmacy',
+    driver: { name: 'Esther Joel', initials: 'EJ' },
+    reason: 'Customer Error',
+    items: 'VITAMIN C 1000MG TABLETS: ₦1,500.00 (x20)',
+    transit_status: 'Pending Collection',
+    total_amount: '₦30,000.00',
+    date_created: '14/01/2025',
+    status: 'Approved'
+  },
+  {
+    id: 104,
+    order_no: '104',
+    warehouse: 'LOS-WH2',
+    customer_name: 'David Smith',
+    store_name: 'MediCare Pharmacy',
+    driver: { name: 'Femi Babalola', initials: 'FB' },
+    reason: 'Defective Product',
+    items: 'PARACETAMOL 500MG TABLETS: ₦600.00 (x100)',
+    transit_status: 'Pending Collection',
+    total_amount: '₦60,000.00',
+    date_created: '14/01/2025',
+    status: 'Approved'
+  },
+  {
+    id: 105,
+    order_no: '105',
+    warehouse: 'LOS-WH1',
+    customer_name: 'Jennifer Davis',
+    store_name: 'Health First Store',
+    driver: { name: 'Sarah Badmus', initials: 'SB' },
+    reason: 'Wrong Item Delivered',
+    items: 'IBUPROFEN 400MG TABLETS: ₦900.00 (x40)',
+    transit_status: 'Pending Collection',
+    total_amount: '₦36,000.00',
+    date_created: '13/01/2025',
+    status: 'Approved'
+  },
+  
+  // At Warehouse status data
+  {
+    id: 301,
+    order_no: '301',
+    warehouse: 'LOS-WH1',
+    customer_name: 'John Doe',
+    store_name: 'Central Pharmacy',
+    reason: 'Defective Product',
+    items: 'METFORMIN 500MG TABLETS: ₦1,000.00 (x30)',
+    total_amount: '₦30,000.00',
+    date_created: '13/01/2025',
+    status: 'At Warehouse'
+  },
+  {
+    id: 302,
+    order_no: '302',
+    warehouse: 'LOS-WH2',
+    customer_name: 'Jane Smith',
+    store_name: 'MediCare Plus',
+    reason: 'Wrong Item Delivered',
+    items: 'LISINOPRIL 10MG TABLETS: ₦1,400.00 (x20)',
+    total_amount: '₦28,000.00',
+    date_created: '13/01/2025',
+    status: 'At Warehouse'
+  },
+  {
+    id: 303,
+    order_no: '303',
+    warehouse: 'LOS-WH1',
+    customer_name: 'Peter Johnson',
+    store_name: 'Health Center',
+    reason: 'Customer Error',
+    items: 'SIMVASTATIN 20MG TABLETS: ₦1,600.00 (x25)',
+    total_amount: '₦40,000.00',
+    date_created: '12/01/2025',
+    status: 'At Warehouse'
+  },
+  {
+    id: 304,
+    order_no: '304',
+    warehouse: 'LOS-WH2',
+    customer_name: 'Mary Brown',
+    store_name: 'Wellness Store',
+    reason: 'Defective Product',
+    items: 'ATENOLOL 50MG TABLETS: ₦1,200.00 (x35)',
+    total_amount: '₦42,000.00',
+    date_created: '12/01/2025',
+    status: 'At Warehouse'
+  },
+  {
+    id: 305,
+    order_no: '305',
+    warehouse: 'LOS-WH1',
+    customer_name: 'Chris Wilson',
+    store_name: 'Quick Health',
+    reason: 'Wrong Item Delivered',
+    items: 'FUROSEMIDE 40MG TABLETS: ₦900.00 (x40)',
+    total_amount: '₦36,000.00',
+    date_created: '11/01/2025',
+    status: 'At Warehouse'
+  },
+  
+  // Rejected status data
+  {
+    id: 201,
+    order_no: '201',
+    warehouse: 'LOS-WH1',
+    customer_name: 'Robert Wilson',
+    store_name: 'City Pharmacy',
+    reason: 'Invalid Return Request',
+    items: 'ASPIRIN 75MG TABLETS: ₦500.00 (x60)',
+    total_amount: '₦30,000.00',
+    date_created: '12/01/2025',
+    status: 'Rejected'
+  },
+  {
+    id: 202,
+    order_no: '202',
+    warehouse: 'LOS-WH2',
+    customer_name: 'Lisa Anderson',
+    store_name: 'Family Health Store',
+    reason: 'Return Period Expired',
+    items: 'OMEPRAZOLE 20MG CAPSULES: ₦1,100.00 (x25)',
+    total_amount: '₦27,500.00',
+    date_created: '12/01/2025',
+    status: 'Rejected'
+  },
+  {
+    id: 203,
+    order_no: '203',
+    warehouse: 'LOS-WH1',
+    customer_name: 'James Taylor',
+    store_name: 'Quick Med Pharmacy',
+    reason: 'Product Already Used',
+    items: 'CETIRIZINE 10MG TABLETS: ₦700.00 (x35)',
+    total_amount: '₦24,500.00',
+    date_created: '11/01/2025',
+    status: 'Rejected'
+  },
+  {
+    id: 204,
+    order_no: '204',
+    warehouse: 'LOS-WH2',
+    customer_name: 'Maria Garcia',
+    store_name: 'Health Solutions',
+    reason: 'Invalid Return Request',
+    items: 'MULTIVITAMIN TABLETS: ₦1,300.00 (x15)',
+    total_amount: '₦19,500.00',
+    date_created: '11/01/2025',
+    status: 'Rejected'
+  },
+  {
+    id: 205,
+    order_no: '205',
+    warehouse: 'LOS-WH1',
+    customer_name: 'Thomas Miller',
+    store_name: 'MediPlus Store',
+    reason: 'Return Period Expired',
+    items: 'CALCIUM CARBONATE 500MG: ₦800.00 (x45)',
+    total_amount: '₦36,000.00',
+    date_created: '10/01/2025',
+    status: 'Rejected'
   },
   {
     id: 88,
@@ -758,8 +949,8 @@ const returnActivities = ref([
   }
 ]);
 
-// Table columns
-const pendingReturnsColumns = ref<TableColumn[]>([
+// Base table columns (for New, At Warehouse, Rejected tabs)
+const baseColumns = ref<TableColumn[]>([
   { label: 'ID', field: 'id', sortable: true },
   { label: 'Order No', field: 'order_no', sortable: true },
   { label: 'Warehouse', field: 'warehouse', sortable: true },
@@ -771,6 +962,27 @@ const pendingReturnsColumns = ref<TableColumn[]>([
   { label: 'Date Created', field: 'date_created', sortable: true },
   { label: 'Action', field: 'actions', sortable: false }
 ]);
+
+// Approved tab columns (includes Driver and Transit Status)
+const approvedColumns = ref<TableColumn[]>([
+  { label: 'ID', field: 'id', sortable: true },
+  { label: 'Order No', field: 'order_no', sortable: true },
+  { label: 'Warehouse', field: 'warehouse', sortable: true },
+  { label: 'Customer Name', field: 'customer_name', sortable: true },
+  { label: 'Store Name', field: 'store_name', sortable: true },
+  { label: 'Driver', field: 'driver', sortable: true },
+  { label: 'Reason', field: 'reason', sortable: true },
+  { label: 'Items', field: 'items', sortable: true },
+  { label: 'Transit Status', field: 'transit_status', sortable: true, width: '150px' },
+  { label: 'Total Amount', field: 'total_amount', sortable: true },
+  { label: 'Date Created', field: 'date_created', sortable: true },
+  { label: 'Action', field: 'actions', sortable: false }
+]);
+
+// Dynamic columns based on active tab
+const pendingReturnsColumns = computed(() => {
+  return activeTab.value === 'Approved' ? approvedColumns.value : baseColumns.value;
+});
 
 // Product selection table columns
 const productSelectionColumns = ref<TableColumn[]>([
@@ -887,14 +1099,11 @@ const printNote = (returnItem: any) => {
   showPrintModal.value = true;
 };
 
-const handlePrint = () => {
-  console.log('Printing return note for:', selectedReturn.value);
-  
-  // Close the modal
-  showPrintModal.value = false;
+const handlePrint = (returnData: any) => {
+  console.log('Printing return note for:', returnData);
   
   // Show success message
-  successMessage.value = `Print note for return ${selectedReturn.value.order_no} generated successfully`;
+  successMessage.value = `Print note for return ${returnData.order_no} generated successfully`;
   showSuccessToast.value = true;
   
   // TODO: Implement actual print functionality here
@@ -904,6 +1113,11 @@ const handlePrint = () => {
 const deleteReturn = (returnItem: any) => {
   selectedReturn.value = returnItem;
   showDeleteModal.value = true;
+};
+
+const confirmProductReturn = (returnItem: any) => {
+  selectedReturn.value = returnItem;
+  showConfirmReturnModal.value = true;
 };
 
 const confirmDelete = () => {
@@ -922,9 +1136,40 @@ const confirmDelete = () => {
   // 3. Refresh the table
 };
 
+const confirmReturn = () => {
+  console.log('Confirming return:', selectedReturn.value);
+  
+  // Close confirmation modal
+  showConfirmReturnModal.value = false;
+  
+  // Show success toast
+  successMessage.value = `Product return "${selectedReturn.value.order_no}" has been confirmed and items added back to inventory.`;
+  showSuccessToast.value = true;
+  
+  // TODO: Implement actual confirm return API call here
+  // After successful confirmation, you might want to:
+  // 1. Update the item status in pendingReturnsData
+  // 2. Update the tab counts
+  // 3. Refresh the table
+};
+
 const handleToastClose = () => {
   showSuccessToast.value = false
   successMessage.value = ''
+};
+
+// Helper function to get transit status type for Pill component
+const getTransitStatusType = (status: string) => {
+  switch (status) {
+    case 'Pending Collection':
+      return 'hospital';
+    case 'In Transit':
+      return 'controlled';
+    case 'Delivered':
+      return 'cash-and-carry';
+    default:
+      return 'hospital';
+  }
 };
 </script>
 

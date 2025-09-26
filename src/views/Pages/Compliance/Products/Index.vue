@@ -6,16 +6,51 @@
     <!-- Tabs with Download Button -->
     <div class=" bg-white">
       <Tabs :tabs="tabs" @tabChanged="onTabChanged">
-        <!-- Download Button in tabs line -->
+        <!-- Download Dropdown in tabs line -->
         <div class="flex items-center gap-3 ml-auto mb-1">
-          <GrayButton @click="downloadProductsReport">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M10.687 17.292C10.5956 17.1997 10.4868 17.1264 10.3669 17.0764C10.247 17.0264 10.1184 17.0007 9.9885 17.0007C9.8586 17.0007 9.72998 17.0264 9.61009 17.0764C9.49019 17.1264 9.3814 17.1997 9.29 17.292C9.10466 17.4792 9.0007 17.732 9.0007 17.9955C9.0007 18.259 9.10466 18.5118 9.29 18.699L11.254 20.679C11.3546 20.7807 11.4744 20.8613 11.6064 20.9164C11.7384 20.9715 11.88 20.9998 12.023 20.9998C12.166 20.9998 12.3076 20.9715 12.4396 20.9164C12.5716 20.8613 12.6914 20.7807 12.792 20.679L14.711 18.746C14.8966 18.5587 15.0008 18.3057 15.0008 18.042C15.0008 17.7783 14.8966 17.5253 14.711 17.338C14.6196 17.2455 14.5107 17.1721 14.3907 17.122C14.2708 17.0719 14.142 17.0462 14.012 17.0462C13.882 17.0462 13.7532 17.0719 13.6333 17.122C13.5133 17.1721 13.4044 17.2455 13.313 17.338L12.023 18.638L10.687 17.292Z" fill="#44546F"/>
-              <path d="M13.001 19.993L13 10.006C13 9.451 12.552 9 12 9C11.448 9 11 9.45 11 10.007L11.001 19.994C11.001 20.549 11.449 21 12.001 21C12.553 21 13.001 20.55 13.001 19.993Z" fill="#44546F"/>
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M7.938 5.48C7.68111 5.4383 7.42125 5.41757 7.161 5.418C4.356 5.418 2 7.62 2 10.498C2 13.409 4.385 16 7.1 16H9.981V14.007H7.1C5.443 14.007 3.985 12.344 3.985 10.499C3.985 8.721 5.454 7.412 7.089 7.412H7.101C7.49 7.412 7.787 7.462 8.071 7.562L8.241 7.625C8.846 7.873 9.116 7.379 9.116 7.379L9.266 7.112C9.996 5.765 11.467 5.016 12.982 4.992C13.9871 5.00203 14.9543 5.37742 15.703 6.04812C16.4517 6.71882 16.9309 7.63901 17.051 8.637L17.097 8.977C17.097 8.977 17.168 9.502 17.762 9.502C17.775 9.502 17.774 9.507 17.785 9.507H18.039C19.175 9.507 20.015 10.466 20.015 11.665C20.015 12.872 19.028 14.007 17.945 14.007H13.981V16H17.945C20.105 16 22 13.955 22 11.665C22 9.665 20.688 8.002 18.862 7.591C18.155 4.884 15.809 3.039 12.976 3C11.001 3.02 9.075 3.9 7.938 5.48Z" fill="#44546F"/>
-            </svg>
-            Download
-          </GrayButton>
+          <div class="relative" ref="downloadDropdownRef">
+            <GrayButton @click="toggleDownloadDropdown" class="flex items-center gap-2 hover:bg-transparent">
+              <svg width="16" class="w-6 h-6" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10.687 17.292C10.5956 17.1997 10.4868 17.1264 10.3669 17.0764C10.247 17.0264 10.1184 17.0007 9.9885 17.0007C9.8586 17.0007 9.72998 17.0264 9.61009 17.0764C9.49019 17.1264 9.3814 17.1997 9.29 17.292C9.10466 17.4792 9.0007 17.732 9.0007 17.9955C9.0007 18.259 9.10466 18.5118 9.29 18.699L11.254 20.679C11.3546 20.7807 11.4744 20.8613 11.6064 20.9164C11.7384 20.9715 11.88 20.9998 12.023 20.9998C12.166 20.9998 12.3076 20.9715 12.4396 20.9164C12.5716 20.8613 12.6914 20.7807 12.792 20.679L14.711 18.746C14.8966 18.5587 15.0008 18.3057 15.0008 18.042C15.0008 17.7783 14.8966 17.5253 14.711 17.338C14.6196 17.2455 14.5107 17.1721 14.3907 17.122C14.2708 17.0719 14.142 17.0462 14.012 17.0462C13.882 17.0462 13.7532 17.0719 13.6333 17.122C13.5133 17.1721 13.4044 17.2455 13.313 17.338L12.023 18.638L10.687 17.292Z" fill="#44546F"/>
+                <path d="M13.001 19.993L13 10.006C13 9.451 12.552 9 12 9C11.448 9 11 9.45 11 10.007L11.001 19.994C11.001 20.549 11.449 21 12.001 21C12.553 21 13.001 20.55 13.001 19.993Z" fill="#44546F"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.938 5.48C7.68111 5.4383 7.42125 5.41757 7.161 5.418C4.356 5.418 2 7.62 2 10.498C2 13.409 4.385 16 7.1 16H9.981V14.007H7.1C5.443 14.007 3.985 12.344 3.985 10.499C3.985 8.721 5.454 7.412 7.089 7.412H7.101C7.49 7.412 7.787 7.462 8.071 7.562L8.241 7.625C8.846 7.873 9.116 7.379 9.116 7.379L9.266 7.112C9.996 5.765 11.467 5.016 12.982 4.992C13.9871 5.00203 14.9543 5.37742 15.703 6.04812C16.4517 6.71882 16.9309 7.63901 17.051 8.637L17.097 8.977C17.097 8.977 17.168 9.502 17.762 9.502C17.775 9.502 17.774 9.507 17.785 9.507H18.039C19.175 9.507 20.015 10.466 20.015 11.665C20.015 12.872 19.028 14.007 17.945 14.007H13.981V16H17.945C20.105 16 22 13.955 22 11.665C22 9.665 20.688 8.002 18.862 7.591C18.155 4.884 15.809 3.039 12.976 3C11.001 3.02 9.075 3.9 7.938 5.48Z" fill="#44546F"/>
+              </svg>
+              Download
+              <svg width="1" height="20" viewBox="0 0 1 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="1" height="20" fill="#091E42" fill-opacity="0.14"/>
+              </svg>
+              <svg 
+                class="w-4 h-4 transition-transform duration-200" 
+                :class="{ 'rotate-180': isDownloadDropdownOpen }"
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </GrayButton>
+            
+            <!-- Dropdown Menu -->
+            <div 
+              v-if="isDownloadDropdownOpen"
+              class="absolute right-0 mt-1 w-56 bg-white rounded-lg shadow-lg border border-gray-200 z-50"
+            >
+              <div class="py-1">
+                <button 
+                  @click="downloadStockReport"
+                  class="flex w-full px-4 py-2 text-xs text-[#172B4D] hover:bg-gray-100 transition-colors"
+                >
+                  Download Stock Report
+                </button>
+                <button 
+                  @click="downloadActiveStockReport"
+                  class="flex w-full px-4 py-2 text-xs text-[#172B4D] hover:bg-gray-100 transition-colors font-500"
+                >
+                  Download Active Stock Report
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </Tabs>
     </div>
@@ -101,7 +136,7 @@
                   <!-- Dynamic Enable/Disable Product based on active tab -->
                   <li v-if="activeTab === 'Active Products'" 
                       @click="disableProduct(selectedItem); closeDropdown()" 
-                      class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-gray-100 medium-text text-red-600">
+                      class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-gray-100 medium-text">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM10.5918 12.0154L9.117 13.499C9.02179 13.5915 8.94595 13.7021 8.89392 13.8242C8.84188 13.9464 8.81469 14.0776 8.81393 14.2104C8.81317 14.3432 8.83885 14.4747 8.88948 14.5975C8.9401 14.7202 9.01466 14.8316 9.10881 14.9252C9.20295 15.0189 9.31479 15.0928 9.43781 15.1427C9.56083 15.1927 9.69256 15.2176 9.82531 15.2161C9.95807 15.2146 10.0892 15.1866 10.211 15.1339C10.3329 15.0812 10.443 15.0047 10.535 14.909L12.0027 13.4325L13.442 14.878C13.6291 15.0661 13.8833 15.1721 14.1485 15.1727C14.4138 15.1734 14.6685 15.0686 14.8565 14.8815C15.0445 14.6944 15.1505 14.4403 15.1512 14.175C15.1519 13.9097 15.0471 13.6551 14.86 13.467L13.4127 12.0141L14.895 10.523C15.0767 10.3339 15.1768 10.081 15.1738 9.81874C15.1709 9.55651 15.065 9.30595 14.879 9.12104C14.6931 8.93612 14.4419 8.83166 14.1797 8.83016C13.9174 8.82865 13.6651 8.93022 13.477 9.11298L12.0015 10.5973L10.5 9.09002C10.3118 8.90742 10.0594 8.80606 9.79717 8.80776C9.53495 8.80947 9.28389 8.9141 9.09807 9.09913C8.91225 9.28416 8.80655 9.53478 8.80373 9.79699C8.80091 10.0592 8.90121 10.312 9.083 10.501L10.5918 12.0154Z" fill="#E56910"/>
                     </svg>
@@ -110,7 +145,7 @@
                   
                   <li v-else 
                       @click="enableProduct(selectedItem); closeDropdown()" 
-                      class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-gray-100 medium-text text-green-600">
+                      class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-gray-100 medium-text">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM9.3824 11.0689C9.50441 11.1213 9.61475 11.1975 9.707 11.293L11 12.586L14.293 9.29302C14.3852 9.19751 14.4956 9.12133 14.6176 9.06892C14.7396 9.01651 14.8708 8.98892 15.0036 8.98777C15.1364 8.98662 15.2681 9.01192 15.391 9.0622C15.5138 9.11248 15.6255 9.18673 15.7194 9.28063C15.8133 9.37452 15.8875 9.48617 15.9378 9.60907C15.9881 9.73196 16.0134 9.86364 16.0122 9.99642C16.0111 10.1292 15.9835 10.2604 15.9311 10.3824C15.8787 10.5044 15.8025 10.6148 15.707 10.707L11.707 14.707C11.5195 14.8945 11.2652 14.9998 11 14.9998C10.7348 14.9998 10.4805 14.8945 10.293 14.707L8.293 12.707C8.19749 12.6148 8.1213 12.5044 8.0689 12.3824C8.01649 12.2604 7.9889 12.1292 7.98775 11.9964C7.98659 11.8636 8.0119 11.732 8.06218 11.6091C8.11246 11.4862 8.18671 11.3745 8.2806 11.2806C8.3745 11.1867 8.48615 11.1125 8.60904 11.0622C8.73194 11.0119 8.86362 10.9866 8.9964 10.9878C9.12918 10.9889 9.2604 11.0165 9.3824 11.0689Z" fill="#22A06B"/>
                     </svg>
@@ -246,26 +281,29 @@
       width="medium"
     >
       <template #default="{ closeModal }">
-        <div class="space-y-6 px-6">
-          <!-- Batch Selection -->
-          <div>
-            <label>Batch</label>
-            <SelectField
-              v-model="updateQuantityFormData.batch"
-              :options="batchOptions"
-              placeholder="Select batch"
-            />
-          </div>
+        <div class="space-y-6 px-6 py-4">
+          <!-- Batch Selection and Quantity Change - Side by Side -->
+          <div class="grid grid-cols-2 gap-4">
+            <!-- Batch Selection -->
+            <div>
+              <label>Batch</label>
+              <SelectField
+                v-model="updateQuantityFormData.batch"
+                :options="batchOptions"
+                placeholder="Select batch"
+              />
+            </div>
 
-          <!-- Quantity Change -->
-          <div>
-            <label>Quantity Change</label>
-            <input 
-              type="text" 
-              v-model="updateQuantityFormData.quantityChange"
-              placeholder="e.g., +10 to increase or -5 to decrease"
-              class="w-full"
-            />
+            <!-- Quantity Change -->
+            <div>
+              <label>Quantity Change</label>
+              <input 
+                type="text" 
+                v-model="updateQuantityFormData.quantityChange"
+                placeholder="e.g., +10 to increase or -5 to decrease"
+                class="w-full"
+              />
+            </div>
           </div>
 
           <!-- Reason -->
@@ -359,12 +397,31 @@
         <div class="space-y-6 px-6">
           <!-- Step 1: Product Details -->
           <div v-if="editProductCurrentStep === 1" class="space-y-6">
-            <!-- Product Details Section -->
+            <!-- Product Information Section -->
             <div>
-              <h3 class="text-lg font-semibold text-gray-800 mb-4">Product Details</h3>
+              <h3 class="text-lg font-semibold text-gray-800 mb-4">Product Information</h3>
+              <!-- Divider -->
+              <hr class="border-gray-200 mb-4" />
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label>Select a pack style</label>
+                  <label>Product Name</label>
+                  <input 
+                    type="text" 
+                    v-model="editProductFormData.productName"
+                    placeholder="Enter a product name"
+                    class="w-full"
+                  />
+                </div>
+                <div>
+                  <label>Product Formulation</label>
+                  <SelectField
+                    v-model="editProductFormData.productFormulation"
+                    :options="productFormulationOptions"
+                    placeholder="Select a product formulation"
+                  />
+                </div>
+                <div>
+                  <label>Pack Style</label>
                   <SelectField
                     v-model="editProductFormData.packStyle"
                     :options="packStyleOptions"
@@ -372,7 +429,7 @@
                   />
                 </div>
                 <div>
-                  <label>Enter generic name</label>
+                  <label>Generic Name</label>
                   <input 
                     type="text" 
                     v-model="editProductFormData.genericName"
@@ -403,6 +460,8 @@
             <!-- Quantity Section -->
             <div>
               <h3 class="text-lg font-semibold text-gray-800 mb-4">Quantity</h3>
+              <!-- Divider -->
+              <hr class="border-gray-200 mb-4" />
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label>Quantity Per Pack</label>
@@ -450,15 +509,20 @@
             <!-- Store Information Section -->
             <div>
               <h3 class="text-lg font-semibold text-gray-800 mb-4">Store Information</h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- Divider -->
+              <hr class="border-gray-200 mb-4" />
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pb-4">
                 <div>
                   <label>Unit Cost</label>
-                  <input 
-                    type="number" 
-                    v-model="editProductFormData.unitCost"
-                    placeholder="₦ 0.00"
-                    class="w-full"
-                  />
+                  <div class="relative">
+                    <!-- <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600 font-bold">₦</span> -->
+                    <input 
+                      type="number" 
+                      v-model="editProductFormData.unitCost"
+                      class="w-full pl-10"
+                      placeholder="0.00"
+                    />
+                  </div>
                 </div>
                 <div>
                   <label>Pack Size</label>
@@ -510,6 +574,8 @@
             <!-- Product Image Section -->
             <div>
               <h3 class="text-lg font-semibold text-gray-800 mb-4">Product Image</h3>
+              <!-- Divider -->
+              <hr class="border-gray-200 mb-4" />
               <div>
                 <label class="block mb-2 text-sm font-medium text-gray-700">Upload Product Image</label>
                 <div 
@@ -556,6 +622,8 @@
             <!-- Sales Rules Section -->
             <div>
               <h3 class="text-lg font-semibold text-gray-800 mb-4">Sales Rules</h3>
+              <!-- Divider -->
+              <hr class="border-gray-200 mb-4" />
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label>Max. Quantity per Sale</label>
@@ -650,6 +718,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { onClickOutside } from '@vueuse/core';
 import Breadcrumb from '@/views/Components/ui/Breadcrumb.vue';
 import Tabs from '@/views/Components/Tabs.vue';
 import Datatable from '@/views/Components/Datatable/Datatable.vue';
@@ -664,11 +733,11 @@ import FileUploader from '@/views/Components/FileUploader.vue';
 import SelectField from '@/views/Components/ui/SelectField.vue';
 import type { TableColumn } from '@/types';
 
-// Breadcrumb items
-const breadcrumbItems = ref([
+// Breadcrumb items - computed to be reactive to active tab
+const breadcrumbItems = computed(() => [
   { label: 'Products Management' },
   { label: 'All Products' },
-  { label: 'Active Products' }
+  { label: activeTab.value }
 ]);
 
 // Tabs configuration
@@ -679,6 +748,11 @@ const tabs = ref([
 ]);
 
 const activeTab = ref('Active Products');
+
+// Download dropdown state
+const isDownloadDropdownOpen = ref(false);
+const downloadDropdownRef = ref(null);
+
 
 // Modal state
 const isProductModalOpen = ref(false);
@@ -701,6 +775,8 @@ const isEditProductModalOpen = ref(false);
 const editProductCurrentStep = ref(1);
 const editProductFormData = ref({
   // Step 1
+  productName: '',
+  productFormulation: '',
   packStyle: '',
   genericName: '',
   productStrength: '',
@@ -731,42 +807,51 @@ const productToEdit = ref<any>(null);
 const fileInput = ref<HTMLInputElement | null>(null);
 
 // Options for SelectField components
+const productFormulationOptions = ref([
+  { id: 1, name: 'Tablet' },
+  { id: 2, name: 'Capsule' },
+  { id: 3, name: 'Syrup' },
+  { id: 4, name: 'Injection' },
+  { id: 5, name: 'Cream' },
+  { id: 6, name: 'Ointment' }
+]);
+
 const packStyleOptions = ref([
-  { id: 'bottle', name: 'Bottle' },
-  { id: 'box', name: 'Box' },
-  { id: 'tube', name: 'Tube' },
-  { id: 'sachet', name: 'Sachet' }
+  { id: 1, name: 'Bottle' },
+  { id: 2, name: 'Box' },
+  { id: 3, name: 'Tube' },
+  { id: 4, name: 'Sachet' }
 ]);
 
 const manufacturerOptions = ref([
-  { id: 'manufacturer1', name: 'Manufacturer 1' },
-  { id: 'manufacturer2', name: 'Manufacturer 2' },
-  { id: 'manufacturer3', name: 'Manufacturer 3' }
+  { id: 1, name: 'Manufacturer 1' },
+  { id: 2, name: 'Manufacturer 2' },
+  { id: 3, name: 'Manufacturer 3' }
 ]);
 
 const categoryOptions = ref([
-  { id: 'surgicals', name: 'Surgicals' },
-  { id: 'creams', name: 'Creams & Ointments' },
-  { id: 'tablets', name: 'Tablets' },
-  { id: 'injections', name: 'Injections' }
+  { id: 1, name: 'Surgicals' },
+  { id: 2, name: 'Creams & Ointments' },
+  { id: 3, name: 'Tablets' },
+  { id: 4, name: 'Injections' }
 ]);
 
 const subCategoryOptions = ref([
-  { id: 'sub1', name: 'Sub Category 1' },
-  { id: 'sub2', name: 'Sub Category 2' },
-  { id: 'sub3', name: 'Sub Category 3' }
+  { id: 1, name: 'Sub Category 1' },
+  { id: 2, name: 'Sub Category 2' },
+  { id: 3, name: 'Sub Category 3' }
 ]);
 
 const warehouseOptions = ref([
-  { id: 'HA001', name: 'HA001' },
-  { id: 'HA002', name: 'HA002' },
-  { id: 'HA006', name: 'HA006' }
+  { id: 1, name: 'HA001' },
+  { id: 2, name: 'HA002' },
+  { id: 3, name: 'HA006' }
 ]);
 
 const batchOptions = ref([
-  { id: 'batch-001', name: 'Batch 001' },
-  { id: 'batch-002', name: 'Batch 002' },
-  { id: 'batch-003', name: 'Batch 003' }
+  { id: 1, name: 'Batch 001' },
+  { id: 2, name: 'Batch 002' },
+  { id: 3, name: 'Batch 003' }
 ]);
 
 // Table columns configuration - dynamic based on active tab
@@ -986,6 +1071,30 @@ const downloadProductsReport = () => {
   // Add download logic here
 };
 
+const downloadStockReport = () => {
+  console.log('Downloading stock report...');
+  // Add download logic here
+  isDownloadDropdownOpen.value = false; // Close dropdown after action
+};
+
+const downloadActiveStockReport = () => {
+  console.log('Downloading active stock report...');
+  // Add download logic here
+  isDownloadDropdownOpen.value = false; // Close dropdown after action
+};
+
+// Download dropdown functions
+const toggleDownloadDropdown = () => {
+  isDownloadDropdownOpen.value = !isDownloadDropdownOpen.value;
+};
+
+const closeDownloadDropdown = () => {
+  isDownloadDropdownOpen.value = false;
+};
+
+// Close dropdown when clicking outside
+onClickOutside(downloadDropdownRef, closeDownloadDropdown);
+
 // Action menu functions
 const viewProductDashboard = (product: any) => {
   console.log('Viewing product dashboard for:', product);
@@ -1009,10 +1118,12 @@ const editProduct = (product: any) => {
   editProductCurrentStep.value = 1;
   editProductFormData.value = {
     // Step 1
+    productName: product.product_name || '',
+    productFormulation: product.formulation || '',
     packStyle: '',
-    genericName: product.product_name || '',
-    productStrength: '',
-    manufacturer: '',
+    genericName: product.generic_name || '',
+    productStrength: product.strength || '',
+    manufacturer: product.manufacturer || '',
     quantityPerPack: 0,
     quantityPerCarton: 0,
     quantityAvailable: product.available_qty || 0,
@@ -1097,6 +1208,8 @@ const handleEditProductSubmit = () => {
   isEditProductModalOpen.value = false;
   // Reset form data
   editProductFormData.value = {
+    productName: '',
+    productFormulation: '',
     packStyle: '',
     genericName: '',
     productStrength: '',

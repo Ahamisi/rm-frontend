@@ -2,7 +2,7 @@
   <div class="erp_dashboard_wrapper">
     <div class="">
       <!-- Header -->
-      <PageTitle title="Compliance / Quarantined Products" class="px-6" />
+      <Breadcrumb :items="breadcrumbItems" background="white" />
     </div>
     
     <!-- Contents -->
@@ -91,7 +91,8 @@
       :title="showEditModal ? 'Edit Quarantine Product' : 'Create Quarantine Product'"
       @update:isOpen="handleSideBarUpdate"
       @close="handleSideBarClose"
-      width="45vw"
+      width="small"
+
     >
       <div class="space-y-4 px-6 mt-4">
         <!-- Product Selection -->
@@ -193,7 +194,7 @@
       title="Move to Damaged Products"
       @update:isOpen="handleSideBarUpdate"
       @close="handleSideBarClose"
-      width="45vw"
+      width="small"
     >
       <div class="space-y-4 px-6 mt-4">
         <!-- Date Damaged -->
@@ -278,7 +279,7 @@
 </template>
 
 <script setup lang="ts">
-import PageTitle from "@/views/Components/header/PageTitle.vue";
+import Breadcrumb from "@/views/Components/ui/Breadcrumb.vue";
 import Datatable from "@/views/Components/Datatable/Datatable.vue";
 import SuccessAlertToast from "@/views/Components/SuccessAlertToast.vue";
 import SideBarModal from "@/views/Components/SideBarModal.vue";
@@ -291,6 +292,12 @@ import SuccessModal from "@/views/Components/ui/SuccessModal.vue";
 import TableActionDropdown from "@/views/Components/procurement/ui/TableActionDropdown.vue";
 import { ref, computed } from 'vue';
 import type { TableColumn } from '@/types';
+
+// Breadcrumb items
+const breadcrumbItems = computed(() => [
+  { label: 'Compliance' },
+  { label: 'Quarantined Products' }
+]);
 
 // Reactive variables
 const childKey = ref(0);
@@ -695,8 +702,36 @@ const handleDiscardConfirm = () => {
 // Handle sidebar close - only show discard modal if not already processing
 const handleSideBarClose = () => {
   if (!isDiscarding.value) {
-    showDiscardModal.value = true;
+    // Check if there are any changes to discard
+    const hasChanges = checkForChanges();
+    if (hasChanges) {
+      showDiscardModal.value = true;
+    } else {
+      // No changes, just close the modal
+      closeModal();
+    }
   }
+};
+
+// Check if form has any changes
+const checkForChanges = () => {
+  // For create mode, check if any field has been filled
+  if (showCreateModal.value) {
+    return form.value.product !== null || 
+           form.value.reason !== null || 
+           form.value.batch !== null || 
+           form.value.quantity !== '';
+  }
+  
+  // For move to damaged mode, check if any field has been filled
+  if (showMoveToDamagedModal.value) {
+    return moveToDamagedForm.value.date_damaged !== '' || 
+           moveToDamagedForm.value.damage_cause !== '' || 
+           moveToDamagedForm.value.comment !== '' || 
+           moveToDamagedForm.value.returnable !== false;
+  }
+  
+  return false;
 };
 
 // Handle sidebar update:isOpen event

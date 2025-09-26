@@ -2,10 +2,6 @@
   <button 
     :class="buttonClasses"
     :style="buttonStyle"
-    @mouseenter="handleMouseEnter"
-    @mouseleave="handleMouseLeave"
-    @mousedown="handleMouseDown"
-    @mouseup="handleMouseUp"
     @click="handleClick"
   >
     <slot />
@@ -36,13 +32,13 @@ const handleClick = (event: MouseEvent) => {
   }
 };
 
-// Computed classes based on size
+// Computed classes based on size - matching Button.vue gray-btn styling
 const buttonClasses = computed(() => {
-  const baseClasses = 'flex items-center gap-2 text-sm font-medium text-gray-700 rounded-md transition-colors';
+  const baseClasses = 'flex items-center rounded download_btn gap-x-1 gray-btn';
   
   const sizeClasses = {
     sm: 'px-3 py-1.5',
-    md: 'px-4 py-2',
+    md: 'px-4 py-2', 
     lg: 'px-6 py-3'
   };
 
@@ -51,33 +47,37 @@ const buttonClasses = computed(() => {
   return `${baseClasses} ${sizeClasses[props.size]} ${disabledClasses}`;
 });
 
-// Default background style
-const buttonStyle = computed(() => ({
-  backgroundColor: 'rgba(9, 30, 66, 0.06)'
-}));
+// Remove custom background style - let CSS handle it
+const buttonStyle = computed(() => ({}));
 
-// Event handlers for interactive states
-const handleMouseEnter = (event: MouseEvent) => {
-  if (!props.disabled) {
-    (event.target as HTMLElement).style.backgroundColor = 'rgba(9, 30, 66, 0.14)';
-  }
-};
-
-const handleMouseLeave = (event: MouseEvent) => {
-  if (!props.disabled) {
-    (event.target as HTMLElement).style.backgroundColor = 'rgba(9, 30, 66, 0.06)';
-  }
-};
-
-const handleMouseDown = (event: MouseEvent) => {
-  if (!props.disabled) {
-    (event.target as HTMLElement).style.backgroundColor = 'rgba(9, 30, 66, 0.31)';
-  }
-};
-
-const handleMouseUp = (event: MouseEvent) => {
-  if (!props.disabled) {
-    (event.target as HTMLElement).style.backgroundColor = 'rgba(9, 30, 66, 0.14)';
-  }
-};
+// Remove custom mouse event handlers - let CSS handle hover states
 </script>
+
+<style scoped>
+.download_btn {
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 590;
+  line-height: 16px;
+  letter-spacing: -0.25px;
+  min-height: 32px;
+  padding: 2px 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.download_btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.gray-btn {
+  background: rgba(9, 30, 66, 0.06);
+  color: rgba(23, 43, 77, 1);
+}
+
+.gray-btn:hover:not(:disabled) {
+  background: rgba(8, 25, 55, 0.16);
+}
+</style>

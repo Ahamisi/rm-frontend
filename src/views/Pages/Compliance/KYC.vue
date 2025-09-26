@@ -116,20 +116,7 @@
                 <div class="flex items-center gap-2">
                   <Pill type="cash-and-carry" :text="selectedCustomer?.status" />
                   <div class="w-px h-4 bg-gray-300"></div>
-                  <div class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                    Pending: Tier 1 &nbsp;
-                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" class="mr-1">
-                      <g clip-path="url(#clip0_7099_291582)">
-                        <path d="M4.9987 6.24996C6.60953 6.24996 7.91536 4.94412 7.91536 3.33329C7.91536 1.72246 6.60953 0.416626 4.9987 0.416626C3.38787 0.416626 2.08203 1.72246 2.08203 3.33329C2.08203 4.94412 3.38787 6.24996 4.9987 6.24996Z" stroke="#A54800" stroke-width="0.833333" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M3.42214 5.78749L2.91797 9.58332L5.0013 8.33332L7.08463 9.58332L6.58047 5.78333" stroke="#A54800" stroke-width="0.833333" stroke-linecap="round" stroke-linejoin="round"/>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_7099_291582">
-                          <rect width="10" height="10" fill="white"/>
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  </div>
+                  <Pill type="pending-tier" text="Pending: Tier 1" :showIcon="true" />
                 </div>
               </div>
 
@@ -150,14 +137,30 @@
                 >
                   <div class="flex items-center justify-between">
                     <div class="flex items-center gap-2">
+                      <!-- Closed Caret (collapsed state) -->
                       <svg 
-                        class="w-4 h-4 text-gray-500 transition-transform"
-                        :class="{ 'rotate-180': category.expanded }"
+                        v-if="!category.expanded"
+                        width="24" 
+                        height="24" 
+                        viewBox="0 0 24 24" 
                         fill="none" 
-                        stroke="currentColor" 
-                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="w-6 h-6"
                       >
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M10.2943 9.69805C10.2011 9.60614 10.1271 9.49661 10.0765 9.37584C10.026 9.25507 10 9.12546 10 8.99455C10 8.86364 10.026 8.73403 10.0765 8.61327C10.1271 8.4925 10.2011 8.38297 10.2943 8.29105C10.4833 8.10449 10.7382 7.99988 11.0038 7.99988C11.2694 7.99988 11.5243 8.10449 11.7133 8.29105L14.6783 11.2311C14.7805 11.3324 14.8616 11.453 14.917 11.5858C14.9723 11.7186 15.0008 11.8611 15.0008 12.0051C15.0008 12.149 14.9723 12.2915 14.917 12.4243C14.8616 12.5572 14.7805 12.6777 14.6783 12.7791L11.7233 15.7091C11.5342 15.8959 11.2791 16.0007 11.0133 16.0007C10.7475 16.0007 10.4924 15.8959 10.3033 15.7091C10.2101 15.6171 10.1361 15.5076 10.0855 15.3868C10.035 15.2661 10.009 15.1365 10.009 15.0056C10.009 14.8746 10.035 14.745 10.0855 14.6243C10.1361 14.5035 10.2101 14.394 10.3033 14.3021L12.6213 12.0051L10.2943 9.69805Z" fill="#44546F"/>
+                      </svg>
+                      
+                      <!-- Opened Caret (expanded state) -->
+                      <svg 
+                        v-else
+                        width="24" 
+                        height="24" 
+                        viewBox="0 0 24 24" 
+                        fill="none" 
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="w-6 h-6"
+                      >
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M8.29158 10.2929C8.10477 10.4818 8 10.7368 8 11.0024C8 11.2681 8.10477 11.523 8.29158 11.7119L11.2306 14.6769C11.4486 14.8919 11.7306 14.9989 12.0096 14.9989C12.2886 14.9989 12.5656 14.8919 12.7786 14.6769L15.7086 11.7219C15.8951 11.5329 15.9998 11.278 15.9998 11.0124C15.9998 10.7469 15.8951 10.492 15.7086 10.3029C15.6167 10.2098 15.5073 10.1358 15.3866 10.0853C15.2659 10.0347 15.1364 10.0087 15.0056 10.0087C14.8748 10.0087 14.7452 10.0347 14.6245 10.0853C14.5039 10.1358 14.3944 10.2098 14.3026 10.3029L12.0046 12.6199L9.69758 10.2929C9.60554 10.2001 9.49604 10.1264 9.37538 10.0762C9.25472 10.0259 9.1253 10 8.99458 10C8.86386 10 8.73444 10.0259 8.61378 10.0762C8.49312 10.1264 8.38362 10.2001 8.29158 10.2929Z" fill="#44546F"/>
                       </svg>
                       <h4 class="text-sm font-medium" style="color: #44546F;">{{ category.title }}</h4>
                     </div>
@@ -359,6 +362,7 @@
       title="Approve KYC Verification?"
       :message="`You're about to approve KYC verification for &quot;${selectedCustomer?.customerName || 'this customer'}&quot;. This customer will be verified and able to place orders immediately.`"
       confirmText="Approve Verification"
+      confirmButtonType="blue-btn"
       @close="closeApprovalModal"
       @confirm="confirmApproval"
     />
@@ -379,9 +383,10 @@ import WarningConfirmationModal from '@/views/Components/ui/WarningConfirmationM
 import SelectField from '@/views/Components/ui/SelectField.vue';
 import type { TableColumn } from '@/types';
 
-// Breadcrumb items
-const breadcrumbItems = ref([
-  { label: 'KYC Verification' }
+// Breadcrumb items - computed to be reactive to active tab
+const breadcrumbItems = computed(() => [
+  { label: 'KYC Verification' },
+  { label: activeTab.value }
 ]);
 
 // Tabs configuration
