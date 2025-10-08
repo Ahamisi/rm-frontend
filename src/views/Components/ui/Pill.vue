@@ -34,7 +34,7 @@
 
 <script setup lang="ts">
 interface Props {
-  type: 'hospital' | 'controlled' | 'cash-and-carry' | 'pending-tier';
+  type: 'hospital' | 'controlled' | 'cash-and-carry' | 'pending-tier' | 'danger' | 'success' | 'grey';
   text: string;
   showIcon?: boolean;
 }
@@ -45,6 +45,9 @@ const tagClasses = {
   'hospital': 'bg-[#E9F2FF] text-[#0055CC]',
   'controlled': 'bg-[#F3F0FF] text-[#5E4DB2]',
   'cash-and-carry': 'bg-[#DCFFF1] text-[#216E4E]',
-  'pending-tier': 'bg-yellow-100 text-yellow-800'
+  'pending-tier': 'bg-yellow-100 text-yellow-800',
+  'danger': 'bg-[#FFD5D2] text-[#AE2E24]',
+  'success': 'bg-[#BAF3DB] text-[#216E4E]',
+  'grey': 'bg-[rgba(9,30,66,0.14)] text-[#44546F]'
 };
 </script>

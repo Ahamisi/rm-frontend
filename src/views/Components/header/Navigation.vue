@@ -186,6 +186,24 @@ const navigation: Record<string, any[]> = {
       ]
     },
   ],
+  logistics: [
+    { label: "Dashboard", url: { name: "logistics.dashboard" }, icon: LayoutDashboard },
+    { label: "Orders", url: { name: "logistics.orders" }, icon: FileText },
+    { label: "Delivered Orders", url: { name: "logistics.delivered-orders" }, icon: Truck },
+    { label: "Log Book", url: { name: "logistics.log-book" }, icon: FileText },
+    { 
+      label: "Hub Management", 
+      icon: PackageSearch,
+      dropdown: [
+        { title: "Hubs", route: { name: "logistics.hub-management.hubs" } },
+        { title: "Hub Staff", route: { name: "logistics.hub-management.hub-staff" } }
+      ]
+    },
+    { label: "Vehicles", url: { name: "logistics.vehicles" }, icon: Truck },
+    { label: "Drivers", url: { name: "logistics.drivers" }, icon: FileText },
+    { label: "Delivery Types", url: { name: "logistics.delivery-types" }, icon: FileText },
+    { label: "RH Orders", url: { name: "logistics.rh-orders" }, icon: CreditCard },
+  ],
 }
 
 const navItems = computed(() => navigation[props.department]);

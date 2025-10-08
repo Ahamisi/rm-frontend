@@ -233,7 +233,8 @@ export const mockHandlers: Record<string, (config: AxiosRequestConfig) => Promis
       { id: 3, name: 'Sales', code: 'sales', icon: '@/views/Pages/procurement/redesign/CustomerSuccessIcon.svg' },
       { id: 4, name: 'Inbound', code: 'inbound', icon: '@/views/Pages/procurement/redesign/InboundIcon.svg' },
       { id: 5, name: 'Outbound', code: 'outbound', icon: '@/views/Pages/procurement/redesign/OutboundIcon.svg' },
-      { id: 6, name: 'Compliance', code: 'compliance', icon: '@/views/Pages/procurement/redesign/ComplianceIcon.svg' },
+      { id: 6, name: 'Logistics', code: 'logistics', icon: '@/views/Pages/procurement/redesign/LogisticsIcon.svg' },
+      { id: 7, name: 'Compliance', code: 'compliance', icon: '@/views/Pages/procurement/redesign/ComplianceIcon.svg' },
     ]);
   },
 
@@ -1244,122 +1245,374 @@ export const mockHandlers: Record<string, (config: AxiosRequestConfig) => Promis
   return createMockResponse(result);
 },
 
-  // Outbound log books
-  'GET /outbound/log-books': async (config) => {
-    const params = config.params || {};
-    console.log('🎭 Mock API: GET /outbound/log-books - Received params:', params);
-    
-    let mockLogBooks = [
-      {
-        id: 15,
-        driver_name: 'Oluwatosin Adegboye',
-        order_count: 0,
-        state: 'Lagos',
-        delivery_timeline: '16/01/2025 - 16:34:54s'
-      },
-      {
-        id: 14,
-        driver_name: 'Janet Adeajayi',
-        order_count: 1,
-        state: 'Lagos',
-        delivery_timeline: '16/01/2025 - 16:34:54s'
-      },
-      {
-        id: 13,
-        driver_name: 'Henry Christopher',
-        order_count: 0,
-        state: 'Lagos',
-        delivery_timeline: '16/01/2025 - 16:34:54s'
-      },
-      {
-        id: 12,
-        driver_name: 'Oluwatosin Adegboye',
-        order_count: 0,
-        state: 'Lagos',
-        delivery_timeline: '16/01/2025 - 16:34:54s'
-      },
-      {
-        id: 11,
-        driver_name: 'Janet Adeajayi',
-        order_count: 0,
-        state: 'Lagos',
-        delivery_timeline: '16/01/2025 - 16:34:54s'
-      },
-      {
-        id: 10,
-        driver_name: 'Henry Christopher',
-        order_count: 0,
-        state: 'Lagos',
-        delivery_timeline: '16/01/2025 - 16:34:54s'
-      },
-      {
-        id: 9,
-        driver_name: 'Oluwatosin Adegboye',
-        order_count: 0,
-        state: 'Lagos',
-        delivery_timeline: '16/01/2025 - 16:34:54s'
-      },
-      {
-        id: 8,
-        driver_name: 'Janet Adeajayi',
-        order_count: 1,
-        state: 'Lagos',
-        delivery_timeline: '16/01/2025 - 16:34:54s'
-      },
-      {
-        id: 7,
-        driver_name: 'Henry Christopher',
-        order_count: 0,
-        state: 'Lagos',
-        delivery_timeline: '16/01/2025 - 16:34:54s'
-      },
-      {
-        id: 6,
-        driver_name: 'Oluwatosin Adegboye',
-        order_count: 1,
-        state: 'Lagos',
-        delivery_timeline: '16/01/2025 - 16:34:54s'
-      }
-    ];
-
-    // Apply filters
-    if (params.searchTerm || params.search) {
-      const searchTerm = (params.searchTerm || params.search).toLowerCase();
-      mockLogBooks = mockLogBooks.filter(logBook => 
-        logBook.driver_name.toLowerCase().includes(searchTerm) ||
-        logBook.state.toLowerCase().includes(searchTerm)
-      );
+  // Logistics orders
+'GET /logistics/orders': async (config) => {
+  const params = config.params || {};
+  console.log('🎭 Mock API: GET /logistics/orders - Received params:', params);
+  let mockOrders = [
+    {
+      id: 1,
+      order_no: '87',
+      customer_name: 'Oluwatosin Adegboye',
+      store_name: 'Emeka Pharmacy',
+      state: 'Lagos',
+      payment: 'Cheque',
+      order_date: '16/01/2025',
+      delivery_date: '16/01/2025',
+      total_amount: '₦47,400.00',
+      tags: ['Cash and Carry', 'Controlled', 'Hospital'],
+      assigned: 'Esther Joel',
+      assigned_avatar: '/avatarImage.png'
+    },
+    {
+      id: 2,
+      order_no: '1656493689-254',
+      customer_name: 'Janet Adeajayi',
+      store_name: 'Emma Bros Pharmacy',
+      state: 'Lagos',
+      payment: 'Cheque',
+      order_date: '16/01/2025',
+      delivery_date: '16/01/2025',
+      total_amount: '₦47,400.00',
+      tags: ['Controlled', 'Hospital'],
+      assigned: 'Unassigned',
+      assigned_avatar: ''
+    },
+    {
+      id: 3,
+      order_no: '1656493689-255',
+      customer_name: 'Henry Christopher',
+      store_name: 'Xela pharmacy',
+      state: 'Lagos',
+      payment: 'Cheque',
+      order_date: '16/01/2025',
+      delivery_date: '16/01/2025',
+      total_amount: '₦47,400.00',
+      tags: ['Cash and Carry', 'Controlled'],
+      assigned: 'Esther Joel',
+      assigned_avatar: '/avatarImage.png'
+    },
+    {
+      id: 4,
+      order_no: '1656493689-256',
+      customer_name: 'Fidson Healthcare',
+      store_name: 'Emeka Pharmacy',
+      state: 'Lagos',
+      payment: 'Cheque',
+      order_date: '16/01/2025',
+      delivery_date: '16/01/2025',
+      total_amount: '₦47,400.00',
+      tags: ['Cash and Carry', 'Controlled', 'Hospital'],
+      assigned: 'Esther Joel',
+      assigned_avatar: '/avatarImage.png'
+    },
+    {
+      id: 5,
+      order_no: '1656493689-257',
+      customer_name: 'EVANS THERAPEUTICS LIMITED',
+      store_name: 'Emma Bros Pharmacy',
+      state: 'Lagos',
+      payment: 'Cheque',
+      order_date: '16/01/2025',
+      delivery_date: '16/01/2025',
+      total_amount: '₦47,400.00',
+      tags: ['Controlled', 'Hospital'],
+      assigned: 'Unassigned',
+      assigned_avatar: ''
     }
+  ];
 
-    if (params.from_date && params.to_date) {
-      // Filter by date range if needed
-    }
+  // Apply search filter if provided
+  if (params.search && params.search.trim()) {
+    const searchTerm = params.search.toLowerCase();
+    mockOrders = mockOrders.filter(order => 
+      order.order_no.toLowerCase().includes(searchTerm) ||
+      order.customer_name.toLowerCase().includes(searchTerm) ||
+      order.store_name.toLowerCase().includes(searchTerm)
+    );
+  }
 
-    if (params.filter) {
-      const filter = typeof params.filter === 'string' ? JSON.parse(params.filter) : params.filter;
+  // Apply state filter if provided
+  if (params.filter) {
+    try {
+      const filter = JSON.parse(params.filter);
       if (filter.state) {
-        mockLogBooks = mockLogBooks.filter(logBook => logBook.state === filter.state);
+        mockOrders = mockOrders.filter(order => order.state === filter.state);
       }
+    } catch (e) {
+      console.warn('Invalid filter parameter:', params.filter);
     }
+  }
 
-    // Apply sorting
-    if (params.sort_by) {
-      const sortField = params.sort_by;
-      const sortOrder = params.sort_order || 'asc';
-      mockLogBooks.sort((a, b) => {
-        const aVal = a[sortField];
-        const bVal = b[sortField];
-        if (sortOrder === 'desc') {
-          return bVal > aVal ? 1 : -1;
-        }
-        return aVal > bVal ? 1 : -1;
-      });
+  const result = paginate(mockOrders, params.page, params.perPage);
+  console.log('🎭 Mock API: GET /logistics/orders - Returning data:', result);
+  return createMockResponse(result);
+},
+
+  // Logistics log books
+'GET /logistics/log-books': async (config) => {
+  const params = config.params || {};
+  console.log('🎭 Mock API: GET /logistics/log-books - Received params:', params);
+  
+  let mockLogBooks = [
+    {
+      id: 15,
+      driver_name: 'Oluwatosin Adegboye',
+      order_count: 0,
+      state: 'Lagos',
+      delivery_timeline: '16/01/2025 - 16:34:54s'
+    },
+    {
+      id: 14,
+      driver_name: 'Janet Adeajayi',
+      order_count: 1,
+      state: 'Lagos',
+      delivery_timeline: '16/01/2025 - 16:34:54s'
+    },
+    {
+      id: 13,
+      driver_name: 'Henry Christopher',
+      order_count: 0,
+      state: 'Lagos',
+      delivery_timeline: '16/01/2025 - 16:34:54s'
+    },
+    {
+      id: 12,
+      driver_name: 'Oluwatosin Adegboye',
+      order_count: 0,
+      state: 'Lagos',
+      delivery_timeline: '16/01/2025 - 16:34:54s'
+    },
+    {
+      id: 11,
+      driver_name: 'Janet Adeajayi',
+      order_count: 0,
+      state: 'Lagos',
+      delivery_timeline: '16/01/2025 - 16:34:54s'
+    },
+    {
+      id: 10,
+      driver_name: 'Henry Christopher',
+      order_count: 0,
+      state: 'Lagos',
+      delivery_timeline: '16/01/2025 - 16:34:54s'
+    },
+    {
+      id: 9,
+      driver_name: 'Oluwatosin Adegboye',
+      order_count: 0,
+      state: 'Lagos',
+      delivery_timeline: '16/01/2025 - 16:34:54s'
+    },
+    {
+      id: 8,
+      driver_name: 'Janet Adeajayi',
+      order_count: 1,
+      state: 'Lagos',
+      delivery_timeline: '16/01/2025 - 16:34:54s'
+    },
+    {
+      id: 7,
+      driver_name: 'Henry Christopher',
+      order_count: 0,
+      state: 'Lagos',
+      delivery_timeline: '16/01/2025 - 16:34:54s'
+    },
+    {
+      id: 6,
+      driver_name: 'Oluwatosin Adegboye',
+      order_count: 1,
+      state: 'Lagos',
+      delivery_timeline: '16/01/2025 - 16:34:54s'
     }
+  ];
 
-    const result = paginate(mockLogBooks, params.page, params.perPage);
-    console.log('🎭 Mock API: GET /outbound/log-books - Returning data:', result);
-    return createMockResponse(result);
-  },
+  // Apply filters
+  if (params.searchTerm || params.search) {
+    const searchTerm = (params.searchTerm || params.search).toLowerCase();
+    mockLogBooks = mockLogBooks.filter(logBook => 
+      logBook.driver_name.toLowerCase().includes(searchTerm) ||
+      logBook.state.toLowerCase().includes(searchTerm)
+    );
+  }
+
+  if (params.from_date && params.to_date) {
+    // Filter by date range if needed
+  }
+
+  if (params.filter) {
+    const filter = typeof params.filter === 'string' ? JSON.parse(params.filter) : params.filter;
+    if (filter.state) {
+      mockLogBooks = mockLogBooks.filter(logBook => logBook.state === filter.state);
+    }
+  }
+
+  // Apply sorting
+  if (params.sort_by) {
+    const sortField = params.sort_by;
+    const sortOrder = params.sort_order || 'asc';
+    mockLogBooks.sort((a, b) => {
+      const aVal = a[sortField];
+      const bVal = b[sortField];
+      if (sortOrder === 'desc') {
+        return bVal > aVal ? 1 : -1;
+      }
+      return aVal > bVal ? 1 : -1;
+    });
+  }
+
+  const result = paginate(mockLogBooks, params.page, params.perPage);
+  console.log('🎭 Mock API: GET /logistics/log-books - Returning data:', result);
+  return createMockResponse(result);
+},
+
+  // Logistics hubs
+'GET /logistics/hubs': async (config) => {
+  const params = config.params || {};
+  console.log('🎭 Mock API: GET /logistics/hubs - Received params:', params);
+  
+  let mockHubs = [
+    { id: 87, hubName: 'Abia', state: 'Abia State', localGovernment: 'Abia South' },
+    { id: 54, hubName: 'Abia', state: 'Abia State', localGovernment: 'Abia South' },
+    { id: 25, hubName: 'Abia', state: 'Abia State', localGovernment: 'Abia South' },
+    { id: 30, hubName: 'Abia', state: 'Abia State', localGovernment: 'Abia South' },
+    { id: 51, hubName: 'Abia', state: 'Abia State', localGovernment: 'Abia South' },
+    { id: 21, hubName: 'Abia', state: 'Abia State', localGovernment: 'Abia South' },
+    { id: 35, hubName: 'Abia', state: 'Abia State', localGovernment: 'Abia South' },
+    { id: 23, hubName: 'Abia', state: 'Abia State', localGovernment: 'Abia South' },
+    { id: 33, hubName: 'Abia', state: 'Abia State', localGovernment: 'Abia South' },
+    { id: 88, hubName: 'Abia', state: 'Abia State', localGovernment: 'Abia South' },
+    { id: 81, hubName: 'Abia', state: 'Abia State', localGovernment: 'Abia South' },
+    { id: 80, hubName: 'Abuja', state: 'FCT', localGovernment: 'Abia South' }
+  ];
+
+  // Apply search filter if provided
+  if (params.search && params.search.trim()) {
+    const searchTerm = params.search.toLowerCase();
+    mockHubs = mockHubs.filter(hub => 
+      hub.hubName.toLowerCase().includes(searchTerm) ||
+      hub.state.toLowerCase().includes(searchTerm) ||
+      hub.localGovernment.toLowerCase().includes(searchTerm)
+    );
+  }
+
+  const result = paginate(mockHubs, params.page, params.perPage);
+  console.log('🎭 Mock API: GET /logistics/hubs - Returning data:', result);
+  return createMockResponse(result);
+},
+
+'POST /logistics/hubs': async (config) => {
+  const data = config.data || {};
+  console.log('🎭 Mock API: POST /logistics/hubs - Received data:', data);
+  
+  const newHub = {
+    id: Math.floor(Math.random() * 1000) + 100,
+    hubName: data.hubName,
+    state: data.state,
+    localGovernment: data.localGovernment
+  };
+  
+  console.log('🎭 Mock API: POST /logistics/hubs - Created hub:', newHub);
+  return createMockResponse(newHub, 201);
+},
+
+'PUT /logistics/hubs/:id': async (config) => {
+  const data = config.data || {};
+  const id = config.params?.id;
+  console.log('🎭 Mock API: PUT /logistics/hubs/:id - Received data:', data, 'ID:', id);
+  
+  const updatedHub = {
+    id: parseInt(id),
+    hubName: data.hubName,
+    state: data.state,
+    localGovernment: data.localGovernment
+  };
+  
+  console.log('🎭 Mock API: PUT /logistics/hubs/:id - Updated hub:', updatedHub);
+  return createMockResponse(updatedHub);
+},
+
+'DELETE /logistics/hubs/:id': async (config) => {
+  const id = config.params?.id;
+  console.log('🎭 Mock API: DELETE /logistics/hubs/:id - Deleting hub ID:', id);
+  
+  console.log('🎭 Mock API: DELETE /logistics/hubs/:id - Hub deleted successfully');
+  return createMockResponse({ message: 'Hub deleted successfully' });
+},
+
+// Logistics Hub Staff CRUD operations
+'GET /logistics/hub-staff': async (config) => {
+  const params = config.params || {};
+  console.log('🎭 Mock API: GET /logistics/hub-staff - Received params:', params);
+  
+  let mockHubStaff = [
+    { id: 87, staffName: 'Oluwatosin Adegboye', email: 'sleeknne4u1@gmail.com', phone: '+234 899 9999 999', hub: 'Abuja Hub' },
+    { id: 54, staffName: 'Janet Adeajayi', email: 'sleeknne4u1@gmail.com', phone: '+234 899 9999 999', hub: 'Abuja Hub' },
+    { id: 25, staffName: 'Henry Christopher', email: 'sleeknne4u1@gmail.com', phone: '+234 899 9999 999', hub: 'Asaba Hub' },
+    { id: 30, staffName: 'Oluwatosin Adegboye', email: 'sleeknne4u1@gmail.com', phone: '+234 899 9999 999', hub: 'Abuja Hub' },
+    { id: 51, staffName: 'Sarah Johnson', email: 'sarah.johnson@email.com', phone: '+234 899 9999 999', hub: 'Kano Hub' },
+    { id: 21, staffName: 'Michael Brown', email: 'michael.brown@email.com', phone: '+234 899 9999 999', hub: 'Asaba Hub' },
+    { id: 35, staffName: 'Emily Davis', email: 'emily.davis@email.com', phone: '+234 899 9999 999', hub: 'Abuja Hub' },
+    { id: 23, staffName: 'David Wilson', email: 'david.wilson@email.com', phone: '+234 899 9999 999', hub: 'Kano Hub' }
+  ];
+
+  // Apply search filter if provided
+  if (params.search) {
+    const searchTerm = params.search.toLowerCase();
+    mockHubStaff = mockHubStaff.filter(staff => 
+      staff.staffName.toLowerCase().includes(searchTerm) ||
+      staff.email.toLowerCase().includes(searchTerm) ||
+      staff.phone.includes(searchTerm) ||
+      staff.hub.toLowerCase().includes(searchTerm)
+    );
+  }
+
+  const result = paginate(mockHubStaff, params.page, params.perPage);
+  console.log('🎭 Mock API: GET /logistics/hub-staff - Returning data:', result);
+  return createMockResponse(result);
+},
+
+'POST /logistics/hub-staff': async (config) => {
+  const data = config.data || {};
+  console.log('🎭 Mock API: POST /logistics/hub-staff - Received data:', data);
+  
+  const newStaff = {
+    id: Math.floor(Math.random() * 1000) + 100,
+    staffName: data.staffName,
+    email: data.email,
+    phone: data.phone,
+    hub: data.hub
+  };
+  
+  console.log('🎭 Mock API: POST /logistics/hub-staff - Created staff:', newStaff);
+  return createMockResponse(newStaff, 201);
+},
+
+'PUT /logistics/hub-staff/:id': async (config) => {
+  const data = config.data || {};
+  const id = config.params?.id;
+  console.log('🎭 Mock API: PUT /logistics/hub-staff/:id - Received data:', data, 'ID:', id);
+  
+  const updatedStaff = {
+    id: parseInt(id),
+    staffName: data.staffName,
+    email: data.email,
+    phone: data.phone,
+    hub: data.hub
+  };
+  
+  console.log('🎭 Mock API: PUT /logistics/hub-staff/:id - Updated staff:', updatedStaff);
+  return createMockResponse(updatedStaff);
+},
+
+'DELETE /logistics/hub-staff/:id': async (config) => {
+  const id = config.params?.id;
+  console.log('🎭 Mock API: DELETE /logistics/hub-staff/:id - Deleting staff ID:', id);
+  
+  console.log('🎭 Mock API: DELETE /logistics/hub-staff/:id - Staff deleted successfully');
+  return createMockResponse({ message: 'Hub staff deleted successfully' });
+},
+
 
   // Log book orders endpoint for edit page
   'GET /outbound/log-books/:id/orders': async (config) => {
@@ -1561,7 +1814,215 @@ export const mockHandlers: Record<string, (config: AxiosRequestConfig) => Promis
     return mockHandlers['GET /outbound/stock-count/teams'](config);
   },
 
+  // Logistics Vehicles CRUD operations
+  'GET /logistics/vehicles': async (config) => {
+    const params = config.params || {};
+    console.log(' Mock API: GET /logistics/vehicles - Received params:', params);
+    
+    let mockVehicles = [
+      { id: 1, plateNumber: 'FST-819GA', model: 'IVM 500', vehicleType: 'Car', status: 'Active', ordersCompleted: 87, orderAmount: '₦2,055,043.00', lastServiced: '5/21/2024', nextDue: '5/21/2024', currentlyAssigned: 'Unassigned', manufacturer: 'Toyota', year: '2021', vin: 'ABC123XYZ7891234', purchaseDate: '13/05/2022' },
+      { id: 2, plateNumber: 'KJA-123BC', model: 'Toyota HiAce', vehicleType: 'Van', status: 'Active', ordersCompleted: 54, orderAmount: '₦2,055,043.00', lastServiced: '5/21/2024', nextDue: '5/21/2024', currentlyAssigned: 'Michael Okpala', manufacturer: 'Toyota', year: '2021', vin: 'ABC123XYZ7891234', purchaseDate: '13/05/2022' },
+      { id: 3, plateNumber: 'LAG-456DE', model: 'Ford Transit', vehicleType: 'Truck', status: 'Maintenance', ordersCompleted: 25, orderAmount: '₦1,500,000.00', lastServiced: '4/15/2024', nextDue: '6/15/2024', currentlyAssigned: 'Unassigned', manufacturer: 'Ford', year: '2020', vin: 'DEF456GHI7890123', purchaseDate: '10/03/2021' },
+      { id: 4, plateNumber: 'ABJ-789FG', model: 'Honda CB125F', vehicleType: 'Motorcycle', status: 'Active', ordersCompleted: 30, orderAmount: '₦800,000.00', lastServiced: '5/10/2024', nextDue: '7/10/2024', currentlyAssigned: 'John Doe', manufacturer: 'Honda', year: '2022', vin: 'GHI789JKL0123456', purchaseDate: '15/08/2022' },
+      { id: 5, plateNumber: 'KAN-321HI', model: 'Mercedes Sprinter', vehicleType: 'Van', status: 'Active', ordersCompleted: 51, orderAmount: '₦3,200,000.00', lastServiced: '5/05/2024', nextDue: '7/05/2024', currentlyAssigned: 'Sarah Johnson', manufacturer: 'Mercedes', year: '2023', vin: 'JKL012MNO3456789', purchaseDate: '20/01/2023' },
+      { id: 6, plateNumber: 'ENU-654JK', model: 'Yamaha FZ25', vehicleType: 'Motorcycle', status: 'Active', ordersCompleted: 21, orderAmount: '₦950,000.00', lastServiced: '4/28/2024', nextDue: '6/28/2024', currentlyAssigned: 'Mike Wilson', manufacturer: 'Yamaha', year: '2021', vin: 'MNO345PQR6789012', purchaseDate: '12/11/2021' },
+      { id: 7, plateNumber: 'PHC-987LM', model: 'Toyota Camry', vehicleType: 'Car', status: 'Active', ordersCompleted: 35, orderAmount: '₦2,800,000.00', lastServiced: '5/15/2024', nextDue: '7/15/2024', currentlyAssigned: 'David Brown', manufacturer: 'Toyota', year: '2022', vin: 'PQR678STU9012345', purchaseDate: '08/06/2022' },
+      { id: 8, plateNumber: 'IBD-147NO', model: 'Isuzu NPR', vehicleType: 'Truck', status: 'Maintenance', ordersCompleted: 23, orderAmount: '₦4,500,000.00', lastServiced: '3/20/2024', nextDue: '5/20/2024', currentlyAssigned: 'Unassigned', manufacturer: 'Isuzu', year: '2020', vin: 'STU901VWX2345678', purchaseDate: '25/09/2020' },
+      { id: 9, plateNumber: 'KAD-258PQ', model: 'Suzuki Gixxer', vehicleType: 'Motorcycle', status: 'Active', ordersCompleted: 33, orderAmount: '₦750,000.00', lastServiced: '5/01/2024', nextDue: '7/01/2024', currentlyAssigned: 'Lisa Garcia', manufacturer: 'Suzuki', year: '2021', vin: 'VWX234YZA5678901', purchaseDate: '30/04/2021' },
+      { id: 10, plateNumber: 'MAK-369RS', model: 'Nissan Navara', vehicleType: 'Truck', status: 'Active', ordersCompleted: 87, orderAmount: '₦5,200,000.00', lastServiced: '5/18/2024', nextDue: '7/18/2024', currentlyAssigned: 'Robert Taylor', manufacturer: 'Nissan', year: '2023', vin: 'YZA567BCD8901234', purchaseDate: '14/02/2023' },
+      { id: 11, plateNumber: 'JOS-741TU', model: 'Hyundai Elantra', vehicleType: 'Car', status: 'Active', ordersCompleted: 88, orderAmount: '₦2,600,000.00', lastServiced: '5/12/2024', nextDue: '7/12/2024', currentlyAssigned: 'Jennifer Lee', manufacturer: 'Hyundai', year: '2022', vin: 'BCD890EFG1234567', purchaseDate: '22/07/2022' },
+      { id: 12, plateNumber: 'CAL-852VW', model: 'Kawasaki Ninja', vehicleType: 'Motorcycle', status: 'Active', ordersCompleted: 81, orderAmount: '₦1,200,000.00', lastServiced: '5/08/2024', nextDue: '7/08/2024', currentlyAssigned: 'Chris Anderson', manufacturer: 'Kawasaki', year: '2023', vin: 'EFG123HIJ4567890', purchaseDate: '05/03/2023' },
+      { id: 13, plateNumber: 'UYO-963XY', model: 'Volkswagen Crafter', vehicleType: 'Van', status: 'Active', ordersCompleted: 80, orderAmount: '₦3,800,000.00', lastServiced: '5/03/2024', nextDue: '7/03/2024', currentlyAssigned: 'Maria Rodriguez', manufacturer: 'Volkswagen', year: '2021', vin: 'HIJ456KLM7890123', purchaseDate: '18/12/2021' },
+      { id: 14, plateNumber: 'BEN-174ZA', model: 'Bajaj Pulsar', vehicleType: 'Motorcycle', status: 'Maintenance', ordersCompleted: 5, orderAmount: '₦650,000.00', lastServiced: '4/10/2024', nextDue: '6/10/2024', currentlyAssigned: 'Unassigned', manufacturer: 'Bajaj', year: '2020', vin: 'KLM789NOP0123456', purchaseDate: '10/10/2020' },
+      { id: 15, plateNumber: 'WAR-285BC', model: 'Mitsubishi L200', vehicleType: 'Truck', status: 'Active', ordersCompleted: 55, orderAmount: '₦4,800,000.00', lastServiced: '5/20/2024', nextDue: '7/20/2024', currentlyAssigned: 'James Wilson', manufacturer: 'Mitsubishi', year: '2022', vin: 'NOP012QRS3456789', purchaseDate: '28/05/2022' }
+    ];
 
+    // Apply filters
+    if (params.searchTerm || params.search) {
+      const searchTerm = (params.searchTerm || params.search).toLowerCase();
+      mockVehicles = mockVehicles.filter(vehicle => 
+        vehicle.plateNumber.toLowerCase().includes(searchTerm) ||
+        vehicle.model.toLowerCase().includes(searchTerm) ||
+        vehicle.vehicleType.toLowerCase().includes(searchTerm) ||
+        vehicle.status.toLowerCase().includes(searchTerm) ||
+        vehicle.currentlyAssigned.toLowerCase().includes(searchTerm)
+      );
+    }
+
+    if (params.filter) {
+      const filter = typeof params.filter === 'string' ? JSON.parse(params.filter) : params.filter;
+      if (filter.status) {
+        mockVehicles = mockVehicles.filter(vehicle => vehicle.status === filter.status);
+      }
+      if (filter.vehicleType) {
+        mockVehicles = mockVehicles.filter(vehicle => vehicle.vehicleType === filter.vehicleType);
+      }
+    }
+
+    return createMockResponse({
+      data: mockVehicles,
+      total: mockVehicles.length,
+      current_page: 1,
+      per_page: 15,
+      last_page: 1
+    });
+  },
+
+  // Logistics Drivers
+  'GET /logistics/drivers': async (config) => {
+    const params = config.params || {};
+    console.log('Mock API: GET /logistics/drivers - Received params:', params);
+    
+    let mockDrivers = [
+      {
+        id: 87,
+        driver: 'Babajide Raji',
+        average_ratings: 5,
+        phone: '+234 899 9999 999',
+        assigned_hub: 'Abuja Hub',
+        status: 'Enabled',
+        fines: 2055043.00
+      },
+      {
+        id: 54,
+        driver: 'Daniel Makinde',
+        average_ratings: 5,
+        phone: '+234 899 9999 999',
+        assigned_hub: 'Asaba Hub',
+        status: 'Enabled',
+        fines: 2055043.00
+      },
+      {
+        id: 25,
+        driver: 'Esther Joel',
+        average_ratings: 5,
+        phone: '+234 899 9999 999',
+        assigned_hub: 'Kano Hub',
+        status: 'Enabled',
+        fines: 2055043.00
+      },
+      {
+        id: 30,
+        driver: 'Femi Babalola',
+        average_ratings: 2,
+        phone: '+234 899 9999 999',
+        assigned_hub: 'Abuja Hub',
+        status: 'Enabled',
+        fines: 2055043.00
+      },
+      {
+        id: 51,
+        driver: 'Sarah Badmus',
+        average_ratings: 2,
+        phone: '+234 899 9999 999',
+        assigned_hub: 'Asaba Hub',
+        status: 'Enabled',
+        fines: 2055043.00
+      },
+      {
+        id: 21,
+        driver: 'Josh Michael',
+        average_ratings: 4,
+        phone: '+234 899 9999 999',
+        assigned_hub: 'Kano Hub',
+        status: 'Pending',
+        fines: 2055043.00
+      },
+      {
+        id: 87,
+        driver: 'Josh Michael',
+        average_ratings: 4,
+        phone: '+234 899 9999 999',
+        assigned_hub: 'Kano Hub',
+        status: 'Pending',
+        fines: 2055043.00
+      },
+      {
+        id: 81,
+        driver: 'System Admin',
+        average_ratings: 5,
+        phone: '+234 899 9999 999',
+        assigned_hub: 'Abuja Hub',
+        status: 'Enabled',
+        fines: 2055043.00
+      }
+    ];
+
+    // Apply search filter if provided
+    if (params.search) {
+      const searchTerm = params.search.toLowerCase();
+      mockDrivers = mockDrivers.filter(driver => 
+        driver.driver.toLowerCase().includes(searchTerm) ||
+        driver.assigned_hub.toLowerCase().includes(searchTerm) ||
+        driver.status.toLowerCase().includes(searchTerm) ||
+        driver.phone.includes(searchTerm)
+      );
+    }
+
+    if (params.filter) {
+      const filter = typeof params.filter === 'string' ? JSON.parse(params.filter) : params.filter;
+      if (filter.status) {
+        mockDrivers = mockDrivers.filter(driver => driver.status === filter.status);
+      }
+      if (filter.assigned_hub) {
+        mockDrivers = mockDrivers.filter(driver => driver.assigned_hub === filter.assigned_hub);
+      }
+    }
+
+    return createMockResponse({
+      data: mockDrivers,
+      total: mockDrivers.length,
+      current_page: 1,
+      per_page: 15,
+      last_page: 1
+    });
+  },
+
+  'POST /logistics/vehicles': async (config) => {
+    const vehicleData = config.data;
+    console.log(' Mock API: POST /logistics/vehicles - Received data:', vehicleData);
+    
+    const newVehicle = {
+      id: Date.now(),
+      ...vehicleData,
+      status: 'Active',
+      ordersCompleted: 0,
+      orderAmount: '₦0.00',
+      lastServiced: new Date().toLocaleDateString('en-GB'),
+      nextDue: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000).toLocaleDateString('en-GB'),
+      currentlyAssigned: 'Unassigned'
+    };
+    
+    return createMockResponse({
+      data: newVehicle,
+      message: 'Vehicle created successfully'
+    }, 201);
+  },
+
+  'PUT /logistics/vehicles/:id': async (config) => {
+    const vehicleId = parseInt(config.url?.split('/').pop() || '0');
+    const vehicleData = config.data;
+    console.log(' Mock API: PUT /logistics/vehicles/:id - ID:', vehicleId, 'Data:', vehicleData);
+    
+    const updatedVehicle = {
+      id: vehicleId,
+      ...vehicleData
+    };
+    
+    return createMockResponse({
+      data: updatedVehicle,
+      message: 'Vehicle updated successfully'
+    });
+  },
+
+  'DELETE /logistics/vehicles/:id': async (config) => {
+    const vehicleId = parseInt(config.url?.split('/').pop() || '0');
+    console.log(' Mock API: DELETE /logistics/vehicles/:id - ID:', vehicleId);
+    
+    return createMockResponse({
+      message: 'Vehicle deleted successfully'
+    });
+  },
 
   // Generic fallback for unhandled routes
   'DEFAULT': async () => {

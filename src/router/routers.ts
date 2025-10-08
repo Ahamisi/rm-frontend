@@ -394,6 +394,75 @@ const routes = [
 	},
 	/** compliance routes end here */
 
+	/** logistics routes begin here */
+	{
+		path: "/logistics/dashboard",
+		name: "logistics.dashboard",
+		component: () => import("@/views/Pages/Logistics/Dashboard.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/logistics/orders",
+		name: "logistics.orders",
+		component: () => import("@/views/Pages/Logistics/Orders.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/logistics/delivered-orders",
+		name: "logistics.delivered-orders",
+		component: () => import("@/views/Pages/Logistics/DeliveredOrders.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/logistics/log-book",
+		name: "logistics.log-book",
+		component: () => import("@/views/Pages/Logistics/LogBook.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/logistics/log-book/:id/edit",
+		name: "logistics.log-book.edit",
+		component: () => import("@/views/Pages/Logistics/LogBookEdit.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/logistics/hub-management/hubs",
+		name: "logistics.hub-management.hubs",
+		component: () => import("@/views/Pages/Logistics/HubManagement/Hubs.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/logistics/hub-management/hub-staff",
+		name: "logistics.hub-management.hub-staff",
+		component: () => import("@/views/Pages/Logistics/HubManagement/HubStaff.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/logistics/vehicles",
+		name: "logistics.vehicles",
+		component: () => import("@/views/Pages/Logistics/Vehicles.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/logistics/drivers",
+		name: "logistics.drivers",
+		component: () => import("@/views/Pages/Logistics/Drivers.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/logistics/delivery-types",
+		name: "logistics.delivery-types",
+		component: () => import("@/views/Pages/Logistics/DeliveryTypes.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/logistics/rh-orders",
+		name: "logistics.rh-orders",
+		component: () => import("@/views/Pages/Logistics/RHOrders.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	/** logistics routes end here */
+
 	{
 		path: "/admin/products",
 		name: "admin.products",

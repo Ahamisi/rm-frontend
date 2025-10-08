@@ -293,6 +293,22 @@ table tbody td .text-green-600 {
 	align-items: center !important;
 }
 
+/* NUCLEAR PROTECTION - Override ALL color rules for pills */
+table tbody td .pill-component,
+table tbody td span.pill-component,
+.pill-component {
+	color: inherit !important;
+}
+
+/* Specific protection for danger pills */
+table tbody td .pill-component.bg-\\[\\#FFD5D2\\],
+table.w-full.table-auto tbody tr td span[class*="bg-[#FFD5D2]"] {
+	background-color: #FFD5D2 !important;
+	color: #AE2E24 !important;
+	font-size: 10px !important;
+	font-weight: 500 !important;
+}
+
 /* Specific Pill colors - FORCE them to stay */
 .pill-component.bg-\\[\\#E9F2FF\\] {
 	background-color: #E9F2FF !important;
@@ -309,24 +325,45 @@ table tbody td .text-green-600 {
 	color: #216E4E !important;
 }
 
-/* Alternative approach - target by background colors directly */
-table tbody td span[class*="bg-[#E9F2FF]"] {
+/* Alternative approach - target by background colors directly with higher specificity */
+table.w-full.table-auto tbody tr td span.pill-component[class*="bg-[#E9F2FF]"] {
 	background-color: #E9F2FF !important;
 	color: #0055CC !important;
 	font-size: 10px !important;
 	font-weight: 500 !important;
 }
 
-table tbody td span[class*="bg-[#F3F0FF]"] {
+table.w-full.table-auto tbody tr td span.pill-component[class*="bg-[#F3F0FF]"] {
 	background-color: #F3F0FF !important;
 	color: #5E4DB2 !important;
 	font-size: 10px !important;
 	font-weight: 500 !important;
 }
 
-table tbody td span[class*="bg-[#DCFFF1]"] {
+table.w-full.table-auto tbody tr td span.pill-component[class*="bg-[#DCFFF1]"] {
 	background-color: #DCFFF1 !important;
 	color: #216E4E !important;
+	font-size: 10px !important;
+	font-weight: 500 !important;
+}
+
+table.w-full.table-auto tbody tr td span.pill-component[class*="bg-yellow-100"] {
+	background-color: #FEF3C7 !important;
+	color: #92400E !important;
+	font-size: 10px !important;
+	font-weight: 500 !important;
+}
+
+table.w-full.table-auto tbody tr td span.pill-component[class*="bg-[#BAF3DB]"] {
+	background-color: #BAF3DB !important;
+	color: #216E4E !important;
+	font-size: 10px !important;
+	font-weight: 500 !important;
+}
+
+table.w-full.table-auto tbody tr td span.pill-component[class*="bg-[rgba(9,30,66,0.14)]"] {
+	background-color: rgba(9, 30, 66, 0.14) !important;
+	color: #44546F !important;
 	font-size: 10px !important;
 	font-weight: 500 !important;
 }

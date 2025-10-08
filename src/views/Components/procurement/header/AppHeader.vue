@@ -280,6 +280,8 @@ const department_base_routes = [
   { name: "inventory", route: "admin.products" },
   { name: "sales", route: "customer-success" },
   { name: "outbound", route: "outbound.dashboard" },
+  { name: "logistics", route: "logistics.dashboard" },
+  { name: "compliance", route: "compliance.dashboard" },
 ];
 
 const hasRoute = (name: string): boolean => {

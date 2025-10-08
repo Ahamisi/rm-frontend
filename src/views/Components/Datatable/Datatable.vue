@@ -281,4 +281,19 @@ table.w-full.table-auto tbody tr td {
 	font-weight: 400;
 	color: #44546F;
 }
+
+/* NUCLEAR PROTECTION for Pill components - Override table cell color rules */
+table.w-full.table-auto tbody tr td .pill-component,
+table.w-full.table-auto tbody tr td span.pill-component {
+	color: inherit !important;
+}
+
+/* Specific protection for danger pills */
+table.w-full.table-auto tbody tr td .pill-component.bg-\\[\\#FFD5D2\\],
+table.w-full.table-auto tbody tr td span[class*="bg-[#FFD5D2]"] {
+	background-color: #FFD5D2 !important;
+	color: #AE2E24 !important;
+	font-size: 10px !important;
+	font-weight: 500 !important;
+}
 </style>
