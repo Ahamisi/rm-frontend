@@ -1,6 +1,6 @@
 <template>
 	<div class="flex flex-col h-full">
-		<div class="flex-shrink-0">
+		<div v-if="showHeader" class="flex-shrink-0">
 			<div class="flex flex-wrap items-baseline justify-between gap-3">
 				<div class="flex flex-wrap">
 					<slot name="header_search"></slot>
@@ -75,6 +75,10 @@ const props = defineProps({
 	exportable: {
 		type: Boolean,
 		default: false
+	},
+	showHeader: {
+		type: Boolean,
+		default: true
 	},
 	columns: {
 		type: Array as PropType<TableColumn[]>,
