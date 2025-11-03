@@ -230,11 +230,14 @@ export const mockHandlers: Record<string, (config: AxiosRequestConfig) => Promis
     return createMockResponse([
       { id: 1, name: 'Procurement', code: 'procurement', icon: '@/views/Pages/procurement/redesign/ProcurementIcon.svg' },
       { id: 2, name: 'Inventory', code: 'inventory', icon: '@/views/Pages/procurement/redesign/ProcurementIcon.svg' },
-      { id: 3, name: 'Sales', code: 'sales', icon: '@/views/Pages/procurement/redesign/CustomerSuccessIcon.svg' },
-      { id: 4, name: 'Inbound', code: 'inbound', icon: '@/views/Pages/procurement/redesign/InboundIcon.svg' },
-      { id: 5, name: 'Outbound', code: 'outbound', icon: '@/views/Pages/procurement/redesign/OutboundIcon.svg' },
-      { id: 6, name: 'Logistics', code: 'logistics', icon: '@/views/Pages/procurement/redesign/LogisticsIcon.svg' },
-      { id: 7, name: 'Compliance', code: 'compliance', icon: '@/views/Pages/procurement/redesign/ComplianceIcon.svg' },
+      { id: 3, name: 'Customer Success', code: 'customer-success', icon: '@/views/Pages/procurement/redesign/CustomerSuccessIcon.svg' },
+      { id: 4, name: 'Sales', code: 'sales', icon: '@/views/Pages/procurement/redesign/ProcurementIcon.svg' },
+      { id: 5, name: 'Marketing', code: 'marketing', icon: '@/views/Pages/procurement/redesign/ProcurementIcon.svg' },
+      { id: 6, name: 'Tech and Business Development', code: 'tech-business-dev', icon: '@/views/Pages/procurement/redesign/ProcurementIcon.svg' },
+      { id: 7, name: 'Inbound', code: 'inbound', icon: '@/views/Pages/procurement/redesign/InboundIcon.svg' },
+      { id: 8, name: 'Outbound', code: 'outbound', icon: '@/views/Pages/procurement/redesign/OutboundIcon.svg' },
+      { id: 9, name: 'Logistics', code: 'logistics', icon: '@/views/Pages/procurement/redesign/LogisticsIcon.svg' },
+      { id: 10, name: 'Compliance', code: 'compliance', icon: '@/views/Pages/procurement/redesign/ComplianceIcon.svg' },
     ]);
   },
 
@@ -1247,7 +1250,7 @@ export const mockHandlers: Record<string, (config: AxiosRequestConfig) => Promis
 
   // Logistics orders
 'GET /logistics/orders': async (config) => {
-  const params = config.params || {};
+    const params = config.params || {};
   console.log('🎭 Mock API: GET /logistics/orders - Received params:', params);
   let mockOrders = [
     {
@@ -1353,118 +1356,118 @@ export const mockHandlers: Record<string, (config: AxiosRequestConfig) => Promis
 'GET /logistics/log-books': async (config) => {
   const params = config.params || {};
   console.log('🎭 Mock API: GET /logistics/log-books - Received params:', params);
-  
-  let mockLogBooks = [
-    {
-      id: 15,
-      driver_name: 'Oluwatosin Adegboye',
-      order_count: 0,
-      state: 'Lagos',
-      delivery_timeline: '16/01/2025 - 16:34:54s'
-    },
-    {
-      id: 14,
-      driver_name: 'Janet Adeajayi',
-      order_count: 1,
-      state: 'Lagos',
-      delivery_timeline: '16/01/2025 - 16:34:54s'
-    },
-    {
-      id: 13,
-      driver_name: 'Henry Christopher',
-      order_count: 0,
-      state: 'Lagos',
-      delivery_timeline: '16/01/2025 - 16:34:54s'
-    },
-    {
-      id: 12,
-      driver_name: 'Oluwatosin Adegboye',
-      order_count: 0,
-      state: 'Lagos',
-      delivery_timeline: '16/01/2025 - 16:34:54s'
-    },
-    {
-      id: 11,
-      driver_name: 'Janet Adeajayi',
-      order_count: 0,
-      state: 'Lagos',
-      delivery_timeline: '16/01/2025 - 16:34:54s'
-    },
-    {
-      id: 10,
-      driver_name: 'Henry Christopher',
-      order_count: 0,
-      state: 'Lagos',
-      delivery_timeline: '16/01/2025 - 16:34:54s'
-    },
-    {
-      id: 9,
-      driver_name: 'Oluwatosin Adegboye',
-      order_count: 0,
-      state: 'Lagos',
-      delivery_timeline: '16/01/2025 - 16:34:54s'
-    },
-    {
-      id: 8,
-      driver_name: 'Janet Adeajayi',
-      order_count: 1,
-      state: 'Lagos',
-      delivery_timeline: '16/01/2025 - 16:34:54s'
-    },
-    {
-      id: 7,
-      driver_name: 'Henry Christopher',
-      order_count: 0,
-      state: 'Lagos',
-      delivery_timeline: '16/01/2025 - 16:34:54s'
-    },
-    {
-      id: 6,
-      driver_name: 'Oluwatosin Adegboye',
-      order_count: 1,
-      state: 'Lagos',
-      delivery_timeline: '16/01/2025 - 16:34:54s'
-    }
-  ];
-
-  // Apply filters
-  if (params.searchTerm || params.search) {
-    const searchTerm = (params.searchTerm || params.search).toLowerCase();
-    mockLogBooks = mockLogBooks.filter(logBook => 
-      logBook.driver_name.toLowerCase().includes(searchTerm) ||
-      logBook.state.toLowerCase().includes(searchTerm)
-    );
-  }
-
-  if (params.from_date && params.to_date) {
-    // Filter by date range if needed
-  }
-
-  if (params.filter) {
-    const filter = typeof params.filter === 'string' ? JSON.parse(params.filter) : params.filter;
-    if (filter.state) {
-      mockLogBooks = mockLogBooks.filter(logBook => logBook.state === filter.state);
-    }
-  }
-
-  // Apply sorting
-  if (params.sort_by) {
-    const sortField = params.sort_by;
-    const sortOrder = params.sort_order || 'asc';
-    mockLogBooks.sort((a, b) => {
-      const aVal = a[sortField];
-      const bVal = b[sortField];
-      if (sortOrder === 'desc') {
-        return bVal > aVal ? 1 : -1;
+    
+    let mockLogBooks = [
+      {
+        id: 15,
+        driver_name: 'Oluwatosin Adegboye',
+        order_count: 0,
+        state: 'Lagos',
+        delivery_timeline: '16/01/2025 - 16:34:54s'
+      },
+      {
+        id: 14,
+        driver_name: 'Janet Adeajayi',
+        order_count: 1,
+        state: 'Lagos',
+        delivery_timeline: '16/01/2025 - 16:34:54s'
+      },
+      {
+        id: 13,
+        driver_name: 'Henry Christopher',
+        order_count: 0,
+        state: 'Lagos',
+        delivery_timeline: '16/01/2025 - 16:34:54s'
+      },
+      {
+        id: 12,
+        driver_name: 'Oluwatosin Adegboye',
+        order_count: 0,
+        state: 'Lagos',
+        delivery_timeline: '16/01/2025 - 16:34:54s'
+      },
+      {
+        id: 11,
+        driver_name: 'Janet Adeajayi',
+        order_count: 0,
+        state: 'Lagos',
+        delivery_timeline: '16/01/2025 - 16:34:54s'
+      },
+      {
+        id: 10,
+        driver_name: 'Henry Christopher',
+        order_count: 0,
+        state: 'Lagos',
+        delivery_timeline: '16/01/2025 - 16:34:54s'
+      },
+      {
+        id: 9,
+        driver_name: 'Oluwatosin Adegboye',
+        order_count: 0,
+        state: 'Lagos',
+        delivery_timeline: '16/01/2025 - 16:34:54s'
+      },
+      {
+        id: 8,
+        driver_name: 'Janet Adeajayi',
+        order_count: 1,
+        state: 'Lagos',
+        delivery_timeline: '16/01/2025 - 16:34:54s'
+      },
+      {
+        id: 7,
+        driver_name: 'Henry Christopher',
+        order_count: 0,
+        state: 'Lagos',
+        delivery_timeline: '16/01/2025 - 16:34:54s'
+      },
+      {
+        id: 6,
+        driver_name: 'Oluwatosin Adegboye',
+        order_count: 1,
+        state: 'Lagos',
+        delivery_timeline: '16/01/2025 - 16:34:54s'
       }
-      return aVal > bVal ? 1 : -1;
-    });
-  }
+    ];
 
-  const result = paginate(mockLogBooks, params.page, params.perPage);
+    // Apply filters
+    if (params.searchTerm || params.search) {
+      const searchTerm = (params.searchTerm || params.search).toLowerCase();
+      mockLogBooks = mockLogBooks.filter(logBook => 
+        logBook.driver_name.toLowerCase().includes(searchTerm) ||
+        logBook.state.toLowerCase().includes(searchTerm)
+      );
+    }
+
+    if (params.from_date && params.to_date) {
+      // Filter by date range if needed
+    }
+
+    if (params.filter) {
+      const filter = typeof params.filter === 'string' ? JSON.parse(params.filter) : params.filter;
+      if (filter.state) {
+        mockLogBooks = mockLogBooks.filter(logBook => logBook.state === filter.state);
+      }
+    }
+
+    // Apply sorting
+    if (params.sort_by) {
+      const sortField = params.sort_by;
+      const sortOrder = params.sort_order || 'asc';
+      mockLogBooks.sort((a, b) => {
+        const aVal = a[sortField];
+        const bVal = b[sortField];
+        if (sortOrder === 'desc') {
+          return bVal > aVal ? 1 : -1;
+        }
+        return aVal > bVal ? 1 : -1;
+      });
+    }
+
+    const result = paginate(mockLogBooks, params.page, params.perPage);
   console.log('🎭 Mock API: GET /logistics/log-books - Returning data:', result);
-  return createMockResponse(result);
-},
+    return createMockResponse(result);
+  },
 
   // Logistics hubs
 'GET /logistics/hubs': async (config) => {
@@ -2082,6 +2085,148 @@ export const mockApiCall = async (config: AxiosRequestConfig): Promise<AxiosResp
   if (!handler) {
     handler = mockHandlers['DEFAULT'];
   }
+  
+// Pharmacies API handlers
+mockHandlers['GET /api/pharmacies'] = (config) => {
+  const pharmacies = [
+    {
+      id: 87,
+      customerName: 'Emeka Kalu',
+      storeName: 'Emeka Pharmacy',
+      storeAddress: '2 Saint Peter Church Street',
+      phone: '+234 899 9999 999',
+      status: 'Approved',
+      dateCreated: '16/01/2025'
+    },
+    {
+      id: 54,
+      customerName: 'Emeka Kalu',
+      storeName: 'Emeka Pharmacy',
+      storeAddress: '2 Saint Peter Church Street',
+      phone: '+234 899 9999 999',
+      status: 'Approved',
+      dateCreated: '16/01/2025'
+    },
+    {
+      id: 25,
+      customerName: 'Emeka Kalu',
+      storeName: 'Emeka Pharmacy',
+      storeAddress: '2 Saint Peter Church Street',
+      phone: '+234 899 9999 999',
+      status: 'Approved',
+      dateCreated: '16/01/2025'
+    },
+    {
+      id: 30,
+      customerName: 'Emmanuel Aba',
+      storeName: 'Emma Bros Pharmacy',
+      storeAddress: '2 Saint Peter Church Street',
+      phone: '+234 899 9999 999',
+      status: 'Approved',
+      dateCreated: '16/01/2025'
+    },
+    {
+      id: 51,
+      customerName: 'Emeka Kalu',
+      storeName: 'Emeka Pharmacy',
+      storeAddress: '2 Saint Peter Church Street',
+      phone: '+234 899 9999 999',
+      status: 'Approved',
+      dateCreated: '16/01/2025'
+    },
+    {
+      id: 21,
+      customerName: 'Emmanuel Aba',
+      storeName: 'Emma Bros Pharmacy',
+      storeAddress: '2 Saint Peter Church Street',
+      phone: '+234 899 9999 999',
+      status: 'Approved',
+      dateCreated: '16/01/2025'
+    },
+    {
+      id: 35,
+      customerName: 'Nyerhovwo Omuvwie',
+      storeName: 'Xela pharmacy',
+      storeAddress: '2 Saint Peter Church Street',
+      phone: '+234 899 9999 999',
+      status: 'Approved',
+      dateCreated: '16/01/2025'
+    },
+    {
+      id: 23,
+      customerName: 'Nyerhovwo Omuvwie',
+      storeName: 'Xela pharmacy',
+      storeAddress: '2 Saint Peter Church Street',
+      phone: '+234 899 9999 999',
+      status: 'Approved',
+      dateCreated: '16/01/2025'
+    },
+    {
+      id: 33,
+      customerName: 'Nyerhovwo Omuvwie',
+      storeName: 'Xela pharmacy',
+      storeAddress: '2 Saint Peter Church Street',
+      phone: '+234 899 9999 999',
+      status: 'Approved',
+      dateCreated: '16/01/2025'
+    },
+    {
+      id: 88,
+      customerName: 'Nyerhovwo Omuvwie',
+      storeName: 'Xela pharmacy',
+      storeAddress: '2 Saint Peter Church Street',
+      phone: '+234 899 9999 999',
+      status: 'Approved',
+      dateCreated: '16/01/2025'
+    },
+    {
+      id: 81,
+      customerName: 'Nyerhovwo Omuvwie',
+      storeName: 'Xela pharmacy',
+      storeAddress: '2 Saint Peter Church Street',
+      phone: '+234 899 9999 999',
+      status: 'Approved',
+      dateCreated: '16/01/2025'
+    },
+    {
+      id: 80,
+      customerName: 'Nyerhovwo Omuvwie',
+      storeName: 'Xela pharmacy',
+      storeAddress: '2 Saint Peter Church Street',
+      phone: '+234 899 9999 999',
+      status: 'Approved',
+      dateCreated: '16/01/2025'
+    }
+  ];
+
+  return {
+    data: pharmacies,
+    total: pharmacies.length,
+    page: 1,
+    per_page: 10
+  };
+};
+
+mockHandlers['POST /api/pharmacies'] = (config) => {
+  const newPharmacy = {
+    id: Math.floor(Math.random() * 1000),
+    ...JSON.parse(config.data || '{}'),
+    status: 'Approved',
+    dateCreated: new Date().toLocaleDateString('en-GB')
+  };
+  
+  return {
+    success: true,
+    data: newPharmacy
+  };
+};
+
+mockHandlers['DELETE /api/pharmacies/:id'] = (config) => {
+  return {
+    success: true,
+    message: 'Pharmacy removed successfully'
+  };
+};
   
   console.log(`🎭 Mock API: ${method} ${cleanUrl}`);
   return handler(config);

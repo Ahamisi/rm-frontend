@@ -5,7 +5,7 @@
 				<!-- Breadcrumb -->
 				<div class="text-[#626F86] crumb-text mb-5 space-x-2 px-3">
 					<router-link to="/customer-success/customers" class="hover:underline">
-						<span>Customers</span>
+						<span>Customerss</span>
 					</router-link>
 					<span>/</span>
 					<router-link to="/customer-success/customers" class="hover:underline">

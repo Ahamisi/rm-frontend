@@ -43,7 +43,17 @@ onMounted(() => {
 });
 
 const updateDepartment = (department: any) => {
-  const normalizedDepartment = department.toLowerCase();
+  console.log("updateDepartment called with:", department);
+  let normalizedDepartment = department.toLowerCase();
+  
+  // Handle special cases for department name mapping
+  if (normalizedDepartment === "customer success") {
+    normalizedDepartment = "customer-success";
+  } else if (normalizedDepartment === "tech and business development") {
+    normalizedDepartment = "tech-business-dev";
+  }
+  
+  console.log("Normalized department:", normalizedDepartment);
   selectedDepartment.value = normalizedDepartment;
   authStore.setActiveDepartment(normalizedDepartment);
 }

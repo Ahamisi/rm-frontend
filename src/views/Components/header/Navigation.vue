@@ -56,6 +56,10 @@ import {
   CreditCard,
   RotateCcw,
   PackageSearch,
+  Users,
+  MessageSquare,
+  Star,
+  TrendingUp,
 } from "lucide-vue-next";
 
 const props = defineProps<Props>();
@@ -204,9 +208,107 @@ const navigation: Record<string, any[]> = {
     { label: "Delivery Types", url: { name: "logistics.delivery-types" }, icon: FileText },
     { label: "RH Orders", url: { name: "logistics.rh-orders" }, icon: CreditCard },
   ],
+  "customer-success": [
+    { label: "Dashboard", url: { name: "customer-success" }, icon: LayoutDashboard },
+    { label: "KYC Verification", url: { name: "customer-success.kyc" }, icon: FileText },
+    { 
+      label: "Customers", 
+      icon: Users,
+      dropdown: [
+        { title: "All Customers", route: { name: "customer-success.customers" } },
+        { title: "Stores", route: { name: "customer-success.customers.stores" } },
+        { title: "Feedback", route: { name: "customer-success.customers.feedback" } }
+      ]
+    },
+    { 
+      label: "Orders & Fulfilment", 
+      icon: Truck,
+      dropdown: [
+        { title: "All Orders", route: { name: "customer-success.orders" } },
+        { title: "Delivered Orders", route: { name: "customer-success.orders.delivered" } },
+        { title: "Held Orders", route: { name: "customer-success.orders.held" } },
+        { title: "Inventory Order Issues", route: { name: "customer-success.orders.inventory-issues" } },
+        { title: "Orders Pending Payment", route: { name: "customer-success.orders.pending-payment" } },
+        { title: "Customer Support Issues", route: { name: "customer-success.orders.support-issues" } }
+      ]
+    },
+    { 
+      label: "Business Programs", 
+      icon: Star,
+      dropdown: [
+        { title: "Deals", route: { name: "customer-success.business-programs.deals" } },
+        { title: "Loyalty Program", route: { name: "customer-success.business-programs.loyalty" } },
+ 
+      ]
+    },
+        {
+          label: "HMO & Pharmacy",
+          icon: CreditCard,
+          dropdown: [
+            { title: "All HMOs", route: { name: "customer-success.hmo.products" } },
+            { title: "HMO Products", route: { name: "customer-success.hmo.products" } },
+            { title: "Damaged HMO Products", route: { name: "customer-success.hmo.products.damaged" } },
+            { title: "HMO Product Returns", route: { name: "customer-success.hmo.products.returns" } },
+            { title: "HMO Loans", route: { name: "customer-success.hmo.loans" } },
+            { title: "Pharmacies", route: { name: "customer-success.hmo.pharmacies" } },
+            { title: "Pharmacy Orders", route: { name: "customer-success.hmo.pharmacy-orders" } },
+            { title: "Pharmacies Owed", route: { name: "customer-success.hmo.pharmacies-owed" } },
+            { title: "RH Orders", route: { name: "customer-success.hmo.orders" } }
+          ]
+        },
+    { 
+      label: "Marketplace", 
+      icon: PackageSearch,
+      dropdown: [
+        { title: "Partners", route: { name: "customer-success.marketplace.partners" } },
+        { title: "Partner Orders", route: { name: "customer-success.marketplace.orders" } },
+        { title: "Partner Profits", route: { name: "customer-success.marketplace.profits" } },
+        { title: "Marketplace Product Returns", route: { name: "customer-success.marketplace.returns" } }
+      ]
+    },
+    { 
+      label: "More Actions", 
+      icon: FileText,
+      useThreeDots: true,
+      dropdown: [
+        { title: "Agent Performance", route: { name: "customer-success.more-actions.agent-performance" } },
+        { title: "Line Managers", route: { name: "customer-success.more-actions.line-managers" } },
+        { title: "Agents", route: { name: "customer-success.more-actions.agents" } },
+        { title: "Products", route: { name: "customer-success.more-actions.products" } },
+        { title: "Drivers", route: { name: "customer-success.more-actions.drivers" } }
+      ]
+    },
+  ],
+  "sales": [
+    { label: "Dashboard", url: { name: "sales.dashboard" }, icon: LayoutDashboard },
+    { label: "Lead Management", url: { name: "sales.leads" }, icon: Users },
+    { label: "Opportunities", url: { name: "sales.opportunities" }, icon: FileText },
+    { label: "Sales Pipeline", url: { name: "sales.pipeline" }, icon: TrendingUp },
+    { label: "Sales Reports", url: { name: "sales.reports" }, icon: FileText },
+  ],
+  "marketing": [
+    { label: "Dashboard", url: { name: "marketing.dashboard" }, icon: LayoutDashboard },
+    { label: "Campaigns", url: { name: "marketing.campaigns" }, icon: FileText },
+    { label: "Lead Generation", url: { name: "marketing.leads" }, icon: Users },
+    { label: "Analytics", url: { name: "marketing.analytics" }, icon: TrendingUp },
+    { label: "Content Management", url: { name: "marketing.content" }, icon: FileText },
+  ],
+  "tech-business-dev": [
+    { label: "Dashboard", url: { name: "tech-business-dev.dashboard" }, icon: LayoutDashboard },
+    { label: "Development Projects", url: { name: "tech-business-dev.projects" }, icon: FileText },
+    { label: "Technical Support", url: { name: "tech-business-dev.support" }, icon: Users },
+    { label: "Business Analysis", url: { name: "tech-business-dev.analysis" }, icon: TrendingUp },
+    { label: "Innovation Lab", url: { name: "tech-business-dev.innovation" }, icon: Star },
+  ],
 }
 
-const navItems = computed(() => navigation[props.department]);
+const navItems = computed(() => {
+  console.log("Navigation component - props.department:", props.department);
+  console.log("Available navigation keys:", Object.keys(navigation));
+  const items = navigation[props.department];
+  console.log("Navigation items for department:", items);
+  return items;
+});
 
 const isActive = (url: string) => route.path === url;
 
