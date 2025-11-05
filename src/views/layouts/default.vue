@@ -24,38 +24,58 @@ const selectedDepartment = ref(authStore.selectedDepartment || "");
 
 onMounted(() => {
   // Check both localStorage keys for department (handle inconsistency)
-  const storedDepartment = authStore.selectedDepartment || localStorage.getItem("selected_department");
+  const storedDepartment = authStore.selectedDepartment || 
+                           localStorage.getItem("selectedDepartment") || 
+                           localStorage.getItem("selected_department");
   
   // Initialize department from auth store or localStorage
   if (!selectedDepartment.value && storedDepartment) {
-    selectedDepartment.value = storedDepartment.toLowerCase();
-    authStore.setActiveDepartment(storedDepartment.toLowerCase());
+    const normalized = normalizeDepartmentCode(storedDepartment);
+    selectedDepartment.value = normalized;
+    authStore.setActiveDepartment(normalized);
   }
   
   // If still no department, try to set a default based on available departments
   if (!selectedDepartment.value && authStore.departments && authStore.departments.length > 0) {
-    const defaultDepartment = authStore.departments[0]?.slug || authStore.departments[0]?.name?.toLowerCase();
+    const defaultDepartment = authStore.departments[0]?.code || 
+                              authStore.departments[0]?.slug || 
+                              authStore.departments[0]?.name?.toLowerCase();
     if (defaultDepartment) {
-      selectedDepartment.value = defaultDepartment;
-      authStore.setActiveDepartment(defaultDepartment);
+      const normalized = normalizeDepartmentCode(defaultDepartment);
+      selectedDepartment.value = normalized;
+      authStore.setActiveDepartment(normalized);
     }
   }
 });
 
+// Normalize department codes to match the navigation keys
+const normalizeDepartmentCode = (dept: string): string => {
+  const normalized = dept.toLowerCase().trim();
+  
+  // Map display names to codes
+  if (normalized === "customer success") {
+    return "customer-success";
+  } else if (normalized === "business development" || normalized === "tech and business development") {
+    return "tech-business-dev";
+  } else if (normalized === "tech") {
+    return "tech";
+  } else if (normalized === "accounting") {
+    return "accounting";
+  }
+  
+  return normalized;
+};
+
 const updateDepartment = (department: any) => {
   console.log("updateDepartment called with:", department);
-  let normalizedDepartment = department.toLowerCase();
-  
-  // Handle special cases for department name mapping
-  if (normalizedDepartment === "customer success") {
-    normalizedDepartment = "customer-success";
-  } else if (normalizedDepartment === "tech and business development") {
-    normalizedDepartment = "tech-business-dev";
-  }
+  const normalizedDepartment = normalizeDepartmentCode(department);
   
   console.log("Normalized department:", normalizedDepartment);
   selectedDepartment.value = normalizedDepartment;
   authStore.setActiveDepartment(normalizedDepartment);
+  
+  // Also update the inconsistent localStorage key for compatibility
+  localStorage.setItem("selected_department", normalizedDepartment);
 }
 </script>
 

@@ -779,9 +779,21 @@ const routes = [
 		meta: { layout: "default", requiresAuth: true },
 	},
 	{
+		path: "/customer-success/hmo/all-hmos",
+		name: "customer-success.hmo.all-hmos",
+		component: () => import("@/views/Pages/Customer Success/HMO/AllHmos.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
 		path: "/customer-success/hmo/products",
 		name: "customer-success.hmo.products",
-		component: () => import("@/views/Pages/Customer Success/HMO/AllHmos.vue"),
+		component: () => import("@/views/Pages/Customer Success/HMO/AllHmoProducts.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/customer-success/hmo/products/:id",
+		name: "customer-success.hmo.view-hmo-product",
+		component: () => import("@/views/Pages/Customer Success/HMO/ViewHmoProduct.vue"),
 		meta: { layout: "default", requiresAuth: true },
 	},
 	{
@@ -926,6 +938,18 @@ const routes = [
 		meta: { layout: "default", requiresAuth: true },
 	},
 	{
+		path: "/sales/line-managers",
+		name: "sales.line-managers",
+		component: () => import("@/views/Pages/Sales/LineManagers.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/sales/agents",
+		name: "sales.agents",
+		component: () => import("@/views/Pages/Sales/Agents.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
 		path: "/sales/leads",
 		name: "sales.leads",
 		component: () => import("@/views/Pages/Sales/Leads.vue"),
@@ -954,7 +978,13 @@ const routes = [
 	{
 		path: "/marketing",
 		name: "marketing.dashboard",
-		component: () => import("@/views/Pages/Marketing/Dashboard.vue"),
+		component: () => import("@/views/Pages/Marketing/Ads.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/marketing/ads",
+		name: "marketing.ads",
+		component: () => import("@/views/Pages/Marketing/Ads.vue"),
 		meta: { layout: "default", requiresAuth: true },
 	},
 	{
@@ -979,6 +1009,12 @@ const routes = [
 		path: "/marketing/content",
 		name: "marketing.content",
 		component: () => import("@/views/Pages/Marketing/Content.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/marketing/all-customers",
+		name: "marketing.all-customers",
+		component: () => import("@/views/Pages/Marketing/AllCustomers.vue"),
 		meta: { layout: "default", requiresAuth: true },
 	},
 
@@ -1011,6 +1047,190 @@ const routes = [
 		path: "/tech-business-dev/innovation",
 		name: "tech-business-dev.innovation",
 		component: () => import("@/views/Pages/Tech Business Dev/Innovation.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/tech-business-dev/all-hmos",
+		name: "tech-business-dev.all-hmos",
+		component: () => import("@/views/Pages/Tech Business Dev/AllHmos.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/tech-business-dev/hmo-product-returns",
+		name: "tech-business-dev.hmo-product-returns",
+		component: () => import("@/views/Pages/Tech Business Dev/HmoProductReturns.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/tech-business-dev/pharmacies",
+		name: "tech-business-dev.pharmacies",
+		component: () => import("@/views/Pages/Tech Business Dev/Pharmacies.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/tech-business-dev/loans",
+		name: "tech-business-dev.loans",
+		component: () => import("@/views/Pages/Tech Business Dev/Loans.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/tech-business-dev/orders-fulfilment/pharmacy-orders",
+		name: "tech-business-dev.orders-fulfilment.pharmacy-orders",
+		component: () => import("@/views/Pages/Tech Business Dev/PharmacyOrders.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/tech-business-dev/orders-fulfilment/rh-orders",
+		name: "tech-business-dev.orders-fulfilment.rh-orders",
+		component: () => import("@/views/Pages/Tech Business Dev/RhOrders.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/tech-business-dev/products-management/all-hmo-products",
+		name: "tech-business-dev.products-management.all-hmo-products",
+		component: () => import("@/views/Pages/Tech Business Dev/AllHmoProducts.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/tech-business-dev/products-management/damaged-hmo-products",
+		name: "tech-business-dev.products-management.damaged-hmo-products",
+		component: () => import("@/views/Pages/Tech Business Dev/DamagedHmoProducts.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/tech-business-dev/products-management/all-hmo-products/:id",
+		name: "tech-business-dev.products-management.view-hmo-product",
+		component: () => import("@/views/Pages/Tech Business Dev/ViewHmoProduct.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/tech-business-dev/customers-owed",
+		name: "tech-business-dev.customers-owed",
+		component: () => import("@/views/Pages/Tech Business Dev/CustomersOwed.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+
+	// Tech Module Routes
+	{
+		path: "/tech",
+		name: "tech.dashboard",
+		component: () => import("@/views/Pages/Tech/Dashboard.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/tech/integrations",
+		name: "tech.integrations",
+		component: () => import("@/views/Pages/Tech/Integrations.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/tech/activity-log",
+		name: "tech.activity-log",
+		component: () => import("@/views/Pages/Tech/ActivityLog.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/tech/settings",
+		name: "tech.settings",
+		component: () => import("@/views/Pages/Tech/Settings.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/tech/role-management/admins",
+		name: "tech.role-management.admins",
+		component: () => import("@/views/Pages/Tech/Role Management/Admins.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/tech/role-management/roles",
+		name: "tech.role-management.roles",
+		component: () => import("@/views/Pages/Tech/Role Management/Roles.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/tech/role-management/permissions",
+		name: "tech.role-management.permissions",
+		component: () => import("@/views/Pages/Tech/Role Management/Permissions.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/tech/requested-features",
+		name: "tech.requested-features",
+		component: () => import("@/views/Pages/Tech/RequestedFeatures.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/tech/requested-features/:id",
+		name: "tech.requested-features.view",
+		component: () => import("@/views/Pages/Tech/ViewRequestedFeature.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/tech/pos",
+		name: "tech.pos",
+		component: () => import("@/views/Pages/Tech/POS.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+
+	// Accounting Module Routes
+	{
+		path: "/accounting",
+		name: "accounting.dashboard",
+		component: () => import("@/views/Pages/Accounting/Dashboard.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/accounting/orders",
+		name: "accounting.orders",
+		component: () => import("@/views/Pages/Accounting/Orders.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/accounting/delivered-orders",
+		name: "accounting.delivered-orders",
+		component: () => import("@/views/Pages/Accounting/DeliveredOrders.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/accounting/held-orders",
+		name: "accounting.held-orders",
+		component: () => import("@/views/Pages/Accounting/HeldOrders.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/accounting/orders-pending-payment",
+		name: "accounting.orders-pending-payment",
+		component: () => import("@/views/Pages/Accounting/OrdersPendingPayment.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/accounting/all-customers",
+		name: "accounting.all-customers",
+		component: () => import("@/views/Pages/Accounting/AllCustomers.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/accounting/business-programs/loans",
+		name: "accounting.business-programs.loans",
+		component: () => import("@/views/Pages/Accounting/Loans.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/accounting/business-programs/loan-interests",
+		name: "accounting.business-programs.loan-interests",
+		component: () => import("@/views/Pages/Accounting/LoanInterests.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/accounting/business-programs/admin-loans",
+		name: "accounting.business-programs.admin-loans",
+		component: () => import("@/views/Pages/Accounting/AdminLoans.vue"),
+		meta: { layout: "default", requiresAuth: true },
+	},
+	{
+		path: "/accounting/confirmed-order-logs",
+		name: "accounting.confirmed-order-logs",
+		component: () => import("@/views/Pages/Accounting/ConfirmedOrderLogs.vue"),
 		meta: { layout: "default", requiresAuth: true },
 	},
 

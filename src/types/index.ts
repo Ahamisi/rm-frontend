@@ -142,6 +142,7 @@ export interface TableColumn {
 	field: string;
 	sortable?: boolean;
 	format?: (value: any) => string;
+	width?: string;
 }
 
 // 🔁 Datatable Filter params

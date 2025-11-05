@@ -2,7 +2,7 @@
   <div class="erp_dashboard_wrapper">
     <div class="grey_bg">
       <!-- Header -->
-      <PageTitle title="Customers / All Customers" class="px-6" />
+      <PageTitle title="Marketing / All Customers" class="px-6" />
     </div>
     
     <!-- Tabs with Action Buttons -->
@@ -10,8 +10,7 @@
       <Tabs :tabs="tabs" @tabChanged="onTabChanged">
         <!-- Action Buttons in tabs line -->
         <div class="flex items-center gap-3 ml-auto mb-1">
-            <Button type="gray-btn" :onClick="downloadReport" classStyle="px-4 py-2">
-
+          <Button type="gray-btn" :onClick="downloadReport" classStyle="px-4 py-2">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M10.687 17.292C10.5956 17.1997 10.4868 17.1264 10.3669 17.0764C10.247 17.0264 10.1184 17.0007 9.9885 17.0007C9.8586 17.0007 9.72998 17.0264 9.61009 17.0764C9.49019 17.1264 9.3814 17.1997 9.29 17.292C9.10466 17.4792 9.0007 17.732 9.0007 17.9955C9.0007 18.259 9.10466 18.5118 9.29 18.699L11.254 20.679C11.3546 20.7807 11.4744 20.8613 11.6064 20.9164C11.7384 20.9715 11.88 20.9998 12.023 20.9998C12.166 20.9998 12.3076 20.9715 12.4396 20.9164C12.5716 20.8613 12.6914 20.7807 12.792 20.679L14.711 18.746C14.8966 18.5587 15.0008 18.3057 15.0008 18.042C15.0008 17.7783 14.8966 17.5253 14.711 17.338C14.6196 17.2455 14.5107 17.1721 14.3907 17.122C14.2708 17.0719 14.142 17.0462 14.012 17.0462C13.882 17.0462 13.7532 17.0719 13.6333 17.122C13.5133 17.1721 13.4044 17.2455 13.313 17.338L12.023 18.638L10.687 17.292Z" fill="#44546F"/>
 <path d="M13.001 19.993L13 10.006C13 9.451 12.552 9 12 9C11.448 9 11 9.45 11 10.007L11.001 19.994C11.001 20.549 11.449 21 12.001 21C12.553 21 13.001 20.55 13.001 19.993Z" fill="#44546F"/>
@@ -73,126 +72,16 @@
 
           <!-- Action Column -->
           <span v-else-if="col.props?.column?.field === 'action'">
-            <TableActionDropdown :rowData="col.props?.formattedRow" wide>
-              <template #default="{ selectedItem, closeDropdown }">
-                <!-- View Customer -->
-                <li @click="handleAction('view', selectedItem); closeDropdown()" 
-                    class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-gray-100 medium-text border-b border-gray-200">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 18C7.464 18 4.001 13.74 4.001 12C4.001 9.999 7.46 6 12.001 6C16.377 6 19.999 9.973 19.999 12C19.999 13.74 16.537 18 12.001 18H12ZM12.001 4C6.48 4 2 8.841 2 12C2 15.086 6.576 20 12 20C17.423 20 22 15.086 22 12C22 8.841 17.52 4 12 4" fill="#626F86"/>
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M11.977 13.984C10.874 13.984 9.977 13.087 9.977 11.984C9.977 10.881 10.874 9.984 11.977 9.984C13.081 9.984 13.977 10.881 13.977 11.984C13.977 13.087 13.081 13.984 11.977 13.984ZM11.977 7.984C9.771 7.984 7.977 9.778 7.977 11.984C7.977 14.19 9.771 15.984 11.977 15.984C14.184 15.984 15.977 14.19 15.977 11.984C15.977 9.778 14.184 7.984 11.977 7.984Z" fill="#626F86"/>
-                    </svg>
-
-                  View Customer
-                </li>
-                
-                <!-- Notify -->
-                <li @click="handleAction('notify', selectedItem); closeDropdown()" 
-                    class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-gray-100 medium-text border-b border-gray-200">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path fill-rule="evenodd" clip-rule="evenodd" d="M6.58597 17.829C6.7717 18.0148 6.99221 18.1622 7.23492 18.2628C7.47762 18.3633 7.73776 18.4151 8.00047 18.4151C8.26318 18.4151 8.52332 18.3633 8.76602 18.2628C9.00873 18.1622 9.22924 18.0148 9.41497 17.829L6.58497 15C6.39917 15.1857 6.25178 15.4062 6.15122 15.6489C6.05065 15.8917 5.9989 16.1518 5.9989 16.4145C5.9989 16.6772 6.05065 16.9374 6.15122 17.1801C6.25178 17.4228 6.39917 17.6433 6.58497 17.829H6.58597ZM11.384 5.478C11.8524 5.00875 12.4089 4.63663 13.0216 4.383C13.6342 4.12937 14.2909 3.99921 14.954 4C15.926 4 16.899 4.28 17.742 4.839C17.762 4.813 17.785 4.789 17.808 4.765C17.9043 4.66644 18.0197 4.58862 18.1472 4.53633C18.2747 4.48405 18.4116 4.45841 18.5493 4.46099C18.6871 4.46357 18.8229 4.49432 18.9484 4.55134C19.0738 4.60837 19.1863 4.69046 19.2788 4.79256C19.3713 4.89467 19.442 5.01463 19.4864 5.14507C19.5309 5.27551 19.5482 5.41366 19.5372 5.55103C19.5263 5.68839 19.4873 5.82206 19.4228 5.94382C19.3583 6.06558 19.2695 6.17284 19.162 6.259C19.8046 7.22976 20.0919 8.3928 19.9752 9.55112C19.8586 10.7094 19.3452 11.7918 18.522 12.615L17.797 13.34C17.015 14.123 15.984 15.55 15.485 16.547L13.976 19.563C13.727 20.063 13.203 20.147 12.805 19.75L4.24897 11.195C3.85197 10.798 3.94097 10.271 4.43597 10.023L7.45297 8.515C8.44197 8.021 9.87297 6.989 10.659 6.203L11.384 5.478ZM14.123 15.108C14.64 14.133 15.691 12.712 16.477 11.926L17.202 11.2C17.6984 10.7032 18.0081 10.0502 18.0786 9.35144C18.1491 8.65266 17.9762 7.95096 17.589 7.365C17.399 7.079 16.871 6.599 16.73 6.505C16.2308 6.17484 15.6454 5.99918 15.047 6C14.6466 5.99937 14.25 6.07785 13.88 6.23093C13.51 6.384 13.1739 6.60866 12.891 6.892L11.941 7.843C11.157 8.628 9.72197 9.663 8.73997 10.154L6.99997 11.024L13.07 17.093L14.123 15.108Z" fill="#626F86"/>
-                    </svg>
-
-                  Notify
-                </li>
-                
-                <!-- Login to Account -->
-                <li @click="handleAction('login', selectedItem); closeDropdown()" 
-                    class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-gray-100 medium-text border-b border-gray-200">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0001 3V5H19.0001V19H12.0001V21H19.0061C20.1061 21 21.0001 20.107 21.0001 19.005V4.995C21.0003 4.73302 20.9489 4.47357 20.8488 4.23147C20.7487 3.98937 20.6019 3.76938 20.4167 3.58409C20.2315 3.3988 20.0116 3.25184 19.7695 3.15161C19.5275 3.05139 19.268 2.99987 19.0061 3H12.0001Z" fill="#626F86"/>
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M3.97706 11C3.71484 11.0034 3.46469 11.1108 3.28152 11.2984C3.09835 11.4861 2.99713 11.7388 3.00006 12.001C3.00006 12.552 3.43706 13 3.97706 13H15.0241C15.2859 12.9968 15.5358 12.8898 15.7188 12.7025C15.9018 12.5152 16.003 12.2629 16.0001 12.001C16.003 11.7389 15.9019 11.4864 15.719 11.2988C15.536 11.1111 15.2861 11.0037 15.0241 11H3.97706Z" fill="#626F86"/>
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3031 8.305C12.109 8.502 12.0002 8.76745 12.0002 9.044C12.0002 9.32055 12.109 9.586 12.3031 9.783L14.5001 12L12.3031 14.217C12.1089 14.4135 12 14.6787 12 14.955C12 15.2313 12.1089 15.4965 12.3031 15.693C12.7071 16.102 13.3631 16.102 13.7681 15.693L16.6981 12.738C16.8914 12.5408 16.9996 12.2756 16.9996 11.9995C16.9996 11.7234 16.8914 11.4582 16.6981 11.261L13.7681 8.305C13.672 8.20858 13.5578 8.13207 13.4321 8.07987C13.3064 8.02767 13.1717 8.00079 13.0356 8.00079C12.8995 8.00079 12.7647 8.02767 12.639 8.07987C12.5133 8.13207 12.3991 8.20858 12.3031 8.305Z" fill="#626F86"/>
-                    </svg>
-
-                  Login to Account
-                </li>
-                
-                <!-- Add Warning Tags -->
-                <li @click="handleAction('warning-tags', selectedItem); closeDropdown()" 
-                    class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-gray-100 medium-text border-b border-gray-200">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M11.0616 4.96699C11.5776 3.99299 12.4196 3.98899 12.9376 4.96699L20.0616 18.425C20.5776 19.399 20.1066 20.196 19.0046 20.196H4.99458C3.89258 20.196 3.41958 19.403 3.93758 18.425L11.0616 4.96699ZM11.2925 14.7071C11.48 14.8946 11.7344 15 11.9996 15C12.2648 15 12.5192 14.8946 12.7067 14.7071C12.8942 14.5196 12.9996 14.2652 12.9996 14V8.99998C12.9996 8.73477 12.8942 8.48041 12.7067 8.29288C12.5192 8.10534 12.2648 7.99998 11.9996 7.99998C11.7344 7.99998 11.48 8.10534 11.2925 8.29288C11.1049 8.48041 10.9996 8.73477 10.9996 8.99998V14C10.9996 14.2652 11.1049 14.5196 11.2925 14.7071ZM11.2925 17.7071C11.48 17.8946 11.7344 18 11.9996 18C12.2648 18 12.5192 17.8946 12.7067 17.7071C12.8942 17.5196 12.9996 17.2652 12.9996 17C12.9996 16.7348 12.8942 16.4804 12.7067 16.2929C12.5192 16.1053 12.2648 16 11.9996 16C11.7344 16 11.48 16.1053 11.2925 16.2929C11.1049 16.4804 10.9996 16.7348 10.9996 17C10.9996 17.2652 11.1049 17.5196 11.2925 17.7071Z" fill="#44546F"/>
-                    </svg>
-
-                  Add Warning Tags
-                </li>
-
-                <!-- Separator -->
-                <div class="border-t border-gray-200 my-1"></div>
-                
-                <!-- Download Transactions -->
-                <li @click="handleAction('download-transactions', selectedItem); closeDropdown()" 
-                    class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-gray-100 medium-text border-b border-gray-200">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M10.687 17.292C10.5956 17.1997 10.4868 17.1264 10.3669 17.0764C10.247 17.0264 10.1184 17.0007 9.9885 17.0007C9.8586 17.0007 9.72998 17.0264 9.61009 17.0764C9.49019 17.1264 9.3814 17.1997 9.29 17.292C9.10466 17.4792 9.0007 17.732 9.0007 17.9955C9.0007 18.259 9.10466 18.5118 9.29 18.699L11.254 20.679C11.3546 20.7807 11.4744 20.8613 11.6064 20.9164C11.7384 20.9715 11.88 20.9998 12.023 20.9998C12.166 20.9998 12.3076 20.9715 12.4396 20.9164C12.5716 20.8613 12.6914 20.7807 12.792 20.679L14.711 18.746C14.8966 18.5587 15.0008 18.3057 15.0008 18.042C15.0008 17.7783 14.8966 17.5253 14.711 17.338C14.6196 17.2455 14.5107 17.1721 14.3907 17.122C14.2708 17.0719 14.142 17.0462 14.012 17.0462C13.882 17.0462 13.7532 17.0719 13.6333 17.122C13.5133 17.1721 13.4044 17.2455 13.313 17.338L12.023 18.638L10.687 17.292Z" fill="#626F86"/>
-<path d="M13.001 19.993L13 10.006C13 9.451 12.552 9 12 9C11.448 9 11 9.45 11 10.007L11.001 19.994C11.001 20.549 11.449 21 12.001 21C12.553 21 13.001 20.55 13.001 19.993Z" fill="#626F86"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M7.938 5.48C7.68111 5.4383 7.42125 5.41757 7.161 5.418C4.356 5.418 2 7.62 2 10.498C2 13.409 4.385 16 7.1 16H9.981V14.007H7.1C5.443 14.007 3.985 12.344 3.985 10.499C3.985 8.721 5.454 7.412 7.089 7.412H7.101C7.49 7.412 7.787 7.462 8.071 7.562L8.241 7.625C8.846 7.873 9.116 7.379 9.116 7.379L9.266 7.112C9.996 5.765 11.467 5.016 12.982 4.992C13.9871 5.00203 14.9543 5.37742 15.703 6.04812C16.4517 6.71882 16.9309 7.63901 17.051 8.637L17.097 8.977C17.097 8.977 17.168 9.502 17.762 9.502C17.775 9.502 17.774 9.507 17.785 9.507H18.039C19.175 9.507 20.015 10.466 20.015 11.665C20.015 12.872 19.028 14.007 17.945 14.007H13.981V16H17.945C20.105 16 22 13.955 22 11.665C22 9.665 20.688 8.002 18.862 7.591C18.155 4.884 15.809 3.039 12.976 3C11.001 3.02 9.075 3.9 7.938 5.48Z" fill="#626F86"/>
-</svg>
-
-                  Download Transactions
-                </li>
-                
-                <!-- Download Partner Transactions -->
-                <li @click="handleAction('download-partner', selectedItem); closeDropdown()" 
-                    class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-gray-100 medium-text border-b border-gray-200">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M10.687 17.292C10.5956 17.1997 10.4868 17.1264 10.3669 17.0764C10.247 17.0264 10.1184 17.0007 9.9885 17.0007C9.8586 17.0007 9.72998 17.0264 9.61009 17.0764C9.49019 17.1264 9.3814 17.1997 9.29 17.292C9.10466 17.4792 9.0007 17.732 9.0007 17.9955C9.0007 18.259 9.10466 18.5118 9.29 18.699L11.254 20.679C11.3546 20.7807 11.4744 20.8613 11.6064 20.9164C11.7384 20.9715 11.88 20.9998 12.023 20.9998C12.166 20.9998 12.3076 20.9715 12.4396 20.9164C12.5716 20.8613 12.6914 20.7807 12.792 20.679L14.711 18.746C14.8966 18.5587 15.0008 18.3057 15.0008 18.042C15.0008 17.7783 14.8966 17.5253 14.711 17.338C14.6196 17.2455 14.5107 17.1721 14.3907 17.122C14.2708 17.0719 14.142 17.0462 14.012 17.0462C13.882 17.0462 13.7532 17.0719 13.6333 17.122C13.5133 17.1721 13.4044 17.2455 13.313 17.338L12.023 18.638L10.687 17.292Z" fill="#626F86"/>
-<path d="M13.001 19.993L13 10.006C13 9.451 12.552 9 12 9C11.448 9 11 9.45 11 10.007L11.001 19.994C11.001 20.549 11.449 21 12.001 21C12.553 21 13.001 20.55 13.001 19.993Z" fill="#626F86"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M7.938 5.48C7.68111 5.4383 7.42125 5.41757 7.161 5.418C4.356 5.418 2 7.62 2 10.498C2 13.409 4.385 16 7.1 16H9.981V14.007H7.1C5.443 14.007 3.985 12.344 3.985 10.499C3.985 8.721 5.454 7.412 7.089 7.412H7.101C7.49 7.412 7.787 7.462 8.071 7.562L8.241 7.625C8.846 7.873 9.116 7.379 9.116 7.379L9.266 7.112C9.996 5.765 11.467 5.016 12.982 4.992C13.9871 5.00203 14.9543 5.37742 15.703 6.04812C16.4517 6.71882 16.9309 7.63901 17.051 8.637L17.097 8.977C17.097 8.977 17.168 9.502 17.762 9.502C17.775 9.502 17.774 9.507 17.785 9.507H18.039C19.175 9.507 20.015 10.466 20.015 11.665C20.015 12.872 19.028 14.007 17.945 14.007H13.981V16H17.945C20.105 16 22 13.955 22 11.665C22 9.665 20.688 8.002 18.862 7.591C18.155 4.884 15.809 3.039 12.976 3C11.001 3.02 9.075 3.9 7.938 5.48Z" fill="#626F86"/>
-</svg>
-
-                  Download Partner Transactions
-                </li>
-                
-                <!-- Download Combined Transactions -->
-                <li @click="handleAction('download-combined', selectedItem); closeDropdown()" 
-                    class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-gray-100 medium-text border-b border-gray-200">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M10.687 17.292C10.5956 17.1997 10.4868 17.1264 10.3669 17.0764C10.247 17.0264 10.1184 17.0007 9.9885 17.0007C9.8586 17.0007 9.72998 17.0264 9.61009 17.0764C9.49019 17.1264 9.3814 17.1997 9.29 17.292C9.10466 17.4792 9.0007 17.732 9.0007 17.9955C9.0007 18.259 9.10466 18.5118 9.29 18.699L11.254 20.679C11.3546 20.7807 11.4744 20.8613 11.6064 20.9164C11.7384 20.9715 11.88 20.9998 12.023 20.9998C12.166 20.9998 12.3076 20.9715 12.4396 20.9164C12.5716 20.8613 12.6914 20.7807 12.792 20.679L14.711 18.746C14.8966 18.5587 15.0008 18.3057 15.0008 18.042C15.0008 17.7783 14.8966 17.5253 14.711 17.338C14.6196 17.2455 14.5107 17.1721 14.3907 17.122C14.2708 17.0719 14.142 17.0462 14.012 17.0462C13.882 17.0462 13.7532 17.0719 13.6333 17.122C13.5133 17.1721 13.4044 17.2455 13.313 17.338L12.023 18.638L10.687 17.292Z" fill="#626F86"/>
-<path d="M13.001 19.993L13 10.006C13 9.451 12.552 9 12 9C11.448 9 11 9.45 11 10.007L11.001 19.994C11.001 20.549 11.449 21 12.001 21C12.553 21 13.001 20.55 13.001 19.993Z" fill="#626F86"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M7.938 5.48C7.68111 5.4383 7.42125 5.41757 7.161 5.418C4.356 5.418 2 7.62 2 10.498C2 13.409 4.385 16 7.1 16H9.981V14.007H7.1C5.443 14.007 3.985 12.344 3.985 10.499C3.985 8.721 5.454 7.412 7.089 7.412H7.101C7.49 7.412 7.787 7.462 8.071 7.562L8.241 7.625C8.846 7.873 9.116 7.379 9.116 7.379L9.266 7.112C9.996 5.765 11.467 5.016 12.982 4.992C13.9871 5.00203 14.9543 5.37742 15.703 6.04812C16.4517 6.71882 16.9309 7.63901 17.051 8.637L17.097 8.977C17.097 8.977 17.168 9.502 17.762 9.502C17.775 9.502 17.774 9.507 17.785 9.507H18.039C19.175 9.507 20.015 10.466 20.015 11.665C20.015 12.872 19.028 14.007 17.945 14.007H13.981V16H17.945C20.105 16 22 13.955 22 11.665C22 9.665 20.688 8.002 18.862 7.591C18.155 4.884 15.809 3.039 12.976 3C11.001 3.02 9.075 3.9 7.938 5.48Z" fill="#626F86"/>
-</svg>
-
-                  Download Combined Transactions
-                </li>
-
-                <!-- Separator -->
-                <div class="border-t border-gray-200 my-1"></div>
-                
-                <!-- Reset Password -->
-                <li @click="handleAction('reset-password', selectedItem); closeDropdown()" 
-                    class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-gray-100 medium-text border-b border-gray-200">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M5 11.009C5 9.899 5.897 9 7.006 9H16.994C17.5262 9.00106 18.0363 9.21316 18.4123 9.58977C18.7884 9.96639 18.9997 10.4768 19 11.009V18.991C19 20.101 18.103 21 16.994 21H7.006C6.4737 20.9992 5.96347 20.7872 5.58736 20.4105C5.21125 20.0338 5 19.5233 5 18.991V11.009ZM7 11V19H17V11H7Z" fill="#626F86"/>
-<path d="M12 17C13.1046 17 14 16.1046 14 15C14 13.8954 13.1046 13 12 13C10.8954 13 10 13.8954 10 15C10 16.1046 10.8954 17 12 17Z" fill="#626F86"/>
-<path d="M8 6.002C8.00053 4.94111 8.42206 3.9238 9.17204 3.17345C9.92201 2.4231 10.9391 2.00106 12 2C12.5255 2 13.0458 2.10353 13.5312 2.30467C14.0166 2.50582 14.4577 2.80063 14.8291 3.17228C15.2006 3.54393 15.4952 3.98512 15.6961 4.47065C15.897 4.95619 16.0003 5.47654 16 6.002V6.5H14V6.002C14.0001 5.73922 13.9485 5.479 13.8481 5.23617C13.7476 4.99335 13.6003 4.77269 13.4146 4.58679C13.2289 4.40088 13.0084 4.25338 12.7657 4.1527C12.523 4.05202 12.2628 4.00013 12 4C10.898 4 10 4.898 10 6.002V11H8V6.002ZM14 6.5H16C16 6.76522 15.8946 7.01957 15.7071 7.20711C15.5196 7.39464 15.2652 7.5 15 7.5C14.7348 7.5 14.4804 7.39464 14.2929 7.20711C14.1054 7.01957 14 6.76522 14 6.5Z" fill="#626F86"/>
-</svg>
-
-                  Reset Password
-                </li>
-                
-                <!-- Deactivate Customer -->
-                <li @click="handleAction('deactivate', selectedItem); closeDropdown()" 
-                    class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-gray-100 medium-text border-b border-gray-200">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM10.5918 12.0154L9.117 13.499C9.02179 13.5915 8.94595 13.7021 8.89392 13.8242C8.84188 13.9464 8.81469 14.0776 8.81393 14.2104C8.81317 14.3432 8.83885 14.4747 8.88948 14.5975C8.9401 14.7202 9.01466 14.8316 9.10881 14.9252C9.20295 15.0189 9.31479 15.0928 9.43781 15.1427C9.56083 15.1927 9.69256 15.2176 9.82531 15.2161C9.95807 15.2146 10.0892 15.1866 10.211 15.1339C10.3329 15.0812 10.443 15.0047 10.535 14.909L12.0027 13.4325L13.442 14.878C13.6291 15.0661 13.8833 15.1721 14.1485 15.1727C14.4138 15.1734 14.6685 15.0686 14.8565 14.8815C15.0445 14.6944 15.1505 14.4403 15.1512 14.175C15.1519 13.9097 15.0471 13.6551 14.86 13.467L13.4127 12.0141L14.895 10.523C15.0767 10.3339 15.1768 10.081 15.1738 9.81874C15.1709 9.55651 15.065 9.30595 14.879 9.12104C14.6931 8.93612 14.4419 8.83166 14.1797 8.83016C13.9174 8.82865 13.6651 8.93022 13.477 9.11298L12.0015 10.5973L10.5 9.09002C10.3118 8.90742 10.0594 8.80606 9.79717 8.80776C9.53495 8.80947 9.28389 8.9141 9.09807 9.09913C8.91225 9.28416 8.80655 9.53478 8.80373 9.79699C8.80091 10.0592 8.90121 10.312 9.083 10.501L10.5918 12.0154Z" fill="#E56910"/>
-</svg>
-
-                  Deactivate Customer
-                </li>
-                
-                <!-- Delete -->
-                <li @click="handleAction('delete', selectedItem); closeDropdown()" 
-                    class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-gray-100 medium-text">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M5 5C4.73478 5 4.48043 5.10536 4.29289 5.29289C4.10536 5.48043 4 5.73478 4 6V7H20V6C20 5.73478 19.8946 5.48043 19.7071 5.29289C19.5196 5.10536 19.2652 5 19 5H5ZM16.15 20H7.845C7.60844 19.9999 7.37956 19.916 7.19904 19.7631C7.01851 19.6102 6.89803 19.3983 6.859 19.165L5 8H19L17.136 19.166C17.0969 19.3992 16.9764 19.611 16.7959 19.7637C16.6153 19.9165 16.3865 20.0002 16.15 20ZM9 4.5C8.99998 4.36894 9.05142 4.2431 9.14325 4.14959C9.23508 4.05608 9.35996 4.00236 9.491 4H14.509C14.64 4.00236 14.7649 4.05608 14.8567 4.14959C14.9486 4.2431 15 4.36894 15 4.5V5H9V4.5Z" fill="#626F86"/>
-</svg>
-
-                  Delete
-                </li>
-              </template>
-            </TableActionDropdown>
+            <button 
+              @click="handleAction('view', col.props?.formattedRow)"
+              class="text-gray-500 hover:text-[#172B4D]"
+              title="View Customer"
+            >
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M9.9974 15C6.2174 15 3.33156 11.45 3.33156 10C3.33156 8.33254 6.21406 5.00004 9.99823 5.00004C13.6449 5.00004 16.6632 8.31087 16.6632 10C16.6632 11.45 13.7782 15 9.99823 15H9.9974ZM9.99823 3.33337C5.3974 3.33337 1.66406 7.36754 1.66406 10C1.66406 12.5717 5.4774 16.6667 9.9974 16.6667C14.5166 16.6667 18.3307 12.5717 18.3307 10C18.3307 7.36754 14.5974 3.33337 9.9974 3.33337" fill="#44546F"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M9.97823 11.6534C9.05906 11.6534 8.31156 10.9059 8.31156 9.98671C8.31156 9.06754 9.05906 8.32004 9.97823 8.32004C10.8982 8.32004 11.6449 9.06754 11.6449 9.98671C11.6449 10.9059 10.8982 11.6534 9.97823 11.6534ZM9.97823 6.65337C8.1399 6.65337 6.6449 8.14837 6.6449 9.98671C6.6449 11.825 8.1399 13.32 9.97823 13.32C11.8174 13.32 13.3116 11.825 13.3116 9.98671C13.3116 8.14837 11.8174 6.65337 9.97823 6.65337Z" fill="#44546F"/>
+              </svg>
+            </button>
           </span>
 
           <!-- Default Column -->
@@ -685,35 +574,11 @@
               <!-- Action Buttons -->
               <div class="flex items-center gap-3">
                 <Button 
-                  type="gray-btn" 
-                  :onClick="editCustomerDetails" 
-                  classStyle="px-3 py-1 text-sm flex items-center gap-2"
-                >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M4.02026 19.23C3.98715 19.392 3.99472 19.5597 4.0423 19.718C4.08988 19.8764 4.17598 20.0205 4.29289 20.1374C4.40981 20.2543 4.55389 20.3404 4.71224 20.388C4.87059 20.4355 5.03826 20.4431 5.20026 20.41L9.01026 19.63L4.80026 15.42L4.02026 19.23ZM9.94126 16.61L7.82126 14.49L16.3063 6H16.3083L18.4293 8.121L9.94026 16.611L9.94126 16.61ZM19.8443 6.707L17.7243 4.585C17.5384 4.39908 17.3176 4.2517 17.0746 4.15131C16.8316 4.05092 16.5712 3.9995 16.3083 4C15.7963 4 15.2843 4.195 14.8933 4.585L5.13626 14.343L10.0863 19.293L19.8433 9.535C20.2182 9.15995 20.4288 8.65133 20.4288 8.121C20.4288 7.59068 20.2182 7.08206 19.8433 6.707H19.8443Z" fill="#44546F"/>
-                </svg>
-
-                  Edit Details
-                </Button>
-             
-                <Button 
-                  type="gray-btn" 
-                  :onClick="deactivateCustomerFromModal" 
-                  classStyle="px-3 py-1 text-sm flex items-center gap-2"
-                >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM10.5918 12.0154L9.117 13.499C9.02179 13.5915 8.94595 13.7021 8.89392 13.8242C8.84188 13.9464 8.81469 14.0776 8.81393 14.2104C8.81317 14.3432 8.83885 14.4747 8.88948 14.5975C8.9401 14.7202 9.01466 14.8316 9.10881 14.9252C9.20295 15.0189 9.31479 15.0928 9.43781 15.1427C9.56083 15.1927 9.69256 15.2176 9.82531 15.2161C9.95807 15.2146 10.0892 15.1866 10.211 15.1339C10.3329 15.0812 10.443 15.0047 10.535 14.909L12.0027 13.4325L13.442 14.878C13.6291 15.0661 13.8833 15.1721 14.1485 15.1727C14.4138 15.1734 14.6685 15.0686 14.8565 14.8815C15.0445 14.6944 15.1505 14.4403 15.1512 14.175C15.1519 13.9097 15.0471 13.6551 14.86 13.467L13.4127 12.0141L14.895 10.523C15.0767 10.3339 15.1768 10.081 15.1738 9.81874C15.1709 9.55651 15.065 9.30595 14.879 9.12104C14.6931 8.93612 14.4419 8.83166 14.1797 8.83016C13.9174 8.82865 13.6651 8.93022 13.477 9.11298L12.0015 10.5973L10.5 9.09002C10.3118 8.90742 10.0594 8.80606 9.79717 8.80776C9.53495 8.80947 9.28389 8.9141 9.09807 9.09913C8.91225 9.28416 8.80655 9.53478 8.80373 9.79699C8.80091 10.0592 8.90121 10.312 9.083 10.501L10.5918 12.0154Z" fill="#E56910"/>
-                </svg>
-
-                  Deactivate
-                </Button>
-
-                <Button 
-                  type="gray-btn" 
-                  :onClick="viewTransactions" 
+                type="gray-btn" 
+                :onClick="openAddPromoDiscountModal" 
                   classStyle="px-3 py-1 text-sm"
                 >
-                  View Transactions
+                  Add Promo Discount
                 </Button>
               </div>
             </div>
@@ -985,6 +850,112 @@
       </template>
     </SideBarModal>
 
+    <!-- Create Discount Modal -->
+    <UniversalCenteredModal
+      :show="showCreateDiscountModal"
+      @close="closeCreateDiscountModal"
+    >
+      <template #header>
+        <h2 class="text-lg font-semibold text-gray-900">Create Discount</h2>
+      </template>
+
+      <template #body>
+        <div class="space-y-6">
+          <!-- Discount (%) -->
+          <div>
+            <label class="block mb-2 text-sm font-medium text-gray-700">Discount (%)</label>
+            <div class="relative">
+              <input
+                v-model="discountForm.discountPercentage"
+                type="number"
+                min="0"
+                max="100"
+                step="0.01"
+                placeholder="Discount percentage between 0 and 100"
+                class="w-full px-3 py-2 pr-8 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+              <div class="absolute right-3 top-1/2 -translate-y-1/2 flex flex-col gap-0.5">
+                <button
+                  @click.prevent="incrementDiscount"
+                  class="text-gray-500 hover:text-gray-700 p-0.5"
+                  type="button"
+                  title="Increase"
+                >
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.5 6.25L5 3.75L7.5 6.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <button
+                  @click.prevent="decrementDiscount"
+                  class="text-gray-500 hover:text-gray-700 p-0.5"
+                  type="button"
+                  title="Decrease"
+                >
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.5 3.75L5 6.25L7.5 3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Target Amount -->
+          <div>
+            <label class="block mb-2 text-sm font-medium text-gray-700">Target Amount</label>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600">₦</span>
+              <input
+                v-model="discountForm.targetAmount"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="0.00"
+                class="w-full px-3 py-2 pl-8 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+          </div>
+
+          <!-- Start Date and End Date on same row -->
+          <div class="grid grid-cols-2 gap-4">
+            <!-- Start Date -->
+            <div>
+              <label class="block mb-2 text-sm font-medium text-gray-700">Start Date</label>
+              <DateInput
+                v-model="discountForm.startDate"
+                placeholder="dd/mm/yyyy"
+              />
+            </div>
+
+            <!-- End Date -->
+            <div>
+              <label class="block mb-2 text-sm font-medium text-gray-700">End Date</label>
+              <DateInput
+                v-model="discountForm.endDate"
+                placeholder="dd/mm/yyyy"
+              />
+            </div>
+          </div>
+        </div>
+      </template>
+
+      <template #footer>
+        <Button
+          type="gray-btn"
+          :onClick="closeCreateDiscountModal"
+          classStyle="px-4 py-2"
+        >
+          Cancel
+        </Button>
+        <Button
+          type="blue-btn"
+          :onClick="handleCreateDiscount"
+          classStyle="px-4 py-2"
+        >
+          Create
+        </Button>
+      </template>
+    </UniversalCenteredModal>
+
     <!-- Success Alert Toast -->
     <SuccessAlertToast
       :isVisible="showSuccessToast"
@@ -1000,13 +971,14 @@ import Tabs from "@/views/Components/Tabs.vue";
 import Datatable from "@/views/Components/Datatable/Datatable.vue";
 import Button from "@/views/Components/ui/Button.vue";
 import Pill from "@/views/Components/ui/Pill.vue";
-import TableActionDropdown from "@/views/Components/procurement/ui/TableActionDropdown.vue";
 import SuccessAlertToast from '@/views/Components/SuccessAlertToast.vue';
 import SideBarModal from '@/views/Components/SideBarModal.vue';
 import CustomMultiSelect from '@/views/Components/CustomMultiSelect.vue';
 import WarningConfirmationModal from '@/views/Components/ui/WarningConfirmationModal.vue';
 import DeleteConfirmationModal from '@/views/Components/ui/DeleteConfirmationModal.vue';
 import SelectField from '@/views/Components/ui/SelectField.vue';
+import UniversalCenteredModal from '@/views/Components/UniversalCenteredModal.vue';
+import DateInput from '@/views/Components/ui/DateInput.vue';
 import { ref, computed } from 'vue';
 import type { TableColumn } from '@/types';
 
@@ -1026,6 +998,7 @@ const childKey = ref(0);
 const showMergeModal = ref(false);
 const showCreateModal = ref(false);
 const showWarningModal = ref(false);
+const showCreateDiscountModal = ref(false);
 
 // Merge customers state
 const primaryCustomer = ref<any>(null);
@@ -1616,6 +1589,111 @@ const getPillType = (status: string) => {
       return 'controlled';
     default:
       return 'hospital';
+  }
+};
+
+// Discount form
+const discountForm = ref({
+  discountPercentage: null as number | null,
+  targetAmount: null as number | null,
+  startDate: '',
+  endDate: ''
+});
+
+// Discount modal handlers
+const openAddPromoDiscountModal = () => {
+  // Hide the View Customer modal first
+  showViewCustomerModal.value = false;
+  
+  // Reset form
+  discountForm.value = {
+    discountPercentage: null,
+    targetAmount: null,
+    startDate: '',
+    endDate: ''
+  };
+  
+  // Wait a bit for the View Customer modal to close, then open Create Discount modal
+  setTimeout(() => {
+    showCreateDiscountModal.value = true;
+  }, 300); // Match the transition duration
+};
+
+const closeCreateDiscountModal = () => {
+  showCreateDiscountModal.value = false;
+  // Reset form
+  discountForm.value = {
+    discountPercentage: null,
+    targetAmount: null,
+    startDate: '',
+    endDate: ''
+  };
+  
+  // Reopen the View Customer modal after Create Discount modal closes
+  setTimeout(() => {
+    showViewCustomerModal.value = true;
+  }, 300); // Match the transition duration
+};
+
+const handleCreateDiscount = () => {
+  // Validation
+  if (!discountForm.value.discountPercentage || discountForm.value.discountPercentage < 0 || discountForm.value.discountPercentage > 100) {
+    showSuccessToast.value = true;
+    successMessage.value = 'Please enter a valid discount percentage between 0 and 100';
+    return;
+  }
+  if (!discountForm.value.targetAmount || discountForm.value.targetAmount < 0) {
+    showSuccessToast.value = true;
+    successMessage.value = 'Please enter a valid target amount';
+    return;
+  }
+  if (!discountForm.value.startDate) {
+    showSuccessToast.value = true;
+    successMessage.value = 'Please select a start date';
+    return;
+  }
+  if (!discountForm.value.endDate) {
+    showSuccessToast.value = true;
+    successMessage.value = 'Please select an end date';
+    return;
+  }
+
+  // TODO: Implement API call to create discount
+  console.log('Creating discount:', discountForm.value);
+  
+  // Show success message
+  showSuccessToast.value = true;
+  successMessage.value = 'Discount created successfully';
+  
+  // Close Create Discount modal and reopen View Customer modal
+  showCreateDiscountModal.value = false;
+  discountForm.value = {
+    discountPercentage: null,
+    targetAmount: null,
+    startDate: '',
+    endDate: ''
+  };
+  
+  // Reopen the View Customer modal after Create Discount modal closes
+  setTimeout(() => {
+    showViewCustomerModal.value = true;
+  }, 300); // Match the transition duration
+};
+
+// Discount percentage increment/decrement
+const incrementDiscount = () => {
+  if (discountForm.value.discountPercentage === null) {
+    discountForm.value.discountPercentage = 0;
+  } else if (discountForm.value.discountPercentage < 100) {
+    discountForm.value.discountPercentage = Math.min(100, discountForm.value.discountPercentage + 1);
+  }
+};
+
+const decrementDiscount = () => {
+  if (discountForm.value.discountPercentage === null) {
+    discountForm.value.discountPercentage = 0;
+  } else if (discountForm.value.discountPercentage > 0) {
+    discountForm.value.discountPercentage = Math.max(0, discountForm.value.discountPercentage - 1);
   }
 };
 </script>

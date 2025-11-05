@@ -56,6 +56,7 @@ import {
   CreditCard,
   RotateCcw,
   PackageSearch,
+  Package,
   Users,
   MessageSquare,
   Star,
@@ -245,7 +246,7 @@ const navigation: Record<string, any[]> = {
           label: "HMO & Pharmacy",
           icon: CreditCard,
           dropdown: [
-            { title: "All HMOs", route: { name: "customer-success.hmo.products" } },
+            { title: "All HMOs", route: { name: "customer-success.hmo.all-hmos" } },
             { title: "HMO Products", route: { name: "customer-success.hmo.products" } },
             { title: "Damaged HMO Products", route: { name: "customer-success.hmo.products.damaged" } },
             { title: "HMO Product Returns", route: { name: "customer-success.hmo.products.returns" } },
@@ -281,24 +282,77 @@ const navigation: Record<string, any[]> = {
   ],
   "sales": [
     { label: "Dashboard", url: { name: "sales.dashboard" }, icon: LayoutDashboard },
-    { label: "Lead Management", url: { name: "sales.leads" }, icon: Users },
-    { label: "Opportunities", url: { name: "sales.opportunities" }, icon: FileText },
-    { label: "Sales Pipeline", url: { name: "sales.pipeline" }, icon: TrendingUp },
-    { label: "Sales Reports", url: { name: "sales.reports" }, icon: FileText },
+    { label: "Line Managers", url: { name: "sales.line-managers" }, icon: Users },
+    { label: "Agents", url: { name: "sales.agents" }, icon: Users },
   ],
   "marketing": [
     { label: "Dashboard", url: { name: "marketing.dashboard" }, icon: LayoutDashboard },
-    { label: "Campaigns", url: { name: "marketing.campaigns" }, icon: FileText },
-    { label: "Lead Generation", url: { name: "marketing.leads" }, icon: Users },
-    { label: "Analytics", url: { name: "marketing.analytics" }, icon: TrendingUp },
-    { label: "Content Management", url: { name: "marketing.content" }, icon: FileText },
+    { label: "All Customers", url: { name: "marketing.all-customers" }, icon: Users },
   ],
   "tech-business-dev": [
     { label: "Dashboard", url: { name: "tech-business-dev.dashboard" }, icon: LayoutDashboard },
-    { label: "Development Projects", url: { name: "tech-business-dev.projects" }, icon: FileText },
-    { label: "Technical Support", url: { name: "tech-business-dev.support" }, icon: Users },
-    { label: "Business Analysis", url: { name: "tech-business-dev.analysis" }, icon: TrendingUp },
-    { label: "Innovation Lab", url: { name: "tech-business-dev.innovation" }, icon: Star },
+    { label: "All HMOs", url: { name: "tech-business-dev.all-hmos" }, icon: Users },
+    { 
+      label: "Products Management", 
+      icon: PackageSearch,
+      dropdown: [
+        { title: "All HMO Products", route: { name: "tech-business-dev.products-management.all-hmo-products" } },
+        { title: "Damaged HMO Products", route: { name: "tech-business-dev.products-management.damaged-hmo-products" } },
+      ]
+    },
+    { label: "HMO Product Returns", url: { name: "tech-business-dev.hmo-product-returns" }, icon: RotateCcw },
+    { label: "Customers Owed", url: { name: "tech-business-dev.customers-owed" }, icon: Users },
+    { label: "Pharmacies", url: { name: "tech-business-dev.pharmacies" }, icon: Users },
+    { label: "HMO Loans", url: { name: "tech-business-dev.loans" }, icon: CreditCard },
+    { 
+      label: "Orders & Fulfilment", 
+      icon: Package,
+      dropdown: [
+        { title: "Pharmacy Orders", route: { name: "tech-business-dev.orders-fulfilment.pharmacy-orders" } },
+        { title: "RH Orders", route: { name: "tech-business-dev.orders-fulfilment.rh-orders" } },
+      ]
+    },
+  ],
+    "tech": [
+      { label: "Dashboard", url: { name: "tech.dashboard" }, icon: LayoutDashboard },
+      { label: "Integrations", url: { name: "tech.integrations" }, icon: Package },
+      { label: "Activity Log", url: { name: "tech.activity-log" }, icon: FileText },
+      { label: "Settings", url: { name: "tech.settings" }, icon: FileText },
+      { 
+        label: "Role Management", 
+        icon: FileText,
+        dropdown: [
+          { title: "Admins", route: { name: "tech.role-management.admins" } },
+          { title: "Roles", route: { name: "tech.role-management.roles" } },
+          { title: "Permissions", route: { name: "tech.role-management.permissions" } },
+        ]
+      },
+      { label: "Requested Features", url: { name: "tech.requested-features" }, icon: FileText },
+      { label: "POS", url: { name: "tech.pos" }, icon: FileText },
+    ],
+  "accounting": [
+    { label: "Dashboard", url: { name: "accounting.dashboard" }, icon: LayoutDashboard },
+    { 
+      label: "Orders & Fulfilment", 
+      icon: FileText,
+      dropdown: [
+        { title: "Orders", route: { name: "accounting.orders" } },
+        { title: "Delivered Orders", route: { name: "accounting.delivered-orders" } },
+        { title: "Held Orders", route: { name: "accounting.held-orders" } },
+        { title: "Orders Pending Payment", route: { name: "accounting.orders-pending-payment" } },
+      ]
+    },
+    { label: "All Customers", url: { name: "accounting.all-customers" }, icon: FileText },
+    { 
+      label: "Business Programs", 
+      icon: Star,
+      dropdown: [
+        { title: "Loans", route: { name: "accounting.business-programs.loans" } },
+        { title: "Loan Interests", route: { name: "accounting.business-programs.loan-interests" } },
+        { title: "Admin Loans", route: { name: "accounting.business-programs.admin-loans" } },
+      ]
+    },
+    { label: "Confirmed Order Logs", url: { name: "accounting.confirmed-order-logs" }, icon: FileText },
   ],
 }
 

@@ -1,6 +1,6 @@
 <template>
 	<div class="bg-white border text-lightBlack border-[#091E4224] rounded-xl shadow-sm overflow-x-auto overflow-y-visible">
-		<table class="w-full table-auto" :id="tableId">
+		<table class="w-full" :class="hasFixedWidths ? 'table-fixed' : 'table-auto'" :id="tableId">
 			<thead>
 				<tr class="text-left bg-gray-100 text-[12px] font-[500] text-[#172B4D]">
 					<slot name="tableHeader">
@@ -168,6 +168,8 @@ const emit = defineEmits(['sort']);
 
 
 const hasActionColumn = computed(() => props.columns.some((col) => col.field === 'action' || col.field === 'actions'));
+
+const hasFixedWidths = computed(() => props.columns.some((col) => col.width));
 
 const handleSort = (column: TableColumn) => {
 	emit('sort', column);

@@ -68,7 +68,7 @@
         <template #column="col">
           <!-- Product Image Column -->
           <span v-if="col.props?.column?.field === 'product_image'">
-            <img
+            <img 
               :src="(col.props?.formattedRow as any)?.product_image || '/supplier-placeholder.png'"
               :alt="(col.props?.formattedRow as any)?.product_name"
               class="w-10 h-10 object-cover rounded"
@@ -82,7 +82,7 @@
 
           <!-- Action Column -->
           <span v-else-if="col.props?.column?.field === 'action'">
-            <button
+            <button 
               @click="viewProduct(col.props?.formattedRow)"
               class="text-gray-500 hover:text-[#172B4D]"
               title="View Product"
@@ -90,7 +90,7 @@
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M9.9974 15C6.2174 15 3.33156 11.45 3.33156 10C3.33156 8.33254 6.21406 5.00004 9.99823 5.00004C13.6449 5.00004 16.6632 8.31087 16.6632 10C16.6632 11.45 13.7782 15 9.99823 15H9.9974ZM9.99823 3.33337C5.3974 3.33337 1.66406 7.36754 1.66406 10C1.66406 12.5717 5.4774 16.6667 9.9974 16.6667C14.5166 16.6667 18.3307 12.5717 18.3307 10C18.3307 7.36754 14.5974 3.33337 9.9974 3.33337" fill="#44546F"/>
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M9.97823 11.6534C9.05906 11.6534 8.31156 10.9059 8.31156 9.98671C8.31156 9.06754 9.05906 8.32004 9.97823 8.32004C10.8982 8.32004 11.6449 9.06754 11.6449 9.98671C11.6449 10.9059 10.8982 11.6534 9.97823 11.6534ZM9.97823 6.65337C8.1399 6.65337 6.6449 8.14837 6.6449 9.98671C6.6449 11.825 8.1399 13.32 9.97823 13.32C11.8174 13.32 13.3116 11.825 13.3116 9.98671C13.3116 8.14837 11.8174 6.65337 9.97823 6.65337Z" fill="#44546F"/>
-          </svg>
+              </svg>
             </button>
           </span>
 
@@ -116,7 +116,7 @@
         <template #column="col">
           <!-- Product Image Column -->
           <span v-if="col.props?.column?.field === 'product_image'">
-            <img 
+            <img
               :src="(col.props?.formattedRow as any)?.product_image || '/supplier-placeholder.png'"
               :alt="(col.props?.formattedRow as any)?.product_name"
               class="w-10 h-10 object-cover rounded"
@@ -130,7 +130,7 @@
 
           <!-- Action Column -->
           <span v-else-if="col.props?.column?.field === 'action'">
-            <button 
+            <button
               @click="viewProduct(col.props?.formattedRow)"
               class="text-gray-500 hover:text-[#172B4D]"
               title="View Product"
@@ -181,7 +181,7 @@ const toastMessage = ref('');
 
 // Dynamic page title based on active tab
 const pageTitle = computed(() => {
-  return `HMO & Pharmacy / HMO Products / ${activeTab.value}`;
+  return `Business Development / Products Management / All HMO Products / ${activeTab.value}`;
 });
 
 const productTabs = ref([
@@ -376,7 +376,7 @@ const downloadReport = (format: string) => {
 const viewProduct = (product: any) => {
   // Navigate to product dashboard page
   router.push({
-    name: 'customer-success.hmo.view-hmo-product',
+    name: 'tech-business-dev.products-management.view-hmo-product',
     params: { id: product.id },
     query: { name: product.product_name }
   });

@@ -13,7 +13,13 @@
         }"
         @click.prevent="$emit('toggleView', link.value)" 
       >
-        {{ link.label }}
+        <span v-if="link.count !== undefined" class="flex items-center gap-2">
+          <span>{{ link.label }}</span>
+          <span class="bg-[rgba(9,30,66,0.06)] text-[#172B4D] px-2 py-0.5 rounded text-xs font-normal">
+            {{ link.count }}
+          </span>
+        </span>
+        <span v-else>{{ link.label }}</span>
         <span
           class="bg-blue-700 absolute bottom-[0px] left-0 h-[2px] w-full origin-left scale-x-0 transform transition-transform duration-300 ease-out"
           :class="{
@@ -31,7 +37,7 @@ import { defineProps, defineEmits } from "vue";
 
 // Define props for navigation links and currently active link
 const props = defineProps<{
-  links: Array<{ label: string; value: string }>;
+  links: Array<{ label: string; value: string; count?: number }>;
   activeLink: string;
 }>();
 

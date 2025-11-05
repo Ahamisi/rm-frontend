@@ -233,11 +233,13 @@ export const mockHandlers: Record<string, (config: AxiosRequestConfig) => Promis
       { id: 3, name: 'Customer Success', code: 'customer-success', icon: '@/views/Pages/procurement/redesign/CustomerSuccessIcon.svg' },
       { id: 4, name: 'Sales', code: 'sales', icon: '@/views/Pages/procurement/redesign/ProcurementIcon.svg' },
       { id: 5, name: 'Marketing', code: 'marketing', icon: '@/views/Pages/procurement/redesign/ProcurementIcon.svg' },
-      { id: 6, name: 'Tech and Business Development', code: 'tech-business-dev', icon: '@/views/Pages/procurement/redesign/ProcurementIcon.svg' },
-      { id: 7, name: 'Inbound', code: 'inbound', icon: '@/views/Pages/procurement/redesign/InboundIcon.svg' },
-      { id: 8, name: 'Outbound', code: 'outbound', icon: '@/views/Pages/procurement/redesign/OutboundIcon.svg' },
-      { id: 9, name: 'Logistics', code: 'logistics', icon: '@/views/Pages/procurement/redesign/LogisticsIcon.svg' },
-      { id: 10, name: 'Compliance', code: 'compliance', icon: '@/views/Pages/procurement/redesign/ComplianceIcon.svg' },
+      { id: 6, name: 'Business Development', code: 'tech-business-dev', icon: '@/views/Pages/procurement/redesign/ProcurementIcon.svg' },
+      { id: 7, name: 'Tech', code: 'tech', icon: '@/views/Pages/procurement/redesign/ProcurementIcon.svg' },
+      { id: 8, name: 'Accounting', code: 'accounting', icon: '@/views/Pages/procurement/redesign/ProcurementIcon.svg' },
+      { id: 9, name: 'Inbound', code: 'inbound', icon: '@/views/Pages/procurement/redesign/InboundIcon.svg' },
+      { id: 10, name: 'Outbound', code: 'outbound', icon: '@/views/Pages/procurement/redesign/OutboundIcon.svg' },
+      { id: 11, name: 'Logistics', code: 'logistics', icon: '@/views/Pages/procurement/redesign/LogisticsIcon.svg' },
+      { id: 12, name: 'Compliance', code: 'compliance', icon: '@/views/Pages/procurement/redesign/ComplianceIcon.svg' },
     ]);
   },
 
